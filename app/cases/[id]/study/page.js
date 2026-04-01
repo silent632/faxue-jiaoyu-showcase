@@ -1,11 +1,12 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import ShowcaseNav from "@/components/showcase-nav";
-import ShowcaseSection from "@/components/showcase-section";
-import StudyDemoShell from "@/components/study-demo-shell";
-import { buildShowcaseContent } from "@/lib/showcase-content";
-import { getShowcaseCaseStaticParams, getShowcaseCaseStudyById } from "@/lib/showcase-cases";
-import styles from "./study-demo.module.css";
+import StudySplitShell from "@/components/study-split-shell";
+import TopNav from "@/components/top-nav";
+import { normalizePublicFileName, publicFileExists } from "@/lib/data/public-files.js";
+import { getPublicShowcaseCaseById } from "@/lib/public-showcase-cases.js";
+import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
+import { getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
 
 export async function generateStaticParams() {
   return getShowcaseCaseStaticParams(24);
@@ -13,31 +14,42 @@ export async function generateStaticParams() {
 
 export default async function StudyPage({ params }) {
   const { id } = await params;
-  const caseItem = await getShowcaseCaseStudyById(id);
+  const user = getPublicShowcaseUser();
+  const caseItem = await getPublicShowcaseCaseById(id);
 
   if (!caseItem) notFound();
-
-  const content = buildShowcaseContent();
+  const pdfFileName = normalizePublicFileName(caseItem.pdfFile);
+  const hasPdf = await publicFileExists("pdfs", pdfFileName);
 
   return (
-    <main className="showcase-page">
-      <ShowcaseNav items={content.nav} />
+    <main className="study-page-main">
+      <TopNav user={user} />
 
-      <div className="showcase-page-body">
-        <section className={styles.head}>
-          <p className="showcase-page-kicker">研习工作台</p>
-          <h1 className={styles.headTitle}>{caseItem.title}</h1>
-          <p className={styles.headDesc}>以真实案例为入口，展示摘要、事实、争议与法理分析的结构化研习路径。</p>
-        </section>
+      <div className="study-head">
+        <div className="study-head-main">
+          <div className="study-head-top">
+            <Link className="btn btn-ghost" href={`/cases/${id}`}>
+              ← 返回详情
+            </Link>
+            <span className="tag">研习模式</span>
+            <span className="study-head-case-number">{caseItem.caseNumber || "案号待补充"}</span>
+          </div>
 
-        <ShowcaseSection
-          title="研习示范"
-          description="从真实案例出发，先阅读导读，再看结构化步骤，最后回到详情页继续展开。"
-          className="showcase-section-compact"
-        >
-          <StudyDemoShell caseItem={caseItem} />
-        </ShowcaseSection>
+          <div className="study-head-copy">
+            <h1 className="study-head-title">{caseItem.title}</h1>
+            <p className="study-head-note">
+              这是公开展示模式下的真实研习工作台。页面保留阅读区、三步输出区和参考要点结构；草稿仅保存在当前浏览器，不执行真实提交。
+            </p>
+          </div>
+        </div>
+
+        <div className="study-head-side">
+          <span className="study-head-meta">{caseItem.courtName || "法院待补充"}</span>
+          <span className="study-head-meta">{caseItem.judgmentDate || "日期待补充"}</span>
+        </div>
       </div>
+
+      <StudySplitShell caseItem={caseItem} userSid={user.sid} pdfFileName={pdfFileName} hasPdf={hasPdf} />
     </main>
   );
 }
