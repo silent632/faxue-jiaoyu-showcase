@@ -1,31 +1,54 @@
-import CaseLibraryShell from "@/components/case-library-shell";
-import ShowcaseNav from "@/components/showcase-nav";
-import ShowcaseSection from "@/components/showcase-section";
-import { buildShowcaseContent } from "@/lib/showcase-content";
-import { loadShowcaseCases } from "@/lib/showcase-cases";
+import TopNav from "@/components/top-nav";
+import CasesWorkspace from "@/components/cases-workspace";
+import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
+import { listPublicShowcaseCases } from "@/lib/public-showcase-cases.js";
 
-export default async function CasesPage() {
-  const [content, rows] = await Promise.all([buildShowcaseContent(), loadShowcaseCases()]);
+function firstParam(v) {
+  if (Array.isArray(v)) return v[0] || "";
+  return v || "";
+}
+
+function asParamList(v) {
+  if (Array.isArray(v)) {
+    return v
+      .flatMap((item) => String(item || "").split(","))
+      .map((x) => x.trim())
+      .filter(Boolean);
+  }
+  if (!v) return [];
+  return String(v)
+    .split(",")
+    .map((x) => x.trim())
+    .filter(Boolean);
+}
+
+export default async function CasesPage({ searchParams }) {
+  const user = getPublicShowcaseUser();
+  const allCases = await listPublicShowcaseCases();
+  const params = await searchParams;
+  const sortParam = String(firstParam(params?.sort) || "").trim();
+  const pageParam = Number(firstParam(params?.page) || "1");
+  const initialFilters = {
+    keyword: firstParam(params?.q),
+    causeL1: firstParam(params?.causeL1),
+    causeL2: firstParam(params?.causeL2),
+    causeL3: firstParam(params?.causeL3),
+    courtLevel: asParamList(params?.courtLevel),
+    year: firstParam(params?.year),
+    docType: asParamList(params?.docType),
+    procedure: asParamList(params?.procedure),
+    province: asParamList(params?.province),
+    result: asParamList(params?.result),
+    lawName: asParamList(params?.lawName),
+    lawArticle: asParamList(params?.lawArticle),
+  };
+  const initialSort = ["date-desc", "date-asc", "relevance"].includes(sortParam) ? sortParam : "date-desc";
+  const initialPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
 
   return (
-    <main className="showcase-page">
-      <ShowcaseNav items={content.nav} />
-
-      <div className="showcase-page-body">
-        <section className="showcase-page-head">
-          <p className="showcase-page-kicker">案例检索库</p>
-          <h1>案例检索库</h1>
-          <p>基于真实裁判文书整理形成的教学化案例库，支持公开检索、预览与研习跳转。</p>
-        </section>
-
-        <ShowcaseSection
-          title="公开案例入口"
-          description="以下案例直接来自原始源数据，保留了案号、法院、裁判日期和研习导读信息。"
-          className="showcase-section-compact"
-        >
-          <CaseLibraryShell rows={rows} />
-        </ShowcaseSection>
-      </div>
+    <main className="showcase-page cases-page-shell">
+      <TopNav user={user} />
+      <CasesWorkspace cases={allCases} initialFilters={initialFilters} initialSort={initialSort} initialPage={initialPage} />
     </main>
   );
 }

@@ -9,6 +9,7 @@ import {
   loadShowcaseCases,
   selectCanonicalDemoCaseId,
 } from "../../lib/showcase-cases.js";
+import { buildFilterOptions, normalizeCaseRows } from "../../lib/cases-workspace.js";
 
 test("showcase cases loader returns normalized source cases", async () => {
   const rows = await loadShowcaseCases();
@@ -51,4 +52,27 @@ test("showcase canonical study href is derived from a deterministic demo case", 
 
   assert.equal(canonicalId, selectCanonicalDemoCaseId([...rows].reverse()));
   assert.equal(getShowcaseCanonicalStudyHref(), `/cases/${canonicalId}/study`);
+});
+
+test("real showcase cases can build workspace filter options", async () => {
+  const rows = normalizeCaseRows(await loadShowcaseCases());
+  const options = buildFilterOptions(rows, {
+    keyword: "",
+    causeL1: "",
+    causeL2: "",
+    causeL3: "",
+    courtLevel: [],
+    year: "",
+    docType: [],
+    procedure: [],
+    province: [],
+    result: [],
+    lawName: [],
+    lawArticle: [],
+  });
+
+  assert.ok(rows.length > 100);
+  assert.ok(Array.isArray(options.year));
+  assert.ok(Array.isArray(options.courtLevel));
+  assert.ok(Array.isArray(options.docType));
 });
