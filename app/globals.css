@@ -363,6 +363,119 @@ main {
   line-height: 1.4;
 }
 
+.case-library-shell {
+  display: grid;
+  gap: 18px;
+}
+
+.case-library-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.case-library-stat {
+  border-radius: 22px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 246, 241, 0.96));
+  border: 1px solid rgba(139, 91, 43, 0.12);
+  box-shadow: var(--shadow);
+}
+
+.case-library-stat span,
+.case-library-eyebrow,
+.case-meta-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.case-library-stat strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.4rem;
+}
+
+.case-library-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.case-library-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 220px;
+  padding: 22px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(250, 245, 237, 0.98));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.case-library-card:hover,
+.case-library-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(139, 91, 43, 0.22);
+  box-shadow: 0 26px 48px rgba(28, 47, 66, 0.13);
+}
+
+.case-library-card h2 {
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.5;
+}
+
+.case-library-meta,
+.case-library-summary-text,
+.case-detail-copy {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.case-library-summary-text {
+  color: var(--ink);
+}
+
+.case-library-link {
+  margin-top: auto;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.case-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.case-meta-grid .showcase-card strong {
+  margin-top: 10px;
+}
+
+.case-laws {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.case-detail-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.case-detail-back {
+  display: inline-flex;
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  background: rgba(139, 91, 43, 0.12);
+  border: 1px solid rgba(139, 91, 43, 0.16);
+  color: var(--accent);
+  font-weight: 700;
+}
+
 @media (max-width: 920px) {
   .showcase-hero {
     grid-template-columns: 1fr;
@@ -384,6 +497,13 @@ main {
   .timeline-grid,
   .resource-grid,
   .impact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .case-library-summary,
+  .case-library-grid,
+  .case-meta-grid,
+  .case-laws {
     grid-template-columns: 1fr;
   }
 }
