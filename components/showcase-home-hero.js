@@ -4,7 +4,7 @@ export default function ShowcaseHomeHero({ content }) {
   return (
     <section className="showcase-hero">
       <div className="showcase-hero-copy">
-        <p className="showcase-hero-kicker">教学成果展示</p>
+        <p className="showcase-hero-kicker">Public Showcase</p>
         <h1>{content.site.title}</h1>
         <p className="showcase-hero-subtitle">{content.site.subtitle}</p>
         <p className="showcase-hero-intro">{content.site.intro}</p>
