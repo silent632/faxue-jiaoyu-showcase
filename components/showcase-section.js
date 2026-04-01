@@ -4,9 +4,10 @@ export default function ShowcaseSection({
   description,
   className = "",
   children,
+  ...props
 }) {
   return (
-    <section className={`showcase-section ${className}`.trim()}>
+    <section className={`showcase-section ${className}`.trim()} {...props}>
       <div className="showcase-section-heading">
         {eyebrow ? <p className="showcase-section-eyebrow">{eyebrow}</p> : null}
         <h2>{title}</h2>

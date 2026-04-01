@@ -1,4 +1,5 @@
 import ShowcaseNav from "@/components/showcase-nav";
+import ShowcaseSection from "@/components/showcase-section";
 import { buildShowcaseContent } from "@/lib/showcase-content";
 
 export default function ResourcesPage() {
@@ -17,12 +18,13 @@ export default function ResourcesPage() {
 
         <div className="stack-grid">
           {content.resources.groups.map((group) => (
-            <section key={group.title} className="showcase-section showcase-section-compact" aria-label={group.title}>
-              <div className="showcase-section-heading">
-                <h2>{group.title}</h2>
-                <p className="showcase-section-description">{group.intro}</p>
-              </div>
-
+            <ShowcaseSection
+              key={group.title}
+              title={group.title}
+              description={group.intro}
+              className="showcase-section-compact"
+              aria-label={group.title}
+            >
               <div className="resource-grid">
                 {group.items.map((item) => (
                   <article key={item} className="showcase-card">
@@ -30,7 +32,7 @@ export default function ResourcesPage() {
                   </article>
                 ))}
               </div>
-            </section>
+            </ShowcaseSection>
           ))}
         </div>
       </div>

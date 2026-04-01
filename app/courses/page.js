@@ -1,3 +1,4 @@
+import ShowcaseSection from "@/components/showcase-section";
 import ShowcaseNav from "@/components/showcase-nav";
 import { buildShowcaseContent } from "@/lib/showcase-content";
 
@@ -15,14 +16,16 @@ export default function CoursesPage() {
           <p>围绕裁判文书研习形成八期双师课程的递进式教学结构。</p>
         </section>
 
-        <section className="timeline-grid" aria-label="课程体系时间线">
-          {content.courses.timeline.map((item) => (
-            <article key={item.period} className="showcase-card">
-              <span className="showcase-card-eyebrow">{item.period}</span>
-              <strong>{item.title}</strong>
-            </article>
-          ))}
-        </section>
+        <ShowcaseSection title="课程时间线" className="showcase-section-compact" aria-label="课程体系时间线">
+          <div className="timeline-grid">
+            {content.courses.timeline.map((item) => (
+              <article key={item.period} className="showcase-card">
+                <span className="showcase-card-eyebrow">{item.period}</span>
+                <strong>{item.title}</strong>
+              </article>
+            ))}
+          </div>
+        </ShowcaseSection>
       </div>
     </main>
   );

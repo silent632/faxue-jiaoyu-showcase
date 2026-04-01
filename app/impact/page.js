@@ -1,4 +1,5 @@
 import ShowcaseNav from "@/components/showcase-nav";
+import ShowcaseSection from "@/components/showcase-section";
 import { buildShowcaseContent } from "@/lib/showcase-content";
 
 export default function ImpactPage() {
@@ -17,12 +18,13 @@ export default function ImpactPage() {
 
         <div className="stack-grid">
           {content.impact.sections.map((item) => (
-            <section key={item.title} className="showcase-section showcase-section-compact" aria-label={item.title}>
-              <div className="showcase-section-heading">
-                <h2>{item.title}</h2>
-                <p className="showcase-section-description">{item.intro}</p>
-              </div>
-
+            <ShowcaseSection
+              key={item.title}
+              title={item.title}
+              description={item.intro}
+              className="showcase-section-compact"
+              aria-label={item.title}
+            >
               <div className="impact-grid">
                 {item.points.map((point) => (
                   <article key={point} className="showcase-card">
@@ -30,7 +32,7 @@ export default function ImpactPage() {
                   </article>
                 ))}
               </div>
-            </section>
+            </ShowcaseSection>
           ))}
         </div>
       </div>

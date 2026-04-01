@@ -380,6 +380,12 @@ main {
   .showcase-entry-grid {
     grid-template-columns: 1fr;
   }
+
+  .timeline-grid,
+  .resource-grid,
+  .impact-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
