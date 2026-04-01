@@ -1,0 +1,29 @@
+.page {
+  display: grid;
+  gap: 18px;
+}
+
+.head {
+  display: grid;
+  gap: 10px;
+}
+
+.headTitle {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.headDesc {
+  margin: 0;
+  max-width: 56rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+@media (max-width: 920px) {
+  .page {
+    gap: 14px;
+  }
+}

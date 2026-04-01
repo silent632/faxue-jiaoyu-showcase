@@ -1,0 +1,164 @@
+.shell {
+  display: grid;
+  gap: 18px;
+}
+
+.hero,
+.panel,
+.path,
+.metaCard {
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  padding: 24px;
+  display: grid;
+  gap: 18px;
+}
+
+.heroTop {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(139, 91, 43, 0.12);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  line-height: 1.15;
+}
+
+.heroDesc {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.heroGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.metaCard {
+  padding: 18px;
+}
+
+.metaLabel,
+.pathLabel,
+.panelLabel,
+.stepKicker {
+  display: inline-flex;
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.summaryText,
+.promptText,
+.contentText {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.8;
+}
+
+.path {
+  padding: 20px;
+}
+
+.pathGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.pathItem {
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(249, 246, 241, 0.96));
+  border: 1px solid rgba(139, 91, 43, 0.12);
+}
+
+.pathItem strong {
+  display: block;
+  margin: 8px 0 6px;
+  line-height: 1.4;
+}
+
+.pathItem p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.stepsGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.panel {
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.panelDesc {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.stepList {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--ink);
+  line-height: 1.8;
+}
+
+.backLink {
+  display: inline-flex;
+  width: fit-content;
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  background: rgba(139, 91, 43, 0.12);
+  border: 1px solid rgba(139, 91, 43, 0.16);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+@media (max-width: 920px) {
+  .heroGrid,
+  .pathGrid,
+  .stepsGrid {
+    grid-template-columns: 1fr;
+  }
+}

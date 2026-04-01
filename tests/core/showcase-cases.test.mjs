@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { getShowcaseCaseById, loadShowcaseCases } from "../../lib/showcase-cases.js";
+import { getShowcaseCaseById, getShowcaseCaseStudyById, loadShowcaseCases } from "../../lib/showcase-cases.js";
 
 test("showcase cases loader returns normalized source cases", async () => {
   const rows = await loadShowcaseCases();
@@ -24,4 +24,15 @@ test("showcase case lookup returns a matching case by id", async () => {
   assert.ok(caseItem);
   assert.equal(caseItem.id, first.id);
   assert.equal(caseItem.title, first.title);
+});
+
+test("showcase study helper returns structured steps for a real case", async () => {
+  const rows = await loadShowcaseCases();
+  const caseItem = await getShowcaseCaseStudyById(rows[0].id);
+
+  assert.ok(caseItem);
+  assert.equal(caseItem.id, rows[0].id);
+  assert.equal(caseItem.studySteps.length, 4);
+  assert.equal(caseItem.studySteps[1].label, "事实梳理");
+  assert.ok(caseItem.studySteps[1].content.length > 0);
 });
