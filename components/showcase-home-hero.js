@@ -7,7 +7,7 @@ export default function ShowcaseHomeHero({ content, featuredCases = [], canonica
     <section className="showcase-home-hero">
       <div className="showcase-home-hero-main">
         <div className="showcase-hero-copy">
-          <p className="showcase-hero-kicker">教学成果展示</p>
+          <p className="showcase-hero-kicker">项目概览</p>
           <h1>{content.site.title}</h1>
           <p className="showcase-hero-subtitle">{content.site.subtitle}</p>
           <p className="showcase-hero-intro">{content.site.intro}</p>
@@ -24,15 +24,15 @@ export default function ShowcaseHomeHero({ content, featuredCases = [], canonica
 
         <aside className="showcase-home-preview">
           <div className="showcase-home-preview-head">
-            <span className="showcase-section-eyebrow">真实模块预览</span>
-            <h2>首页直接接上真实平台链路</h2>
-            <p>展示站不再停留在概念层，而是直接承接真实检索、真实详情与真实研习页面。</p>
+            <span className="showcase-section-eyebrow">平台概览</span>
+            <h2>围绕案例阅读与研习组织平台入口</h2>
+            <p>首页汇集案例检索、案例阅读与研习入口，便于从平台结构中把握课程运行与学习路径。</p>
           </div>
 
           <div className="showcase-home-preview-grid">
             <article className="showcase-home-preview-card">
-              <span className="showcase-card-eyebrow">真实工作区</span>
-              <strong>案例检索与详情阅读</strong>
+              <span className="showcase-card-eyebrow">案例阅读</span>
+              <strong>检索、详情与导读相互衔接</strong>
               <ul className="showcase-preview-list">
                 {content.homePreview.featuredCases.map((item) => (
                   <li key={item}>{item}</li>
@@ -41,15 +41,15 @@ export default function ShowcaseHomeHero({ content, featuredCases = [], canonica
             </article>
 
             <article className="showcase-home-preview-card">
-              <span className="showcase-card-eyebrow">研习结构</span>
-              <strong>公开展示模式下的真实工作台</strong>
+              <span className="showcase-card-eyebrow">研习工作台</span>
+              <strong>围绕同一份文书完成结构化输出</strong>
               <ul className="showcase-preview-list">
                 {content.homePreview.studyHighlights.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
               <Link href={canonicalStudyHref} className="showcase-inline-link">
-                直接查看研习工作台
+                查看研习工作台
               </Link>
             </article>
           </div>

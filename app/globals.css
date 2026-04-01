@@ -2510,12 +2510,12 @@ main {
 .showcase-highlight-card,
 .showcase-summary-card {
   border-radius: 24px;
-  padding: 22px;
+  padding: 20px;
 }
 
 .showcase-home-action-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   min-height: 170px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 245, 237, 0.98));
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
@@ -2532,7 +2532,7 @@ main {
 
 .showcase-home-action-card span {
   color: var(--accent);
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: 0.08em;
 }
@@ -2542,13 +2542,13 @@ main {
 .showcase-highlight-card strong,
 .showcase-summary-card strong {
   font-family: var(--font-display);
-  font-size: 1.18rem;
-  line-height: 1.55;
+  font-size: 1.12rem;
+  line-height: 1.5;
 }
 
 .showcase-home-preview {
   border-radius: 30px;
-  padding: 26px;
+  padding: 24px;
   background:
     linear-gradient(180deg, rgba(255, 252, 247, 0.98), rgba(246, 241, 233, 0.98)),
     radial-gradient(circle at top right, rgba(130, 84, 43, 0.08), transparent 42%);
@@ -2556,8 +2556,8 @@ main {
 
 .showcase-home-preview-head {
   display: grid;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .showcase-home-preview-head h2 {
@@ -2574,7 +2574,7 @@ main {
 .showcase-summary-card p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.8;
+  line-height: 1.72;
 }
 
 .showcase-home-preview-grid {
@@ -2585,7 +2585,7 @@ main {
   border-radius: 24px;
   padding: 20px;
   display: grid;
-  gap: 10px;
+  gap: 8px;
   min-height: 220px;
 }
 
@@ -2633,7 +2633,7 @@ main {
 .showcase-flow-card {
   position: relative;
   border-radius: 24px;
-  padding: 22px;
+  padding: 20px;
   min-height: 220px;
 }
 
@@ -2659,7 +2659,7 @@ main {
 
 .showcase-chain-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   min-height: 190px;
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(250, 245, 237, 0.96));
 }
@@ -2667,7 +2667,7 @@ main {
 .showcase-highlight-card,
 .showcase-summary-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   min-height: 210px;
 }
 
