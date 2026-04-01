@@ -99,10 +99,12 @@ main {
 }
 
 .showcase-nav-link {
+  flex: 0 0 auto;
   padding: 0.6rem 0.9rem;
   border-radius: 999px;
   border: 1px solid transparent;
   color: var(--muted);
+  white-space: nowrap;
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
@@ -289,6 +291,63 @@ main {
   line-height: 1.6;
 }
 
+.course-card,
+.resource-card,
+.impact-card,
+.impact-summary {
+  display: grid;
+  gap: 10px;
+}
+
+.course-card {
+  min-height: 200px;
+}
+
+.course-card-title {
+  font-size: 1.08rem;
+}
+
+.course-card-meta,
+.resource-card-note {
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.course-card-meta {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.resource-card {
+  min-height: 180px;
+}
+
+.resource-card-note {
+  margin: 0;
+}
+
+.impact-card {
+  min-height: 170px;
+}
+
+.impact-summary {
+  margin-top: 2px;
+  padding: 22px;
+}
+
+.impact-summary strong {
+  font-size: 1.08rem;
+}
+
+.impact-summary-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
 .timeline-grid,
 .resource-grid,
 .impact-grid {
@@ -391,11 +450,32 @@ main {
   }
 
   .showcase-nav-links {
+    flex-wrap: nowrap;
     justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .showcase-nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .showcase-nav-link {
+    scroll-snap-align: start;
   }
 
   .showcase-problems,
   .showcase-entry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-grid,
+  .resource-grid,
+  .impact-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -417,13 +497,4 @@ main {
     padding: 20px;
   }
 
-  .showcase-nav-links {
-    overflow-x: auto;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-
-  .showcase-nav-links::-webkit-scrollbar {
-    display: none;
-  }
 }
