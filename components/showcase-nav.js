@@ -3,6 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+function matchesSection(pathname, item) {
+  const prefix = item.matchPrefix ?? item.href;
+
+  if (prefix === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+
 export default function ShowcaseNav({ items }) {
   const pathname = usePathname();
 
@@ -16,7 +26,7 @@ export default function ShowcaseNav({ items }) {
 
         <nav className="showcase-nav-links" aria-label="主导航">
           {items.map((item) => {
-            const active = pathname === item.href || (item.href !== "/" && pathname === item.href.split("#")[0]);
+            const active = matchesSection(pathname, item);
 
             return (
               <Link

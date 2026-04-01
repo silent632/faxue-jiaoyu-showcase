@@ -27,6 +27,14 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
     "/cases/demo/study",
     "/impact",
   ]);
+  assert.deepEqual(content.nav.map((item) => item.matchPrefix), [
+    "/",
+    "/courses",
+    "/resources",
+    "/cases",
+    "/cases/demo/study",
+    "/impact",
+  ]);
   assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", "/cases/demo/study"]);
   assert.equal(content.courses.timeline.length, 8);
   assert.ok(content.resources.categories.length >= 6);
