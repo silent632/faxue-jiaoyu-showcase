@@ -27,9 +27,7 @@ export default async function StudyPage({ params }) {
         <section className={styles.head}>
           <p className="showcase-page-kicker">研习工作台</p>
           <h1 className={styles.headTitle}>{caseItem.title}</h1>
-          <p className={styles.headDesc}>
-            这是一个只读的公开研习示范页，围绕真实案例的摘要、事实、争议和法理要点展示结构化阅读路径。
-          </p>
+          <p className={styles.headDesc}>以真实案例为入口，展示摘要、事实、争议与法理分析的结构化研习路径。</p>
         </section>
 
         <ShowcaseSection

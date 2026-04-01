@@ -13,7 +13,7 @@ export default function CoursesPage() {
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">课程体系</p>
           <h1>课程体系</h1>
-          <p>围绕裁判文书研习形成八期双师课程的递进式教学结构。</p>
+          <p>围绕裁判文书研习形成八期递进式双师课程，便于公开展示课程脉络。</p>
         </section>
 
         <ShowcaseSection title="课程时间线" className="showcase-section-compact" aria-label="课程体系时间线">

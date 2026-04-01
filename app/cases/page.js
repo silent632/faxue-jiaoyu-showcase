@@ -15,7 +15,7 @@ export default async function CasesPage() {
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">案例检索库</p>
           <h1>案例检索库</h1>
-          <p>基于真实裁判文书整理形成的教学化案例库，用于公开检索、预览和后续研习跳转。</p>
+          <p>基于真实裁判文书整理形成的教学化案例库，支持公开检索、预览与研习跳转。</p>
         </section>
 
         <ShowcaseSection
