@@ -5,29 +5,66 @@ function formatDate(dateString) {
   return dateString;
 }
 
+const shellStyles = {
+  display: "grid",
+  gap: "18px",
+};
+
+const summaryStyles = {
+  display: "grid",
+  gap: "14px",
+  gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+};
+
+const statStyles = {
+  borderRadius: "22px",
+  padding: "18px",
+  background: "linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 246, 241, 0.96))",
+  border: "1px solid rgba(139, 91, 43, 0.12)",
+  boxShadow: "0 20px 45px rgba(28, 47, 66, 0.09)",
+};
+
+const gridStyles = {
+  display: "grid",
+  gap: "14px",
+  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+};
+
+const cardStyles = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  minHeight: "220px",
+  padding: "22px",
+  borderRadius: "24px",
+  background: "linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(250, 245, 237, 0.98))",
+  border: "1px solid rgba(25, 49, 72, 0.12)",
+  boxShadow: "0 20px 45px rgba(28, 47, 66, 0.09)",
+};
+
 export default function CaseLibraryShell({ rows }) {
   const featuredRows = rows.slice(0, 12);
 
   return (
-    <section className="case-library-shell" aria-label="案例检索库内容">
-      <div className="case-library-summary">
-        <article className="case-library-stat">
+    <section style={shellStyles} aria-label="案例检索库内容">
+      <div style={summaryStyles}>
+        <article style={statStyles}>
           <span>公开案例</span>
           <strong>{rows.length}</strong>
         </article>
-        <article className="case-library-stat">
+        <article style={statStyles}>
           <span>示范入口</span>
           <strong>真实源数据</strong>
         </article>
-        <article className="case-library-stat">
+        <article style={statStyles}>
           <span>教学定位</span>
           <strong>研习导读</strong>
         </article>
       </div>
 
-      <div className="case-library-grid">
+      <div style={gridStyles}>
         {featuredRows.map((item) => (
-          <Link key={item.id} href={`/cases/${item.id}`} className="case-library-card">
+          <Link key={item.id} href={`/cases/${item.id}`} style={cardStyles}>
             <p className="case-library-eyebrow">{item.caseNumber || item.id}</p>
             <h2>{item.title}</h2>
             <p className="case-library-meta">{item.courtName || "法院信息未注明"}</p>
