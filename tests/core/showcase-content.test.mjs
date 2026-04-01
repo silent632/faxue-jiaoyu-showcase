@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
+import { getShowcaseCanonicalStudyHref } from "../../lib/showcase-cases.js";
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
 
 test("showcase content exposes approved title, nav, metrics, and page sections", () => {
@@ -24,18 +25,18 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
     "/courses",
     "/resources",
     "/cases",
-    "/cases/demo/study",
+    getShowcaseCanonicalStudyHref(),
     "/impact",
   ]);
-  assert.deepEqual(content.nav.map((item) => item.matchPrefix), [
+  assert.deepEqual(content.nav.map((item) => item.matchKind || item.matchPrefix), [
     "/",
     "/courses",
     "/resources",
-    "/cases",
-    "/cases/demo/study",
+    "cases",
+    "study",
     "/impact",
   ]);
-  assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", "/cases/demo/study"]);
+  assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", getShowcaseCanonicalStudyHref()]);
   assert.equal(content.courses.timeline.length, 8);
   assert.equal(content.resources.groups.length, 2);
   assert.equal(content.resources.groups[0].items.length, 4);

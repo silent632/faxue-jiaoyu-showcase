@@ -2,16 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-function matchesSection(pathname, item) {
-  const prefix = item.matchPrefix ?? item.href;
-
-  if (prefix === "/") {
-    return pathname === "/";
-  }
-
-  return pathname === prefix || pathname.startsWith(`${prefix}/`);
-}
+import { isShowcaseNavItemActive } from "@/lib/showcase-nav-match";
 
 export default function ShowcaseNav({ items }) {
   const pathname = usePathname();
@@ -26,7 +17,7 @@ export default function ShowcaseNav({ items }) {
 
         <nav className="showcase-nav-links" aria-label="主导航">
           {items.map((item) => {
-            const active = matchesSection(pathname, item);
+            const active = isShowcaseNavItemActive(pathname, item);
 
             return (
               <Link
