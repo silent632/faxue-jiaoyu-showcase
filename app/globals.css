@@ -250,9 +250,9 @@ main {
 
 .showcase-page-head {
   display: grid;
-  gap: 10px;
-  padding: 16px 0 18px;
-  margin-bottom: 10px;
+  gap: 12px;
+  padding: 16px 0 22px;
+  margin-bottom: 12px;
   border-bottom: 1px solid rgba(29, 44, 58, 0.08);
 }
 
@@ -309,11 +309,11 @@ main {
 .impact-card,
 .impact-summary {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .course-card {
-  min-height: 200px;
+  min-height: 216px;
 }
 
 .course-card-title {
@@ -327,14 +327,18 @@ main {
 }
 
 .course-card-meta {
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
+.course-card-note {
+  margin: 0;
+}
+
 .resource-card {
-  min-height: 180px;
+  min-height: 196px;
 }
 
 .resource-card-note {
@@ -342,12 +346,12 @@ main {
 }
 
 .impact-card {
-  min-height: 170px;
+  min-height: 184px;
 }
 
 .impact-summary {
-  margin-top: 2px;
-  padding: 22px;
+  margin-top: 4px;
+  padding: 24px;
 }
 
 .impact-summary strong {
@@ -365,7 +369,7 @@ main {
 .resource-grid,
 .impact-grid {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .timeline-grid,
@@ -379,7 +383,7 @@ main {
 
 .stack-grid {
   display: grid;
-  gap: 18px;
+  gap: 20px;
 }
 
 .showcase-section-compact {

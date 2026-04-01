@@ -51,3 +51,16 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.impact.sections.length, 4);
   assert.equal(content.impact.sections[0].points.length, 3);
 });
+
+test("showcase content avoids label-board wording in content pages", () => {
+  const content = buildShowcaseContent();
+  const text = JSON.stringify({
+    courses: content.courses,
+    resources: content.resources,
+    impact: content.impact,
+  });
+
+  assert.equal(/资源单元/u.test(text), false);
+  assert.equal(/价值维度/u.test(text), false);
+  assert.equal(/补充说明/u.test(text), false);
+});
