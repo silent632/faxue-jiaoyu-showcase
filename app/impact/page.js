@@ -15,13 +15,24 @@ export default function ImpactPage() {
           <p>从教学建设、学生发展、平台运行与推广示范四个维度呈现项目成效。</p>
         </section>
 
-        <section className="impact-grid" aria-label="项目成效维度">
+        <div className="stack-grid">
           {content.impact.sections.map((item) => (
-            <article key={item.title} className="showcase-card">
-              <strong>{item.title}</strong>
-            </article>
+            <section key={item.title} className="showcase-section showcase-section-compact" aria-label={item.title}>
+              <div className="showcase-section-heading">
+                <h2>{item.title}</h2>
+                <p className="showcase-section-description">{item.intro}</p>
+              </div>
+
+              <div className="impact-grid">
+                {item.points.map((point) => (
+                  <article key={point} className="showcase-card">
+                    <strong>{point}</strong>
+                  </article>
+                ))}
+              </div>
+            </section>
           ))}
-        </section>
+        </div>
       </div>
     </main>
   );

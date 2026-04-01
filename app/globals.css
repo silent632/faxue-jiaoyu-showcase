@@ -288,6 +288,15 @@ main {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.stack-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.showcase-section-compact {
+  margin-top: 0;
+}
+
 .showcase-problems {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

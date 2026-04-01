@@ -15,13 +15,24 @@ export default function ResourcesPage() {
           <p>以标准化材料体系支撑课程运行、案例研习与成果推广。</p>
         </section>
 
-        <section className="resource-grid" aria-label="教学资源分类">
-          {content.resources.categories.map((item) => (
-            <article key={item} className="showcase-card">
-              <strong>{item}</strong>
-            </article>
+        <div className="stack-grid">
+          {content.resources.groups.map((group) => (
+            <section key={group.title} className="showcase-section showcase-section-compact" aria-label={group.title}>
+              <div className="showcase-section-heading">
+                <h2>{group.title}</h2>
+                <p className="showcase-section-description">{group.intro}</p>
+              </div>
+
+              <div className="resource-grid">
+                {group.items.map((item) => (
+                  <article key={item} className="showcase-card">
+                    <strong>{item}</strong>
+                  </article>
+                ))}
+              </div>
+            </section>
           ))}
-        </section>
+        </div>
       </div>
     </main>
   );
