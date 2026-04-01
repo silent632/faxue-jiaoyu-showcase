@@ -6,6 +6,8 @@ import { buildShowcaseContent } from "../../lib/showcase-content.js";
 
 test("showcase content exposes approved title, nav, metrics, and page sections", () => {
   const content = buildShowcaseContent();
+  const canonicalStudyHref = getShowcaseCanonicalStudyHref();
+  const canonicalDetailHref = canonicalStudyHref.replace(/\/study\/?$/u, "");
 
   assert.equal(content.site.title, "裁判文书研习平台");
   assert.equal(content.metrics.caseCount.label, "典型案例");
@@ -36,7 +38,12 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
     "study",
     "/impact",
   ]);
-  assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", getShowcaseCanonicalStudyHref()]);
+  assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", canonicalDetailHref, canonicalStudyHref]);
+  assert.equal(content.homeFlow.length, 3);
+  assert.ok(content.homePreview);
+  assert.equal(content.homePreview.featuredCases.length, 3);
+  assert.equal(content.homePreview.studyHighlights.length, 3);
+  assert.equal(content.platformHighlights.length, 3);
   assert.equal(content.courses.timeline.length, 8);
   assert.equal(content.resources.groups.length, 2);
   assert.equal(content.resources.groups[0].items.length, 4);
