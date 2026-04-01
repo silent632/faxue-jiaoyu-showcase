@@ -10,6 +10,9 @@ test("showcase cases loader returns normalized source cases", async () => {
   assert.ok(rows[0].id);
   assert.ok(rows[0].title);
   assert.ok(rows[0].caseNumber);
+  assert.ok(rows[0].causePath);
+  assert.ok(rows[0].causeFocus);
+  assert.ok(Array.isArray(rows[0].laws));
 });
 
 test("showcase case lookup returns a matching case by id", async () => {
