@@ -1,0 +1,17 @@
+{
+  "name": "faxue-jiaoyu-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3011",
+    "build": "next build",
+    "start": "next start -p 3011",
+    "test:core": "node --test tests/core/*.test.mjs"
+  },
+  "dependencies": {
+    "next": "^15.5.10",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
