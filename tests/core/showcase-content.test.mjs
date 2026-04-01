@@ -10,7 +10,7 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.metrics.caseCount.label, "典型案例");
   assert.equal(content.metrics.caseCount.value, "210+");
   assert.equal(content.metrics.caseCount.raw, 210);
-  assert.equal(content.metrics.coursePeriods.label, "课程期数");
+  assert.equal(content.metrics.coursePeriods.label, "双师课程");
   assert.equal(content.metrics.coursePeriods.value, "8期");
   assert.equal(content.metrics.coursePeriods.raw, 8);
   assert.equal(content.metrics.registeredUsers.label, "注册用户");
@@ -24,9 +24,10 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
     "/courses",
     "/resources",
     "/cases",
-    "/cases#study-demo",
+    "/cases/demo/study",
     "/impact",
   ]);
+  assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", "/cases/demo/study"]);
   assert.equal(content.courses.timeline.length, 8);
   assert.ok(content.resources.categories.length >= 6);
   assert.equal(content.impact.sections.length, 4);

@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function HomePage() {
   const content = buildShowcaseContent();
-  const entryLinks = content.nav.filter((item) => item.href !== "/");
 
   return (
     <main className="showcase-page">
@@ -33,13 +32,13 @@ export default function HomePage() {
         <ShowcaseSection
           title="快速进入核心场景"
           eyebrow="功能入口"
-          description="从首页即可前往课程、资源、案例检索与研习工作台，按教学场景快速切换。"
+          description="从首页即可进入案例检索库与研习工作台，按教学场景快速切换。"
         >
           <div className="showcase-entry-grid">
-            {entryLinks.map((item) => (
+            {content.homeEntries.map((item) => (
               <Link key={item.href} href={item.href} className="showcase-entry-card">
                 <span>{item.label}</span>
-                <strong>{item.href === "/cases#study-demo" ? "进入研习工作台" : "查看页面内容"}</strong>
+                <strong>{item.description}</strong>
               </Link>
             ))}
           </div>
