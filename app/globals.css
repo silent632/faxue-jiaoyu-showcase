@@ -223,6 +223,71 @@ main {
   color: var(--muted);
 }
 
+.showcase-page-head {
+  padding: 10px 0 18px;
+}
+
+.showcase-page-kicker {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.showcase-page-head h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.showcase-page-head p {
+  margin: 12px 0 0;
+  max-width: 54rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.showcase-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.showcase-card-eyebrow {
+  display: inline-flex;
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.showcase-card strong {
+  display: block;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.timeline-grid,
+.resource-grid,
+.impact-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.timeline-grid,
+.resource-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.impact-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .showcase-problems {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
