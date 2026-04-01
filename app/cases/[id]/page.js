@@ -79,18 +79,18 @@ export default async function CaseDetailPage({ params }) {
   const readingRoadmap = [
     {
       id: "01",
-      title: "先看基本信息",
-      description: "先确认法院、案由、程序和裁判结果，判断这是不是你当前要继续研读的案例。",
+      title: "基本信息",
+      description: "从法院、案由、程序和裁判结果把握案例的基本轮廓。",
     },
     {
       id: "02",
-      title: "再读案例摘要",
-      description: "摘要只负责导读，不直接给出研习答案，方便你先建立自己的阅读预期。",
+      title: "案例摘要",
+      description: "结合摘要进入案件事实与裁判要点，形成后续阅读的整体判断。",
     },
     {
       id: "03",
-      title: "最后决定怎么读原文",
-      description: "要快速浏览，就展开详情页预览；要连续精读，就直接进入研习页或打开原始 PDF。",
+      title: "原文与研习",
+      description: "可继续查看原文、进入研习页面，沿着同一份裁判文书展开深入阅读。",
     },
   ];
 
@@ -133,9 +133,9 @@ export default async function CaseDetailPage({ params }) {
 
             <aside className="case-detail-action-card">
               <div className="case-detail-action-copy">
-                <span className="section-eyebrow">下一步</span>
-                <h2>先判断，再决定怎么继续</h2>
-                <p>这页只保留判断信息和动作入口。要精读原文就进入研习页或展开 PDF，不在这里堆过多说明。</p>
+                <span className="section-eyebrow">继续阅读</span>
+                <h2>从案例信息进入原文与研习</h2>
+                <p>结合摘要、裁判结果与原文入口，可进一步进入研习页面或继续查看完整文书。</p>
               </div>
 
               <div className="case-detail-action-row">
@@ -165,8 +165,8 @@ export default async function CaseDetailPage({ params }) {
               </div>
 
               <div className="case-detail-action-note-box">
-                <strong>公开展示模式</strong>
-                <p>保留真实阅读链路与研习入口；若原文文件未随展示站发布，则会在此处自然降级为只读说明。</p>
+                <strong>阅读提示</strong>
+                <p>若原文文件暂未提供，仍可结合摘要、事实与争议焦点继续浏览案例内容。</p>
               </div>
             </aside>
           </div>
@@ -175,8 +175,8 @@ export default async function CaseDetailPage({ params }) {
         <section className="glass-sm case-reading-roadmap">
           <div className="case-reading-roadmap-head">
             <div>
-              <h2>这页怎么用最合适</h2>
-              <p>把详情页当成导读页使用，只完成“确认是否值得继续读”这一步。</p>
+              <h2>案例阅读路径</h2>
+              <p>从基本信息、摘要到原文入口，页面围绕同一份文书组织连续的阅读线索。</p>
             </div>
             <div className="case-reading-roadmap-links">
               {jumpLinks.map((item) => (
@@ -205,7 +205,7 @@ export default async function CaseDetailPage({ params }) {
             <div className="case-detail-section-head">
               <div>
                 <h2>基本信息</h2>
-                <p>先看这些关键信息，通常就能判断这是不是你当前要继续研读的案例。</p>
+                <p>围绕法院、案由、日期和裁判结果，建立对案件的基本认识。</p>
               </div>
             </div>
 
@@ -241,7 +241,7 @@ export default async function CaseDetailPage({ params }) {
             <div className="case-detail-section-head">
               <div>
                 <h2>案例摘要</h2>
-                <p>摘要只负责帮你建立阅读预期，不直接代替原文阅读和研习判断。</p>
+                <p>通过摘要把握案件事实、裁判理由与进一步阅读的重点。</p>
               </div>
             </div>
 
@@ -254,8 +254,8 @@ export default async function CaseDetailPage({ params }) {
             </div>
 
             <div className="case-summary-callout">
-              <strong>导读提醒</strong>
-              <p>详情页不会提前放出事实、争点和法理分析参考答案，避免你在真正阅读前被现成结论带着走。</p>
+              <strong>阅读提示</strong>
+              <p>可先结合摘要形成初步判断，再进入原文与研习页面继续阅读和分析。</p>
             </div>
 
             <div className="case-outcome-box case-detail-outcome-box">

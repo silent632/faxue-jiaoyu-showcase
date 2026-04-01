@@ -973,6 +973,7 @@ main {
 .case-card-footer-note {
   font-size: 12px;
   color: var(--muted);
+  line-height: 1.72;
 }
 
 .cases-intel-grid {
@@ -1228,7 +1229,7 @@ main {
 .case-detail-lead {
   margin: 0;
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.72;
   color: var(--ink-soft);
 }
 
@@ -1477,7 +1478,7 @@ main {
   margin: 0;
   color: var(--ink-soft);
   font-size: 13px;
-  line-height: 1.86;
+  line-height: 1.74;
 }
 
 .case-summary-callout {

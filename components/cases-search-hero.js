@@ -15,8 +15,8 @@ export default function CasesSearchHero({
       <div className="cases-hero-head">
         <div className="section-head-copy">
           <span className="section-eyebrow">案例检索</span>
-          <h1 className="section-title cases-hero-title">先收窄范围，再决定读哪一份文书</h1>
-          <p className="section-desc cases-hero-desc">先用年份和案由把范围收进可浏览规模，再从结果里挑 1 到 2 份进入详情页。</p>
+          <h1 className="section-title cases-hero-title">案例检索库</h1>
+          <p className="section-desc cases-hero-desc">围绕案由、年份、法院层级与法条组织案例资源，便于从同类主题中比较不同裁判文书。</p>
         </div>
 
         <div className="cases-hero-stats">
@@ -57,7 +57,7 @@ export default function CasesSearchHero({
 
       <div className="cases-hero-foot">
         <p className="cases-hero-footnote">
-          {selectedFilterCount ? "已有筛选条件时，优先先看结果，不要继续叠很多低频条件。" : "还没开始筛时，优先先选年份，再选案由。"}
+          {selectedFilterCount ? "当前已形成检索范围，可继续浏览结果或补充关键词细化阅读对象。" : "可从年份、案由或关键词进入，逐步形成更清晰的阅读范围。"}
         </p>
       </div>
     </section>

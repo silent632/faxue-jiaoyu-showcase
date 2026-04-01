@@ -16,8 +16,8 @@ export default function CasePdfDisclosure({ fileUrl, fileName }) {
       >
         <div className="case-pdf-summary-copy">
           <span className="case-pdf-summary-kicker">PDF 预览</span>
-          <strong>{expanded ? "原文预览已展开" : "点击展开原文预览"}</strong>
-          <p>详情页默认先收起预览，避免一开始就被大块原文占住注意力；需要连续精读时，再展开预览或直接进入研习页。</p>
+          <strong>{expanded ? "原文预览" : "查看原文预览"}</strong>
+          <p>可在详情页中直接浏览原文版式与关键段落，也可进入研习页面继续阅读与分析。</p>
         </div>
         <div className="case-pdf-summary-meta">
           <span>{fileName}</span>
@@ -30,7 +30,7 @@ export default function CasePdfDisclosure({ fileUrl, fileName }) {
           <div className="case-pdf-panel-head">
             <div>
               <h2>PDF 预览</h2>
-              <p>这里只适合快速确认版式和关键段落；如果要连续精读，建议直接进入研习页或新窗口打开原始 PDF。</p>
+              <p>适合结合案例摘要和裁判信息继续阅读原文，也可在新窗口中打开完整 PDF。</p>
             </div>
             <span>{fileName}</span>
           </div>

@@ -13,15 +13,15 @@ export default function CasesIntelligencePanels({
 }) {
   const shouldNarrow = filteredCount > PAGE_SIZE;
   const actionItems = (shouldNarrow && narrowingSuggestions.length ? narrowingSuggestions : starterActions).slice(0, 4);
-  const actionTitle = shouldNarrow ? "下一步建议" : "快速起步";
-  const actionNote = shouldNarrow ? "结果仍然偏多，优先再加一个条件，把范围先收进 20 条以内。" : "先从这些高频条件开始，建立第一轮范围。";
+  const actionTitle = shouldNarrow ? "推荐筛选条件" : "常用入口";
+  const actionNote = shouldNarrow ? "结果仍然较多，可优先补充一个条件，进一步缩小阅读范围。" : "这些高频条件更适合快速进入案例检索。";
   const scopeNote = !filteredCount
-    ? "暂时没有找到相关案例。建议先清掉低频条件，只保留年份或案由重试。"
+    ? "当前没有匹配结果，可适当放宽条件后重新检索。"
     : shouldNarrow
-      ? "当前结果仍然偏多，继续加一个条件会比直接逐条翻看更高效。"
+      ? "当前结果较多，继续补充一个条件会更便于后续阅读与比较。"
       : filteredCount === 1
-        ? "范围已经非常聚焦，可以直接进入详情页。"
-        : "范围已经适合浏览，可以先比较摘要、裁判结果和法院，再选 1 到 2 份继续阅读。";
+        ? "当前结果已较为聚焦，可直接进入案例详情。"
+        : "当前结果已适合浏览，可结合摘要、裁判结果与法院信息继续选择。";
 
   return (
     <div className="cases-intel-grid">
@@ -53,7 +53,7 @@ export default function CasesIntelligencePanels({
         <section className="glass-sm cases-intel-card">
           <div className="cases-intel-head">
             <strong>{actionTitle}</strong>
-            <span>{shouldNarrow ? "目标：收进 20 条以内" : "先建立第一轮范围"}</span>
+            <span>{shouldNarrow ? "进一步缩小检索范围" : "从高频条件进入案例库"}</span>
           </div>
           <p className="cases-intel-note">{actionNote}</p>
           <div className="cases-action-row">

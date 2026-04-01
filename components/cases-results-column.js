@@ -3,7 +3,7 @@ import { SORT_OPTIONS } from "@/lib/cases-workspace";
 
 function buildCaseSnippet(item) {
   const source = String(item.summary || item.resultText || "").trim();
-  if (!source) return "当前暂无摘要，可进入详情页查看基本信息和原文入口。";
+  if (!source) return "当前暂无摘要，可进入详情页查看案例信息与原文入口。";
   if (source.length <= 120) return source;
   return `${source.slice(0, 120).trim()}...`;
 }
@@ -47,7 +47,7 @@ export default function CasesResultsColumn({
             <span className="section-eyebrow">结果列表</span>
             <h2 className="section-title cases-results-title">{filteredCount ? `当前匹配 ${filteredCount} 条案例` : "暂时没有找到相关案例"}</h2>
             <p className="section-desc cases-results-desc">
-              {filteredCount ? `当前展示第 ${pageStart}-${pageEnd} 条。先看标题、法院、结果和摘要，再决定进入哪一份详情页。` : "建议先清空低频筛选，或者只保留年份与案由重新开始。"}
+              {filteredCount ? `当前展示第 ${pageStart}-${pageEnd} 条结果，可结合标题、法院、裁判结果与摘要继续选择阅读对象。` : "可调整检索条件后重新浏览案例结果。"}
             </p>
           </div>
 
@@ -85,14 +85,14 @@ export default function CasesResultsColumn({
             ))}
           </div>
         ) : (
-          <p className="cases-results-empty-note">当前还没有筛选条件，建议先选年份或案由。</p>
+          <p className="cases-results-empty-note">当前未设置筛选条件，可从年份、案由或关键词开始检索。</p>
         )}
       </section>
 
       {!pageRows.length ? (
         <section className="card cases-empty-state">
           <h3 className="cases-empty-title">没有找到符合条件的案例</h3>
-          <p className="cases-empty-desc">先放宽条件，再重新建立第一轮范围，通常从年份和案由开始会更稳。</p>
+          <p className="cases-empty-desc">可适当放宽筛选条件，重新组织检索范围。</p>
           <button className="btn btn-primary" type="button" onClick={onResetFilters}>
             清空全部筛选
           </button>
@@ -137,7 +137,7 @@ export default function CasesResultsColumn({
             ) : null}
 
             <div className="case-card-footer">
-              <span className="case-card-footer-note">先在详情页确认摘要、结论和原文入口，再决定是否继续深读。</span>
+              <span className="case-card-footer-note">可进入详情页继续查看摘要、裁判结论与原文入口。</span>
               <Link className="btn btn-primary" href={`/cases/${item.id}`}>
                 查看详情
               </Link>

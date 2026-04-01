@@ -96,3 +96,13 @@ test("public file normalization strips directory segments for detail-page links"
   assert.equal(normalizePublicFileName("nested\\\\demo\\\\file.docx"), "file.docx");
   assert.equal(normalizePublicFileName("  sample.pdf  "), "sample.pdf");
 });
+
+test("case-route copy helpers avoid backstage instructional wording", async () => {
+  const item = await getShowcaseCaseById("case-0001");
+  const text = JSON.stringify(item);
+
+  assert.ok(item);
+  assert.equal(/用于组织课堂提问/u.test(text), false);
+  assert.equal(/页面保留/u.test(text), false);
+  assert.equal(/公开展示模式/u.test(text), false);
+});
