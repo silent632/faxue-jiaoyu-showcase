@@ -1,4 +1,3 @@
-import ShowcaseHomeHero from "@/components/showcase-home-hero";
 import ShowcaseNav from "@/components/showcase-nav";
 import ShowcaseSection from "@/components/showcase-section";
 import { buildShowcaseContent } from "@/lib/showcase-content";
@@ -12,7 +11,23 @@ export default function HomePage() {
       <ShowcaseNav items={content.nav} />
 
       <div className="showcase-page-body">
-        <ShowcaseHomeHero content={content} />
+        <section className="showcase-hero">
+          <div className="showcase-hero-copy">
+            <p className="showcase-hero-kicker">教学成果展示</p>
+            <h1>{content.site.title}</h1>
+            <p className="showcase-hero-subtitle">{content.site.subtitle}</p>
+            <p className="showcase-hero-intro">{content.site.intro}</p>
+          </div>
+
+          <div className="showcase-metrics" aria-label="平台概览指标">
+            {Object.values(content.metrics).map((metric) => (
+              <article key={metric.label} className="showcase-metric-card">
+                <span>{metric.label}</span>
+                <strong>{metric.value}</strong>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <ShowcaseSection
           title="平台关注的真实问题"
