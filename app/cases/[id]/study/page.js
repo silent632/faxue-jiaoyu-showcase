@@ -32,7 +32,7 @@ export default async function StudyPage({ params }) {
             <Link className="btn btn-ghost" href={`/cases/${id}`}>
               ← 返回详情
             </Link>
-            <span className="tag">研习模式</span>
+            <span className="tag">研习工作台</span>
             <span className="study-head-case-number">{caseItem.caseNumber || "案号待补充"}</span>
           </div>
 

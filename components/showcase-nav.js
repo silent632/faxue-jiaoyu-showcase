@@ -12,7 +12,7 @@ export default function ShowcaseNav({ items }) {
       <div className="showcase-nav-inner">
         <Link href="/" className="showcase-brand" aria-label="返回首页">
           <strong>裁判文书研习平台</strong>
-          <span>法理学教学改革展示专站</span>
+          <span>法理学教学改革专题平台</span>
         </Link>
 
         <nav className="showcase-nav-links" aria-label="主导航">

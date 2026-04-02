@@ -269,7 +269,7 @@ export default async function CaseDetailPage({ params }) {
           <CasePdfDisclosure fileUrl={`/pdfs/${encodeURIComponent(pdfFileName)}`} fileName={pdfFileName} />
         ) : (
           <section className="card case-detail-empty-panel">
-            <p className="case-detail-empty-text">当前案例未配置可预览的 PDF 文件，公开展示模式仅保留案例导读与研习入口。</p>
+            <p className="case-detail-empty-text">当前案例暂未配置可预览的 PDF 文件，可先结合案例导读与研习入口继续阅读。</p>
           </section>
         )}
       </div>

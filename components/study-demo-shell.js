@@ -8,24 +8,22 @@ export default function StudyDemoShell({ caseItem }) {
   const analyticSteps = steps.slice(1);
 
   return (
-    <section className={styles.shell} aria-label="公开研习工作台">
+    <section className={styles.shell} aria-label="研习工作台">
       <div className={styles.hero}>
         <div className={styles.heroTop}>
-          <span className={styles.tag}>研习模式</span>
+          <span className={styles.tag}>研习工作台</span>
           <span className={styles.meta}>{caseItem.caseNumber || "案号未注明"}</span>
         </div>
 
         <div>
           <h2 className={styles.heroTitle}>{caseItem.title}</h2>
-          <p className={styles.heroDesc}>
-            这是一份只读的公开研习示范页，直接基于真实裁判文书的导读摘要、事实要点、争议焦点和法理要点展开。
-          </p>
+          <p className={styles.heroDesc}>围绕同一份裁判文书的导读摘要、事实要点、争议焦点和法理要点，逐步完成结构化研习。</p>
         </div>
 
         <div className={styles.heroGrid}>
           <article className={styles.metaCard}>
             <span className={styles.metaLabel}>原文导读</span>
-            <p className={styles.summaryText}>{caseItem.summary || "当前展示真实案例内容，用于说明结构化研习场景。"}</p>
+            <p className={styles.summaryText}>{caseItem.summary || "可围绕这份裁判文书继续梳理事实、争议焦点与法理分析。"}</p>
           </article>
           <article className={styles.metaCard}>
             <span className={styles.metaLabel}>案件信息</span>

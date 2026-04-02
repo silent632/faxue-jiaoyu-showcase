@@ -31,7 +31,7 @@ export default function TopNav({ user }) {
         <div className="topbar-brand-wrap">
           <Link href="/" className="topbar-brand-link">
             <strong className="topbar-brand">裁判文书研习平台</strong>
-            <span className="topbar-brand-subtitle">法理学教学改革展示专站</span>
+            <span className="topbar-brand-subtitle">法理学教学改革专题平台</span>
           </Link>
         </div>
 
@@ -47,8 +47,8 @@ export default function TopNav({ user }) {
 
         <div className="topbar-right">
           <div className="topbar-user-card showcase-topbar-user-card">
-            <strong className="topbar-user-name">{user?.name || "公开展示访客"}</strong>
-            <span className="topbar-user-meta">{user?.roleLabel || "公开展示模式"}</span>
+            <strong className="topbar-user-name">{user?.name || "开放浏览"}</strong>
+            <span className="topbar-user-meta">{user?.roleLabel || "案例研习平台"}</span>
           </div>
         </div>
       </div>

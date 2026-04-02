@@ -24,8 +24,8 @@ export default function ShowcaseHomeHero({ content, featuredCases = [], canonica
 
         <aside className="showcase-home-preview">
           <div className="showcase-home-preview-head">
-            <span className="showcase-section-eyebrow">平台概览</span>
-            <h2>围绕案例阅读与研习组织平台入口</h2>
+            <span className="showcase-section-eyebrow">平台结构</span>
+            <h2>围绕案例阅读与研习组织学习入口</h2>
             <p>首页汇集案例检索、案例阅读与研习入口，便于从平台结构中把握课程运行与学习路径。</p>
           </div>
 
