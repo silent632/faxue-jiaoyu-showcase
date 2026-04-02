@@ -1,3 +1,5 @@
+import { getPublicStudyOverviewDescription } from "@/lib/public-showcase-study";
+
 export default function StudyWorkspaceOverview({
   saveInfo,
   doneCount,
@@ -12,9 +14,7 @@ export default function StudyWorkspaceOverview({
         <div className="study-overview-copy">
           <span className="section-eyebrow">写作工作台</span>
           <h2 className="study-overview-title">先独立作答，再逐步对照参考</h2>
-          <p className="study-overview-desc">
-            右侧保留真实三步输出结构。公开展示模式下，你可以继续写本地草稿并导出留档，但不会执行真实提交。
-          </p>
+          <p className="study-overview-desc">{getPublicStudyOverviewDescription()}</p>
         </div>
         <div className="study-save-pill">{saveInfo}</div>
       </div>
@@ -23,7 +23,7 @@ export default function StudyWorkspaceOverview({
         <article className="study-metric-card">
           <span className="study-metric-label">当前进度</span>
           <strong className="study-metric-value">{doneCount} / 3</strong>
-          <p className="study-metric-hint">完成三步后，可导出公开展示版研习记录。</p>
+          <p className="study-metric-hint">完成三步后，可导出本次研习记录。</p>
         </article>
         <article className="study-metric-card">
           <span className="study-metric-label">已写字数</span>

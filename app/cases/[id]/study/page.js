@@ -5,6 +5,7 @@ import StudySplitShell from "@/components/study-split-shell";
 import TopNav from "@/components/top-nav";
 import { normalizePublicFileName, publicFileExists } from "@/lib/data/public-files.js";
 import { getPublicShowcaseCaseById } from "@/lib/public-showcase-cases.js";
+import { getPublicStudyHeadNote } from "@/lib/public-showcase-study.js";
 import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
 import { getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
 
@@ -37,9 +38,7 @@ export default async function StudyPage({ params }) {
 
           <div className="study-head-copy">
             <h1 className="study-head-title">{caseItem.title}</h1>
-            <p className="study-head-note">
-              这是公开展示模式下的真实研习工作台。页面保留阅读区、三步输出区和参考要点结构；草稿仅保存在当前浏览器，不执行真实提交。
-            </p>
+            <p className="study-head-note">{getPublicStudyHeadNote()}</p>
           </div>
         </div>
 

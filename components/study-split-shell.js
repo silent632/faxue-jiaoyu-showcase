@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import PdfViewer from "@/components/pdf-viewer";
+import { getPublicStudyReaderNote, getPublicStudyWriterNote } from "@/lib/public-showcase-study";
 import StudyWorkspace from "@/components/study-workspace";
 
 const STORAGE_KEY = "study-shell-left-pane-width";
@@ -88,7 +89,7 @@ export default function StudySplitShell({ caseItem, userSid, pdfFileName, hasPdf
             <div className="study-pane-head-copy">
               <span className="study-pane-kicker">原文阅读</span>
               <strong className="study-pane-title">先通读，再定位细节</strong>
-              <span className="study-pane-head-note">公开展示模式下保留真实阅读区结构；若未发布原文文件，会在这里自然降级为说明状态。</span>
+              <span className="study-pane-head-note">{getPublicStudyReaderNote({ hasPdf })}</span>
             </div>
             <span className="study-pane-meta" title={pdfFileName || ""}>{pdfFileName || "未配置 PDF"}</span>
           </div>
@@ -106,7 +107,7 @@ export default function StudySplitShell({ caseItem, userSid, pdfFileName, hasPdf
               />
             ) : (
               <div className="study-pane-empty">
-                当前案例暂未配置可预览的 PDF 文件。你仍可以继续查看右侧真实研习工作台结构，并通过详情页的导读内容完成展示性研习。
+                当前案例暂未提供 PDF 原文，可先结合案例导读与右侧研习内容继续阅读和分析。
               </div>
             )}
           </div>
@@ -153,7 +154,7 @@ export default function StudySplitShell({ caseItem, userSid, pdfFileName, hasPdf
             <div className="study-pane-head-copy">
               <span className="study-pane-kicker">结构化输出</span>
               <strong className="study-pane-title">围绕同一份文书完成三步研习</strong>
-              <span className="study-pane-head-note">公开展示模式下草稿只保存在当前浏览器，本页不会执行真实提交；其余结构尽量保留原工作台组织方式。</span>
+              <span className="study-pane-head-note">{getPublicStudyWriterNote()}</span>
             </div>
             <button className="btn btn-outline study-pane-reset-btn" type="button" onClick={resetWidth}>
               重置宽度

@@ -1891,7 +1891,7 @@ main {
   margin: 0;
   max-width: 920px;
   font-size: 13px;
-  line-height: 1.72;
+  line-height: 1.64;
   color: var(--muted);
 }
 
@@ -2059,9 +2059,9 @@ main {
 
 .study-pane-head-note {
   font-size: 12px;
-  line-height: 1.7;
+  line-height: 1.62;
   color: var(--muted);
-  max-width: 580px;
+  max-width: 540px;
 }
 
 .study-pane-head-workspace {
@@ -2113,7 +2113,7 @@ main {
   padding: 16px;
   color: var(--muted);
   font-size: 14px;
-  line-height: 1.75;
+  line-height: 1.68;
 }
 
 .study-workspace-shell {
@@ -2125,9 +2125,9 @@ main {
 }
 
 .study-overview {
-  padding: 16px;
+  padding: 15px 16px;
   display: grid;
-  gap: 12px;
+  gap: 10px;
   background:
     radial-gradient(circle at top right, rgba(168, 107, 55, 0.09), transparent 34%),
     linear-gradient(180deg, #fffaf3, #ffffff 78%);
@@ -2158,7 +2158,7 @@ main {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
-  line-height: 1.72;
+  line-height: 1.66;
 }
 
 .study-save-pill {
@@ -2204,7 +2204,7 @@ main {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.62;
 }
 
 .study-metric-card {
@@ -2234,9 +2234,9 @@ main {
 }
 
 .study-step-card {
-  padding: 16px;
+  padding: 15px 16px;
   display: grid;
-  gap: 12px;
+  gap: 10px;
   background: linear-gradient(180deg, rgba(255, 251, 246, 0.82), rgba(255, 255, 255, 1) 28%), #fff;
 }
 
@@ -2362,9 +2362,9 @@ main {
 }
 
 .study-actions-card {
-  padding: 16px;
+  padding: 15px 16px;
   display: grid;
-  gap: 14px;
+  gap: 12px;
   position: sticky;
   bottom: 12px;
   z-index: 2;
