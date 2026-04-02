@@ -3,7 +3,16 @@ import { notFound } from "next/navigation";
 
 import CasePdfDisclosure from "@/components/case-pdf-disclosure";
 import TopNav from "@/components/top-nav";
-import { buildOutcomeHeadline, formatLawNameForDisplay } from "@/lib/case-presentation.mjs";
+import {
+  buildCaseReadingJudgment,
+  buildCaseReadingRoadmap,
+  buildCoreDispute,
+  buildMissingPdfNote,
+  buildOutcomeHeadline,
+  buildPrimaryContinuation,
+  formatLawNameForDisplay,
+  sanitizeSummaryForReading,
+} from "@/lib/case-presentation.mjs";
 import { normalizePublicFileName, publicFileExists } from "@/lib/data/public-files.js";
 import { getPublicShowcaseCaseById } from "@/lib/public-showcase-cases.js";
 import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
@@ -44,7 +53,7 @@ function toParagraphs(value, maxParagraphs = 3) {
 
 function buildSummaryView(caseItem) {
   return {
-    paragraphs: toParagraphs(caseItem.summary, 3),
+    paragraphs: toParagraphs(sanitizeSummaryForReading(caseItem.summary), 3),
   };
 }
 
@@ -63,8 +72,13 @@ export default async function CaseDetailPage({ params }) {
   const [hasPdf, hasWord] = await Promise.all([publicFileExists("pdfs", pdfFileName), publicFileExists("words", wordFileName)]);
 
   const summaryView = buildSummaryView(caseItem);
+  const coreDispute = buildCoreDispute(caseItem);
   const outcomeHeadline = buildOutcomeHeadline(caseItem);
-  const leadText = outcomeHeadline || summaryView.paragraphs[0] || "先查看摘要，再决定是否继续精读全文。";
+  const readingJudgment = buildCaseReadingJudgment(caseItem);
+  const readingRoadmap = buildCaseReadingRoadmap(caseItem);
+  const primaryContinuation = buildPrimaryContinuation(caseItem);
+  const fileEntryNote = buildMissingPdfNote({ hasPdf, hasWord });
+  const leadText = readingJudgment.about;
 
   const metaRows = [
     ["法院", caseItem.courtName || "-"],
@@ -76,25 +90,8 @@ export default async function CaseDetailPage({ params }) {
     ["裁判结果", caseItem.result || "-"],
   ];
 
-  const readingRoadmap = [
-    {
-      id: "01",
-      title: "基本信息",
-      description: "从法院、案由、程序和裁判结果把握案例的基本轮廓。",
-    },
-    {
-      id: "02",
-      title: "案例摘要",
-      description: "结合摘要进入案件事实与裁判要点，形成后续阅读的整体判断。",
-    },
-    {
-      id: "03",
-      title: "原文与研习",
-      description: "可继续查看原文、进入研习页面，沿着同一份裁判文书展开深入阅读。",
-    },
-  ];
-
   const jumpLinks = [
+    { href: "#case-reading-judgment", label: "导读判断" },
     { href: "#case-basic-info", label: "基本信息" },
     { href: "#case-summary", label: "案例摘要" },
   ];
@@ -123,50 +120,70 @@ export default async function CaseDetailPage({ params }) {
 
           <div className="case-detail-hero-main">
             <div className="case-detail-main-copy">
-              <p className="case-detail-kicker">案例详情</p>
+              <p className="case-detail-kicker">案例导读判断</p>
               <h1 className="case-detail-title">{caseItem.title}</h1>
               <p className="case-detail-meta-line">
                 {caseItem.caseNumber || "案号待补充"} · {caseItem.courtName || "法院待补充"} · {caseItem.judgmentDate || "日期待补充"}
               </p>
               <p className="case-detail-lead">{leadText}</p>
+
+              <div id="case-reading-judgment" className="case-reading-judgment-grid">
+                <article className="case-reading-judgment-card">
+                  <span className="case-reading-judgment-label">这案子在讲什么</span>
+                  <strong>{coreDispute || "先从案由与摘要建立案件判断。"}</strong>
+                  <p>{readingJudgment.about}</p>
+                </article>
+
+                <article className="case-reading-judgment-card is-emphasis">
+                  <span className="case-reading-judgment-label">为什么值得读</span>
+                  <strong>{outcomeHeadline || "先看摘要再决定是否精读"}</strong>
+                  <p>{readingJudgment.whyRead}</p>
+                </article>
+
+                <article className="case-reading-judgment-card">
+                  <span className="case-reading-judgment-label">是否继续进入研习</span>
+                  <strong>先判断，再继续</strong>
+                  <p>{readingJudgment.shouldContinue}</p>
+                </article>
+              </div>
             </div>
 
             <aside className="case-detail-action-card">
               <div className="case-detail-action-copy">
-                <span className="section-eyebrow">继续阅读</span>
-                <h2>从案例信息进入原文与研习</h2>
-                <p>结合摘要、裁判结果与原文入口，可进一步进入研习页面或继续查看完整文书。</p>
+                <span className="section-eyebrow">继续判断</span>
+                <h2>{primaryContinuation.label}</h2>
+                <p>{primaryContinuation.description}</p>
               </div>
 
               <div className="case-detail-action-row">
-                <Link className="btn btn-accent" href={`/cases/${caseItem.id}/study`}>
-                  进入案例研习
+                <Link className="btn btn-accent case-detail-primary-action" href={primaryContinuation.href}>
+                  {primaryContinuation.label}
                 </Link>
 
                 {hasPdf ? (
-                  <Link className="btn btn-primary" href={`/pdfs/${encodeURIComponent(pdfFileName)}`} target="_blank" rel="noreferrer">
+                  <Link className="btn btn-primary case-detail-secondary-action" href={`/pdfs/${encodeURIComponent(pdfFileName)}`} target="_blank" rel="noreferrer">
                     新窗口打开 PDF
                   </Link>
                 ) : (
-                  <button className="btn btn-primary" type="button" disabled>
-                    暂无 PDF
+                  <button className="btn btn-primary case-detail-secondary-action" type="button" disabled>
+                    PDF 预览待补充
                   </button>
                 )}
 
                 {hasWord ? (
-                  <Link className="btn btn-outline" href={`/words/${encodeURIComponent(wordFileName)}`} target="_blank" rel="noreferrer">
+                  <Link className="btn btn-outline case-detail-secondary-action" href={`/words/${encodeURIComponent(wordFileName)}`} target="_blank" rel="noreferrer">
                     打开 Word 原文
                   </Link>
                 ) : (
-                  <button className="btn btn-outline" type="button" disabled>
-                    暂无 Word
+                  <button className="btn btn-outline case-detail-secondary-action" type="button" disabled>
+                    Word 原文待补充
                   </button>
                 )}
               </div>
 
               <div className="case-detail-action-note-box">
-                <strong>阅读提示</strong>
-                <p>若原文文件暂未提供，仍可结合摘要、事实与争议焦点继续浏览案例内容。</p>
+                <strong>{fileEntryNote.title}</strong>
+                <p>{fileEntryNote.body}</p>
               </div>
             </aside>
           </div>
@@ -175,8 +192,8 @@ export default async function CaseDetailPage({ params }) {
         <section className="glass-sm case-reading-roadmap">
           <div className="case-reading-roadmap-head">
             <div>
-              <h2>案例阅读路径</h2>
-              <p>从基本信息、摘要到原文入口，页面围绕同一份文书组织连续的阅读线索。</p>
+              <h2>三步完成导读判断</h2>
+              <p>先看争议，再看裁判结论与摘要，最后决定是否继续进入案例研习。</p>
             </div>
             <div className="case-reading-roadmap-links">
               {jumpLinks.map((item) => (
@@ -205,8 +222,19 @@ export default async function CaseDetailPage({ params }) {
             <div className="case-detail-section-head">
               <div>
                 <h2>基本信息</h2>
-                <p>围绕法院、案由、日期和裁判结果，建立对案件的基本认识。</p>
+                <p>用法院、案由和裁判结果补齐背景，帮助你判断这份裁判的适读范围。</p>
               </div>
+            </div>
+
+            <div className="case-top-focus-grid">
+              <article className="case-focus-card">
+                <span className="case-focus-label">核心争议</span>
+                <strong>{coreDispute || "待补充"}</strong>
+              </article>
+              <article className="case-focus-card is-outcome">
+                <span className="case-focus-label">裁判结论</span>
+                <strong>{outcomeHeadline || caseItem.resultText || "裁判结论待补充。"}</strong>
+              </article>
             </div>
 
             <div className="case-meta-grid">
@@ -241,7 +269,7 @@ export default async function CaseDetailPage({ params }) {
             <div className="case-detail-section-head">
               <div>
                 <h2>案例摘要</h2>
-                <p>通过摘要把握案件事实、裁判理由与进一步阅读的重点。</p>
+                <p>通过摘要把握案件事实、裁判理由与是否继续细读的依据。</p>
               </div>
             </div>
 
@@ -254,8 +282,8 @@ export default async function CaseDetailPage({ params }) {
             </div>
 
             <div className="case-summary-callout">
-              <strong>阅读提示</strong>
-              <p>可先结合摘要形成初步判断，再进入原文与研习页面继续阅读和分析。</p>
+              <strong>导读提示</strong>
+              <p>若摘要已足以回答你的问题，可先停留在此；若仍想核对论证过程，再进入案例研习或原文。</p>
             </div>
 
             <div className="case-outcome-box case-detail-outcome-box">
@@ -269,7 +297,8 @@ export default async function CaseDetailPage({ params }) {
           <CasePdfDisclosure fileUrl={`/pdfs/${encodeURIComponent(pdfFileName)}`} fileName={pdfFileName} />
         ) : (
           <section className="card case-detail-empty-panel">
-            <p className="case-detail-empty-text">当前案例暂未配置可预览的 PDF 文件，可先结合案例导读与研习入口继续阅读。</p>
+            <strong className="case-detail-empty-title">{fileEntryNote.title}</strong>
+            <p className="case-detail-empty-text">{fileEntryNote.body}</p>
           </section>
         )}
       </div>

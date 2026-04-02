@@ -10,6 +10,13 @@ import {
   selectCanonicalDemoCaseId,
 } from "../../lib/showcase-cases.js";
 import { buildFilterOptions, normalizeCaseRows } from "../../lib/cases-workspace.js";
+import {
+  buildCaseReadingJudgment,
+  buildCaseReadingRoadmap,
+  buildMissingPdfNote,
+  buildOutcomeHeadline,
+  buildPrimaryContinuation,
+} from "../../lib/case-presentation.mjs";
 import { normalizePublicFileName } from "../../lib/data/public-files.js";
 
 test("showcase cases loader returns normalized source cases", async () => {
@@ -105,4 +112,42 @@ test("case-route copy helpers avoid backstage instructional wording", async () =
   assert.equal(/用于组织课堂提问/u.test(text), false);
   assert.equal(/页面保留/u.test(text), false);
   assert.equal(/公开展示模式/u.test(text), false);
+});
+
+test("reading judgment copy frames the detail page as a study decision", async () => {
+  const item = await getShowcaseCaseById("case-0001");
+  const judgment = buildCaseReadingJudgment(item);
+  const roadmap = buildCaseReadingRoadmap(item);
+  const continuation = buildPrimaryContinuation(item);
+
+  assert.ok(judgment.about.length > 0);
+  assert.ok(judgment.whyRead.length > 0);
+  assert.ok(judgment.shouldContinue.length > 0);
+  assert.match(judgment.about, /争议|焦点|围绕/u);
+  assert.match(judgment.whyRead, /裁判|结论|理由/u);
+  assert.match(judgment.shouldContinue, /研习|继续/u);
+  assert.equal(/详情页仅保留/u.test(JSON.stringify(judgment)), false);
+
+  assert.equal(roadmap.length, 3);
+  assert.match(roadmap[0].title, /先判断读什么/u);
+  assert.match(roadmap[1].title, /再判断值不值得细读/u);
+  assert.match(roadmap[2].title, /最后决定是否进入研习/u);
+
+  assert.equal(continuation.label, "进入案例研习");
+  assert.match(continuation.description, /先完成导读判断/u);
+});
+
+test("presentation helpers keep no-pdf messaging intentional", () => {
+  const headline = buildOutcomeHeadline({
+    resultText: "",
+    result: "",
+    summary: "本案争议在于借款关系是否成立。法院最终认定借款事实存在，并支持主要诉请。详情页仅保留导读信息，具体事实认定和裁判理由请结合 PDF 原文阅读。",
+  });
+
+  const note = buildMissingPdfNote({ hasPdf: false, hasWord: false });
+
+  assert.equal(headline, "本案争议在于借款关系是否成立。");
+  assert.match(note.title, /研习入口/u);
+  assert.match(note.body, /不影响继续判断是否进入案例研习/u);
+  assert.equal(/暂无|缺失|降级/u.test(`${note.title}${note.body}`), false);
 });
