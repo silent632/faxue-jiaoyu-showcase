@@ -13,7 +13,7 @@ import {
   submitStudyWorkspace,
 } from "@/lib/study-workspace";
 
-export default function StudyWorkspace({ caseItem, userSid }) {
+export default function StudyWorkspace({ caseItem, userSid, hasPdf = true, mode = "split" }) {
   const { draft, saveInfo, updateDraftField } = useStudyWorkspaceDraft({ caseId: caseItem.id, userSid });
   const [submitFeedback, setSubmitFeedback] = useState(null);
   const [exportFeedback, setExportFeedback] = useState(null);
@@ -24,7 +24,7 @@ export default function StudyWorkspace({ caseItem, userSid }) {
     issue: false,
     analysis: false,
   });
-  const metrics = getStudyWorkspaceMetrics({ caseItem, draft });
+  const metrics = getStudyWorkspaceMetrics({ caseItem, draft, hasPdf });
 
   useEffect(() => {
     setVisibleRefs({
@@ -63,8 +63,10 @@ export default function StudyWorkspace({ caseItem, userSid }) {
   }
 
   return (
-    <div className="study-workspace-shell">
+    <div className={`study-workspace-shell study-workspace-shell-${mode}`}>
       <StudyWorkspaceOverview
+        hasPdf={hasPdf}
+        mode={mode}
         saveInfo={saveInfo}
         doneCount={metrics.doneCount}
         totalChars={metrics.totalChars}
@@ -88,6 +90,8 @@ export default function StudyWorkspace({ caseItem, userSid }) {
       ))}
 
       <StudyWorkspaceActions
+        hasPdf={hasPdf}
+        mode={mode}
         exporting={exporting}
         submitting={submitting}
         exportFeedback={exportFeedback}

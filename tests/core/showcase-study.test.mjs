@@ -4,9 +4,12 @@ import assert from "node:assert/strict";
 import { getShowcaseCanonicalDemoCaseId, getShowcaseCaseStudyById } from "../../lib/showcase-cases.js";
 import {
   getPublicStudyActionState as getPublicStudyActionStateForCopy,
+  getPublicStudyHeadNote,
+  getPublicStudyOverviewDescription,
+  getPublicStudyReaderNote,
   normalizePublicStudyFeedback,
 } from "../../lib/public-showcase-study.js";
-import { getPublicStudyActionState, submitStudyWorkspace } from "../../lib/study-workspace.js";
+import { createEmptyStudyDraft, getPublicStudyActionState, getStudyWorkspaceMetrics, submitStudyWorkspace } from "../../lib/study-workspace.js";
 
 test("showcase study helper returns a real case with structured study steps", async () => {
   const canonicalId = getShowcaseCanonicalDemoCaseId();
@@ -28,6 +31,29 @@ test("public study workspace exposes disabled submit state", () => {
   assert.match(state.submitMessage, /浏览器|提交/u);
   assert.equal(/公开展示模式下/u.test(publicCopy.submitMessage), false);
   assert.equal(/页面保留/u.test(publicCopy.autosaveMessage), false);
+});
+
+test("study helper exposes guide-first copy when pdf is missing", () => {
+  const headNote = getPublicStudyHeadNote({ hasPdf: false });
+  const readerNote = getPublicStudyReaderNote({ hasPdf: false });
+  const overview = getPublicStudyOverviewDescription({ hasPdf: false });
+
+  assert.match(headNote, /导读|争点|结构化研习/u);
+  assert.equal(/裁判文书完成阅读/u.test(headNote), false);
+  assert.match(readerNote, /导读|争议焦点|继续推进/u);
+  assert.equal(/PDF 原文/u.test(readerNote), false);
+  assert.match(overview, /导读|前置阅读|结构化研习/u);
+});
+
+test("study workspace metrics use guide-first guidance when pdf is missing", () => {
+  const metrics = getStudyWorkspaceMetrics({
+    caseItem: { refFact: "a", refIssue: "b", refLegal: "c" },
+    draft: createEmptyStudyDraft(),
+    hasPdf: false,
+  });
+
+  assert.match(metrics.completionText, /导读|事实梳理|争议焦点/u);
+  assert.equal(/右侧|版式/u.test(metrics.completionText), false);
 });
 
 test("submitStudyWorkspace returns public showcase guidance instead of network submission", async () => {

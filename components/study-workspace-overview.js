@@ -1,6 +1,8 @@
 import { getPublicStudyOverviewDescription } from "@/lib/public-showcase-study";
 
 export default function StudyWorkspaceOverview({
+  hasPdf,
+  mode,
   saveInfo,
   doneCount,
   totalChars,
@@ -9,12 +11,12 @@ export default function StudyWorkspaceOverview({
   actionLabel,
 }) {
   return (
-    <section className="study-overview glass-sm">
+    <section className={`study-overview glass-sm${mode === "guide" ? " study-overview-guide" : ""}`}>
       <div className="study-overview-head">
         <div className="study-overview-copy">
           <span className="section-eyebrow">写作工作台</span>
-          <h2 className="study-overview-title">先独立作答，再逐步对照参考</h2>
-          <p className="study-overview-desc">{getPublicStudyOverviewDescription()}</p>
+          <h2 className="study-overview-title">{hasPdf ? "先独立作答，再逐步对照参考" : "跟着导读抓手，完成这次三步研习"}</h2>
+          <p className="study-overview-desc">{getPublicStudyOverviewDescription({ hasPdf })}</p>
         </div>
         <div className="study-save-pill">{saveInfo}</div>
       </div>

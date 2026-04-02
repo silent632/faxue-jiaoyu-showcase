@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import StudyGuideShell from "@/components/study-guide-shell";
 import StudySplitShell from "@/components/study-split-shell";
 import TopNav from "@/components/top-nav";
 import { normalizePublicFileName, publicFileExists } from "@/lib/data/public-files.js";
@@ -21,6 +22,11 @@ export default async function StudyPage({ params }) {
   if (!caseItem) notFound();
   const pdfFileName = normalizePublicFileName(caseItem.pdfFile);
   const hasPdf = await publicFileExists("pdfs", pdfFileName);
+  const shell = hasPdf ? (
+    <StudySplitShell caseItem={caseItem} userSid={user.sid} pdfFileName={pdfFileName} hasPdf={hasPdf} />
+  ) : (
+    <StudyGuideShell caseItem={caseItem} userSid={user.sid} />
+  );
 
   return (
     <main className="study-page-main">
@@ -38,7 +44,7 @@ export default async function StudyPage({ params }) {
 
           <div className="study-head-copy">
             <h1 className="study-head-title">{caseItem.title}</h1>
-            <p className="study-head-note">{getPublicStudyHeadNote()}</p>
+            <p className="study-head-note">{getPublicStudyHeadNote({ hasPdf })}</p>
           </div>
         </div>
 
@@ -48,7 +54,7 @@ export default async function StudyPage({ params }) {
         </div>
       </div>
 
-      <StudySplitShell caseItem={caseItem} userSid={user.sid} pdfFileName={pdfFileName} hasPdf={hasPdf} />
+      {shell}
     </main>
   );
 }

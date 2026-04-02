@@ -12,6 +12,8 @@ function FeedbackBox({ item }) {
 }
 
 export default function StudyWorkspaceActions({
+  hasPdf,
+  mode,
   exporting,
   submitting,
   exportFeedback,
@@ -25,12 +27,16 @@ export default function StudyWorkspaceActions({
   ].filter(Boolean);
 
   return (
-    <section className="study-actions-card card">
+    <section className={`study-actions-card card${mode === "guide" ? " study-actions-card-guide" : ""}`}>
       <div className="study-actions-head">
         <div className="study-actions-copy">
           <span className="section-eyebrow">结尾动作</span>
           <h2 className="study-actions-title">完成这次研习</h2>
-          <p className="study-actions-desc">填写内容可继续保存在当前浏览器中，并在整理完成后导出研习记录。</p>
+          <p className="study-actions-desc">
+            {hasPdf
+              ? "填写内容可继续保存在当前浏览器中，并在整理完成后导出研习记录。"
+              : "先完成三步写作，再把本页整理出的事实、争点与法理分析导出留存。"}
+          </p>
         </div>
       </div>
 

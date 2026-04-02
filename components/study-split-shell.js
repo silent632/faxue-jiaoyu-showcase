@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import PdfViewer from "@/components/pdf-viewer";
-import { getPublicStudyReaderNote, getPublicStudyWriterNote } from "@/lib/public-showcase-study";
 import StudyWorkspace from "@/components/study-workspace";
+import { getPublicStudyReaderNote, getPublicStudyWriterNote } from "@/lib/public-showcase-study";
 
 const STORAGE_KEY = "study-shell-left-pane-width";
 const DEFAULT_LEFT_PANE = 48;
@@ -154,7 +154,7 @@ export default function StudySplitShell({ caseItem, userSid, pdfFileName, hasPdf
             <div className="study-pane-head-copy">
               <span className="study-pane-kicker">结构化输出</span>
               <strong className="study-pane-title">围绕同一份文书完成三步研习</strong>
-              <span className="study-pane-head-note">{getPublicStudyWriterNote()}</span>
+              <span className="study-pane-head-note">{getPublicStudyWriterNote({ hasPdf })}</span>
             </div>
             <button className="btn btn-outline study-pane-reset-btn" type="button" onClick={resetWidth}>
               重置宽度
@@ -162,7 +162,7 @@ export default function StudySplitShell({ caseItem, userSid, pdfFileName, hasPdf
           </div>
 
           <div className="study-pane-scroll">
-            <StudyWorkspace caseItem={caseItem} userSid={userSid} />
+            <StudyWorkspace caseItem={caseItem} userSid={userSid} hasPdf={hasPdf} mode="split" />
           </div>
         </div>
       </section>
