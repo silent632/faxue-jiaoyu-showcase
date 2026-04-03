@@ -83,3 +83,22 @@ test("homepage copy avoids backstage or explanatory design language", () => {
 
   assert.equal(/首屏首先呈现|平台首页说明|围绕案例研习组织平台首屏/u.test(text), false);
 });
+
+test("homepage content exposes a featured video and supporting video list", () => {
+  const content = buildShowcaseContent();
+
+  assert.ok(content.homeVideoBlock);
+  assert.equal(content.homeVideoBlock.featured.slug, "course-01-part-1");
+  assert.equal(content.homeVideoBlock.featured.label, "主视频");
+  assert.equal(content.homeVideoBlock.supporting.length, 6);
+  assert.equal(content.homeVideoBlock.supporting[0].slug, "course-01-part-2");
+  assert.equal(content.homeVideoBlock.supporting[5].slug, "course-02-part-2");
+});
+
+test("homepage video copy stays visitor-facing and avoids internal wording", () => {
+  const text = JSON.stringify(buildShowcaseContent().homeVideoBlock);
+
+  assert.match(text, /第一期上（一） 类案检索与法律适用/u);
+  assert.match(text, /第二期下 理论回应与案例延展/u);
+  assert.equal(/演示|执行|任务|评审/u.test(text), false);
+});
