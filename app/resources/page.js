@@ -4,6 +4,18 @@ import { buildShowcaseContent } from "@/lib/showcase-content";
 
 export default function ResourcesPage() {
   const content = buildShowcaseContent();
+  const sectionMeta = {
+    "教学资源与资源体系": {
+      eyebrow: "实施材料",
+      title: "课堂实施与研习材料",
+      description: "围绕课堂组织、文书导读与研习流程配置基础材料，确保每次课程都能按统一逻辑进入案例学习。",
+    },
+    "标准材料与标准化支撑": {
+      eyebrow: "协同支撑",
+      title: "协同记录与评价支撑",
+      description: "通过统一模板、观察表与评价指标，将双师协作、课堂记录和学生反馈纳入可持续的支撑体系。",
+    },
+  };
   const resourceNotes = {
     "教学材料指南": "围绕课程组织、课堂引用与材料使用形成统一口径。",
     "裁判文书法理导学": "帮助学生从文书阅读进入法理问题的提炼与辨析。",
@@ -23,16 +35,27 @@ export default function ResourcesPage() {
       <div className="showcase-page-body">
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">教学资源</p>
-          <h1>教学资源</h1>
-          <p>围绕课程实施、案例研习与教学评价，平台逐步形成了结构清晰、可持续更新的教学资源体系。</p>
+          <h1>教学资源配置</h1>
+          <p>平台围绕课程实施、案例研习与教学评价逐步沉淀资源材料，形成兼顾课堂使用、协同记录与成果回收的教学支撑体系。</p>
         </section>
+
+        <article className="showcase-card supporting-callout">
+          <span className="showcase-card-eyebrow">资源说明</span>
+          <strong>资源配置服务于课程全过程，而非单一课堂环节。</strong>
+          <ul className="supporting-list">
+            <li>前端材料帮助教师与学生快速进入裁判文书阅读与法理问题辨析。</li>
+            <li>过程性表单保障双师协同、课堂观察与课后回收具有统一依据。</li>
+            <li>评价性材料将学生反馈与研习成果纳入连续改进的教学闭环。</li>
+          </ul>
+        </article>
 
         <div className="stack-grid">
           {content.resources.groups.map((group) => (
             <ShowcaseSection
               key={group.title}
-              title={group.title}
-              description={group.intro}
+              title={sectionMeta[group.title].title}
+              eyebrow={sectionMeta[group.title].eyebrow}
+              description={sectionMeta[group.title].description}
               className="showcase-section-compact"
               aria-label={group.title}
             >

@@ -4,6 +4,11 @@ import { buildShowcaseContent } from "@/lib/showcase-content";
 
 export default function CoursesPage() {
   const content = buildShowcaseContent();
+  const pageHighlights = [
+    "以八期双师课程为主轴，组织从类案检索到数字法理议题的递进式学习。",
+    "每一期围绕明确的课程任务推进事实识别、规范适用与论证表达训练。",
+    "课程节奏兼顾理论展开、案例研习与课堂讨论，保持稳定的学术观摩价值。",
+  ];
   const timelineDetails = [
     { phase: "案例进入", focus: "从类案检索与法律适用切入，建立课程起点。" },
     { phase: "理论展开", focus: "围绕权利义务一致原则展开法理辨析与实践讨论。" },
@@ -22,13 +27,24 @@ export default function CoursesPage() {
       <div className="showcase-page-body">
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">课程体系</p>
-          <h1>课程体系</h1>
-          <p>围绕裁判文书研习组织八期递进式双师课程，在持续推进中形成清晰的课程脉络与法理学学习路径。</p>
+          <h1>双师课程编排</h1>
+          <p>围绕裁判文书研习平台的教学目标，八期课程依次展开检索方法、规范适用、程序规则与数字治理议题，形成可持续推进的法理学学习序列。</p>
         </section>
 
+        <article className="showcase-card supporting-callout">
+          <span className="showcase-card-eyebrow">课程概览</span>
+          <strong>课程编排以“进入案例、展开讨论、形成表达”三条线索组织教学节奏。</strong>
+          <ul className="supporting-list">
+            {pageHighlights.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
+
         <ShowcaseSection
-          title="八期课程脉络"
-          description="课程主题从法律方法、权利义务与程序规则逐步延展到数字治理与前沿法理议题，形成连续推进的教学结构。"
+          title="八期课程进程与主题安排"
+          eyebrow="课程安排"
+          description="课程主题由法律方法、权利义务与程序规则逐步延展至数字治理与前沿法理议题，体现从基础训练到前沿回应的完整教学进程。"
           className="showcase-section-compact"
           aria-label="课程体系时间线"
         >

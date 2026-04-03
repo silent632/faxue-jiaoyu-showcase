@@ -45,10 +45,30 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.homePreview.studyHighlights.length, 3);
   assert.equal(content.platformHighlights.length, 3);
   assert.equal(content.courses.timeline.length, 8);
+  assert.deepEqual(content.courses.timeline.map((item) => item.period), [
+    "第一期",
+    "第二期",
+    "第三期",
+    "第四期",
+    "第五期",
+    "第六期",
+    "第七期",
+    "第八期",
+  ]);
   assert.equal(content.resources.groups.length, 2);
+  assert.deepEqual(content.resources.groups.map((group) => group.title), [
+    "教学资源与资源体系",
+    "标准材料与标准化支撑",
+  ]);
   assert.equal(content.resources.groups[0].items.length, 4);
   assert.equal(content.resources.groups[1].items.length, 5);
   assert.equal(content.impact.sections.length, 4);
+  assert.deepEqual(content.impact.sections.map((item) => item.title), [
+    "教学建设成效",
+    "学生发展成效",
+    "平台运行成效",
+    "推广示范成效",
+  ]);
   assert.equal(content.impact.sections[0].points.length, 3);
 });
 
