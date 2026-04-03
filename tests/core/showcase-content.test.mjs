@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import { getShowcaseCanonicalStudyHref } from "../../lib/showcase-cases.js";
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
@@ -83,4 +84,26 @@ test("showcase content avoids label-board wording in content pages", () => {
   assert.equal(/资源单元/u.test(text), false);
   assert.equal(/价值维度/u.test(text), false);
   assert.equal(/补充说明/u.test(text), false);
+});
+
+test("supporting pages use resilient metadata lookups with fallbacks", () => {
+  const coursesSource = readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8");
+  const resourcesSource = readFileSync(new URL("../../app/resources/page.js", import.meta.url), "utf8");
+  const impactSource = readFileSync(new URL("../../app/impact/page.js", import.meta.url), "utf8");
+
+  assert.equal(coursesSource.includes("timelineDetails[index]"), false);
+  assert.match(coursesSource, /getTimelineDetail/u);
+  assert.match(coursesSource, /\?\?/u);
+
+  assert.equal(resourcesSource.includes("sectionMeta[group.title].title"), false);
+  assert.equal(resourcesSource.includes("resourceNotes[item]"), false);
+  assert.match(resourcesSource, /buildSectionMeta|defaultSectionMeta/u);
+  assert.match(resourcesSource, /buildResourceNote|defaultResourceNote/u);
+  assert.match(resourcesSource, /\?\?/u);
+
+  assert.equal(impactSource.includes("sectionMeta[item.title].title"), false);
+  assert.equal(impactSource.includes("impactNotes[item.title].lead"), false);
+  assert.match(impactSource, /buildSectionMeta|defaultSectionMeta/u);
+  assert.match(impactSource, /buildImpactSummary|defaultImpactSummary/u);
+  assert.match(impactSource, /\?\?/u);
 });
