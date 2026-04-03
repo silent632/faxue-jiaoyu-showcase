@@ -22,9 +22,9 @@ export default async function HomePage() {
         <ShowcaseHomeHero content={content} featuredCases={featuredCases} canonicalStudyHref={studyHref} />
 
         <ShowcaseSection
-          title="平台使用路径"
+          title="平台访问路径"
           eyebrow="平台功能"
-          description="从案例检索、案例阅读到结构化研习，平台围绕同一份裁判文书组织完整的学习过程。"
+          description="从检索、导读到研习输出，平台围绕同一份裁判文书组织连续学习路径。"
         >
           <div className="showcase-flow-grid">
             {content.homeFlow.map((item) => (
@@ -39,18 +39,18 @@ export default async function HomePage() {
           <div className="showcase-chain-links">
             <Link href="/cases" className="showcase-chain-card">
               <span className="showcase-card-eyebrow">案例检索</span>
-              <strong>从检索入手确定阅读范围</strong>
-              <p>围绕案由、年份、层级与法条筛选案例，建立稳定的阅读起点。</p>
+              <strong>先明确同类案例的阅读边界</strong>
+              <p>围绕案由、年份、层级与法条建立稳定的检索起点。</p>
             </Link>
             <Link href={featuredDetailHref} className="showcase-chain-card">
               <span className="showcase-card-eyebrow">案例阅读</span>
-              <strong>在详情页中完成导读判断</strong>
-              <p>结合摘要、案号、法院与裁判结果，判断案例的阅读重点与继续路径。</p>
+              <strong>在详情页完成导读判断</strong>
+              <p>结合摘要、案号与裁判结果确定继续精读的对象。</p>
             </Link>
             <Link href={studyHref} className="showcase-chain-card">
               <span className="showcase-card-eyebrow">研习实践</span>
               <strong>围绕文书完成结构化研习</strong>
-              <p>在阅读区与写作区并置的工作台中推进事实梳理、争议焦点与法理分析。</p>
+              <p>在并置工作台中推进事实梳理、争议焦点与法理分析。</p>
             </Link>
           </div>
         </ShowcaseSection>
@@ -58,7 +58,7 @@ export default async function HomePage() {
         <ShowcaseSection
           title="平台关注的真实问题"
           eyebrow="教学痛点"
-          description="聚焦课堂、课后与实践环节中最常见的三类断点，把法理学教学改革的目标落到可感知的学习体验上。"
+          description="聚焦课堂、课后与实践环节中最常见的三类断点。"
         >
           <div className="showcase-problems">
             {content.problems.map((item, index) => (
@@ -73,7 +73,7 @@ export default async function HomePage() {
         <ShowcaseSection
           title="平台建设亮点"
           eyebrow="建设重点"
-          description="围绕课程实施、案例研习与资源组织，平台形成了清晰、稳定的学习与展示界面。"
+          description="围绕课程实施、案例研习与资源组织形成清晰稳定的展示界面。"
         >
           <div className="showcase-highlight-grid">
             {content.platformHighlights.map((item) => (
@@ -89,13 +89,13 @@ export default async function HomePage() {
         <ShowcaseSection
           title="课程与资源总览"
           eyebrow="体系支撑"
-          description="课程建设、教学资源与项目成效在站内形成统一呈现，便于整体浏览与分项查看。"
+          description="课程建设、教学资源与项目成效在站内形成统一呈现。"
         >
           <div className="showcase-summary-grid">
             <article className="showcase-summary-card">
               <span className="showcase-card-eyebrow">课程体系</span>
               <strong>八期递进式双师课程</strong>
-              <p>{content.courses.timeline.slice(0, 4).map((item) => item.title).join("、")}等主题依次展开，形成连续推进的课程脉络。</p>
+              <p>{content.courses.timeline.slice(0, 3).map((item) => item.title).join("、")}等主题依次展开，形成连续课程脉络。</p>
               <Link href="/courses" className="showcase-inline-link">
                 查看课程体系
               </Link>
@@ -107,7 +107,7 @@ export default async function HomePage() {
               <p>
                 {content.resources.groups
                   .flatMap((group) => group.items)
-                  .slice(0, 4)
+                  .slice(0, 3)
                   .join("、")}
                 等材料共同构成课程实施与研习支持的资源基础。
               </p>
@@ -119,7 +119,7 @@ export default async function HomePage() {
             <article className="showcase-summary-card">
               <span className="showcase-card-eyebrow">建设成效</span>
               <strong>平台、课程与推广三线并进</strong>
-              <p>从教学建设、学生发展、平台运行到推广示范，项目已形成较为完整的成果呈现体系。</p>
+              <p>从教学建设、学生发展到平台运行，项目已形成较完整的成果呈现体系。</p>
               <Link href="/impact" className="showcase-inline-link">
                 查看成效展示
               </Link>

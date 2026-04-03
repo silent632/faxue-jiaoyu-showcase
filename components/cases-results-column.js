@@ -38,17 +38,16 @@ export default function CasesResultsColumn({
   onPageChange,
 }) {
   const visiblePages = buildVisiblePages(currentPage, totalPages);
+  const resultsSummary = filteredCount ? `第 ${pageStart}-${pageEnd} 条，共 ${filteredCount} 条` : "当前无匹配结果";
 
   return (
     <section className="cases-results-column">
       <section className="glass-sm cases-results-head">
         <div className="cases-results-head-top">
           <div className="cases-results-copy">
-            <span className="section-eyebrow">结果列表</span>
+            <span className="section-eyebrow">检索结果</span>
             <h2 className="section-title cases-results-title">{filteredCount ? `当前匹配 ${filteredCount} 条案例` : "暂时没有找到相关案例"}</h2>
-            <p className="section-desc cases-results-desc">
-              {filteredCount ? `当前展示第 ${pageStart}-${pageEnd} 条结果，可结合标题、法院、裁判结果与摘要继续选择阅读对象。` : "可调整检索条件后重新浏览案例结果。"}
-            </p>
+            <p className="section-desc cases-results-desc">{filteredCount ? "结合标题、法院、裁判结果与摘要，继续确定阅读对象。" : "可调整检索条件后重新浏览案例结果。"}</p>
           </div>
 
           <div className="cases-results-actions">
@@ -73,20 +72,23 @@ export default function CasesResultsColumn({
           </div>
         </div>
 
-        {activeFilters.length ? (
-          <div className="active-filter-row">
-            {activeFilters.map((item) => (
-              <span key={item.key} className="active-chip">
-                {item.label}
-                <button type="button" onClick={item.onClear}>
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-        ) : (
-          <p className="cases-results-empty-note">当前未设置筛选条件，可从年份、案由或关键词开始检索。</p>
-        )}
+        <div className="cases-results-toolbar">
+          <div className="cases-results-summary">{resultsSummary}</div>
+          {activeFilters.length ? (
+            <div className="active-filter-row">
+              {activeFilters.map((item) => (
+                <span key={item.key} className="active-chip">
+                  {item.label}
+                  <button type="button" onClick={item.onClear}>
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="cases-results-empty-note">当前未设置筛选条件，可从年份、案由或关键词开始检索。</p>
+          )}
+        </div>
       </section>
 
       {!pageRows.length ? (
@@ -98,10 +100,11 @@ export default function CasesResultsColumn({
           </button>
         </section>
       ) : (
-        pageRows.map((item) => (
+        pageRows.map((item, index) => (
           <section key={item.id} className="glass-sm case-card-shell">
             <div className="case-card-head">
               <div className="case-card-tags">
+                <span className="case-card-index">{String(pageStart + index).padStart(2, "0")}</span>
                 {item.causeFocus ? <span className="tag">{item.causeFocus}</span> : null}
                 {item.courtLevel ? <span className="tag">{item.courtLevel}</span> : null}
                 {item.docType ? <span className="tag">{item.docType}</span> : null}
@@ -137,9 +140,9 @@ export default function CasesResultsColumn({
             ) : null}
 
             <div className="case-card-footer">
-              <span className="case-card-footer-note">可进入详情页继续查看摘要、裁判结论与原文入口。</span>
+              <span className="case-card-footer-note">进入详情页继续查看摘要、裁判结论与原文入口。</span>
               <Link className="btn btn-primary" href={`/cases/${item.id}`}>
-                查看详情
+                进入案例
               </Link>
             </div>
           </section>
@@ -148,6 +151,7 @@ export default function CasesResultsColumn({
 
       {filteredCount ? (
         <section className="card cases-pagination">
+          <span className="cases-pagination-summary">{`第 ${currentPage} / ${totalPages} 页`}</span>
           <button className="btn btn-outline" type="button" disabled={currentPage <= 1} onClick={() => onPageChange(Math.max(1, currentPage - 1))}>
             上一页
           </button>

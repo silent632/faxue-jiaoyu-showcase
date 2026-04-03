@@ -7,12 +7,23 @@ test("homepage content keeps public module structure without backstage wording",
   const content = buildShowcaseContent();
   const text = JSON.stringify({
     site: content.site,
+    hero: content.homeHero,
     flow: content.homeFlow,
     highlights: content.platformHighlights,
     preview: content.homePreview,
   });
 
   assert.equal(content.site.title, "裁判文书研习平台");
+  assert.ok(content.homeHero);
+  assert.equal(content.homeHero.kicker, "平台首页");
+  assert.ok(Array.isArray(content.homeHero.primaryModules));
+  assert.equal(content.homeHero.primaryModules.length, 2);
+  assert.equal(content.homeHero.primaryModules[0].label, "案例检索库");
+  assert.equal(content.homeHero.primaryModules[1].label, "研习工作台");
+  assert.match(content.homeHero.primaryModules[0].description, /检索/u);
+  assert.match(content.homeHero.primaryModules[1].description, /研习/u);
+  assert.ok(Array.isArray(content.homeHero.supportingFacts));
+  assert.equal(content.homeHero.supportingFacts.length, 3);
   assert.ok(content.homePreview);
   assert.ok(Array.isArray(content.homePreview.featuredCases));
   assert.ok(Array.isArray(content.homePreview.studyHighlights));
@@ -31,6 +42,7 @@ test("homepage content exposes a concise public browse flow", () => {
 
   assert.ok(Array.isArray(content.homeFlow));
   assert.equal(content.homeFlow.length, 3);
+  assert.equal(content.homeFlow.every((item) => item.description.length <= 30), true);
   assert.match(content.homeFlow[0].title, /检索/u);
   assert.match(content.homeFlow[1].title, /详情|导读/u);
   assert.match(content.homeFlow[2].title, /研习/u);

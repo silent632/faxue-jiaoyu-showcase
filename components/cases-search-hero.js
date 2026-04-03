@@ -10,19 +10,33 @@ export default function CasesSearchHero({
   onSuggestionsClose,
   onSuggestionSelect,
 }) {
+  const scopeLabel = selectedFilterCount ? `已选 ${selectedFilterCount} 项筛选` : "未加筛选";
+  const guideText = selectedFilterCount
+    ? "当前范围已形成，可继续输入关键词或直接浏览结果。"
+    : "建议先以案由、年份或法院层级缩小结果范围。";
+
   return (
     <section className="glass cases-hero">
       <div className="cases-hero-head">
         <div className="section-head-copy">
           <span className="section-eyebrow">案例检索</span>
           <h1 className="section-title cases-hero-title">案例检索库</h1>
-          <p className="section-desc cases-hero-desc">围绕案由、年份、法院层级与法条组织案例资源，便于从同类主题中比较不同裁判文书。</p>
+          <p className="section-desc cases-hero-desc">围绕案由、年份、法院层级与法条组织案例资源，支持类案比较与文书研读。</p>
         </div>
 
         <div className="cases-hero-stats">
-          <span className="tag">案例库 {totalCount}</span>
-          <span className="tag">{`当前结果 ${filteredCount}`}</span>
-          <span className="tag">{selectedFilterCount ? `已选筛选 ${selectedFilterCount}` : "未加筛选"}</span>
+          <article className="cases-hero-stat">
+            <span>案例库</span>
+            <strong>{totalCount}</strong>
+          </article>
+          <article className="cases-hero-stat">
+            <span>当前结果</span>
+            <strong>{filteredCount}</strong>
+          </article>
+          <article className="cases-hero-stat">
+            <span>筛选状态</span>
+            <strong>{scopeLabel}</strong>
+          </article>
         </div>
       </div>
 
@@ -53,12 +67,12 @@ export default function CasesSearchHero({
             </div>
           ) : null}
         </div>
+
+        <p className="cases-hero-search-hint">可输入案号、案名、法院或关键词，快速定位具体案例。</p>
       </div>
 
       <div className="cases-hero-foot">
-        <p className="cases-hero-footnote">
-          {selectedFilterCount ? "当前已形成检索范围，可继续浏览结果或补充关键词细化阅读对象。" : "可从年份、案由或关键词进入，逐步形成更清晰的阅读范围。"}
-        </p>
+        <p className="cases-hero-footnote">{guideText}</p>
       </div>
     </section>
   );
