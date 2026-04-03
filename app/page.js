@@ -1,6 +1,5 @@
 import Link from "next/link";
 import ShowcaseHomeHero from "@/components/showcase-home-hero";
-import ShowcaseSection from "@/components/showcase-section";
 import TopNav from "@/components/top-nav";
 import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
 import { getShowcaseCanonicalStudyHref, loadShowcaseCases } from "@/lib/showcase-cases";
@@ -12,6 +11,7 @@ export default async function HomePage() {
   const studyHref = getShowcaseCanonicalStudyHref();
   const cases = await loadShowcaseCases();
   const featuredCases = cases.slice(0, 4);
+  const previewCases = featuredCases.slice(0, 3);
   const featuredDetailHref = featuredCases[0] ? `/cases/${featuredCases[0].id}` : "/cases";
 
   return (
@@ -21,111 +21,98 @@ export default async function HomePage() {
       <div className="showcase-page-body">
         <ShowcaseHomeHero content={content} featuredCases={featuredCases} canonicalStudyHref={studyHref} />
 
-        <ShowcaseSection
-          title="平台访问路径"
-          eyebrow="平台功能"
-          description="从检索、导读到研习输出，平台围绕同一份裁判文书组织连续学习路径。"
-        >
-          <div className="showcase-flow-grid">
+        <section className="homepage-path-band showcase-card" aria-label="平台学习链路">
+          <div className="homepage-band-head">
+            <span className="showcase-section-eyebrow">平台链路</span>
+            <h2>从检索、导读到研习，围绕同一份文书完成连续学习</h2>
+            <p>首页保留真实平台的浏览顺序，让访客能够快速理解裁判文书研习的进入方式与使用路径。</p>
+          </div>
+
+          <div className="homepage-path-grid">
             {content.homeFlow.map((item) => (
-              <article key={item.id} className="showcase-flow-card">
-                <span className="showcase-flow-index">{item.id}</span>
+              <article key={item.id} className="homepage-path-card">
+                <span className="homepage-path-index">{item.id}</span>
                 <strong>{item.title}</strong>
                 <p>{item.description}</p>
               </article>
             ))}
           </div>
 
-          <div className="showcase-chain-links">
-            <Link href="/cases" className="showcase-chain-card">
+          <div className="homepage-path-links">
+            <Link href="/cases" className="homepage-path-link">
               <span className="showcase-card-eyebrow">案例检索</span>
-              <strong>先明确同类案例的阅读边界</strong>
-              <p>围绕案由、年份、层级与法条建立稳定的检索起点。</p>
+              <strong>先缩小阅读范围</strong>
+              <p>围绕案由、年份、法院层级与法条建立检索边界。</p>
             </Link>
-            <Link href={featuredDetailHref} className="showcase-chain-card">
-              <span className="showcase-card-eyebrow">案例阅读</span>
-              <strong>在详情页完成导读判断</strong>
-              <p>结合摘要、案号与裁判结果确定继续精读的对象。</p>
+            <Link href={featuredDetailHref} className="homepage-path-link">
+              <span className="showcase-card-eyebrow">案例导读</span>
+              <strong>再判断是否进入精读</strong>
+              <p>结合摘要、案号与裁判结论确定后续阅读重点。</p>
             </Link>
-            <Link href={studyHref} className="showcase-chain-card">
+            <Link href={studyHref} className="homepage-path-link">
               <span className="showcase-card-eyebrow">研习实践</span>
-              <strong>围绕文书完成结构化研习</strong>
-              <p>在并置工作台中推进事实梳理、争议焦点与法理分析。</p>
+              <strong>最后进入结构化研习</strong>
+              <p>围绕同一份文书完成事实梳理、争议焦点与法理分析。</p>
             </Link>
           </div>
-        </ShowcaseSection>
+        </section>
 
-        <ShowcaseSection
-          title="平台关注的真实问题"
-          eyebrow="教学痛点"
-          description="聚焦课堂、课后与实践环节中最常见的三类断点。"
-        >
-          <div className="showcase-problems">
-            {content.problems.map((item, index) => (
-              <article key={item} className="showcase-problem-card">
-                <span className="showcase-problem-index">{String(index + 1).padStart(2, "0")}</span>
-                <p>{item}</p>
-              </article>
+        <section className="homepage-case-preview showcase-card" aria-label="真实案例预览">
+          <div className="homepage-band-head">
+            <span className="showcase-section-eyebrow">真实案例</span>
+            <h2>从典型案例直接进入阅读与研习</h2>
+            <p>案例预览保留真实案例标题与案号信息，用于建立平台内容真实存在的第一印象。</p>
+          </div>
+
+          <div className="homepage-case-preview-list">
+            {previewCases.map((item) => (
+              <Link key={item.id} href={`/cases/${item.id}`} className="homepage-case-card">
+                <span>{item.caseNumber || item.causeFocus || "典型案例"}</span>
+                <strong>{item.title}</strong>
+                <p>{item.summary || item.resultText || "进入案例详情页查看导读、基本信息与原文入口。"}</p>
+              </Link>
             ))}
           </div>
-        </ShowcaseSection>
+        </section>
 
-        <ShowcaseSection
-          title="平台建设亮点"
-          eyebrow="建设重点"
-          description="围绕课程实施、案例研习与资源组织形成清晰稳定的展示界面。"
-        >
-          <div className="showcase-highlight-grid">
+        <section className="homepage-overview-grid" aria-label="课程与资源概览">
+          {content.homeOverview.map((item) => (
+            <Link key={item.href} href={item.href} className="homepage-overview-card showcase-card">
+              <span className="showcase-card-eyebrow">{item.title}</span>
+              <strong>{item.description}</strong>
+              <p>
+                {item.href === "/courses"
+                  ? `${content.courses.timeline.slice(0, 3).map((entry) => entry.title).join("、")}等主题依次展开，形成连续课程脉络。`
+                  : `${content.resources.groups
+                      .flatMap((group) => group.items)
+                      .slice(0, 3)
+                      .join("、")}等材料共同构成课程实施与研习支持的资源基础。`}
+              </p>
+            </Link>
+          ))}
+        </section>
+
+        <section className="homepage-impact-closing showcase-card" aria-label="建设成效收束">
+          <div className="homepage-impact-copy">
+            <span className="showcase-section-eyebrow">建设成效</span>
+            <h2>{content.homeImpactClosing.title}</h2>
+            <p>{content.homeImpactClosing.description}</p>
+          </div>
+
+          <div className="homepage-impact-points">
             {content.platformHighlights.map((item) => (
-              <article key={item.title} className="showcase-highlight-card">
+              <article key={item.title} className="homepage-impact-point">
                 <span className="showcase-card-eyebrow">{item.eyebrow}</span>
                 <strong>{item.title}</strong>
                 <p>{item.description}</p>
               </article>
             ))}
           </div>
-        </ShowcaseSection>
 
-        <ShowcaseSection
-          title="课程与资源总览"
-          eyebrow="体系支撑"
-          description="课程建设、教学资源与项目成效在站内形成统一呈现。"
-        >
-          <div className="showcase-summary-grid">
-            <article className="showcase-summary-card">
-              <span className="showcase-card-eyebrow">课程体系</span>
-              <strong>八期递进式双师课程</strong>
-              <p>{content.courses.timeline.slice(0, 3).map((item) => item.title).join("、")}等主题依次展开，形成连续课程脉络。</p>
-              <Link href="/courses" className="showcase-inline-link">
-                查看课程体系
-              </Link>
-            </article>
-
-            <article className="showcase-summary-card">
-              <span className="showcase-card-eyebrow">教学资源</span>
-              <strong>标准化资源包与支撑材料</strong>
-              <p>
-                {content.resources.groups
-                  .flatMap((group) => group.items)
-                  .slice(0, 3)
-                  .join("、")}
-                等材料共同构成课程实施与研习支持的资源基础。
-              </p>
-              <Link href="/resources" className="showcase-inline-link">
-                查看教学资源
-              </Link>
-            </article>
-
-            <article className="showcase-summary-card">
-              <span className="showcase-card-eyebrow">建设成效</span>
-              <strong>平台、课程与推广三线并进</strong>
-              <p>从教学建设、学生发展到平台运行，项目已形成较完整的成果呈现体系。</p>
-              <Link href="/impact" className="showcase-inline-link">
-                查看成效展示
-              </Link>
-            </article>
-          </div>
-        </ShowcaseSection>
+          <Link href={content.homeImpactClosing.href} className="showcase-home-panel-link">
+            查看成效展示
+          </Link>
+        </section>
       </div>
     </main>
   );
