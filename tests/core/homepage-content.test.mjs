@@ -72,6 +72,9 @@ test("homepage uses homepage-specific sections instead of repeating generic card
   assert.match(source, /homepage-path-band/u);
   assert.match(source, /homepage-case-preview/u);
   assert.match(source, /homepage-overview-grid/u);
+  assert.match(source, /homepage-video-block/u);
+  assert.match(source, /homepage-video-featured/u);
+  assert.match(source, /homepage-video-grid/u);
   assert.match(source, /homepage-impact-closing/u);
 });
 
@@ -101,4 +104,13 @@ test("homepage video copy stays visitor-facing and avoids internal wording", () 
   assert.match(text, /第一期上（一） 类案检索与法律适用/u);
   assert.match(text, /第二期下 理论回应与案例延展/u);
   assert.equal(/演示|执行|任务|评审/u.test(text), false);
+});
+
+test("homepage video block styles support featured and supporting card layouts", () => {
+  const source = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+
+  assert.match(source, /\.homepage-video-block/u);
+  assert.match(source, /\.homepage-video-featured/u);
+  assert.match(source, /\.homepage-video-grid/u);
+  assert.match(source, /\.homepage-video-cover/u);
 });
