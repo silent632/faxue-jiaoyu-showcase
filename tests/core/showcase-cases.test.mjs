@@ -9,7 +9,7 @@ import {
   loadShowcaseCases,
   selectCanonicalDemoCaseId,
 } from "../../lib/showcase-cases.js";
-import { buildFilterOptions, normalizeCaseRows } from "../../lib/cases-workspace.js";
+import { buildFilterOptions, buildStarterActions, normalizeCaseRows } from "../../lib/cases-workspace.js";
 import {
   buildCaseReadingJudgment,
   buildCaseReadingRoadmap,
@@ -83,6 +83,35 @@ test("real showcase cases can build workspace filter options", async () => {
   assert.ok(Array.isArray(options.year));
   assert.ok(Array.isArray(options.courtLevel));
   assert.ok(Array.isArray(options.docType));
+});
+
+test("starter actions expose year quick actions with the correct field metadata", async () => {
+  const rows = normalizeCaseRows(await loadShowcaseCases());
+  const actions = buildStarterActions({
+    rows,
+    filtered: rows,
+    filters: {
+      keyword: "",
+      causeL1: "",
+      causeL2: "",
+      causeL3: "",
+      courtLevel: [],
+      year: "",
+      docType: [],
+      procedure: [],
+      province: [],
+      result: [],
+      lawName: [],
+      lawArticle: [],
+    },
+  });
+
+  const yearAction = actions.find((item) => item.field === "year");
+
+  assert.ok(yearAction);
+  assert.match(yearAction.value, /^\d{4}$/u);
+  assert.equal(yearAction.key, `year:${yearAction.value}`);
+  assert.equal(yearAction.label, yearAction.value);
 });
 
 test("showcase case detail data exposes metadata needed by the real detail page", async () => {
