@@ -12,6 +12,7 @@ import {
   buildCasesQueryString,
   buildFilterOptions,
   buildNarrowingSuggestions,
+  resolveCasesStateFromSearchParams,
   buildStarterActions,
   getFilteredRows,
   getKeywordSuggestions,
@@ -31,6 +32,22 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState({});
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const syncFromLocation = () => {
+      const nextState = resolveCasesStateFromSearchParams(new URLSearchParams(window.location.search));
+      setFilters(nextState.filters);
+      setKeywordInput(nextState.keywordInput);
+      setSortMode(nextState.sortMode);
+      setCurrentPage(nextState.currentPage);
+    };
+
+    syncFromLocation();
+    window.addEventListener("popstate", syncFromLocation);
+    return () => window.removeEventListener("popstate", syncFromLocation);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
