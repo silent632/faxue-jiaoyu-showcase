@@ -92,6 +92,52 @@ export default async function HomePage() {
           ))}
         </section>
 
+        <section className="homepage-video-block showcase-card" aria-label="课程视频展示">
+          <div className="homepage-band-head">
+            <span className="showcase-section-eyebrow">课程视频</span>
+            <h2>{content.homeVideoBlock.title}</h2>
+            <p>{content.homeVideoBlock.description}</p>
+          </div>
+
+          <div className="homepage-video-featured">
+            <div className="homepage-video-cover homepage-video-cover-featured">
+              <span className="homepage-video-cover-label">{content.homeVideoBlock.featured.label}</span>
+              <strong>{content.homeVideoBlock.featured.title}</strong>
+              <p>{content.homeVideoBlock.featured.summary}</p>
+            </div>
+
+            <article className="homepage-video-featured-card">
+              <span className="showcase-card-eyebrow">重点观看</span>
+              <strong>{content.homeVideoBlock.featured.title}</strong>
+              <p>{content.homeVideoBlock.featured.summary}</p>
+              <p className="homepage-video-purpose">{content.homeVideoBlock.featured.purpose}</p>
+              <a href={content.homeVideoBlock.featured.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+                点击观看
+              </a>
+            </article>
+          </div>
+
+          <div className="homepage-video-grid">
+            {content.homeVideoBlock.supporting.map((item) => (
+              <article key={item.slug} className="homepage-video-card">
+                <div className="homepage-video-cover">
+                  <span className="homepage-video-cover-label">{item.label}</span>
+                  <strong>{item.title}</strong>
+                  <p>{item.summary}</p>
+                </div>
+                <div className="homepage-video-card-copy">
+                  <span className="showcase-card-eyebrow">课程视频</span>
+                  <strong>{item.title}</strong>
+                  <p>{item.purpose}</p>
+                  <a href={item.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+                    点击观看
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="homepage-impact-closing showcase-card" aria-label="建设成效收束">
           <div className="homepage-impact-copy">
             <span className="showcase-section-eyebrow">建设成效</span>
