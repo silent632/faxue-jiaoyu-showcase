@@ -1,26 +1,7 @@
 import ShowcaseSection from "@/components/showcase-section";
 import ShowcaseNav from "@/components/showcase-nav";
 import { buildShowcaseContent } from "@/lib/showcase-content";
-
-const timelineDetailsByPeriod = {
-  第一期: { phase: "案例进入", focus: "从类案检索与法律适用切入，建立课程起点。" },
-  第二期: { phase: "理论展开", focus: "围绕权利义务一致原则展开法理辨析与实践讨论。" },
-  第三期: { phase: "研讨推进", focus: "把商事争议中的事实识别、证据梳理与程序判断纳入课堂。" },
-  第四期: { phase: "方法训练", focus: "围绕权利救济与规范适用，训练更稳定的法律表达。" },
-  第五期: { phase: "规则专题", focus: "以非法证据排除为例，推进规则理解与课堂讨论。" },
-  第六期: { phase: "数字议题", focus: "聚焦人脸识别中的同意边界与权利保护问题。" },
-  第七期: { phase: "治理前沿", focus: "围绕平台劳动与算法治理，延展法理学视野。" },
-  第八期: { phase: "前沿收束", focus: "以生成式 AI 的责任边界回应技术发展中的新问题。" },
-};
-
-const defaultTimelineDetail = {
-  phase: "课程推进",
-  focus: "围绕案例研习、规范适用与课堂讨论组织连续推进的法理学习。",
-};
-
-function getTimelineDetail(item) {
-  return timelineDetailsByPeriod[item.period] ?? timelineDetailsByPeriod[item.title] ?? defaultTimelineDetail;
-}
+import { getCourseTimelineDetail } from "@/lib/showcase-supporting-page-meta";
 
 export default function CoursesPage() {
   const content = buildShowcaseContent();
@@ -60,7 +41,7 @@ export default function CoursesPage() {
         >
           <div className="timeline-grid">
             {content.courses.timeline.map((item) => {
-              const detail = getTimelineDetail(item);
+              const detail = getCourseTimelineDetail(item);
 
               return (
                 <article key={`${item.period}-${item.title}`} className="showcase-card course-card">

@@ -1,9 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
 
 import { getShowcaseCanonicalStudyHref } from "../../lib/showcase-cases.js";
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
+import {
+  buildImpactSummary,
+  buildImpactSectionMeta,
+  buildResourceNote,
+  buildResourceSectionMeta,
+  getCourseTimelineDetail,
+} from "../../lib/showcase-supporting-page-meta.js";
 
 test("showcase content exposes approved title, nav, metrics, and page sections", () => {
   const content = buildShowcaseContent();
@@ -23,22 +29,44 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.metrics.totalVisits.label, "累计访问");
   assert.equal(content.metrics.totalVisits.value, "2万+");
   assert.equal(content.metrics.totalVisits.raw, 20000);
+  assert.deepEqual(content.nav.map((item) => item.label), [
+    "首页",
+    "案例检索",
+    "研习工作台",
+    "成效展示",
+    "课程视频",
+    "课程体系",
+  ]);
   assert.deepEqual(content.nav.map((item) => item.href), [
     "/",
-    "/courses",
-    "/resources",
     "/cases",
     getShowcaseCanonicalStudyHref(),
     "/impact",
+    "/resources",
+    "/courses",
   ]);
   assert.deepEqual(content.nav.map((item) => item.matchKind || item.matchPrefix), [
     "/",
-    "/courses",
-    "/resources",
     "cases",
     "study",
     "/impact",
+    "/resources",
+    "/courses",
   ]);
+  assert.ok(content.homeDashboard);
+  assert.ok(content.homeDashboard.hero);
+  assert.ok(Array.isArray(content.homeDashboard.kpis));
+  assert.equal(content.homeDashboard.kpis.length >= 3, true);
+  assert.ok(content.homeDashboard.trendSnapshot);
+  assert.ok(content.impactDashboard);
+  assert.ok(Array.isArray(content.impactDashboard.trendPanels));
+  assert.equal(content.impactDashboard.trendPanels.length >= 2, true);
+  assert.ok(Array.isArray(content.impactDashboard.coverageCards));
+  assert.equal(content.impactDashboard.coverageCards.length >= 2, true);
+  assert.ok(content.videoHub);
+  assert.ok(content.videoHub.featured);
+  assert.ok(Array.isArray(content.videoHub.playlist));
+  assert.equal(content.videoHub.playlist.length >= 1, true);
   assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", canonicalDetailHref, canonicalStudyHref]);
   assert.equal(content.homeFlow.length, 3);
   assert.ok(content.homePreview);
@@ -86,24 +114,72 @@ test("showcase content avoids label-board wording in content pages", () => {
   assert.equal(/补充说明/u.test(text), false);
 });
 
+test("operations-first dashboards present formed impact and platform metrics semantics", () => {
+  const content = buildShowcaseContent();
+  const heroText = JSON.stringify(content.homeDashboard?.hero || {});
+  const kpiLabels = (content.homeDashboard?.kpis || []).map((item) => item.label);
+
+  assert.match(heroText, /应用成果|平台成效/u);
+  assert.match(heroText, /推广影响|推广应用/u);
+  assert.match(heroText, /已形成/u);
+  assert.equal(/先完成|再进入|最后/u.test(heroText), false);
+
+  assert.ok(kpiLabels.includes("注册用户"));
+  assert.ok(kpiLabels.includes("累计访问"));
+  assert.ok(kpiLabels.includes("活跃用户"));
+  assert.ok(kpiLabels.includes("工作台回访率"));
+  assert.ok(kpiLabels.includes("案例检索使用占比"));
+  assert.equal(kpiLabels.includes("典型案例"), false);
+  assert.equal(kpiLabels.includes("双师课程"), false);
+
+  assert.ok(Array.isArray(content.impactDashboard?.trendPanels));
+  assert.ok(content.impactDashboard.trendPanels.length >= 2);
+  assert.ok(content.impactDashboard.trendPanels.every((panel) => typeof panel.metricLabel === "string" && panel.metricLabel.length > 0));
+  assert.ok(content.impactDashboard.trendPanels.every((panel) => typeof panel.metricValue === "string" && /\d/.test(panel.metricValue)));
+  assert.ok(content.impactDashboard.trendPanels.some((panel) => /活跃用户|回访率|访问/u.test(panel.metricLabel)));
+
+  assert.ok(Array.isArray(content.impactDashboard?.coverageCards));
+  assert.ok(content.impactDashboard.coverageCards.length >= 2);
+  assert.ok(content.impactDashboard.coverageCards.every((card) => typeof card.coverageValue === "string" && /\d/.test(card.coverageValue)));
+  assert.ok(content.impactDashboard.coverageCards.some((card) => /覆盖/u.test(card.title)));
+});
+
 test("supporting pages use resilient metadata lookups with fallbacks", () => {
-  const coursesSource = readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8");
-  const resourcesSource = readFileSync(new URL("../../app/resources/page.js", import.meta.url), "utf8");
-  const impactSource = readFileSync(new URL("../../app/impact/page.js", import.meta.url), "utf8");
+  assert.deepEqual(getCourseTimelineDetail({ period: "第九期" }), {
+    phase: "课程推进",
+    focus: "围绕案例研习、规范适用与课堂讨论组织连续推进的法理学习。",
+  });
+  assert.deepEqual(getCourseTimelineDetail({ period: "第一期" }), {
+    phase: "案例进入",
+    focus: "从类案检索与法律适用切入，建立课程起点。",
+  });
 
-  assert.equal(coursesSource.includes("timelineDetails[index]"), false);
-  assert.match(coursesSource, /getTimelineDetail/u);
-  assert.match(coursesSource, /\?\?/u);
+  assert.deepEqual(buildResourceSectionMeta({ title: "未知资源组", intro: "自定义说明" }), {
+    eyebrow: "资源配置",
+    title: "未知资源组",
+    description: "自定义说明",
+  });
+  assert.equal(
+    buildResourceNote({ title: "未知资源组" }, "未知材料"),
+    "未知资源组中的材料围绕课程实施、研习支持与成果回收提供稳定支撑。"
+  );
+  assert.deepEqual(buildResourceSectionMeta({ title: "教学资源与资源体系" }), {
+    eyebrow: "实施材料",
+    title: "课堂实施与研习材料",
+    description: "围绕课堂组织、文书导读与研习流程配置基础材料，确保每次课程都能按统一逻辑进入案例学习。",
+  });
 
-  assert.equal(resourcesSource.includes("sectionMeta[group.title].title"), false);
-  assert.equal(resourcesSource.includes("resourceNotes[item]"), false);
-  assert.match(resourcesSource, /buildSectionMeta|defaultSectionMeta/u);
-  assert.match(resourcesSource, /buildResourceNote|defaultResourceNote/u);
-  assert.match(resourcesSource, /\?\?/u);
-
-  assert.equal(impactSource.includes("sectionMeta[item.title].title"), false);
-  assert.equal(impactSource.includes("impactNotes[item.title].lead"), false);
-  assert.match(impactSource, /buildSectionMeta|defaultSectionMeta/u);
-  assert.match(impactSource, /buildImpactSummary|defaultImpactSummary/u);
-  assert.match(impactSource, /\?\?/u);
+  assert.deepEqual(buildImpactSectionMeta({ title: "未知成效", intro: "自定义成效说明" }), {
+    eyebrow: "项目成效",
+    title: "未知成效",
+    description: "自定义成效说明",
+  });
+  assert.deepEqual(buildImpactSummary({ title: "未知成效", intro: "自定义成效说明", points: ["A", "B", "C", "D"] }), {
+    lead: "自定义成效说明",
+    points: ["A", "B", "C"],
+  });
+  assert.deepEqual(buildImpactSummary({ title: "平台运行成效" }), {
+    lead: "平台将课程、案例与资源组织为统一入口，支撑持续运行与集中展示。",
+    points: ["案例、课程与资源形成统一归档", "支持教学记录与学习成果沉淀", "平台结构具备持续扩展能力"],
+  });
 });

@@ -2,28 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { buildShowcaseNavItems } from "@/lib/showcase-content";
+import { isShowcaseNavItemActive } from "@/lib/showcase-nav-match";
 
-const NAV_ITEMS = [
-  { href: "/", label: "首页" },
-  { href: "/courses", label: "课程体系" },
-  { href: "/resources", label: "教学资源" },
-  { href: "/cases", label: "案例检索库" },
-  { href: "/cases/case-0001/study", label: "研习工作台", matchPrefix: "/cases/" },
-  { href: "/impact", label: "成效展示" },
-];
-
-function isActive(pathname, item) {
-  if (item.href === "/cases") {
-    return pathname === "/cases" || /^\/cases\/[^/]+\/?$/u.test(pathname || "");
-  }
-  if (item.label === "研习工作台") {
-    return /^\/cases\/[^/]+\/study\/?$/u.test(pathname || "");
-  }
-  return pathname === item.href || pathname?.startsWith(item.matchPrefix || `${item.href}/`);
-}
-
-export default function TopNav({ user }) {
+export default function TopNav({ user, items }) {
   const pathname = usePathname();
+  const navItems = items ?? buildShowcaseNavItems();
 
   return (
     <header className="topbar showcase-topbar">
@@ -37,11 +21,20 @@ export default function TopNav({ user }) {
 
         <nav className="topbar-links" aria-label="主导航">
           <div className="topbar-links-track">
-            {NAV_ITEMS.map((item) => (
-              <Link key={`${item.href}-${item.label}`} href={item.href} className={`nav-tab${isActive(pathname, item) ? " active" : ""}`}>
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const active = isShowcaseNavItemActive(pathname || "", item);
+
+              return (
+                <Link
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                  className={`nav-tab${active ? " active" : ""}`}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
         </nav>
 
