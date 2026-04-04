@@ -4,113 +4,62 @@ import { readFileSync } from "node:fs";
 
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
 
-test("homepage content keeps public module structure without backstage wording", () => {
+test("homepage dashboard content keeps operations metrics and trend snapshot", () => {
   const content = buildShowcaseContent();
-  const text = JSON.stringify({
-    site: content.site,
-    hero: content.homeHero,
-    flow: content.homeFlow,
-    highlights: content.platformHighlights,
-    preview: content.homePreview,
-  });
+  const text = JSON.stringify(content.homeDashboard);
 
   assert.equal(content.site.title, "裁判文书研习平台");
-  assert.ok(content.homeHero);
-  assert.equal(content.homeHero.kicker, "平台首页");
-  assert.ok(Array.isArray(content.homeHero.primaryModules));
-  assert.equal(content.homeHero.primaryModules.length, 3);
-  assert.equal(content.homeHero.primaryModules[0].label, "案例检索库");
-  assert.equal(content.homeHero.primaryModules[1].label, "研习工作台");
-  assert.equal(content.homeHero.primaryModules[2].label, "课程体系");
-  assert.match(content.homeHero.primaryModules[0].description, /检索/u);
-  assert.match(content.homeHero.primaryModules[1].description, /研习/u);
-  assert.ok(content.homeHero.metricsIntro);
-  assert.ok(Array.isArray(content.homeHero.supportingFacts));
-  assert.equal(content.homeHero.supportingFacts.length, 3);
-  assert.ok(content.homePreview);
-  assert.ok(Array.isArray(content.homePreview.featuredCases));
-  assert.ok(Array.isArray(content.homePreview.studyHighlights));
-  assert.ok(content.homePreview.featuredCases.length >= 3);
-  assert.ok(content.homePreview.studyHighlights.length >= 3);
+  assert.ok(content.homeDashboard);
+  assert.equal(content.homeDashboard.hero.title, "平台成效与应用成果看板");
+  assert.match(content.homeDashboard.hero.summary, /应用成果与推广影响/u);
+  assert.ok(Array.isArray(content.homeDashboard.kpis));
+  assert.equal(content.homeDashboard.kpis.length >= 5, true);
+  assert.ok(Array.isArray(content.homeDashboard.trendSnapshot.points));
+  assert.equal(content.homeDashboard.trendSnapshot.points.length >= 3, true);
   assert.ok(content.homeEntries.some((item) => item.label === "案例检索库"));
   assert.ok(content.homeEntries.some((item) => item.label === "研习工作台"));
-  assert.ok(Array.isArray(content.homeCasePreview));
-  assert.equal(content.homeCasePreview.length >= 3, true);
-  assert.ok(Array.isArray(content.homeOverview));
-  assert.equal(content.homeOverview.length, 2);
-  assert.ok(content.homeImpactClosing);
-  assert.equal(/真实模块预览/u.test(text), false);
-  assert.equal(/展示站/u.test(text), false);
-  assert.equal(/直接接上真实平台链路/u.test(text), false);
-  assert.equal(/公开展示模式下/u.test(text), false);
+  assert.equal(/推广影响/u.test(text), true);
+  assert.equal(/看板/u.test(text), true);
 });
 
-test("homepage content exposes a concise public browse flow", () => {
-  const content = buildShowcaseContent();
-
-  assert.ok(Array.isArray(content.homeFlow));
-  assert.equal(content.homeFlow.length, 3);
-  assert.equal(content.homeFlow.every((item) => item.description.length <= 30), true);
-  assert.match(content.homeFlow[0].title, /检索/u);
-  assert.match(content.homeFlow[1].title, /详情|导读/u);
-  assert.match(content.homeFlow[2].title, /研习/u);
-  assert.equal(/首页/u.test(content.homeFlow[0].description), false);
-});
-
-test("homepage hero exposes left narrative and right module hall", () => {
-  const source = readFileSync(new URL("../../components/showcase-home-hero.js", import.meta.url), "utf8");
-
-  assert.match(source, /showcase-home-hall/u);
-  assert.match(source, /showcase-home-hall-main/u);
-  assert.match(source, /showcase-home-hall-aside/u);
-  assert.equal(source.includes("核心入口一"), false);
-});
-
-test("homepage uses homepage-specific sections instead of repeating generic cards", () => {
+test("homepage page layout is operations-first with required structure classes", () => {
   const source = readFileSync(new URL("../../app/page.js", import.meta.url), "utf8");
 
-  assert.match(source, /homepage-path-band/u);
-  assert.match(source, /homepage-case-preview/u);
-  assert.match(source, /homepage-overview-grid/u);
-  assert.match(source, /homepage-video-block/u);
-  assert.match(source, /homepage-video-featured/u);
-  assert.match(source, /homepage-video-grid/u);
-  assert.match(source, /homepage-impact-closing/u);
+  assert.match(source, /homepage-operations-kpis/u);
+  assert.match(source, /homepage-trend-summary/u);
+  assert.match(source, /homepage-coverage-band/u);
+  assert.match(source, /homepage-platform-entry-grid/u);
+  assert.equal(source.includes("homepage-path-band"), false);
+  assert.equal(source.includes("homepage-case-preview"), false);
+  assert.equal(source.includes("homepage-overview-grid"), false);
+});
+
+test("homepage content keeps platform entry links after the operations overview", () => {
+  const content = buildShowcaseContent();
+
+  assert.ok(Array.isArray(content.homeEntries));
+  assert.equal(content.homeEntries.length >= 3, true);
+  assert.ok(content.homeEntries.some((item) => item.label === "案例检索库"));
+  assert.ok(content.homeEntries.some((item) => item.label === "研习工作台"));
+  assert.ok(content.impactDashboard);
+  assert.ok(Array.isArray(content.impactDashboard.coverageCards));
+  assert.equal(content.impactDashboard.coverageCards.length >= 2, true);
+});
+
+test("homepage operations styles include new operations-first layout classes", () => {
+  const source = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+
+  assert.match(source, /\.homepage-operations-kpis/u);
+  assert.match(source, /\.homepage-trend-summary/u);
+  assert.match(source, /\.homepage-coverage-band/u);
+  assert.match(source, /\.homepage-platform-entry-grid/u);
 });
 
 test("homepage copy avoids backstage or explanatory design language", () => {
-  const text = [
-    readFileSync(new URL("../../app/page.js", import.meta.url), "utf8"),
-    readFileSync(new URL("../../components/showcase-home-hero.js", import.meta.url), "utf8"),
-  ].join("\n");
+  const text = JSON.stringify(buildShowcaseContent());
 
-  assert.equal(/首屏首先呈现|平台首页说明|围绕案例研习组织平台首屏/u.test(text), false);
-});
-
-test("homepage content exposes a featured video and supporting video list", () => {
-  const content = buildShowcaseContent();
-
-  assert.ok(content.homeVideoBlock);
-  assert.equal(content.homeVideoBlock.featured.slug, "course-01-part-1");
-  assert.equal(content.homeVideoBlock.featured.label, "主视频");
-  assert.equal(content.homeVideoBlock.supporting.length, 6);
-  assert.equal(content.homeVideoBlock.supporting[0].slug, "course-01-part-2");
-  assert.equal(content.homeVideoBlock.supporting[5].slug, "course-02-part-2");
-});
-
-test("homepage video copy stays visitor-facing and avoids internal wording", () => {
-  const text = JSON.stringify(buildShowcaseContent().homeVideoBlock);
-
-  assert.match(text, /第一期上（一） 类案检索与法律适用/u);
-  assert.match(text, /第二期下 理论回应与案例延展/u);
-  assert.equal(/演示|执行|任务|评审/u.test(text), false);
-});
-
-test("homepage video block styles support featured and supporting card layouts", () => {
-  const source = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
-
-  assert.match(source, /\.homepage-video-block/u);
-  assert.match(source, /\.homepage-video-featured/u);
-  assert.match(source, /\.homepage-video-grid/u);
-  assert.match(source, /\.homepage-video-cover/u);
+  assert.equal(/真实模块预览/u.test(text), false);
+  assert.equal(/展示站/u.test(text), false);
+  assert.equal(/直接接上真实平台链路/u.test(text), false);
+  assert.equal(/公开展示模式/u.test(text), false);
 });

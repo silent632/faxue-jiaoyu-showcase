@@ -3317,3 +3317,226 @@ main {
     border-radius: 20px;
   }
 }
+
+.showcase-home-kpi-inline {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.showcase-home-kpi-pill {
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(35, 67, 93, 0.1);
+  background: rgba(255, 255, 255, 0.82);
+  display: grid;
+  gap: 6px;
+}
+
+.showcase-home-kpi-pill span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.showcase-home-kpi-pill strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.showcase-home-trend-points {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.homepage-operations-kpis,
+.homepage-trend-summary {
+  margin-top: 24px;
+}
+
+.homepage-operations-band,
+.homepage-trend-panel,
+.homepage-coverage-band,
+.homepage-platform-entry-grid {
+  border-radius: 28px;
+  padding: 28px;
+}
+
+.homepage-kpi-grid,
+.homepage-coverage-grid,
+.homepage-platform-entry-list,
+.homepage-platform-live-list {
+  display: grid;
+  gap: 14px;
+}
+
+.homepage-kpi-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.homepage-kpi-card,
+.homepage-trend-card,
+.homepage-coverage-card,
+.homepage-platform-entry-card,
+.homepage-platform-case-card {
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.homepage-kpi-card {
+  display: grid;
+  gap: 8px;
+}
+
+.homepage-kpi-card span,
+.homepage-coverage-card span,
+.homepage-trend-card span,
+.homepage-platform-case-card span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.homepage-kpi-card strong {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  line-height: 1.2;
+}
+
+.homepage-trend-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 16px;
+}
+
+.homepage-trend-points {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  line-height: 1.72;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  padding-top: 18px;
+  padding-bottom: 18px;
+  padding-right: 18px;
+}
+
+.homepage-trend-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.homepage-trend-card {
+  display: grid;
+  gap: 8px;
+}
+
+.homepage-trend-card strong,
+.homepage-coverage-card strong,
+.homepage-platform-entry-card strong,
+.homepage-platform-case-card strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.homepage-trend-card p,
+.homepage-coverage-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.homepage-trend-card small {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.homepage-coverage-band {
+  margin-top: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.96), rgba(246, 241, 233, 0.98)),
+    radial-gradient(circle at top right, rgba(35, 67, 93, 0.08), transparent 42%);
+}
+
+.homepage-coverage-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.homepage-coverage-card {
+  display: grid;
+  gap: 8px;
+}
+
+.homepage-coverage-card strong {
+  font-size: 1.45rem;
+}
+
+.homepage-platform-entry-grid {
+  margin-top: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.homepage-platform-entry-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.homepage-platform-entry-card {
+  display: grid;
+  gap: 8px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(250, 245, 237, 0.96));
+  transition: transform 160ms ease;
+}
+
+.homepage-platform-live-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.homepage-platform-case-card {
+  display: grid;
+  gap: 8px;
+}
+
+.homepage-platform-entry-card:hover,
+.homepage-platform-entry-card:focus-visible,
+.homepage-platform-case-card:hover,
+.homepage-platform-case-card:focus-visible {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 1100px) {
+  .showcase-home-kpi-inline,
+  .homepage-kpi-grid,
+  .homepage-trend-cards,
+  .homepage-platform-entry-list,
+  .homepage-platform-live-list {
+    grid-template-columns: 1fr;
+  }
+
+  .homepage-trend-layout,
+  .homepage-coverage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .homepage-operations-band,
+  .homepage-trend-panel,
+  .homepage-coverage-band,
+  .homepage-platform-entry-grid {
+    border-radius: 22px;
+    padding: 20px;
+  }
+}

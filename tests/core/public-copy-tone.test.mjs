@@ -25,13 +25,19 @@ test("showcase content avoids task-execution and backstage language", () => {
   }
 });
 
-test("showcase content reads like a public project website", () => {
+test("showcase content reads like an operations-results homepage", () => {
   const content = buildShowcaseContent();
 
   assert.equal(content.site.title, "裁判文书研习平台");
   assert.match(content.site.subtitle, /法理学教学改革/u);
-  assert.ok(content.homeEntries.length === 3);
-  assert.ok(content.platformHighlights.length === 3);
-  assert.ok(content.homePreview.featuredCases.length === 3);
-  assert.ok(content.homePreview.studyHighlights.length === 3);
+  assert.ok(content.homeEntries.length >= 3);
+  assert.ok(content.platformHighlights.length >= 3);
+  assert.ok(content.homeDashboard);
+  assert.match(content.homeDashboard.hero.title, /成效|成果/u);
+  assert.match(content.homeDashboard.hero.summary, /已形成/u);
+  assert.match(content.homeDashboard.hero.summary, /推广影响/u);
+  assert.equal(Array.isArray(content.homeDashboard.kpis), true);
+  assert.equal(content.homeDashboard.kpis.length >= 4, true);
+  assert.equal(Array.isArray(content.homeDashboard.trendSnapshot.points), true);
+  assert.equal(content.homeDashboard.trendSnapshot.points.length >= 3, true);
 });
