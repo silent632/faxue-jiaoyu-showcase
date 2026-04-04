@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { buildShowcaseNavItems } from "@/lib/showcase-content";
 import { isShowcaseNavItemActive } from "@/lib/showcase-nav-match";
 
 export default function ShowcaseNav({ items }) {
   const pathname = usePathname();
+  const navItems = items ?? buildShowcaseNavItems();
 
   return (
     <header className="showcase-nav">
@@ -16,7 +18,7 @@ export default function ShowcaseNav({ items }) {
         </Link>
 
         <nav className="showcase-nav-links" aria-label="主导航">
-          {items.map((item) => {
+          {navItems.map((item) => {
             const active = isShowcaseNavItemActive(pathname, item);
 
             return (

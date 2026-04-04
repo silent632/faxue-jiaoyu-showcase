@@ -144,6 +144,33 @@ test("operations-first dashboards present formed impact and platform metrics sem
   assert.ok(content.impactDashboard.coverageCards.some((card) => /覆盖/u.test(card.title)));
 });
 
+test("impact dashboard source data is ready for trend-coverage-video composition", () => {
+  const content = buildShowcaseContent();
+  const trendPanels = content.impactDashboard?.trendPanels ?? [];
+  const coverageCards = content.impactDashboard?.coverageCards ?? [];
+  const featuredVideo = content.videoHub?.featured;
+  const playlist = content.videoHub?.playlist ?? [];
+
+  assert.ok(Array.isArray(trendPanels));
+  assert.equal(trendPanels.length >= 3, true);
+  assert.ok(trendPanels.every((panel) => typeof panel.title === "string" && panel.title.length > 0));
+  assert.ok(trendPanels.every((panel) => typeof panel.value === "string" && panel.value.length > 0));
+  assert.ok(trendPanels.every((panel) => typeof panel.detail === "string" && panel.detail.length > 0));
+
+  assert.ok(Array.isArray(coverageCards));
+  assert.equal(coverageCards.length >= 2, true);
+  assert.ok(coverageCards.every((card) => typeof card.title === "string" && card.title.length > 0));
+  assert.ok(coverageCards.every((card) => typeof card.description === "string" && card.description.length > 0));
+  assert.ok(coverageCards.every((card) => typeof card.coverageValue === "string" && /\d/u.test(card.coverageValue)));
+
+  assert.ok(featuredVideo && typeof featuredVideo.title === "string" && featuredVideo.title.length > 0);
+  assert.ok(featuredVideo && typeof featuredVideo.href === "string" && /^https?:\/\//u.test(featuredVideo.href));
+  assert.ok(Array.isArray(playlist));
+  assert.equal(playlist.length >= 1, true);
+  assert.ok(playlist.every((item) => typeof item.title === "string" && item.title.length > 0));
+  assert.ok(playlist.every((item) => typeof item.href === "string" && /^https?:\/\//u.test(item.href)));
+});
+
 test("supporting pages use resilient metadata lookups with fallbacks", () => {
   assert.deepEqual(getCourseTimelineDetail({ period: "第九期" }), {
     phase: "课程推进",
