@@ -6,25 +6,25 @@ import { getCourseTimelineDetail } from "@/lib/showcase-supporting-page-meta";
 export default function CoursesPage() {
   const content = buildShowcaseContent();
   const pageHighlights = [
-    "以八期双师课程为主轴，组织从类案检索到数字法理议题的递进式学习。",
-    "每一期围绕明确的课程任务推进事实识别、规范适用与论证表达训练。",
-    "课程节奏兼顾理论展开、案例研习与课堂讨论，保持稳定的学术观摩价值。",
+    "八期课程提供连续的课程背景，用于支持平台应用成果的整体说明。",
+    "课程安排衔接案例导入、课堂讨论与任务回收，服务双师教学组织复盘。",
+    "课程主题从检索方法延展至数字法理议题，为观摩与教学安排提供参考线索。",
   ];
 
   return (
-    <main className="showcase-page">
+    <main className="showcase-page" data-page-role="courses-support">
       <ShowcaseNav items={content.nav} />
 
       <div className="showcase-page-body">
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">课程体系</p>
-          <h1>双师课程编排</h1>
-          <p>围绕裁判文书研习平台的教学目标，八期课程依次展开检索方法、规范适用、程序规则与数字治理议题，形成可持续推进的法理学学习序列。</p>
+          <h1>双师课程体系</h1>
+          <p>双师课程体系作为课程支撑页面，支持平台应用成果展示与教学组织安排。八期课程依次覆盖检索方法、规范适用、程序规则与数字治理议题，形成稳定的课程背景线索。</p>
         </section>
 
         <article className="showcase-card supporting-callout">
-          <span className="showcase-card-eyebrow">课程概览</span>
-          <strong>课程编排以“进入案例、展开讨论、形成表达”三条线索组织教学节奏。</strong>
+          <span className="showcase-card-eyebrow">支撑定位</span>
+          <strong>课程体系页面聚焦支撑功能，重点服务于平台应用成果说明与教学组织协同。</strong>
           <ul className="supporting-list">
             {pageHighlights.map((item) => (
               <li key={item}>{item}</li>
@@ -33,9 +33,9 @@ export default function CoursesPage() {
         </article>
 
         <ShowcaseSection
-          title="八期课程进程与主题安排"
-          eyebrow="课程安排"
-          description="课程主题由法律方法、权利义务与程序规则逐步延展至数字治理与前沿法理议题，体现从基础训练到前沿回应的完整教学进程。"
+          title="八期课程进程与教学组织线索"
+          eyebrow="支撑课程安排"
+          description="课程主题由法律方法、权利义务与程序规则逐步延展至数字治理与前沿法理议题，可为课程汇报与教学组织复盘提供时间轴参照。"
           className="showcase-section-compact"
           aria-label="课程体系时间线"
         >

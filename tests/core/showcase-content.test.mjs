@@ -210,3 +210,32 @@ test("supporting pages use resilient metadata lookups with fallbacks", () => {
     points: ["案例、课程与资源形成统一归档", "支持教学记录与学习成果沉淀", "平台结构具备持续扩展能力"],
   });
 });
+
+test("video hub dataset supports featured-plus-playlist showcase composition", () => {
+  const content = buildShowcaseContent();
+  const hub = content.videoHub ?? {};
+  const featured = hub.featured;
+  const playlist = Array.isArray(hub.playlist) ? hub.playlist : [];
+  const allVideos = featured ? [featured, ...playlist] : playlist;
+
+  assert.equal(typeof hub.title, "string");
+  assert.match(hub.title, /课程视频/u);
+  assert.equal(typeof hub.hero, "string");
+  assert.match(hub.hero, /课程视频/u);
+
+  assert.ok(featured);
+  assert.equal(typeof featured.slug, "string");
+  assert.equal(typeof featured.title, "string");
+  assert.equal(typeof featured.href, "string");
+  assert.match(featured.href, /^https?:\/\//u);
+
+  assert.equal(Array.isArray(playlist), true);
+  assert.equal(playlist.length >= 1, true);
+  assert.ok(playlist.every((item) => typeof item.slug === "string" && item.slug.length > 0));
+  assert.ok(playlist.every((item) => typeof item.title === "string" && item.title.length > 0));
+  assert.ok(playlist.every((item) => typeof item.href === "string" && /^https?:\/\//u.test(item.href)));
+  assert.equal(playlist.some((item) => item.slug === featured.slug), false);
+
+  const slugs = allVideos.map((item) => item.slug);
+  assert.equal(new Set(slugs).size, slugs.length);
+});

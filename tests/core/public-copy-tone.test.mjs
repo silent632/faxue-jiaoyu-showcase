@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
 
@@ -40,4 +41,21 @@ test("showcase content reads like an operations-results homepage", () => {
   assert.equal(content.homeDashboard.kpis.length >= 4, true);
   assert.equal(Array.isArray(content.homeDashboard.trendSnapshot.points), true);
   assert.equal(content.homeDashboard.trendSnapshot.points.length >= 3, true);
+});
+
+test("resources and courses pages keep stable role markers with support-oriented tone", () => {
+  const resourcesSource = readFileSync(new URL("../../app/resources/page.js", import.meta.url), "utf8");
+  const coursesSource = readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8");
+
+  assert.match(resourcesSource, /data-page-role="video-hub"/u);
+  assert.match(resourcesSource, /hub=\{content\.videoHub\}/u);
+  assert.match(resourcesSource, /示范性教学视频/u);
+  assert.equal(/教学资源配置/u.test(resourcesSource), false);
+  assert.equal(/content\.resources\.groups/u.test(resourcesSource), false);
+
+  assert.match(coursesSource, /data-page-role="courses-support"/u);
+  assert.match(coursesSource, /双师课程体系/u);
+  assert.match(coursesSource, /支持平台应用成果/u);
+  assert.match(coursesSource, /教学组织/u);
+  assert.equal(/课程编排以“进入案例、展开讨论、形成表达”/u.test(coursesSource), false);
 });
