@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { buildShowcaseNavItems } from "@/lib/showcase-content";
+import { buildShowcaseContent } from "@/lib/showcase-content";
 import { isShowcaseNavItemActive } from "@/lib/showcase-nav-match";
 
 export default function TopNav({ user, items }) {
   const pathname = usePathname();
-  const navItems = items ?? buildShowcaseNavItems();
+  const navItems = items ?? buildShowcaseContent().nav;
 
   return (
     <header className="topbar showcase-topbar">

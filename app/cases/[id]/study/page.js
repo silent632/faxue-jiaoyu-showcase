@@ -9,6 +9,7 @@ import { getPublicShowcaseCaseById } from "@/lib/public-showcase-cases.js";
 import { getPublicStudyHeadNote } from "@/lib/public-showcase-study.js";
 import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
 import { getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
+import { buildShowcaseContent } from "@/lib/showcase-content";
 
 export async function generateStaticParams() {
   return getShowcaseCaseStaticParams(24);
@@ -17,6 +18,7 @@ export async function generateStaticParams() {
 export default async function StudyPage({ params }) {
   const { id } = await params;
   const user = getPublicShowcaseUser();
+  const navItems = buildShowcaseContent().nav;
   const caseItem = await getPublicShowcaseCaseById(id);
 
   if (!caseItem) notFound();
@@ -30,7 +32,7 @@ export default async function StudyPage({ params }) {
 
   return (
     <main className="study-page-main">
-      <TopNav user={user} />
+      <TopNav user={user} items={navItems} />
 
       <div className="study-head">
         <div className="study-head-main">

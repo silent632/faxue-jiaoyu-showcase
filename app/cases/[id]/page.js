@@ -17,6 +17,7 @@ import { normalizePublicFileName, publicFileExists } from "@/lib/data/public-fil
 import { getPublicShowcaseCaseById } from "@/lib/public-showcase-cases.js";
 import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
 import { getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
+import { buildShowcaseContent } from "@/lib/showcase-content";
 
 function compactText(value) {
   return String(value || "")
@@ -63,6 +64,7 @@ export async function generateStaticParams() {
 
 export default async function CaseDetailPage({ params }) {
   const user = getPublicShowcaseUser();
+  const navItems = buildShowcaseContent().nav;
   const { id } = await params;
   const caseItem = await getPublicShowcaseCaseById(id);
   if (!caseItem) notFound();
@@ -101,7 +103,7 @@ export default async function CaseDetailPage({ params }) {
 
   return (
     <main className="showcase-page case-detail-page">
-      <TopNav user={user} />
+      <TopNav user={user} items={navItems} />
 
       <div className={`page-wrap fade-in case-detail-shell${hasPdf ? " has-pdf" : " is-compact"}`}>
         <div className="case-detail-back-row">
