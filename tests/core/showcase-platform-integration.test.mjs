@@ -21,13 +21,20 @@ test("shared nav builder aligns content nav and route matching semantics", () =>
   assert.equal(isShowcaseNavItemActive("/cases/case-0001/study", studyItem), true);
 });
 
-test("top nav fallback uses shared nav builder instead of local duplicated nav literals", () => {
+test("top nav fallback uses shared showcase nav content instead of local duplicated nav literals", () => {
   const source = readFileSync(new URL("../../components/top-nav.js", import.meta.url), "utf8");
 
-  assert.equal(source.includes("buildShowcaseNavItems"), true);
+  assert.equal(source.includes("buildShowcaseContent"), true);
+  assert.equal(source.includes("buildShowcaseContent().nav"), true);
   assert.equal(source.includes("getShowcaseCanonicalStudyHref"), false);
   assert.equal(source.includes('label: "案例检索"'), false);
   assert.equal(source.includes('label: "课程视频"'), false);
+});
+
+test("showcase content stays client-safe by avoiding direct case-source imports", () => {
+  const source = readFileSync(new URL("../../lib/showcase-content.js", import.meta.url), "utf8");
+
+  assert.equal(source.includes("./showcase-cases.js"), false);
 });
 
 test("impact page uses trend-first dashboard sections in the required priority order", () => {
