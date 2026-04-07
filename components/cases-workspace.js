@@ -181,7 +181,7 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
           <div className="cases-sidebar-head">
             <div className="cases-sidebar-head-copy">
               <h3 className="cases-sidebar-title">筛选条件</h3>
-              <p className="cases-sidebar-note">高频筛选放在上面，低频条件放在后面，避免一开始就筛得太碎。</p>
+              <p className="cases-sidebar-note">常用筛选放在上面，组合起来更容易快速定位结果。</p>
             </div>
             <button className="btn btn-outline cases-mobile-close" type="button" onClick={() => setShowMobileFilter(false)}>
               关闭
@@ -251,7 +251,7 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
               <div className="filter-heading-row">
                 <div>
                   <div className="filter-heading">裁判年份</div>
-                  <p className="filter-hint">年份建议最先选，用来先把结果控制到便于阅读的范围。</p>
+                  <p className="filter-hint">可先选择年份，再继续收窄范围。</p>
                 </div>
               </div>
               <select
@@ -297,7 +297,7 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
               field="procedure"
               label="审理程序"
               items={options.procedure}
-              hint="用于区分一审、二审、再审和执行等程序场景。"
+              hint="区分一审、二审、再审和执行等程序场景。"
               maxVisible={6}
               expanded={!!expandedGroups.procedure}
               selectedValues={filters.procedure}
@@ -341,7 +341,7 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
               field="lawArticle"
               label="具体条文"
               items={options.lawArticle}
-              hint="条文适合做最后一层精筛，建议先选法律名称。"
+              hint="条文适合做最后一层精筛，可先选择法律名称。"
               maxVisible={8}
               expanded={!!expandedGroups.lawArticle}
               selectedValues={filters.lawArticle}

@@ -24,7 +24,7 @@ export default function StudyWorkspaceStepCard({
   const stepNote = canOpenRef
     ? "可结合参考要点检查是否遗漏关键事实、争点或法理。"
     : refText
-      ? `建议先完成自己的初稿，至少写满 ${STUDY_STEP_MIN_CHARS} 字后再查看参考要点。`
+      ? `写满 ${STUDY_STEP_MIN_CHARS} 字后可查看参考要点。`
       : "当前步骤暂未提供参考要点，可继续完成自己的分析。";
 
   return (
@@ -64,7 +64,7 @@ export default function StudyWorkspaceStepCard({
             className="btn btn-ghost"
             type="button"
             disabled={!canOpenRef}
-            title={!done ? "建议先完成自己的分析，再查看参考要点。" : !refText ? "当前暂无参考要点。" : ""}
+            title={!done ? "完成当前分析后即可查看参考要点。" : !refText ? "当前暂无参考要点。" : ""}
             onClick={onToggleRef}
           >
             {refButtonLabel}
@@ -76,7 +76,7 @@ export default function StudyWorkspaceStepCard({
         <div className="ref-box study-ref-box">
           <div className="study-ref-head">
             <strong>参考要点</strong>
-            <span>可用于对照与补充</span>
+            <span>对照与补充参考</span>
           </div>
           <p className="study-ref-text">{refText || "当前暂无参考要点。"}</p>
         </div>

@@ -122,7 +122,7 @@ export default function PdfViewerInner({
       {hideFooter ? null : (
         <div className="pdf-footer-note">
           <div>{`文件：${fileName || fileUrl}`}</div>
-          <div>默认使用浏览器内置 PDF 预览；如果想持续精读，建议新窗口打开原始 PDF。</div>
+          <div>默认使用浏览器内置 PDF 预览，可在新窗口打开原始 PDF。</div>
         </div>
       )}
     </div>

@@ -11,27 +11,27 @@ export default function ImpactPage() {
   const supportVideos = content.videoHub?.playlist ?? [];
   const featuredVideo = content.videoHub?.featured;
   const summaryCards = [
-    { label: "案例总量", value: content.metrics.caseCount.value, note: "可直接抽查详情页与原文" },
+    { label: "案例总量", value: content.metrics.caseCount.value, note: "详情页与 PDF 原文已连通" },
     { label: "课程周期", value: content.metrics.coursePeriods.value, note: "形成连续双师课程样本" },
     { label: "注册用户", value: content.metrics.registeredUsers.value, note: "具备稳定应用基础" },
   ];
   const summaryLedger = [
     {
-      label: "核验次序",
-      point: "先看运行趋势，再核应用覆盖，最后进入案例链路与视频佐证。",
+      label: "浏览顺序",
+      point: "运行趋势、应用覆盖与站内入口集中呈现。",
     },
     {
-      label: "抽查入口",
+      label: "案例入口",
       point: "案例详情页、研习工作台与 PDF 原文保持可达。",
     },
     {
-      label: "附录材料",
-      point: "课程视频与课程体系作为补充材料，便于继续核验。",
+      label: "课程支撑",
+      point: "课程视频与课程体系补充呈现课堂组织与建设背景。",
     },
   ];
   const evidenceCards = [
     {
-      label: "使用链路",
+      label: "案例链路",
       point: "案例检索、详情导读、研习工作台与 PDF 原文形成闭环。",
     },
     {
@@ -39,8 +39,8 @@ export default function ImpactPage() {
       point: "课程体系、视频回看与检索工作台围绕同一平台组织。",
     },
     {
-      label: "审阅方式",
-      point: "专家可按趋势、覆盖、案例抽查和视频支撑四条线快速核验项目真实性。",
+      label: "站内联动",
+      point: "趋势、覆盖、案例链路与课程视频在站内保持连通。",
     },
   ];
 
@@ -51,9 +51,9 @@ export default function ImpactPage() {
       <div className="showcase-page-body">
         <section className="impact-summary-deck showcase-card" aria-label="成效总览">
           <div className="impact-summary-main">
-            <p className="showcase-page-kicker">结果核验总览</p>
+            <p className="showcase-page-kicker">成效总览</p>
             <h1>平台应用结果总览</h1>
-            <p>本页聚焦专家真正会看的三类信息：平台是否已形成稳定结果、应用覆盖是否可证明、证据链路是否方便继续抽查。</p>
+            <p>本页汇总平台运行结果、应用覆盖与站内联动入口。</p>
           </div>
 
           <div className="impact-summary-inline">
@@ -115,11 +115,11 @@ export default function ImpactPage() {
           </div>
         </section>
 
-        <section className="impact-proof-ledger showcase-card" aria-label="审阅证据">
+        <section className="impact-proof-ledger showcase-card" aria-label="站内联动">
           <div className="homepage-band-head">
-            <span className="showcase-section-eyebrow">审阅证据</span>
-            <h2>使用链路、课程支撑与核验方式在此集中列出</h2>
-            <p>趋势与覆盖确认后，可顺着这里继续进入案例链路与课程支撑材料。</p>
+            <span className="showcase-section-eyebrow">站内联动</span>
+            <h2>案例链路、课程支撑与视频入口在此集中列出</h2>
+            <p>运行趋势、应用覆盖与站内入口保持同一结构。</p>
           </div>
 
           <div className="impact-dashboard-grid">
@@ -134,9 +134,9 @@ export default function ImpactPage() {
 
         <section className="impact-support-appendix showcase-card" aria-label="视频推广支持">
           <div className="homepage-band-head">
-            <span className="showcase-section-eyebrow">附录佐证</span>
-            <h2>课程视频与课程体系作为补充佐证材料</h2>
-            <p>需要补充说明时，可继续查看课程视频与相关教学支撑。</p>
+            <span className="showcase-section-eyebrow">课程视频</span>
+            <h2>课程视频与课程体系补充呈现课堂组织线索</h2>
+            <p>可继续查看课程视频与相关教学支撑。</p>
           </div>
 
           <div className="impact-video-layout">

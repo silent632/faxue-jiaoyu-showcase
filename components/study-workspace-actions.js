@@ -35,7 +35,7 @@ export default function StudyWorkspaceActions({
           <p className="study-actions-desc">
             {hasPdf
               ? "填写内容可继续保存在当前浏览器中，并在整理完成后导出研习记录。"
-              : "先完成三步写作，再把本页整理出的事实、争点与法理分析导出留存。"}
+              : "先完成三步写作，再把事实梳理、争点与法理分析导出留存。"}
           </p>
         </div>
       </div>

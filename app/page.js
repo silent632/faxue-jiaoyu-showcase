@@ -16,22 +16,22 @@ export default async function HomePage() {
   const coverageCards = content.impactDashboard?.coverageCards ?? [];
   const trendPanels = content.impactDashboard?.trendPanels ?? [];
   const reviewHighlights = [
-    "先确认平台是否真实运行，再查看课程与资源如何支撑教学改革。",
-    "案例检索、详情页、研习工作台与 PDF 原文保持同一条抽查链路。",
-    "课程视频与课程体系作为补充支撑材料，供专家继续核验。",
+    "平台运行、课程建设与案例研习入口已形成连续展示。",
+    "案例检索、详情页、研习工作台与 PDF 原文保持同一路径。",
+    "课程视频与课程体系补充呈现课堂组织与建设背景。",
   ];
   const consoleLedger = [
     {
-      label: "审阅定位",
-      value: "先看运行指标，再进入案例抽查。",
+      label: "首页重点",
+      value: "运行指标、覆盖范围与核心入口集中呈现。",
     },
     {
-      label: "核验重点",
+      label: "案例链路",
       value: "详情页、研习页与 PDF 原文保持连通。",
     },
     {
-      label: "支撑材料",
-      value: "课程视频与课程体系用于补充说明。",
+      label: "课程支撑",
+      value: "课程视频与课程体系补充呈现建设背景。",
     },
   ];
   const evidenceCards = [
@@ -48,9 +48,9 @@ export default async function HomePage() {
       metric: coverageCards[0]?.coverageValue || "持续扩展",
     },
     {
-      eyebrow: "核验路径",
+      eyebrow: "案例链路",
       title: "案例检索、导读判断与研习工作台已打通",
-      description: "专家可直接从检索结果抽样进入详情页，再进入研习页与 PDF 原文核查。",
+      description: "案例检索、详情页、研习工作台与 PDF 原文已连通。",
       metric: "检索 -> 详情 -> 研习 -> PDF",
     },
   ];
@@ -64,7 +64,7 @@ export default async function HomePage() {
       value: coverageCards[0]?.coverageValue || "持续扩展",
     },
     {
-      label: "核验链路",
+      label: "访问链路",
       value: "检索 -> 详情 -> 研习 -> PDF",
     },
   ];
@@ -74,17 +74,17 @@ export default async function HomePage() {
       <TopNav user={user} items={content.nav} />
 
       <div className="showcase-page-body">
-        <section className="homepage-review-console" aria-label="首页审阅总览">
+        <section className="homepage-review-console" aria-label="首页总览">
           <div className="homepage-console-main showcase-card">
             <div className="homepage-console-status">
-              <p className="showcase-hero-kicker">平台审阅首页</p>
+              <p className="showcase-hero-kicker">平台首页</p>
               <h1>{content.homeDashboard.hero.title}</h1>
               <p className="showcase-hero-subtitle">{content.homeDashboard.hero.summary}</p>
-              <p className="showcase-hero-brief">首页先看运行、覆盖和抽查入口，再决定进入哪条核验路径。</p>
+              <p className="showcase-hero-brief">首页集中呈现运行指标、覆盖范围与核心入口。</p>
             </div>
 
             <div className="homepage-console-meta">
-              <div className="homepage-console-ledger" aria-label="首页审阅结论">
+              <div className="homepage-console-ledger" aria-label="首页概览">
                 {consoleLedger.map((item) => (
                   <article key={item.label} className="homepage-console-ledger-item">
                     <span>{item.label}</span>
@@ -115,34 +115,34 @@ export default async function HomePage() {
 
           <aside className="homepage-validation-rail showcase-card">
             <div className="homepage-validation-head">
-              <span className="showcase-section-eyebrow">核验入口</span>
-              <h2>从首页直接进入案例抽查、研习页和结果总览</h2>
-              <p>核验入口集中在同一列，便于抽样查看详情页、研习页与原文材料。</p>
+              <span className="showcase-section-eyebrow">快速入口</span>
+              <h2>从首页直达案例检索、研习工作台与成效展示</h2>
+              <p>核心页面与样本入口集中在同一列。</p>
             </div>
 
             <div className="homepage-validation-summary">
-              <strong>建议核验顺序</strong>
-              <p>先打开案例检索，任选样本进入详情页，再从详情页继续进入研习工作台和 PDF 原文。</p>
+              <strong>访问顺序</strong>
+              <p>案例检索、详情页、研习工作台与 PDF 原文已连通。</p>
             </div>
 
             <div className="homepage-validation-links">
               <Link href="/cases" className="homepage-validation-link">
                 <span>案例检索</span>
-                <strong>进入案例抽查台</strong>
+                <strong>打开案例检索工作台</strong>
               </Link>
               <Link href={studyHref} className="homepage-validation-link">
                 <span>研习工作台</span>
-                <strong>检查结构化研习链路</strong>
+                <strong>查看结构化研习页面</strong>
               </Link>
               <Link href="/impact" className="homepage-validation-link">
                 <span>成效展示</span>
-                <strong>查看结果核验总览</strong>
+                <strong>浏览成效展示总览</strong>
               </Link>
             </div>
           </aside>
         </section>
 
-        <section className="homepage-review-ledger showcase-card" aria-label="首页审阅编号结论">
+        <section className="homepage-review-ledger showcase-card" aria-label="首页编号摘要">
           {reviewHighlights.map((item, index) => (
             <article key={item} className="homepage-review-item">
               <span>{`0${index + 1}`}</span>
@@ -165,8 +165,8 @@ export default async function HomePage() {
           <aside className="homepage-evidence-side showcase-card">
             <div className="homepage-band-head">
               <span className="showcase-section-eyebrow">证据索引</span>
-              <h2>运行、覆盖与抽查链路在此集中列出</h2>
-              <p>进入下层页面前，可先核对运行趋势、应用覆盖和样本核验路径。</p>
+              <h2>运行、覆盖与案例链路在此集中列出</h2>
+              <p>可先查看运行趋势、应用覆盖与核心页面入口。</p>
             </div>
 
             <div className="homepage-evidence-stack">
@@ -182,11 +182,11 @@ export default async function HomePage() {
           </aside>
         </section>
 
-        <section className="homepage-audit-entry-grid showcase-card" aria-label="继续核验入口">
+        <section className="homepage-audit-entry-grid showcase-card" aria-label="核心入口">
           <div className="homepage-band-head">
-            <span className="showcase-section-eyebrow">继续核验</span>
+            <span className="showcase-section-eyebrow">更多入口</span>
             <h2>案例检索、样本案例与研习工作台保持同一条进入路径</h2>
-            <p>支持从总览继续进入案例检索、代表样本与结构化研习页面。</p>
+            <p>从首页可继续进入案例检索、代表样本与结构化研习页面。</p>
           </div>
 
           <div className="homepage-audit-entry-shell">
@@ -209,7 +209,7 @@ export default async function HomePage() {
 
               <Link href={studyHref} className="homepage-audit-case-card is-action">
                 <span>直接进入</span>
-                <strong>直接进入研习工作台，检查结构化研习链路</strong>
+                <strong>直接进入研习工作台</strong>
               </Link>
             </div>
           </div>
