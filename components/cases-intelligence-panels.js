@@ -26,7 +26,7 @@ export default function CasesIntelligencePanels({
     <div className="cases-intel-grid">
       <section className="glass-sm cases-intel-card">
         <div className="cases-intel-head">
-          <strong>当前范围</strong>
+          <strong>当前抽查范围</strong>
           <span>{selectedFilterCount ? `已选 ${selectedFilterCount} 项` : "建议先选年份和案由"}</span>
         </div>
 
@@ -51,8 +51,8 @@ export default function CasesIntelligencePanels({
       {actionItems.length ? (
         <section className="glass-sm cases-intel-card">
           <div className="cases-intel-head">
-            <strong>{actionTitle}</strong>
-            <span>{shouldNarrow ? "缩小检索范围" : "高频抽查入口"}</span>
+            <strong>{shouldNarrow ? "建议下一步" : actionTitle}</strong>
+            <span>{shouldNarrow ? "继续缩小检索范围" : "高频抽查入口"}</span>
           </div>
           <div className="cases-action-row">
             {actionItems.map((item) => (

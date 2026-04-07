@@ -25,15 +25,17 @@ test("homepage dashboard content keeps operations metrics and trend snapshot", (
 test("homepage page layout is operations-first with required structure classes", () => {
   const source = readFileSync(new URL("../../app/page.js", import.meta.url), "utf8");
 
-  assert.match(source, /homepage-operations-kpis/u);
-  assert.match(source, /homepage-trend-summary/u);
-  assert.match(source, /homepage-coverage-band/u);
-  assert.match(source, /homepage-platform-entry-grid/u);
-  assert.match(source, /homepage-review-strip/u);
-  assert.match(source, /homepage-evidence-grid/u);
-  assert.equal(source.includes("homepage-path-band"), false);
-  assert.equal(source.includes("homepage-case-preview"), false);
-  assert.equal(source.includes("homepage-overview-grid"), false);
+  assert.match(source, /homepage-review-console/u);
+  assert.match(source, /homepage-validation-rail/u);
+  assert.match(source, /homepage-evidence-ledger/u);
+  assert.match(source, /homepage-review-ledger/u);
+  assert.match(source, /homepage-audit-entry-grid/u);
+  assert.match(source, /homepage-console-ledger/u);
+  assert.match(source, /homepage-console-inline-evidence/u);
+  assert.equal(source.includes("homepage-review-strip"), false);
+  assert.equal(source.includes("homepage-platform-entry-grid"), false);
+  assert.equal(source.includes("homepage-evidence-grid"), false);
+  assert.equal(source.includes("homepage-console-note"), false);
 });
 
 test("homepage content keeps platform entry links after the operations overview", () => {
@@ -48,15 +50,16 @@ test("homepage content keeps platform entry links after the operations overview"
   assert.equal(content.impactDashboard.coverageCards.length >= 2, true);
 });
 
-test("homepage operations styles include new operations-first layout classes", () => {
+test("homepage operations styles include review-console layout classes", () => {
   const source = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 
-  assert.match(source, /\.homepage-operations-kpis/u);
-  assert.match(source, /\.homepage-trend-summary/u);
-  assert.match(source, /\.homepage-coverage-band/u);
-  assert.match(source, /\.homepage-platform-entry-grid/u);
-  assert.match(source, /\.homepage-review-strip/u);
-  assert.match(source, /\.homepage-evidence-grid/u);
+  assert.match(source, /\.homepage-review-console/u);
+  assert.match(source, /\.homepage-validation-rail/u);
+  assert.match(source, /\.homepage-evidence-ledger/u);
+  assert.match(source, /\.homepage-review-ledger/u);
+  assert.match(source, /\.homepage-audit-entry-grid/u);
+  assert.match(source, /\.homepage-console-ledger/u);
+  assert.match(source, /\.homepage-console-inline-evidence/u);
 });
 
 test("homepage copy avoids backstage or explanatory design language", () => {

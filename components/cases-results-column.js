@@ -45,9 +45,9 @@ export default function CasesResultsColumn({
       <section className="glass-sm cases-results-head">
         <div className="cases-results-head-top">
           <div className="cases-results-copy">
-            <span className="section-eyebrow">检索结果</span>
+            <span className="section-eyebrow">抽查结果</span>
             <h2 className="section-title cases-results-title">{filteredCount ? `当前匹配 ${filteredCount} 条案例` : "暂时没有找到相关案例"}</h2>
-            <p className="section-desc cases-results-desc">{filteredCount ? "结合标题、法院、裁判结果与摘要，先确定抽查对象，再进入详情页核对原文。" : "可调整检索条件后重新浏览案例结果。"}</p>
+            <p className="section-desc cases-results-desc">{filteredCount ? "结合标题、法院、裁判结果与摘要先确定抽查对象，再进入详情页核对原文入口。" : "可调整检索条件后重新组织抽查范围。"}</p>
           </div>
 
           <div className="cases-results-actions">

@@ -3861,3 +3861,502 @@ main {
     padding: 20px;
   }
 }
+
+.homepage-review-console {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(330px, 0.92fr);
+  gap: 18px;
+  padding-top: 20px;
+}
+
+.homepage-console-main,
+.homepage-validation-rail,
+.homepage-evidence-side,
+.impact-summary-deck {
+  background:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.98), rgba(246, 241, 233, 0.98)),
+    radial-gradient(circle at top right, rgba(35, 67, 93, 0.07), transparent 42%);
+}
+
+.homepage-console-main {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+}
+
+.homepage-console-status {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(35, 67, 93, 0.08);
+}
+
+.homepage-console-status h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.86rem, 2.8vw, 3rem);
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+}
+
+.homepage-console-meta {
+  display: grid;
+  gap: 10px;
+}
+
+.homepage-console-ledger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.homepage-console-ledger-item {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(35, 67, 93, 0.1);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.homepage-console-ledger-item span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.homepage-console-ledger-item strong {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  line-height: 1.48;
+}
+
+.homepage-console-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.homepage-console-kpi {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(35, 67, 93, 0.1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(250, 245, 237, 0.94));
+}
+
+.homepage-console-kpi span,
+.homepage-validation-card span,
+.homepage-validation-link span,
+.impact-summary-note span,
+.impact-summary-card span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.homepage-console-kpi strong {
+  font-family: var(--font-display);
+  font-size: 1.24rem;
+  line-height: 1.15;
+}
+
+.homepage-console-inline-evidence {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.homepage-console-evidence-chip {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(35, 67, 93, 0.1);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.homepage-console-evidence-chip span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.homepage-console-evidence-chip strong {
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  line-height: 1.34;
+}
+
+.homepage-validation-rail {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 20px;
+}
+
+.homepage-validation-head {
+  display: grid;
+  gap: 8px;
+}
+
+.homepage-validation-head h2,
+.impact-summary-main h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.7vw, 1.8rem);
+  line-height: 1.24;
+}
+
+.homepage-validation-head p,
+.impact-summary-main p,
+.impact-support-appendix .homepage-band-head p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.homepage-validation-points,
+.homepage-validation-links,
+.homepage-evidence-stack,
+.impact-summary-notes,
+.impact-summary-side {
+  display: grid;
+  gap: 12px;
+}
+
+.homepage-validation-summary {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(35, 67, 93, 0.1);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.homepage-validation-summary p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.homepage-validation-card,
+.homepage-validation-link,
+.homepage-review-item,
+.homepage-evidence-card,
+.homepage-audit-entry-card,
+.homepage-audit-case-card,
+.impact-summary-note,
+.impact-summary-card,
+.impact-proof-card,
+.cases-audit-card {
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.homepage-validation-card {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+}
+
+.homepage-validation-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
+.homepage-validation-link {
+  display: grid;
+  gap: 5px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.homepage-validation-link strong,
+.homepage-audit-entry-card strong,
+.homepage-audit-case-card strong,
+.impact-summary-note strong,
+.impact-summary-card strong,
+.impact-proof-card strong,
+.cases-audit-card strong {
+  display: block;
+  font-family: var(--font-display);
+  line-height: 1.58;
+}
+
+.homepage-validation-link:hover,
+.homepage-validation-link:focus-visible,
+.homepage-audit-entry-card:hover,
+.homepage-audit-entry-card:focus-visible,
+.homepage-audit-case-card:hover,
+.homepage-audit-case-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(139, 91, 43, 0.18);
+}
+
+.homepage-review-ledger {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.homepage-evidence-ledger {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 18px;
+}
+
+.homepage-evidence-main {
+  display: grid;
+  gap: 18px;
+}
+
+.homepage-review-band,
+.homepage-review-trend {
+  margin-top: 0;
+}
+
+.homepage-evidence-side {
+  padding: 24px;
+}
+
+.homepage-evidence-stack {
+  margin-top: 6px;
+}
+
+.homepage-audit-entry-grid {
+  margin-top: 24px;
+  display: grid;
+  gap: 16px;
+  padding: 28px;
+}
+
+.homepage-audit-entry-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 16px;
+}
+
+.homepage-audit-entry-list,
+.homepage-audit-case-list {
+  display: grid;
+  gap: 14px;
+}
+
+.homepage-audit-entry-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.homepage-audit-case-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.homepage-audit-entry-card,
+.homepage-audit-case-card {
+  display: grid;
+  gap: 8px;
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.homepage-audit-case-card.is-action {
+  background: linear-gradient(160deg, rgba(35, 67, 93, 0.95), rgba(24, 50, 74, 0.96));
+  color: #f6efe4;
+}
+
+.homepage-audit-case-card.is-action span {
+  color: rgba(246, 239, 228, 0.72);
+}
+
+.impact-summary-deck {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding: 22px;
+}
+
+.impact-summary-main,
+.impact-summary-note,
+.impact-summary-card {
+  display: grid;
+  gap: 6px;
+}
+
+.impact-summary-inline,
+.impact-summary-ledger {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.impact-summary-note,
+.impact-summary-card {
+  padding: 16px;
+  border-radius: 18px;
+}
+
+.impact-summary-card strong {
+  font-size: 1.34rem;
+  line-height: 1.15;
+}
+
+.impact-summary-main > p {
+  max-width: 60rem;
+}
+
+.impact-summary-note strong {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.impact-proof-ledger,
+.impact-support-appendix {
+  margin-top: 24px;
+}
+
+.impact-proof-card {
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.impact-support-appendix .impact-video-featured,
+.impact-support-appendix .impact-video-item {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(250, 245, 237, 0.96));
+}
+
+.cases-audit-desk {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 12px;
+  align-items: stretch;
+  padding-top: 18px;
+}
+
+.cases-audit-intro {
+  padding: 16px 18px;
+  display: grid;
+  align-content: center;
+  gap: 6px;
+}
+
+.cases-audit-intro h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2.3rem);
+  line-height: 1.18;
+}
+
+.cases-audit-intro p:last-child {
+  margin: 0;
+}
+
+.cases-audit-metrics {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.cases-audit-card {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 18px;
+}
+
+.cases-audit-card span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.cases-audit-card strong {
+  font-size: 0.98rem;
+  line-height: 1.44;
+}
+
+.cases-hero {
+  padding: 14px;
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.98), rgba(246, 241, 233, 0.98)),
+    radial-gradient(circle at top right, rgba(35, 67, 93, 0.08), transparent 40%);
+}
+
+.cases-hero-stat {
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(250, 245, 237, 0.96));
+}
+
+.cases-intel-card,
+.cases-results-head,
+.case-card-shell,
+.cases-pagination {
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.cases-intel-card,
+.cases-results-head,
+.case-card-shell {
+  padding: 16px;
+}
+
+.case-card-shell {
+  gap: 14px;
+}
+
+.case-card-title-link {
+  text-decoration: none;
+}
+
+.case-card-title-link:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 1100px) {
+  .homepage-review-console,
+  .homepage-evidence-ledger,
+  .homepage-audit-entry-shell,
+  .impact-summary-deck {
+    grid-template-columns: 1fr;
+  }
+
+  .homepage-audit-entry-list,
+  .impact-summary-inline,
+  .impact-summary-ledger {
+    grid-template-columns: 1fr;
+  }
+
+  .homepage-audit-case-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 920px) {
+  .homepage-review-ledger,
+  .homepage-console-ledger,
+  .homepage-console-kpis,
+  .homepage-console-inline-evidence,
+  .homepage-audit-case-list,
+  .impact-dashboard-grid,
+  .impact-grid-two-up {
+    grid-template-columns: 1fr;
+  }
+
+  .cases-audit-desk {
+    grid-template-columns: 1fr;
+  }
+}

@@ -8,27 +8,36 @@ export default async function CasesPage() {
   const user = getPublicShowcaseUser();
   const navItems = buildShowcaseContent().nav;
   const allCases = await listPublicShowcaseCases();
-  const briefingCards = [
-    `当前案例库共 ${allCases.length} 条，可直接按案由、年份、法院层级和法条缩小范围。`,
-    "检索结果可顺着“案例详情 -> 导读判断 -> 研习工作台 -> PDF 原文”继续抽查。",
-    "本页不再承担宣传说明，重点回到可用的检索、筛选和案例进入效率。",
+  const auditMetrics = [
+    {
+      label: "案例总量",
+      value: `${allCases.length} 条`,
+    },
+    {
+      label: "核验链路",
+      value: "详情 -> 导读判断 -> 研习 -> PDF",
+    },
+    {
+      label: "抽查建议",
+      value: "先按年份、案由缩小范围",
+    },
   ];
 
   return (
     <main className="showcase-page cases-page-shell">
       <TopNav user={user} items={navItems} />
-      <section className="page-wrap cases-route-briefing">
-        <div className="glass-sm cases-route-intro-card">
-          <p className="section-eyebrow">检索简报</p>
-          <h1>案例检索台</h1>
-          <p>这一页只做一件事：让专家和评审能快速定位案件、抽查详情，并顺着原文链路验证平台是否真的可用。</p>
+      <section className="page-wrap cases-audit-desk">
+        <div className="glass-sm cases-audit-intro">
+          <p className="section-eyebrow">案例抽查台</p>
+          <h1>案例抽查与原文核验</h1>
+          <p>围绕案件检索、详情页与原文入口组织抽查流程，服务专家快速定位样本并继续核验。</p>
         </div>
 
-        <div className="cases-route-review-grid">
-          {briefingCards.map((item, index) => (
-            <article key={item} className="cases-route-review-card">
-              <span>{`0${index + 1}`}</span>
-              <strong>{item}</strong>
+        <div className="cases-audit-metrics">
+          {auditMetrics.map((item) => (
+            <article key={item.label} className="cases-audit-card">
+              <span>{item.label}</span>
+              <strong>{item.value}</strong>
             </article>
           ))}
         </div>

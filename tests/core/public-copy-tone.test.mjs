@@ -62,10 +62,31 @@ test("resources and courses pages keep stable role markers with support-oriented
 
 test("cases page reads like a working retrieval desk instead of a generic entry splash", () => {
   const source = readFileSync(new URL("../../app/cases/page.js", import.meta.url), "utf8");
+  const heroSource = readFileSync(new URL("../../components/cases-search-hero.js", import.meta.url), "utf8");
 
-  assert.match(source, /cases-route-briefing/u);
-  assert.match(source, /cases-route-review-grid/u);
-  assert.match(source, /审阅提示|检索简报|使用建议/u);
+  assert.match(source, /cases-audit-desk/u);
+  assert.match(source, /cases-audit-metrics/u);
+  assert.match(source, /案例抽查台|审阅路径|核验/u);
+  assert.match(heroSource, /<h2 className="section-title cases-hero-title">/u);
+  assert.equal(/<h1 className="section-title cases-hero-title">/u.test(heroSource), false);
   assert.equal(/平台案例检索入口/u.test(source), false);
   assert.equal(/先检索，再导读，再进入研习/u.test(source), false);
+  assert.equal(/页面重心回到/u.test(source), false);
+  assert.equal(/宣传型入口说明/u.test(source), false);
+});
+
+test("homepage and impact pages avoid meta design commentary in review copy", () => {
+  const homeSource = readFileSync(new URL("../../app/page.js", import.meta.url), "utf8");
+  const impactSource = readFileSync(new URL("../../app/impact/page.js", import.meta.url), "utf8");
+
+  for (const text of [
+    "右侧保留最短核验轨道",
+    "结果之外，还要交代专家应从哪里继续核验",
+    "首页后段只保留最关键的进入路径",
+    "不再分散展示",
+    "作为专家需要时再展开",
+    "不再抢占主叙事位置",
+  ]) {
+    assert.equal(homeSource.includes(text) || impactSource.includes(text), false, `found meta copy: ${text}`);
+  }
 });
