@@ -13,21 +13,21 @@ export default function CasesIntelligencePanels({
 }) {
   const shouldNarrow = filteredCount > PAGE_SIZE;
   const actionItems = (shouldNarrow && narrowingSuggestions.length ? narrowingSuggestions : starterActions).slice(0, 4);
-  const actionTitle = shouldNarrow ? "建议优先补充" : "可直接进入";
+  const actionTitle = shouldNarrow ? "下一步筛选" : "快速操作";
   const scopeNote = !filteredCount
     ? "当前没有匹配结果，可适当放宽条件后重新检索。"
     : shouldNarrow
-      ? "结果仍较多，建议继续补充一个条件，把抽查范围先压缩下来。"
+      ? "结果仍较多，可继续补充一个条件，先把范围收窄下来。"
       : filteredCount === 1
         ? "当前结果已聚焦，可直接进入案例详情与原文入口。"
-        : "当前结果已适合浏览，可结合摘要、案号和裁判结果继续抽查。";
+        : "当前结果已适合浏览，可结合摘要、案号和裁判结果继续查看。";
 
   return (
     <div className="cases-intel-grid">
       <section className="glass-sm cases-intel-card">
         <div className="cases-intel-head">
-          <strong>当前抽查范围</strong>
-          <span>{selectedFilterCount ? `已选 ${selectedFilterCount} 项` : "建议先选年份和案由"}</span>
+          <strong>当前结果范围</strong>
+          <span>{selectedFilterCount ? `已选 ${selectedFilterCount} 项` : "可从年份和案由开始"}</span>
         </div>
 
         <div className="cases-mini-metric-grid">
@@ -51,8 +51,8 @@ export default function CasesIntelligencePanels({
       {actionItems.length ? (
         <section className="glass-sm cases-intel-card">
           <div className="cases-intel-head">
-            <strong>{shouldNarrow ? "建议下一步" : actionTitle}</strong>
-            <span>{shouldNarrow ? "继续缩小检索范围" : "高频抽查入口"}</span>
+            <strong>{actionTitle}</strong>
+            <span>{shouldNarrow ? "继续缩小检索范围" : "常用入口"}</span>
           </div>
           <div className="cases-action-row">
             {actionItems.map((item) => (

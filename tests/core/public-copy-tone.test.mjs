@@ -17,6 +17,18 @@ const FORBIDDEN_PATTERNS = [
   /设计者/u,
 ];
 
+const FORBIDDEN_PUBLIC_REVIEW_PATTERNS = [
+  /专家可/u,
+  /服务专家/u,
+  /本页聚焦专家/u,
+  /建议核验/u,
+  /继续核验/u,
+  /便于继续核验/u,
+  /进入下层页面前/u,
+  /支持从总览继续进入/u,
+  /供专家/u,
+];
+
 test("showcase content avoids task-execution and backstage language", () => {
   const content = buildShowcaseContent();
   const text = JSON.stringify(content);
@@ -55,8 +67,8 @@ test("resources and courses pages keep stable role markers with support-oriented
 
   assert.match(coursesSource, /data-page-role="courses-support"/u);
   assert.match(coursesSource, /双师课程体系/u);
-  assert.match(coursesSource, /支持平台应用成果/u);
-  assert.match(coursesSource, /教学组织/u);
+  assert.match(coursesSource, /阶段安排|课程主题/u);
+  assert.match(coursesSource, /主题脉络|课程时间轴/u);
   assert.equal(/课程编排以“进入案例、展开讨论、形成表达”/u.test(coursesSource), false);
 });
 
@@ -66,7 +78,8 @@ test("cases page reads like a working retrieval desk instead of a generic entry 
 
   assert.match(source, /cases-audit-desk/u);
   assert.match(source, /cases-audit-metrics/u);
-  assert.match(source, /案例抽查台|审阅路径|核验/u);
+  assert.match(source, /案例检索与原文入口|检索起点/u);
+  assert.match(heroSource, /检索入口|案例检索工作面/u);
   assert.match(heroSource, /<h2 className="section-title cases-hero-title">/u);
   assert.equal(/<h1 className="section-title cases-hero-title">/u.test(heroSource), false);
   assert.equal(/平台案例检索入口/u.test(source), false);
@@ -89,4 +102,33 @@ test("homepage and impact pages avoid meta design commentary in review copy", ()
   ]) {
     assert.equal(homeSource.includes(text) || impactSource.includes(text), false, `found meta copy: ${text}`);
   }
+});
+
+test("public pages avoid exposed reviewer-facing guidance and analyst narration", () => {
+  const sources = [
+    readFileSync(new URL("../../app/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/impact/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/cases/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/cases-search-hero.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/cases-intelligence-panels.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/cases-results-column.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/pdf-viewer-inner.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/case-pdf-disclosure.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/study-workspace-overview.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/study-workspace-step-card.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/study-workspace-actions.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/resources/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../lib/public-showcase-study.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../lib/study-workspace.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../lib/case-presentation.mjs", import.meta.url), "utf8"),
+  ].join("\n");
+
+  for (const pattern of FORBIDDEN_PUBLIC_REVIEW_PATTERNS) {
+    assert.equal(pattern.test(sources), false, `found exposed review guidance: ${pattern}`);
+  }
+
+  assert.equal(/适用于/u.test(sources), false);
+  assert.equal(/便于/u.test(sources), false);
+  assert.equal(/当前页面/u.test(sources), false);
 });

@@ -30,7 +30,7 @@ export default function StudyWorkspaceOverview({
         <article className="study-metric-card">
           <span className="study-metric-label">已写字数</span>
           <strong className="study-metric-value">{totalChars}</strong>
-          <p className="study-metric-hint">每一步建议至少写满 50 字，再对照参考要点。</p>
+          <p className="study-metric-hint">每一步达到 50 字后即可查看参考要点。</p>
         </article>
         <article className="study-metric-card">
           <span className="study-metric-label">参考要点</span>

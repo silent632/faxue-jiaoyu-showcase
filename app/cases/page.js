@@ -14,12 +14,12 @@ export default async function CasesPage() {
       value: `${allCases.length} 条`,
     },
     {
-      label: "核验链路",
+      label: "访问链路",
       value: "详情 -> 导读判断 -> 研习 -> PDF",
     },
     {
-      label: "抽查建议",
-      value: "先按年份、案由缩小范围",
+      label: "检索起点",
+      value: "可先从年份、案由开始",
     },
   ];
 
@@ -28,9 +28,9 @@ export default async function CasesPage() {
       <TopNav user={user} items={navItems} />
       <section className="page-wrap cases-audit-desk">
         <div className="glass-sm cases-audit-intro">
-          <p className="section-eyebrow">案例抽查台</p>
-          <h1>案例抽查与原文核验</h1>
-          <p>围绕案件检索、详情页与原文入口组织抽查流程，服务专家快速定位样本并继续核验。</p>
+          <p className="section-eyebrow">案例检索</p>
+          <h1>案例检索与原文入口</h1>
+          <p>围绕案件检索、详情页与原文入口组织案例浏览与文书阅读。</p>
         </div>
 
         <div className="cases-audit-metrics">

@@ -21,7 +21,7 @@ export default function ShowcaseVideoHub({ hub }) {
           <a className="showcase-video-featured" href={featured.href} target="_blank" rel="noreferrer">
             <span className="showcase-card-eyebrow">示范性教学视频</span>
             <strong>{featured.title}</strong>
-            <p>用于展示双师课堂组织、案例进入方式与教学应用路径。</p>
+            <p>呈现双师课堂组织、案例进入方式与教学应用路径。</p>
           </a>
         ) : null}
 

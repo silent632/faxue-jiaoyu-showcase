@@ -189,6 +189,6 @@ test("presentation helpers keep no-pdf messaging intentional", () => {
 
   assert.equal(headline, "本案争议在于借款关系是否成立。");
   assert.match(note.title, /研习入口/u);
-  assert.match(note.body, /不影响继续判断是否进入案例研习/u);
+  assert.match(note.body, /导读判断线索|继续进入案例研习/u);
   assert.equal(/暂无|缺失|降级/u.test(`${note.title}${note.body}`), false);
 });

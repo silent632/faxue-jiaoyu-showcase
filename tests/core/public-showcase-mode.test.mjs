@@ -32,7 +32,7 @@ test("public study actions are read-safe and non-submitting", () => {
   assert.equal(state.canSubmit, false);
   assert.equal(state.canAutosave, false);
   assert.match(state.submitMessage, /提交入口|记录研习内容/u);
-  assert.match(state.autosaveMessage, /当前页面|导出记录/u);
+  assert.match(state.autosaveMessage, /导出记录|研习内容/u);
   assert.equal(/公开展示模式/u.test(state.submitMessage), false);
   assert.equal(/不执行真实提交/u.test(state.submitMessage), false);
 });
