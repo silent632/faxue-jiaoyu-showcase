@@ -29,6 +29,8 @@ test("homepage page layout is operations-first with required structure classes",
   assert.match(source, /homepage-trend-summary/u);
   assert.match(source, /homepage-coverage-band/u);
   assert.match(source, /homepage-platform-entry-grid/u);
+  assert.match(source, /homepage-review-strip/u);
+  assert.match(source, /homepage-evidence-grid/u);
   assert.equal(source.includes("homepage-path-band"), false);
   assert.equal(source.includes("homepage-case-preview"), false);
   assert.equal(source.includes("homepage-overview-grid"), false);
@@ -53,6 +55,8 @@ test("homepage operations styles include new operations-first layout classes", (
   assert.match(source, /\.homepage-trend-summary/u);
   assert.match(source, /\.homepage-coverage-band/u);
   assert.match(source, /\.homepage-platform-entry-grid/u);
+  assert.match(source, /\.homepage-review-strip/u);
+  assert.match(source, /\.homepage-evidence-grid/u);
 });
 
 test("homepage copy avoids backstage or explanatory design language", () => {

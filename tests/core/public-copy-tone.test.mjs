@@ -59,3 +59,13 @@ test("resources and courses pages keep stable role markers with support-oriented
   assert.match(coursesSource, /教学组织/u);
   assert.equal(/课程编排以“进入案例、展开讨论、形成表达”/u.test(coursesSource), false);
 });
+
+test("cases page reads like a working retrieval desk instead of a generic entry splash", () => {
+  const source = readFileSync(new URL("../../app/cases/page.js", import.meta.url), "utf8");
+
+  assert.match(source, /cases-route-briefing/u);
+  assert.match(source, /cases-route-review-grid/u);
+  assert.match(source, /审阅提示|检索简报|使用建议/u);
+  assert.equal(/平台案例检索入口/u.test(source), false);
+  assert.equal(/先检索，再导读，再进入研习/u.test(source), false);
+});

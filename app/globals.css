@@ -2978,6 +2978,46 @@ main {
   gap: 12px;
 }
 
+.showcase-home-review-points {
+  display: grid;
+  gap: 10px;
+}
+
+.showcase-home-review-card {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(35, 67, 93, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.showcase-home-review-card span {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.showcase-home-review-card strong {
+  font-size: 1rem;
+}
+
+.showcase-home-review-card p,
+.showcase-home-review-foot p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
+.showcase-home-review-foot {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(35, 67, 93, 0.06);
+}
+
 .showcase-home-support-link {
   display: inline-flex;
   align-items: center;
@@ -3358,6 +3398,36 @@ main {
   margin-top: 24px;
 }
 
+.homepage-review-strip {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.homepage-review-item {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 242, 234, 0.98));
+}
+
+.homepage-review-item span {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.homepage-review-item strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.66;
+}
+
 .homepage-operations-band,
 .homepage-trend-panel,
 .homepage-coverage-band,
@@ -3483,9 +3553,49 @@ main {
   font-size: 1.45rem;
 }
 
+.homepage-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.homepage-evidence-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.homepage-evidence-card strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.06rem;
+  line-height: 1.58;
+}
+
+.homepage-evidence-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.homepage-evidence-card small {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 .homepage-platform-entry-grid {
   margin-top: 24px;
   display: grid;
+  gap: 16px;
+}
+
+.homepage-entry-rail {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
   gap: 16px;
 }
 
@@ -3509,6 +3619,15 @@ main {
   gap: 8px;
 }
 
+.homepage-platform-case-card.is-action {
+  background: linear-gradient(160deg, rgba(35, 67, 93, 0.95), rgba(24, 50, 74, 0.96));
+  color: #f6efe4;
+}
+
+.homepage-platform-case-card.is-action span {
+  color: rgba(246, 239, 228, 0.72);
+}
+
 .homepage-platform-entry-card:hover,
 .homepage-platform-entry-card:focus-visible,
 .homepage-platform-case-card:hover,
@@ -3520,6 +3639,39 @@ main {
   margin-bottom: 24px;
 }
 
+.impact-review-band {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.impact-review-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 242, 234, 0.98));
+}
+
+.impact-review-card span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.impact-review-card strong {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.impact-review-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
 .impact-trend-section,
 .impact-coverage-section,
 .impact-activity-section,
@@ -3529,7 +3681,7 @@ main {
 }
 
 .impact-coverage-section,
-.impact-activity-section,
+.impact-evidence-section,
 .impact-video-support {
   margin-top: 24px;
 }
@@ -3551,6 +3703,42 @@ main {
 .impact-activity-card {
   border-radius: 20px;
   padding: 18px;
+}
+
+.cases-route-briefing {
+  display: grid;
+  gap: 14px;
+  padding-top: 24px;
+}
+
+.cases-route-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cases-route-review-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 242, 234, 0.98));
+  box-shadow: var(--shadow);
+}
+
+.cases-route-review-card span {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.cases-route-review-card strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.66;
 }
 
 .impact-video-layout {
@@ -3629,14 +3817,19 @@ main {
 @media (max-width: 1100px) {
   .showcase-home-kpi-inline,
   .homepage-kpi-grid,
+  .homepage-review-strip,
+  .homepage-evidence-grid,
+  .impact-review-band,
   .homepage-trend-cards,
   .homepage-platform-entry-list,
-  .homepage-platform-live-list {
+  .homepage-platform-live-list,
+  .cases-route-review-grid {
     grid-template-columns: 1fr;
   }
 
   .homepage-trend-layout,
-  .homepage-coverage-grid {
+  .homepage-coverage-grid,
+  .homepage-entry-rail {
     grid-template-columns: 1fr;
   }
 

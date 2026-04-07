@@ -17,10 +17,10 @@ export default function CasesIntelligencePanels({
   const scopeNote = !filteredCount
     ? "当前没有匹配结果，可适当放宽条件后重新检索。"
     : shouldNarrow
-      ? "结果仍较多，建议继续补充一个条件。"
+      ? "结果仍较多，建议继续补充一个条件，把抽查范围先压缩下来。"
       : filteredCount === 1
-        ? "当前结果已聚焦，可直接进入案例详情。"
-        : "当前结果已适合浏览，可结合摘要与裁判结果继续选择。";
+        ? "当前结果已聚焦，可直接进入案例详情与原文入口。"
+        : "当前结果已适合浏览，可结合摘要、案号和裁判结果继续抽查。";
 
   return (
     <div className="cases-intel-grid">
@@ -52,7 +52,7 @@ export default function CasesIntelligencePanels({
         <section className="glass-sm cases-intel-card">
           <div className="cases-intel-head">
             <strong>{actionTitle}</strong>
-            <span>{shouldNarrow ? "缩小检索范围" : "高频检索入口"}</span>
+            <span>{shouldNarrow ? "缩小检索范围" : "高频抽查入口"}</span>
           </div>
           <div className="cases-action-row">
             {actionItems.map((item) => (

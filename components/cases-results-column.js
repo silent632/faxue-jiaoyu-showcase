@@ -47,7 +47,7 @@ export default function CasesResultsColumn({
           <div className="cases-results-copy">
             <span className="section-eyebrow">检索结果</span>
             <h2 className="section-title cases-results-title">{filteredCount ? `当前匹配 ${filteredCount} 条案例` : "暂时没有找到相关案例"}</h2>
-            <p className="section-desc cases-results-desc">{filteredCount ? "结合标题、法院、裁判结果与摘要，继续确定阅读对象。" : "可调整检索条件后重新浏览案例结果。"}</p>
+            <p className="section-desc cases-results-desc">{filteredCount ? "结合标题、法院、裁判结果与摘要，先确定抽查对象，再进入详情页核对原文。" : "可调整检索条件后重新浏览案例结果。"}</p>
           </div>
 
           <div className="cases-results-actions">
@@ -73,7 +73,7 @@ export default function CasesResultsColumn({
         </div>
 
         <div className="cases-results-toolbar">
-          <div className="cases-results-summary">{resultsSummary}</div>
+            <div className="cases-results-summary">{resultsSummary}</div>
           {activeFilters.length ? (
             <div className="active-filter-row">
               {activeFilters.map((item) => (
@@ -140,9 +140,9 @@ export default function CasesResultsColumn({
             ) : null}
 
             <div className="case-card-footer">
-              <span className="case-card-footer-note">进入详情页继续查看摘要、裁判结论与原文入口。</span>
+              <span className="case-card-footer-note">进入详情页继续查看导读判断、裁判结论与原文入口。</span>
               <Link className="btn btn-primary" href={`/cases/${item.id}`}>
-                进入案例
+                查看详情
               </Link>
             </div>
           </section>

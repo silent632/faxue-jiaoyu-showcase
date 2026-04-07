@@ -8,15 +8,29 @@ export default async function CasesPage() {
   const user = getPublicShowcaseUser();
   const navItems = buildShowcaseContent().nav;
   const allCases = await listPublicShowcaseCases();
+  const briefingCards = [
+    `当前案例库共 ${allCases.length} 条，可直接按案由、年份、法院层级和法条缩小范围。`,
+    "检索结果可顺着“案例详情 -> 导读判断 -> 研习工作台 -> PDF 原文”继续抽查。",
+    "本页不再承担宣传说明，重点回到可用的检索、筛选和案例进入效率。",
+  ];
 
   return (
     <main className="showcase-page cases-page-shell">
       <TopNav user={user} items={navItems} />
-      <section className="page-wrap cases-route-intro">
+      <section className="page-wrap cases-route-briefing">
         <div className="glass-sm cases-route-intro-card">
-          <p className="section-eyebrow">平台案例检索入口</p>
-          <h1>先检索，再导读，再进入研习</h1>
-          <p>围绕真实裁判文书完成案例筛选与导读判断，按教学路径进入后续研习页面。</p>
+          <p className="section-eyebrow">检索简报</p>
+          <h1>案例检索台</h1>
+          <p>这一页只做一件事：让专家和评审能快速定位案件、抽查详情，并顺着原文链路验证平台是否真的可用。</p>
+        </div>
+
+        <div className="cases-route-review-grid">
+          {briefingCards.map((item, index) => (
+            <article key={item} className="cases-route-review-card">
+              <span>{`0${index + 1}`}</span>
+              <strong>{item}</strong>
+            </article>
+          ))}
         </div>
       </section>
       <CasesWorkspace cases={allCases} initialFilters={{}} initialSort="date-desc" initialPage={1} />

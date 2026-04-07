@@ -41,13 +41,14 @@ test("impact page uses trend-first dashboard sections in the required priority o
   const source = readFileSync(new URL("../../app/impact/page.js", import.meta.url), "utf8");
   const trendIndex = source.indexOf("impact-trend-section");
   const coverageIndex = source.indexOf("impact-coverage-section");
-  const activityIndex = source.indexOf("impact-activity-section");
+  const evidenceIndex = source.indexOf("impact-evidence-section");
   const videoIndex = source.indexOf("impact-video-support");
 
   assert.match(source, /impact-trend-section/u);
   assert.match(source, /impact-coverage-section/u);
-  assert.match(source, /impact-activity-section/u);
+  assert.match(source, /impact-evidence-section/u);
   assert.match(source, /impact-video-support/u);
+  assert.match(source, /impact-review-band/u);
   assert.match(source, /content\.impactDashboard/u);
   assert.match(source, /content\.videoHub/u);
   assert.equal(source.includes("content.impact.sections.map"), false);
@@ -60,8 +61,8 @@ test("impact page uses trend-first dashboard sections in the required priority o
   assert.equal(source.includes("推广示范成效"), false);
   assert.equal(trendIndex > -1, true);
   assert.equal(coverageIndex > trendIndex, true);
-  assert.equal(activityIndex > coverageIndex, true);
-  assert.equal(videoIndex > activityIndex, true);
+  assert.equal(evidenceIndex > coverageIndex, true);
+  assert.equal(videoIndex > evidenceIndex, true);
 });
 
 test("showcase nav fallback uses shared nav builder to keep task-1 semantics", () => {

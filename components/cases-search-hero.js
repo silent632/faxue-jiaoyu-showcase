@@ -12,8 +12,8 @@ export default function CasesSearchHero({
 }) {
   const scopeLabel = selectedFilterCount ? `已选 ${selectedFilterCount} 项筛选` : "未加筛选";
   const guideText = selectedFilterCount
-    ? "当前范围已形成，可继续输入关键词或直接浏览结果。"
-    : "建议先以案由、年份或法院层级缩小结果范围。";
+    ? "当前检索范围已经形成，可继续输入关键词或直接抽查结果。"
+    : "建议先选年份与案由，再决定是否继续按法院层级或法条收窄。";
 
   return (
     <section className="glass cases-hero">
@@ -21,7 +21,7 @@ export default function CasesSearchHero({
         <div className="section-head-copy">
           <span className="section-eyebrow">案例检索</span>
           <h1 className="section-title cases-hero-title">案例检索库</h1>
-          <p className="section-desc cases-hero-desc">围绕案由、年份、法院层级与法条组织案例资源，支持类案比较与文书研读。</p>
+          <p className="section-desc cases-hero-desc">围绕案由、年份、法院层级与法条组织案例资源，服务案例抽查、类案对照和裁判文书原文核验。</p>
         </div>
 
         <div className="cases-hero-stats">
@@ -68,7 +68,7 @@ export default function CasesSearchHero({
           ) : null}
         </div>
 
-        <p className="cases-hero-search-hint">可输入案号、案名、法院或关键词，快速定位具体案例。</p>
+        <p className="cases-hero-search-hint">可直接输入案号、案名、法院或关键词，优先定位需要抽查的个案。</p>
       </div>
 
       <div className="cases-hero-foot">
