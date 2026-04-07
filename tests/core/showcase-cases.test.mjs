@@ -6,6 +6,7 @@ import {
   getShowcaseCanonicalStudyHref,
   getShowcaseCaseById,
   getShowcaseCaseStudyById,
+  getShowcaseCaseStaticParams,
   loadShowcaseCases,
   selectCanonicalDemoCaseId,
 } from "../../lib/showcase-cases.js";
@@ -60,6 +61,17 @@ test("showcase canonical study href is derived from a deterministic demo case", 
 
   assert.equal(canonicalId, selectCanonicalDemoCaseId([...rows].reverse()));
   assert.equal(getShowcaseCanonicalStudyHref(), `/cases/${canonicalId}/study`);
+});
+
+test("static params cover the full published case set including the canonical study case", async () => {
+  const rows = await loadShowcaseCases();
+  const canonicalId = getShowcaseCanonicalDemoCaseId();
+  const params = await getShowcaseCaseStaticParams();
+
+  assert.equal(params.length, rows.length);
+  assert.ok(params.some((item) => item.id === canonicalId));
+  assert.ok(params.some((item) => item.id === "case-0208"));
+  assert.ok(params.some((item) => item.id === "case-0025"));
 });
 
 test("real showcase cases can build workspace filter options", async () => {

@@ -59,7 +59,7 @@ function buildSummaryView(caseItem) {
 }
 
 export async function generateStaticParams() {
-  return getShowcaseCaseStaticParams(24);
+  return getShowcaseCaseStaticParams();
 }
 
 export default async function CaseDetailPage({ params }) {

@@ -72,3 +72,13 @@ test("showcase nav fallback uses shared nav builder to keep task-1 semantics", (
   assert.equal(source.includes("isShowcaseNavItemActive"), true);
   assert.equal(source.includes("aria-label=\"主导航\""), true);
 });
+
+test("case detail and study routes export the full case set instead of truncating to 24 items", () => {
+  const detailSource = readFileSync(new URL("../../app/cases/[id]/page.js", import.meta.url), "utf8");
+  const studySource = readFileSync(new URL("../../app/cases/[id]/study/page.js", import.meta.url), "utf8");
+
+  assert.equal(detailSource.includes("getShowcaseCaseStaticParams(24)"), false);
+  assert.equal(studySource.includes("getShowcaseCaseStaticParams(24)"), false);
+  assert.equal(detailSource.includes("getShowcaseCaseStaticParams()"), true);
+  assert.equal(studySource.includes("getShowcaseCaseStaticParams()"), true);
+});

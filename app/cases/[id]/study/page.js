@@ -12,7 +12,7 @@ import { getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
 import { buildShowcaseContent } from "@/lib/showcase-content";
 
 export async function generateStaticParams() {
-  return getShowcaseCaseStaticParams(24);
+  return getShowcaseCaseStaticParams();
 }
 
 export default async function StudyPage({ params }) {
