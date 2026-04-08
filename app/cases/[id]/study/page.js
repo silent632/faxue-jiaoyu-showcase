@@ -11,6 +11,11 @@ import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
 import { getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
 import { buildShowcaseContent } from "@/lib/showcase-content";
 
+function joinMetaParts(parts = [], fallback = "案例信息以原文为准") {
+  const values = parts.map((item) => String(item || "").trim()).filter(Boolean);
+  return values.length ? values.join(" · ") : fallback;
+}
+
 export async function generateStaticParams() {
   return getShowcaseCaseStaticParams();
 }
@@ -24,6 +29,7 @@ export default async function StudyPage({ params }) {
   if (!caseItem) notFound();
   const pdfFileName = normalizePublicFileName(caseItem.pdfFile);
   const hasPdf = await publicFileExists("pdfs", pdfFileName);
+  const studyMetaLine = joinMetaParts([caseItem.caseNumber, caseItem.courtName, caseItem.judgmentDate]);
   const shell = hasPdf ? (
     <StudySplitShell caseItem={caseItem} userSid={user.sid} pdfFileName={pdfFileName} hasPdf={hasPdf} />
   ) : (
@@ -41,7 +47,7 @@ export default async function StudyPage({ params }) {
               ← 返回详情
             </Link>
             <span className="tag">研习工作台</span>
-            <span className="study-head-case-number">{caseItem.caseNumber || "案号待补充"}</span>
+            <span className="study-head-case-number">{studyMetaLine}</span>
           </div>
 
           <div className="study-head-copy">
@@ -51,8 +57,8 @@ export default async function StudyPage({ params }) {
         </div>
 
         <div className="study-head-side">
-          <span className="study-head-meta">{caseItem.courtName || "法院待补充"}</span>
-          <span className="study-head-meta">{caseItem.judgmentDate || "日期待补充"}</span>
+          {caseItem.courtName ? <span className="study-head-meta">{caseItem.courtName}</span> : null}
+          {caseItem.judgmentDate ? <span className="study-head-meta">{caseItem.judgmentDate}</span> : null}
         </div>
       </div>
 

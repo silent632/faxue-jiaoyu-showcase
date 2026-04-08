@@ -1,4 +1,4 @@
-import { getPublicStudyDefaultFeedback, normalizePublicStudyFeedback } from "@/lib/public-showcase-study";
+import { getPublicStudyActionState, getPublicStudyDefaultFeedback, normalizePublicStudyFeedback } from "@/lib/public-showcase-study";
 
 function FeedbackBox({ item }) {
   const toneClass = item?.ok ? "success" : item?.tone === "warning" ? "warning" : "soft";
@@ -15,15 +15,12 @@ export default function StudyWorkspaceActions({
   hasPdf,
   mode,
   exporting,
-  submitting,
   exportFeedback,
-  submitFeedback,
   onExport,
-  onSubmit,
 }) {
+  const actionState = getPublicStudyActionState();
   const feedbackItems = [
     exportFeedback ? { key: "export", ...normalizePublicStudyFeedback(exportFeedback) } : null,
-    submitFeedback ? { key: "submit", ...normalizePublicStudyFeedback(submitFeedback) } : null,
   ].filter(Boolean);
 
   return (
@@ -44,16 +41,13 @@ export default function StudyWorkspaceActions({
         <button className="btn btn-primary" type="button" onClick={onExport} disabled={exporting}>
           {exporting ? "导出中..." : "导出研习记录"}
         </button>
-        <button className="btn btn-accent" type="button" onClick={onSubmit} disabled={submitting}>
-          {submitting ? "处理中..." : "提交研习"}
-        </button>
       </div>
 
       <div className="study-feedback-stack">
         {feedbackItems.length ? (
           feedbackItems.map((item) => <FeedbackBox key={item.key} item={item} />)
         ) : (
-          <FeedbackBox item={getPublicStudyDefaultFeedback()} />
+          <FeedbackBox item={{ ...getPublicStudyDefaultFeedback(), message: actionState.submitMessage }} />
         )}
       </div>
     </section>

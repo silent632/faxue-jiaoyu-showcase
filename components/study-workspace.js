@@ -10,14 +10,11 @@ import {
   STUDY_STEP_DEFINITIONS,
   exportStudyReport,
   getStudyWorkspaceMetrics,
-  submitStudyWorkspace,
 } from "@/lib/study-workspace";
 
 export default function StudyWorkspace({ caseItem, userSid, hasPdf = true, mode = "split" }) {
   const { draft, saveInfo, updateDraftField } = useStudyWorkspaceDraft({ caseId: caseItem.id, userSid });
-  const [submitFeedback, setSubmitFeedback] = useState(null);
   const [exportFeedback, setExportFeedback] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [visibleRefs, setVisibleRefs] = useState({
     fact: false,
@@ -32,20 +29,8 @@ export default function StudyWorkspace({ caseItem, userSid, hasPdf = true, mode 
       issue: false,
       analysis: false,
     });
-    setSubmitFeedback(null);
     setExportFeedback(null);
   }, [caseItem.id]);
-
-  async function handleSubmit() {
-    setSubmitting(true);
-    setSubmitFeedback(null);
-    try {
-      const result = await submitStudyWorkspace({ caseItem, draft });
-      setSubmitFeedback(result);
-    } finally {
-      setSubmitting(false);
-    }
-  }
 
   async function handleExport() {
     setExporting(true);
@@ -93,11 +78,8 @@ export default function StudyWorkspace({ caseItem, userSid, hasPdf = true, mode 
         hasPdf={hasPdf}
         mode={mode}
         exporting={exporting}
-        submitting={submitting}
         exportFeedback={exportFeedback}
-        submitFeedback={submitFeedback}
         onExport={handleExport}
-        onSubmit={handleSubmit}
       />
     </div>
   );

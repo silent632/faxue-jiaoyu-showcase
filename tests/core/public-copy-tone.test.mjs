@@ -132,3 +132,18 @@ test("public pages avoid exposed reviewer-facing guidance and analyst narration"
   assert.equal(/便于/u.test(sources), false);
   assert.equal(/当前页面/u.test(sources), false);
 });
+
+test("public-facing source copy avoids incomplete-state wording in expert-visible flows", () => {
+  const sources = [
+    readFileSync(new URL("../../app/cases/[id]/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/cases/[id]/study/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/cases-results-column.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/study-workspace-actions.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../lib/public-showcase-study.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../lib/study-workspace.js", import.meta.url), "utf8"),
+  ].join("\n");
+
+  for (const text of ["Word 原文待补充", "PDF 预览待补充", "案号待补充", "法院待补充", "日期待补充", "线上提交入口暂未开放", "提交研习"]) {
+    assert.equal(sources.includes(text), false, `found incomplete public wording: ${text}`);
+  }
+});

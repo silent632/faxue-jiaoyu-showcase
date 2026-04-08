@@ -28,9 +28,11 @@ test("public study workspace exposes disabled submit state", () => {
 
   assert.equal(state.canSubmit, false);
   assert.equal(state.canAutosave, true);
-  assert.match(state.submitMessage, /浏览器|提交/u);
+  assert.match(state.submitMessage, /浏览器|导出|整理/u);
+  assert.equal(/暂未开放/u.test(state.submitMessage), false);
   assert.equal(/公开展示模式下/u.test(publicCopy.submitMessage), false);
   assert.equal(/页面保留/u.test(publicCopy.autosaveMessage), false);
+  assert.equal(/暂未开放/u.test(publicCopy.submitMessage), false);
 });
 
 test("study helper exposes guide-first copy when pdf is missing", () => {
@@ -60,9 +62,11 @@ test("submitStudyWorkspace returns public showcase guidance instead of network s
   const result = await submitStudyWorkspace();
   const normalized = normalizePublicStudyFeedback(result);
 
-  assert.equal(result.ok, false);
-  assert.equal(normalized.tone, "warning");
-  assert.match(normalized.message, /提交入口|浏览器/u);
+  assert.equal(result.ok, true);
+  assert.equal(normalized.tone, "soft");
+  assert.match(normalized.message, /浏览器|导出|整理/u);
+  assert.equal(/提交入口/u.test(normalized.message), false);
+  assert.equal(/暂未开放/u.test(normalized.message), false);
   assert.equal(/公开展示模式/u.test(normalized.message), false);
   assert.equal(/不执行真实提交/u.test(normalized.message), false);
 });

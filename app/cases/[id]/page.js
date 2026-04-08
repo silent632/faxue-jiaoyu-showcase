@@ -58,6 +58,23 @@ function buildSummaryView(caseItem) {
   };
 }
 
+function joinMetaParts(parts = [], fallback = "案例信息以原文为准") {
+  const values = parts.map((item) => String(item || "").trim()).filter(Boolean);
+  return values.length ? values.join(" · ") : fallback;
+}
+
+function buildMetaRows(caseItem) {
+  return [
+    ["法院", caseItem.courtName],
+    ["案由", caseItem.causePath || caseItem.causeFocus],
+    ["裁判日期", caseItem.judgmentDate],
+    ["文书类型", caseItem.docType],
+    ["审理程序", caseItem.procedure],
+    ["省份", caseItem.province],
+    ["裁判结果", caseItem.result],
+  ].filter(([, value]) => String(value || "").trim());
+}
+
 export async function generateStaticParams() {
   return getShowcaseCaseStaticParams();
 }
@@ -82,15 +99,8 @@ export default async function CaseDetailPage({ params }) {
   const fileEntryNote = buildMissingPdfNote({ hasPdf, hasWord });
   const leadText = readingJudgment.about;
 
-  const metaRows = [
-    ["法院", caseItem.courtName || "-"],
-    ["案由", caseItem.causePath || caseItem.causeFocus || "-"],
-    ["裁判日期", caseItem.judgmentDate || "-"],
-    ["文书类型", caseItem.docType || "-"],
-    ["审理程序", caseItem.procedure || "-"],
-    ["省份", caseItem.province || "-"],
-    ["裁判结果", caseItem.result || "-"],
-  ];
+  const metaRows = buildMetaRows(caseItem);
+  const detailMetaLine = joinMetaParts([caseItem.caseNumber, caseItem.courtName, caseItem.judgmentDate]);
 
   const jumpLinks = [
     { href: "#case-reading-judgment", label: "导读判断" },
@@ -124,9 +134,7 @@ export default async function CaseDetailPage({ params }) {
             <div className="case-detail-main-copy">
               <p className="case-detail-kicker">案例导读判断</p>
               <h1 className="case-detail-title">{caseItem.title}</h1>
-              <p className="case-detail-meta-line">
-                {caseItem.caseNumber || "案号待补充"} · {caseItem.courtName || "法院待补充"} · {caseItem.judgmentDate || "日期待补充"}
-              </p>
+              <p className="case-detail-meta-line">{detailMetaLine}</p>
               <p className="case-detail-lead">{leadText}</p>
 
               <div id="case-reading-judgment" className="case-reading-judgment-grid">
@@ -163,24 +171,16 @@ export default async function CaseDetailPage({ params }) {
                 </Link>
 
                 {hasPdf ? (
-                  <Link className="btn btn-primary case-detail-secondary-action" href={`/pdfs/${encodeURIComponent(pdfFileName)}`} target="_blank" rel="noreferrer">
+                  <a className="btn btn-primary case-detail-secondary-action" href={`/pdfs/${encodeURIComponent(pdfFileName)}`} target="_blank" rel="noreferrer">
                     新窗口打开 PDF
-                  </Link>
-                ) : (
-                  <button className="btn btn-primary case-detail-secondary-action" type="button" disabled>
-                    PDF 预览待补充
-                  </button>
-                )}
+                  </a>
+                ) : null}
 
                 {hasWord ? (
-                  <Link className="btn btn-outline case-detail-secondary-action" href={`/words/${encodeURIComponent(wordFileName)}`} target="_blank" rel="noreferrer">
+                  <a className="btn btn-outline case-detail-secondary-action" href={`/words/${encodeURIComponent(wordFileName)}`} target="_blank" rel="noreferrer">
                     打开 Word 原文
-                  </Link>
-                ) : (
-                  <button className="btn btn-outline case-detail-secondary-action" type="button" disabled>
-                    Word 原文待补充
-                  </button>
-                )}
+                  </a>
+                ) : null}
               </div>
 
               <div className="case-detail-action-note-box">
@@ -231,11 +231,11 @@ export default async function CaseDetailPage({ params }) {
             <div className="case-top-focus-grid">
               <article className="case-focus-card">
                 <span className="case-focus-label">核心争议</span>
-                <strong>{coreDispute || "待补充"}</strong>
+                <strong>{coreDispute || "请结合案由与摘要继续判断案件争点。"}</strong>
               </article>
               <article className="case-focus-card is-outcome">
                 <span className="case-focus-label">裁判结论</span>
-                <strong>{outcomeHeadline || caseItem.resultText || "裁判结论待补充。"}</strong>
+                <strong>{outcomeHeadline || caseItem.resultText || "可结合案例摘要与原文继续判断裁判结论。"}</strong>
               </article>
             </div>
 
@@ -279,7 +279,7 @@ export default async function CaseDetailPage({ params }) {
               {summaryView.paragraphs.length ? (
                 summaryView.paragraphs.map((line, index) => <p key={`${index}-${line.slice(0, 12)}`}>{line}</p>)
               ) : (
-                <p>当前暂无摘要。</p>
+                <p>可结合原文入口继续阅读全文。</p>
               )}
             </div>
 
@@ -290,7 +290,7 @@ export default async function CaseDetailPage({ params }) {
 
             <div className="case-outcome-box case-detail-outcome-box">
               <span className="case-outcome-label">裁判结论</span>
-              <p>{outcomeHeadline || caseItem.resultText || "裁判结论待补充。"}</p>
+              <p>{outcomeHeadline || caseItem.resultText || "可结合案例摘要与原文继续判断裁判结论。"}</p>
             </div>
           </section>
         </div>

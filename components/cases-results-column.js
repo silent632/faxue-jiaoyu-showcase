@@ -3,9 +3,14 @@ import { SORT_OPTIONS } from "@/lib/cases-workspace";
 
 function buildCaseSnippet(item) {
   const source = String(item.summary || item.resultText || "").trim();
-  if (!source) return "当前暂无摘要，可进入详情页查看案例信息与原文入口。";
+  if (!source) return "可进入详情页查看案例信息与原文入口。";
   if (source.length <= 120) return source;
   return `${source.slice(0, 120).trim()}...`;
+}
+
+function joinMetaParts(parts = [], fallback = "案例信息以详情页为准") {
+  const values = parts.map((item) => String(item || "").trim()).filter(Boolean);
+  return values.length ? values.join(" · ") : fallback;
 }
 
 function buildVisiblePages(currentPage, totalPages) {
@@ -112,7 +117,7 @@ export default function CasesResultsColumn({
               </div>
               <div className="case-card-head-side">
                 {item.result ? <span className="tag tag-accent">{item.result}</span> : null}
-                <span className="case-card-date">{item.judgmentDate || "日期待补充"}</span>
+                {item.judgmentDate ? <span className="case-card-date">{item.judgmentDate}</span> : null}
               </div>
             </div>
 
@@ -122,9 +127,7 @@ export default function CasesResultsColumn({
                   {item.title}
                 </Link>
               </h3>
-              <p className="case-card-meta">
-                {item.caseNumber || "案号待补充"} · {item.courtName || "法院待补充"}
-              </p>
+              <p className="case-card-meta">{joinMetaParts([item.caseNumber, item.courtName])}</p>
               <p className="case-card-summary">{buildCaseSnippet(item)}</p>
             </div>
 

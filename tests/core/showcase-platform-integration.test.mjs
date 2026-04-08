@@ -96,3 +96,30 @@ test("case detail and study routes export the full case set instead of truncatin
   assert.equal(detailSource.includes("getShowcaseCaseStaticParams()"), true);
   assert.equal(studySource.includes("getShowcaseCaseStaticParams()"), true);
 });
+
+test("detail and study pages avoid incomplete public placeholders in core actions and headers", () => {
+  const detailSource = readFileSync(new URL("../../app/cases/[id]/page.js", import.meta.url), "utf8");
+  const studySource = readFileSync(new URL("../../app/cases/[id]/study/page.js", import.meta.url), "utf8");
+  const resultsSource = readFileSync(new URL("../../components/cases-results-column.js", import.meta.url), "utf8");
+  const actionsSource = readFileSync(new URL("../../components/study-workspace-actions.js", import.meta.url), "utf8");
+
+  assert.equal(detailSource.includes("Word 原文待补充"), false);
+  assert.equal(detailSource.includes("PDF 预览待补充"), false);
+  assert.equal(detailSource.includes("案号待补充"), false);
+  assert.equal(detailSource.includes("法院待补充"), false);
+  assert.equal(detailSource.includes("日期待补充"), false);
+  assert.equal(studySource.includes("案号待补充"), false);
+  assert.equal(studySource.includes("法院待补充"), false);
+  assert.equal(studySource.includes("日期待补充"), false);
+  assert.equal(resultsSource.includes("案号待补充"), false);
+  assert.equal(resultsSource.includes("法院待补充"), false);
+  assert.equal(resultsSource.includes("日期待补充"), false);
+  assert.equal(actionsSource.includes("提交研习"), false);
+});
+
+test("detail page opens public pdf files with plain anchors instead of next/link navigation", () => {
+  const detailSource = readFileSync(new URL("../../app/cases/[id]/page.js", import.meta.url), "utf8");
+
+  assert.match(detailSource, /<a className="btn btn-primary case-detail-secondary-action" href=\{`\/pdfs\/\$\{encodeURIComponent\(pdfFileName\)\}`\}/u);
+  assert.equal(/<Link className="btn btn-primary case-detail-secondary-action" href=\{`\/pdfs\//u.test(detailSource), false);
+});
