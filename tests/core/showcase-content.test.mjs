@@ -17,12 +17,10 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.metrics.coursePeriods.label, "双师课程");
   assert.equal(content.metrics.coursePeriods.value, "8期");
   assert.equal(content.metrics.coursePeriods.raw, 8);
-  assert.equal(content.metrics.registeredUsers.label, "注册用户");
-  assert.equal(content.metrics.registeredUsers.value, "800+");
-  assert.equal(content.metrics.registeredUsers.raw, 800);
+  assert.equal("registeredUsers" in content.metrics, false);
   assert.equal(content.metrics.totalVisits.label, "累计访问");
-  assert.equal(content.metrics.totalVisits.value, "2万+");
-  assert.equal(content.metrics.totalVisits.raw, 20000);
+  assert.equal(content.metrics.totalVisits.value, "5万+");
+  assert.equal(content.metrics.totalVisits.raw, 50000);
   assert.deepEqual(content.nav.map((item) => item.href), [
     "/",
     "/courses",

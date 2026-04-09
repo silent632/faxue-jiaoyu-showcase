@@ -131,8 +131,7 @@ homeDashboard: {
     description: "围绕持续运行、应用覆盖、使用强度与视频推广，共同建立平台真实在用的第一认知。",
   },
   kpis: [
-    { key: "registeredUsers", label: "注册用户", value: "800+", tone: "primary" },
-    { key: "totalVisits", label: "累计访问", value: "2万+", tone: "primary" },
+    { key: "totalVisits", label: "累计访问", value: "5万+", tone: "primary" },
     { key: "activeUsers", label: "活跃用户", value: "612", tone: "secondary" },
     { key: "workspaceReturnRate", label: "工作台回访率", value: "71%", tone: "secondary" },
   ],
@@ -147,8 +146,7 @@ impactDashboard: {
     { id: "content", title: "内容更新趋势", period: "近30天" },
   ],
   coverageCards: [
-    { label: "注册用户", value: "800+" },
-    { label: "累计访问", value: "2万+" },
+    { label: "累计访问", value: "5万+" },
     { label: "案例检索使用占比", value: "63%" },
     { label: "工作台回访率", value: "71%" },
   ],
