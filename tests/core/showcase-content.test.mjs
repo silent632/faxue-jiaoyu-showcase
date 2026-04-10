@@ -163,11 +163,13 @@ test("impact dashboard source data is ready for trend-coverage-video composition
   assert.ok(coverageCards.every((card) => typeof card.coverageValue === "string" && /\d/u.test(card.coverageValue)));
 
   assert.ok(featuredVideo && typeof featuredVideo.title === "string" && featuredVideo.title.length > 0);
-  assert.ok(featuredVideo && typeof featuredVideo.href === "string" && /^https?:\/\//u.test(featuredVideo.href));
+  assert.ok(featuredVideo && typeof featuredVideo.href === "string" && /^\/resources\/videos\//u.test(featuredVideo.href));
+  assert.ok(featuredVideo && typeof featuredVideo.sourceHref === "string" && /^https?:\/\//u.test(featuredVideo.sourceHref));
   assert.ok(Array.isArray(playlist));
   assert.equal(playlist.length >= 1, true);
   assert.ok(playlist.every((item) => typeof item.title === "string" && item.title.length > 0));
-  assert.ok(playlist.every((item) => typeof item.href === "string" && /^https?:\/\//u.test(item.href)));
+  assert.ok(playlist.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
+  assert.ok(playlist.every((item) => typeof item.sourceHref === "string" && /^https?:\/\//u.test(item.sourceHref)));
 });
 
 test("supporting pages use resilient metadata lookups with fallbacks", () => {
@@ -226,13 +228,16 @@ test("video hub dataset supports featured-plus-playlist showcase composition", (
   assert.equal(typeof featured.slug, "string");
   assert.equal(typeof featured.title, "string");
   assert.equal(typeof featured.href, "string");
-  assert.match(featured.href, /^https?:\/\//u);
+  assert.match(featured.href, /^\/resources\/videos\//u);
+  assert.equal(typeof featured.sourceHref, "string");
+  assert.match(featured.sourceHref, /^https?:\/\//u);
 
   assert.equal(Array.isArray(playlist), true);
   assert.equal(playlist.length >= 1, true);
   assert.ok(playlist.every((item) => typeof item.slug === "string" && item.slug.length > 0));
   assert.ok(playlist.every((item) => typeof item.title === "string" && item.title.length > 0));
-  assert.ok(playlist.every((item) => typeof item.href === "string" && /^https?:\/\//u.test(item.href)));
+  assert.ok(playlist.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
+  assert.ok(playlist.every((item) => typeof item.sourceHref === "string" && /^https?:\/\//u.test(item.sourceHref)));
   assert.equal(playlist.some((item) => item.slug === featured.slug), false);
 
   const slugs = allVideos.map((item) => item.slug);

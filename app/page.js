@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ShowcaseVideoLink from "@/components/showcase-video-link";
 import ShowcaseOperationsBand from "@/components/showcase-operations-band";
 import ShowcaseTrendPanel from "@/components/showcase-trend-panel";
 import TopNav from "@/components/top-nav";
@@ -202,9 +203,13 @@ export default async function HomePage() {
               <strong>{homeVideoBlock.featured.title}</strong>
               <p>{homeVideoBlock.featured.summary}</p>
               <p className="homepage-video-purpose">{homeVideoBlock.featured.purpose}</p>
-              <a href={homeVideoBlock.featured.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+              <ShowcaseVideoLink
+                href={homeVideoBlock.featured.href}
+                external={homeVideoBlock.featured.external}
+                className="homepage-video-link"
+              >
                 点击观看
-              </a>
+              </ShowcaseVideoLink>
             </article>
           </div>
 
@@ -221,9 +226,9 @@ export default async function HomePage() {
                   <span className="showcase-card-eyebrow">课程视频</span>
                   <strong>{item.title}</strong>
                   <p>{item.purpose}</p>
-                  <a href={item.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+                  <ShowcaseVideoLink href={item.href} external={item.external} className="homepage-video-link">
                     点击观看
-                  </a>
+                  </ShowcaseVideoLink>
                 </div>
               </article>
             ))}
@@ -250,9 +255,9 @@ export default async function HomePage() {
                       <span className="showcase-card-eyebrow">课程视频</span>
                       <strong>{item.title}</strong>
                       <p>{item.purpose}</p>
-                      <a href={item.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+                      <ShowcaseVideoLink href={item.href} external={item.external} className="homepage-video-link">
                         点击观看
-                      </a>
+                      </ShowcaseVideoLink>
                     </div>
                   </article>
                 ))}

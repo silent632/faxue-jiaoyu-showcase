@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ShowcaseVideoLink from "@/components/showcase-video-link";
 import TopNav from "@/components/top-nav";
 import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
 import { buildShowcaseContent } from "@/lib/showcase-content";
@@ -141,17 +142,22 @@ export default function ImpactPage() {
 
           <div className="impact-video-layout">
             {featuredVideo ? (
-              <a className="impact-video-featured" href={featuredVideo.href} target="_blank" rel="noreferrer">
+              <ShowcaseVideoLink className="impact-video-featured" href={featuredVideo.href} external={featuredVideo.external}>
                 <span className="showcase-card-eyebrow">主视频</span>
                 <strong>{featuredVideo.title}</strong>
-              </a>
+              </ShowcaseVideoLink>
             ) : null}
 
             <div className="impact-video-list">
               {supportVideos.map((item) => (
-                <a key={item.slug} href={item.href} target="_blank" rel="noreferrer" className="impact-video-item">
+                <ShowcaseVideoLink
+                  key={item.slug}
+                  href={item.href}
+                  external={item.external}
+                  className="impact-video-item"
+                >
                   <span>{item.title}</span>
-                </a>
+                </ShowcaseVideoLink>
               ))}
             </div>
           </div>

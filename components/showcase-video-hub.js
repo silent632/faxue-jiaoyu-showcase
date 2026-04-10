@@ -1,3 +1,4 @@
+import ShowcaseVideoLink from "@/components/showcase-video-link";
 import ShowcaseSection from "@/components/showcase-section";
 
 export default function ShowcaseVideoHub({ hub }) {
@@ -18,19 +19,24 @@ export default function ShowcaseVideoHub({ hub }) {
     >
       <div className="showcase-video-hub-layout">
         {featured ? (
-          <a className="showcase-video-featured" href={featured.href} target="_blank" rel="noreferrer">
+          <ShowcaseVideoLink className="showcase-video-featured" href={featured.href} external={featured.external}>
             <span className="showcase-card-eyebrow">示范性教学视频</span>
             <strong>{featured.title}</strong>
             <p>呈现双师课堂组织、案例进入方式与教学应用路径。</p>
-          </a>
+          </ShowcaseVideoLink>
         ) : null}
 
         <div className="showcase-video-playlist">
           {playlist.map((item) => (
-            <a key={item.slug} className="showcase-video-item" href={item.href} target="_blank" rel="noreferrer">
+            <ShowcaseVideoLink
+              key={item.slug}
+              className="showcase-video-item"
+              href={item.href}
+              external={item.external}
+            >
               <span>课程视频</span>
               <strong>{item.title}</strong>
-            </a>
+            </ShowcaseVideoLink>
           ))}
         </div>
       </div>

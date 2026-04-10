@@ -99,16 +99,17 @@ test("homepage video copy stays visitor-facing and avoids internal wording", () 
   assert.equal(/演示|执行|任务|评审/u.test(text), false);
 });
 
-test("homepage period videos can point at direct Tencent VOD mp4 links", () => {
+test("homepage hosted videos route to site-local player pages and keep Tencent VOD sources", () => {
   const { featured, supporting } = buildShowcaseContent().homeVideoBlock;
   const items = [featured, ...supporting];
 
   assert.equal(items.length, 6);
 
   for (const item of items) {
-    assert.match(item.href, /vod-qcloud\.com/u);
-    assert.match(item.href, /\.mp4$/u);
-    assert.equal(/58u\.cn/u.test(item.href), false);
+    assert.match(item.href, /^\/resources\/videos\/course-period-/u);
+    assert.match(item.sourceHref, /vod-qcloud\.com/u);
+    assert.match(item.sourceHref, /\.mp4$/u);
+    assert.equal(item.external, false);
   }
 });
 
@@ -121,6 +122,7 @@ test("homepage content can expose segmented early-period videos separately", () 
   assert.equal(segmented.items[0].slug, "course-period-01-part-1");
   assert.equal(segmented.items[6].slug, "course-period-02-part-2");
   assert.match(text, /llm2x7\.58u\.cn/u);
+  assert.equal(segmented.items.every((item) => item.external === true), true);
 });
 
 test("homepage video block styles support featured and supporting card layouts", () => {
