@@ -136,6 +136,36 @@ export default async function HomePage() {
               </article>
             ))}
           </div>
+
+          {content.homeVideoBlock.segmented ? (
+            <div className="homepage-video-subgroup">
+              <div className="homepage-video-subgroup-head">
+                <span className="showcase-card-eyebrow">分段课程视频</span>
+                <strong>{content.homeVideoBlock.segmented.title}</strong>
+                <p>{content.homeVideoBlock.segmented.description}</p>
+              </div>
+
+              <div className="homepage-video-grid">
+                {content.homeVideoBlock.segmented.items.map((item) => (
+                  <article key={item.slug} className="homepage-video-card">
+                    <div className="homepage-video-cover">
+                      <span className="homepage-video-cover-label">{item.label}</span>
+                      <strong>{item.title}</strong>
+                      <p>{item.summary}</p>
+                    </div>
+                    <div className="homepage-video-card-copy">
+                      <span className="showcase-card-eyebrow">课程视频</span>
+                      <strong>{item.title}</strong>
+                      <p>{item.purpose}</p>
+                      <a href={item.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+                        点击观看
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </section>
 
         <section className="homepage-impact-closing showcase-card" aria-label="建设成效收束">
