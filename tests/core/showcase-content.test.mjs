@@ -24,6 +24,7 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.metrics.coursePeriods.value, "8期");
   assert.equal(content.metrics.coursePeriods.raw, 8);
   assert.equal(content.metrics.totalVisits.label, "累计访问");
+  assert.equal(content.metrics.registeredUsers.label, "平台使用者");
   assert.equal(content.metrics.registeredUsers.value, "800+");
   assert.equal(content.metrics.registeredUsers.raw, 800);
   assert.equal(content.metrics.totalVisits.value, "5万+");
@@ -63,9 +64,10 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.ok(Array.isArray(content.impactDashboard.coverageCards));
   assert.equal(content.impactDashboard.coverageCards.length >= 2, true);
   assert.ok(content.videoHub);
-  assert.ok(content.videoHub.featured);
-  assert.ok(Array.isArray(content.videoHub.playlist));
-  assert.equal(content.videoHub.playlist.length >= 1, true);
+  assert.ok(Array.isArray(content.videoHub.phaseGuide));
+  assert.equal(content.videoHub.phaseGuide.length, 2);
+  assert.ok(Array.isArray(content.videoHub.periods));
+  assert.equal(content.videoHub.periods.length, 8);
   assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", canonicalDetailHref, canonicalStudyHref]);
   assert.equal(content.homeFlow.length, 3);
   assert.ok(content.homePreview);
@@ -73,6 +75,7 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.homePreview.studyHighlights.length, 3);
   assert.equal(content.platformHighlights.length, 3);
   assert.equal(content.courses.timeline.length, 8);
+  assert.equal(content.courses.periods.length, 8);
   assert.deepEqual(content.courses.timeline.map((item) => item.period), [
     "第一期",
     "第二期",
@@ -123,11 +126,12 @@ test("operations-first dashboards present formed impact and platform metrics sem
   assert.match(heroText, /已形成/u);
   assert.equal(/先完成|再进入|最后/u.test(heroText), false);
 
-  assert.ok(kpiLabels.includes("注册用户"));
+  assert.ok(kpiLabels.includes("平台使用者"));
   assert.ok(kpiLabels.includes("累计访问"));
   assert.ok(kpiLabels.includes("活跃用户"));
   assert.ok(kpiLabels.includes("工作台回访率"));
   assert.ok(kpiLabels.includes("案例检索使用占比"));
+  assert.equal(kpiLabels.includes("注册用户"), false);
   assert.equal(kpiLabels.includes("典型案例"), false);
   assert.equal(kpiLabels.includes("双师课程"), false);
 
@@ -143,12 +147,11 @@ test("operations-first dashboards present formed impact and platform metrics sem
   assert.ok(content.impactDashboard.coverageCards.some((card) => /覆盖/u.test(card.title)));
 });
 
-test("impact dashboard source data is ready for trend-coverage-video composition", () => {
+test("impact dashboard source data is ready for trend and coverage composition", () => {
   const content = buildShowcaseContent();
   const trendPanels = content.impactDashboard?.trendPanels ?? [];
   const coverageCards = content.impactDashboard?.coverageCards ?? [];
-  const featuredVideo = content.videoHub?.featured;
-  const playlist = content.videoHub?.playlist ?? [];
+  const impactSections = content.impact?.sections ?? [];
 
   assert.ok(Array.isArray(trendPanels));
   assert.equal(trendPanels.length >= 3, true);
@@ -161,15 +164,10 @@ test("impact dashboard source data is ready for trend-coverage-video composition
   assert.ok(coverageCards.every((card) => typeof card.title === "string" && card.title.length > 0));
   assert.ok(coverageCards.every((card) => typeof card.description === "string" && card.description.length > 0));
   assert.ok(coverageCards.every((card) => typeof card.coverageValue === "string" && /\d/u.test(card.coverageValue)));
-
-  assert.ok(featuredVideo && typeof featuredVideo.title === "string" && featuredVideo.title.length > 0);
-  assert.ok(featuredVideo && typeof featuredVideo.href === "string" && /^\/resources\/videos\//u.test(featuredVideo.href));
-  assert.ok(featuredVideo && typeof featuredVideo.sourceHref === "string" && /^https?:\/\//u.test(featuredVideo.sourceHref));
-  assert.ok(Array.isArray(playlist));
-  assert.equal(playlist.length >= 1, true);
-  assert.ok(playlist.every((item) => typeof item.title === "string" && item.title.length > 0));
-  assert.ok(playlist.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
-  assert.ok(playlist.every((item) => typeof item.sourceHref === "string" && /^https?:\/\//u.test(item.sourceHref)));
+  assert.ok(Array.isArray(impactSections));
+  assert.equal(impactSections.length, 4);
+  assert.ok(impactSections.every((item) => typeof item.title === "string" && item.title.length > 0));
+  assert.ok(impactSections.every((item) => Array.isArray(item.points) && item.points.length >= 3));
 });
 
 test("supporting pages use resilient metadata lookups with fallbacks", () => {
@@ -212,34 +210,44 @@ test("supporting pages use resilient metadata lookups with fallbacks", () => {
   });
 });
 
-test("video hub dataset supports featured-plus-playlist showcase composition", () => {
+test("video hub dataset supports eight-period video results and segmented early periods", () => {
   const content = buildShowcaseContent();
   const hub = content.videoHub ?? {};
-  const featured = hub.featured;
-  const playlist = Array.isArray(hub.playlist) ? hub.playlist : [];
-  const allVideos = featured ? [featured, ...playlist] : playlist;
+  const phaseGuide = Array.isArray(hub.phaseGuide) ? hub.phaseGuide : [];
+  const periods = Array.isArray(hub.periods) ? hub.periods : [];
 
   assert.equal(typeof hub.title, "string");
   assert.match(hub.title, /课程视频/u);
   assert.equal(typeof hub.hero, "string");
-  assert.match(hub.hero, /课程视频/u);
+  assert.match(hub.hero, /八期/u);
+  assert.equal(phaseGuide.length, 2);
+  assert.ok(phaseGuide.every((item) => typeof item.title === "string" && item.title.length > 0));
+  assert.ok(periods.every((item) => typeof item.slug === "string" && item.slug.length > 0));
+  assert.equal(periods.length, 8);
+  assert.equal(periods[0].slug, "course-period-01");
+  assert.equal(periods[7].slug, "course-period-08");
+  assert.equal(periods[0].playerMode, "segments");
+  assert.equal(periods[1].playerMode, "segments");
+  assert.ok(periods.slice(2).every((item) => item.playerMode === "video"));
+  assert.ok(periods.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
+  assert.ok(periods.slice(2).every((item) => typeof item.sourceHref === "string" && /^https?:\/\//u.test(item.sourceHref)));
+  assert.ok(Array.isArray(periods[0].segments));
+  assert.equal(periods[0].segments.length, 5);
+  assert.equal(periods[1].segments.length, 2);
 
-  assert.ok(featured);
-  assert.equal(typeof featured.slug, "string");
-  assert.equal(typeof featured.title, "string");
-  assert.equal(typeof featured.href, "string");
-  assert.match(featured.href, /^\/resources\/videos\//u);
-  assert.equal(typeof featured.sourceHref, "string");
-  assert.match(featured.sourceHref, /^https?:\/\//u);
-
-  assert.equal(Array.isArray(playlist), true);
-  assert.equal(playlist.length >= 1, true);
-  assert.ok(playlist.every((item) => typeof item.slug === "string" && item.slug.length > 0));
-  assert.ok(playlist.every((item) => typeof item.title === "string" && item.title.length > 0));
-  assert.ok(playlist.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
-  assert.ok(playlist.every((item) => typeof item.sourceHref === "string" && /^https?:\/\//u.test(item.sourceHref)));
-  assert.equal(playlist.some((item) => item.slug === featured.slug), false);
-
-  const slugs = allVideos.map((item) => item.slug);
+  const slugs = periods.map((item) => item.slug);
   assert.equal(new Set(slugs).size, slugs.length);
+});
+
+test("course archive data exposes period summaries, materials, and video links", () => {
+  const periods = buildShowcaseContent().courses.periods;
+
+  assert.equal(periods.length, 8);
+  assert.equal(periods[0].period, "第一期");
+  assert.equal(periods[7].period, "第八期");
+  assert.ok(periods.every((item) => typeof item.module === "string" && item.module.length > 0));
+  assert.ok(periods.every((item) => typeof item.stageTag === "string" && item.stageTag.length > 0));
+  assert.ok(periods.every((item) => typeof item.description === "string" && item.description.length > 0));
+  assert.ok(periods.every((item) => Array.isArray(item.materials) && item.materials.length >= 2));
+  assert.ok(periods.every((item) => typeof item.videoHref === "string" && /^\/resources\/videos\//u.test(item.videoHref)));
 });

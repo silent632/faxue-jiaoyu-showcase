@@ -61,14 +61,16 @@ test("resources and courses pages keep stable role markers with support-oriented
 
   assert.match(resourcesSource, /data-page-role="video-hub"/u);
   assert.match(resourcesSource, /hub=\{content\.videoHub\}/u);
-  assert.match(resourcesSource, /示范性教学视频/u);
+  assert.match(resourcesSource, /课程视频成果|八期课程视频成果/u);
+  assert.equal(/示范性教学视频/u.test(resourcesSource), false);
+  assert.equal(/主视频|辅助视频/u.test(resourcesSource), false);
   assert.equal(/教学资源配置/u.test(resourcesSource), false);
   assert.equal(/content\.resources\.groups/u.test(resourcesSource), false);
 
   assert.match(coursesSource, /data-page-role="courses-support"/u);
-  assert.match(coursesSource, /双师课程体系/u);
-  assert.match(coursesSource, /阶段安排|课程主题/u);
-  assert.match(coursesSource, /主题脉络|课程时间轴/u);
+  assert.match(coursesSource, /课程档案/u);
+  assert.match(coursesSource, /阶段定位|课程主题/u);
+  assert.match(coursesSource, /配套资料|视频入口/u);
   assert.equal(/课程编排以“进入案例、展开讨论、形成表达”/u.test(coursesSource), false);
 });
 
@@ -102,6 +104,11 @@ test("homepage and impact pages avoid meta design commentary in review copy", ()
   ]) {
     assert.equal(homeSource.includes(text) || impactSource.includes(text), false, `found meta copy: ${text}`);
   }
+
+  assert.equal(/注册用户/u.test(homeSource), false);
+  assert.equal(/注册用户/u.test(impactSource), false);
+  assert.equal(/主视频|辅助视频/u.test(homeSource), false);
+  assert.equal(/主视频|辅助视频/u.test(impactSource), false);
 });
 
 test("public pages avoid exposed reviewer-facing guidance and analyst narration", () => {

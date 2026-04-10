@@ -30,9 +30,8 @@ test("homepage page layout is operations-first with required structure classes",
   assert.match(source, /homepage-evidence-ledger/u);
   assert.match(source, /homepage-review-ledger/u);
   assert.match(source, /homepage-video-block/u);
-  assert.match(source, /homepage-video-featured/u);
-  assert.match(source, /homepage-video-grid/u);
-  assert.match(source, /homepage-video-subgroup/u);
+  assert.match(source, /homepage-video-stage-grid/u);
+  assert.match(source, /homepage-video-period-grid/u);
   assert.match(source, /homepage-audit-entry-grid/u);
   assert.match(source, /homepage-console-ledger/u);
   assert.match(source, /homepage-console-inline-evidence/u);
@@ -62,9 +61,8 @@ test("homepage operations styles include review-console and video layout classes
   assert.match(source, /\.homepage-evidence-ledger/u);
   assert.match(source, /\.homepage-review-ledger/u);
   assert.match(source, /\.homepage-video-block/u);
-  assert.match(source, /\.homepage-video-featured/u);
-  assert.match(source, /\.homepage-video-grid/u);
-  assert.match(source, /\.homepage-video-subgroup/u);
+  assert.match(source, /\.homepage-video-stage-grid/u);
+  assert.match(source, /\.homepage-video-period-grid/u);
   assert.match(source, /\.homepage-audit-entry-grid/u);
   assert.match(source, /\.homepage-console-ledger/u);
   assert.match(source, /\.homepage-console-inline-evidence/u);
@@ -80,15 +78,14 @@ test("homepage copy avoids backstage or explanatory design language", () => {
   assert.equal(/首屏首先呈现|平台首页说明|围绕案例研习组织平台首屏/u.test(text), false);
 });
 
-test("homepage content exposes a featured video and supporting video list", () => {
+test("homepage content exposes an eight-period video preview block", () => {
   const content = buildShowcaseContent();
 
   assert.ok(content.homeVideoBlock);
-  assert.equal(content.homeVideoBlock.featured.slug, "course-period-08");
-  assert.equal(content.homeVideoBlock.featured.label, "主视频");
-  assert.equal(content.homeVideoBlock.supporting.length, 5);
-  assert.equal(content.homeVideoBlock.supporting[0].slug, "course-period-07");
-  assert.equal(content.homeVideoBlock.supporting[4].slug, "course-period-03");
+  assert.equal(content.homeVideoBlock.periods.length, 8);
+  assert.equal(content.homeVideoBlock.phaseGuide.length, 2);
+  assert.equal(content.homeVideoBlock.periods[0].slug, "course-period-01");
+  assert.equal(content.homeVideoBlock.periods[7].slug, "course-period-08");
 });
 
 test("homepage video copy stays visitor-facing and avoids internal wording", () => {
@@ -99,38 +96,22 @@ test("homepage video copy stays visitor-facing and avoids internal wording", () 
   assert.equal(/演示|执行|任务|评审/u.test(text), false);
 });
 
-test("homepage hosted videos route to site-local player pages and keep Tencent VOD sources", () => {
-  const { featured, supporting } = buildShowcaseContent().homeVideoBlock;
-  const items = [featured, ...supporting];
+test("homepage video preview routes all eight periods to site-local player pages", () => {
+  const items = buildShowcaseContent().homeVideoBlock.periods;
 
-  assert.equal(items.length, 6);
-
-  for (const item of items) {
-    assert.match(item.href, /^\/resources\/videos\/course-period-/u);
-    assert.match(item.sourceHref, /vod-qcloud\.com/u);
-    assert.match(item.sourceHref, /\.mp4$/u);
-    assert.equal(item.external, false);
-  }
+  assert.equal(items.length, 8);
+  assert.ok(items.every((item) => /^\/resources\/videos\/course-period-/u.test(item.href)));
+  assert.equal(items[0].playerMode, "segments");
+  assert.equal(items[1].playerMode, "segments");
+  assert.ok(items.slice(2).every((item) => item.playerMode === "video"));
+  assert.ok(items.slice(2).every((item) => /vod-qcloud\.com/u.test(item.sourceHref)));
 });
 
-test("homepage content can expose segmented early-period videos separately", () => {
-  const segmented = buildShowcaseContent().homeVideoBlock.segmented;
-  const text = JSON.stringify(segmented);
-
-  assert.ok(segmented);
-  assert.equal(segmented.items.length, 7);
-  assert.equal(segmented.items[0].slug, "course-period-01-part-1");
-  assert.equal(segmented.items[6].slug, "course-period-02-part-2");
-  assert.match(text, /llm2x7\.58u\.cn/u);
-  assert.equal(segmented.items.every((item) => item.external === true), true);
-});
-
-test("homepage video block styles support featured and supporting card layouts", () => {
+test("homepage video block styles support stage and period grids", () => {
   const source = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 
   assert.match(source, /\.homepage-video-block/u);
-  assert.match(source, /\.homepage-video-featured/u);
-  assert.match(source, /\.homepage-video-grid/u);
-  assert.match(source, /\.homepage-video-subgroup/u);
-  assert.match(source, /\.homepage-video-cover/u);
+  assert.match(source, /\.homepage-video-stage-grid/u);
+  assert.match(source, /\.homepage-video-period-grid/u);
+  assert.match(source, /\.homepage-video-period-card/u);
 });

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import ShowcaseVideoLink from "@/components/showcase-video-link";
 import ShowcaseOperationsBand from "@/components/showcase-operations-band";
 import ShowcaseTrendPanel from "@/components/showcase-trend-panel";
 import TopNav from "@/components/top-nav";
@@ -191,79 +190,35 @@ export default async function HomePage() {
             <p>{homeVideoBlock.description}</p>
           </div>
 
-          <div className="homepage-video-featured">
-            <div className="homepage-video-cover homepage-video-cover-featured">
-              <span className="homepage-video-cover-label">{homeVideoBlock.featured.label}</span>
-              <strong>{homeVideoBlock.featured.title}</strong>
-              <p>{homeVideoBlock.featured.summary}</p>
-            </div>
-
-            <article className="homepage-video-featured-card">
-              <span className="showcase-card-eyebrow">重点观看</span>
-              <strong>{homeVideoBlock.featured.title}</strong>
-              <p>{homeVideoBlock.featured.summary}</p>
-              <p className="homepage-video-purpose">{homeVideoBlock.featured.purpose}</p>
-              <ShowcaseVideoLink
-                href={homeVideoBlock.featured.href}
-                external={homeVideoBlock.featured.external}
-                className="homepage-video-link"
-              >
-                点击观看
-              </ShowcaseVideoLink>
-            </article>
-          </div>
-
-          <div className="homepage-video-grid">
-            {homeVideoBlock.supporting.map((item) => (
-              <article key={item.slug} className="homepage-video-card">
-                <div className="homepage-video-cover">
-                  <span className="homepage-video-cover-label">{item.label}</span>
-                  <strong>{item.title}</strong>
-                  <p>{item.summary}</p>
-                </div>
-
-                <div className="homepage-video-card-copy">
-                  <span className="showcase-card-eyebrow">课程视频</span>
-                  <strong>{item.title}</strong>
-                  <p>{item.purpose}</p>
-                  <ShowcaseVideoLink href={item.href} external={item.external} className="homepage-video-link">
-                    点击观看
-                  </ShowcaseVideoLink>
-                </div>
+          <div className="homepage-video-stage-grid">
+            {homeVideoBlock.phaseGuide.map((item) => (
+              <article key={item.slug} className="homepage-video-stage-card">
+                <span className="showcase-card-eyebrow">阶段说明</span>
+                <strong>{item.title}</strong>
+                <p>{item.description}</p>
               </article>
             ))}
           </div>
 
-          {homeVideoBlock.segmented ? (
-            <div className="homepage-video-subgroup">
-              <div className="homepage-video-subgroup-head">
-                <span className="showcase-card-eyebrow">分段课程视频</span>
-                <strong>{homeVideoBlock.segmented.title}</strong>
-                <p>{homeVideoBlock.segmented.description}</p>
-              </div>
+          <div className="homepage-video-period-grid">
+            {homeVideoBlock.periods.map((item) => (
+              <article key={item.slug} className="homepage-video-period-card">
+                <span className="showcase-card-eyebrow">{item.period}</span>
+                <strong>{item.title}</strong>
+                <p>{item.summary}</p>
+                <small>{item.stageTag}</small>
+                <Link href={item.href} className="homepage-video-link">
+                  进入本期
+                </Link>
+              </article>
+            ))}
+          </div>
 
-              <div className="homepage-video-grid">
-                {homeVideoBlock.segmented.items.map((item) => (
-                  <article key={item.slug} className="homepage-video-card">
-                    <div className="homepage-video-cover">
-                      <span className="homepage-video-cover-label">{item.label}</span>
-                      <strong>{item.title}</strong>
-                      <p>{item.summary}</p>
-                    </div>
-
-                    <div className="homepage-video-card-copy">
-                      <span className="showcase-card-eyebrow">课程视频</span>
-                      <strong>{item.title}</strong>
-                      <p>{item.purpose}</p>
-                      <ShowcaseVideoLink href={item.href} external={item.external} className="homepage-video-link">
-                        点击观看
-                      </ShowcaseVideoLink>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          ) : null}
+          <article className="homepage-video-note-card">
+            <span className="showcase-card-eyebrow">补充说明</span>
+            <strong>{homeVideoBlock.segmentNotice.title}</strong>
+            <p>{homeVideoBlock.segmentNotice.description}</p>
+          </article>
         </section>
 
         <section className="homepage-audit-entry-grid showcase-card" aria-label="核心入口">

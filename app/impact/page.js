@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ShowcaseVideoLink from "@/components/showcase-video-link";
+
 import TopNav from "@/components/top-nav";
 import { getPublicShowcaseUser } from "@/lib/public-showcase-user.js";
 import { buildShowcaseContent } from "@/lib/showcase-content";
@@ -9,39 +9,24 @@ export default function ImpactPage() {
   const user = getPublicShowcaseUser();
   const trendPanels = content.impactDashboard?.trendPanels ?? [];
   const coverageCards = content.impactDashboard?.coverageCards ?? [];
-  const supportVideos = content.videoHub?.playlist ?? [];
-  const featuredVideo = content.videoHub?.featured;
+  const impactSections = content.impact?.sections ?? [];
   const summaryCards = [
-    { label: "案例总量", value: content.metrics.caseCount.value, note: "详情页与 PDF 原文已连通" },
-    { label: "课程周期", value: content.metrics.coursePeriods.value, note: "形成连续双师课程样本" },
-    { label: "注册用户", value: content.metrics.registeredUsers.value, note: "具备稳定应用基础" },
+    { label: "案例总量", value: content.metrics.caseCount.value, note: "案例详情与 PDF 原文已连通" },
+    { label: "课程周期", value: content.metrics.coursePeriods.value, note: "八期课程形成连续主题序列" },
+    { label: "平台使用者", value: content.metrics.registeredUsers.value, note: "平台运行保持稳定覆盖" },
   ];
   const summaryLedger = [
     {
-      label: "浏览顺序",
-      point: "运行趋势、应用覆盖与站内入口集中呈现。",
+      label: "成果导向",
+      point: "本页集中呈现平台运行、课程建设与推广应用的概括性结果。",
     },
     {
-      label: "案例入口",
-      point: "案例详情页、研习工作台与 PDF 原文保持可达。",
-    },
-    {
-      label: "课程支撑",
-      point: "课程视频与课程体系补充呈现课堂组织与建设背景。",
-    },
-  ];
-  const evidenceCards = [
-    {
-      label: "案例链路",
-      point: "案例检索、详情导读、研习工作台与 PDF 原文形成闭环。",
-    },
-    {
-      label: "课程支撑",
-      point: "课程体系、视频回看与检索工作台围绕同一平台组织。",
+      label: "页面边界",
+      point: "成效展示页偏总览表达，不展开过细的活动档案与过程证明。",
     },
     {
       label: "站内联动",
-      point: "趋势、覆盖、案例链路与课程视频在站内保持连通。",
+      point: "课程视频与课程档案继续承担观看与资料归档的后续承接。",
     },
   ];
 
@@ -52,9 +37,9 @@ export default function ImpactPage() {
       <div className="showcase-page-body">
         <section className="impact-summary-deck showcase-card" aria-label="成效总览">
           <div className="impact-summary-main">
-            <p className="showcase-page-kicker">成效总览</p>
+            <p className="showcase-page-kicker">成效展示</p>
             <h1>平台应用结果总览</h1>
-            <p>本页汇总平台运行结果、应用覆盖与站内联动入口。</p>
+            <p>本页以概括性方式展示课程建设、平台运行与推广应用结果，不替代课程档案页和课程视频页。</p>
           </div>
 
           <div className="impact-summary-inline">
@@ -80,8 +65,8 @@ export default function ImpactPage() {
         <section className="impact-trend-section showcase-card" aria-label="运行趋势">
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">运行趋势</span>
-            <h2>平台运行趋势作为成效总览首要轴线</h2>
-            <p>持续跟踪访问活跃、回访留存与课程迭代，确保应用结果可见、可对照。</p>
+            <h2>平台运行趋势作为成效总览的首要轴线</h2>
+            <p>访问、活跃与回访留存作为平台运行结果的核心观察面向，在此做概括性呈现。</p>
           </div>
 
           <div className="impact-dashboard-grid">
@@ -101,8 +86,8 @@ export default function ImpactPage() {
         <section className="impact-coverage-section showcase-card" aria-label="应用覆盖">
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">应用覆盖</span>
-            <h2>教学建设与推广应用覆盖已能形成稳定证明</h2>
-            <p>覆盖区块直接回答这项建设覆盖到哪里、是否已经进入真实教学环节。</p>
+            <h2>教学建设与推广应用在此做概括性承接</h2>
+            <p>覆盖区块回答成果已经覆盖到哪些方向，但不在此页展开过细的档案式内容。</p>
           </div>
 
           <div className="impact-grid-two-up">
@@ -116,55 +101,44 @@ export default function ImpactPage() {
           </div>
         </section>
 
-        <section className="impact-proof-ledger showcase-card" aria-label="站内联动">
+        <section className="impact-proof-ledger showcase-card" aria-label="成果概览">
           <div className="homepage-band-head">
-            <span className="showcase-section-eyebrow">站内联动</span>
-            <h2>案例链路、课程支撑与视频入口在此集中列出</h2>
-            <p>运行趋势、应用覆盖与站内入口保持同一结构。</p>
+            <span className="showcase-section-eyebrow">成果概览</span>
+            <h2>课程建设、学生发展、平台运行与推广示范四条结果线索集中呈现</h2>
+            <p>这里保留概括性成果条目，与课程视频页、课程体系页形成分工。</p>
           </div>
 
           <div className="impact-dashboard-grid">
-            {evidenceCards.map((item) => (
-              <article key={`${item.label}-${item.point}`} className="showcase-card impact-proof-card">
-                <span className="showcase-card-eyebrow">{item.label}</span>
-                <strong>{item.point}</strong>
+            {impactSections.map((item) => (
+              <article key={item.title} className="showcase-card impact-proof-card">
+                <span className="showcase-card-eyebrow">{item.title}</span>
+                <strong>{item.intro}</strong>
+                <p>{item.points[0]}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="impact-support-appendix showcase-card" aria-label="视频推广支持">
+        <section className="impact-support-appendix showcase-card" aria-label="后续查看">
           <div className="homepage-band-head">
-            <span className="showcase-section-eyebrow">课程视频</span>
-            <h2>课程视频与课程体系补充呈现课堂组织线索</h2>
-            <p>可继续查看课程视频与相关教学支撑。</p>
+            <span className="showcase-section-eyebrow">后续查看</span>
+            <h2>继续进入课程视频页或课程档案页查看对应内容</h2>
+            <p>课程视频页负责观看承接，课程体系页负责课程档案承接，两者与成效展示页保持边界清晰。</p>
           </div>
 
-          <div className="impact-video-layout">
-            {featuredVideo ? (
-              <ShowcaseVideoLink className="impact-video-featured" href={featuredVideo.href} external={featuredVideo.external}>
-                <span className="showcase-card-eyebrow">主视频</span>
-                <strong>{featuredVideo.title}</strong>
-              </ShowcaseVideoLink>
-            ) : null}
+          <div className="impact-grid-two-up">
+            <Link href="/resources" className="showcase-entry-card impact-entry-card">
+              <span>课程视频</span>
+              <strong>查看八期课程视频成果</strong>
+              <p>前四期与后四期的阶段说明、八期主卡片与本期观看入口在此统一呈现。</p>
+            </Link>
 
-            <div className="impact-video-list">
-              {supportVideos.map((item) => (
-                <ShowcaseVideoLink
-                  key={item.slug}
-                  href={item.href}
-                  external={item.external}
-                  className="impact-video-item"
-                >
-                  <span>{item.title}</span>
-                </ShowcaseVideoLink>
-              ))}
-            </div>
+            <Link href="/courses" className="showcase-entry-card impact-entry-card">
+              <span>课程体系</span>
+              <strong>查看八期课程档案</strong>
+              <p>每一期课程主题、阶段定位、配套资料与对应视频入口在此集中归档。</p>
+            </Link>
           </div>
-
-          <Link href="/resources" className="showcase-home-panel-link">
-            进入课程视频中心
-          </Link>
         </section>
       </div>
     </main>

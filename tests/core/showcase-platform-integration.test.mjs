@@ -55,7 +55,7 @@ test("impact page uses summary-first dashboard sections in the required priority
   assert.match(source, /TopNav/u);
   assert.match(source, /getPublicShowcaseUser/u);
   assert.match(source, /content\.impactDashboard/u);
-  assert.match(source, /content\.videoHub/u);
+  assert.match(source, /content\.impact/u);
   assert.equal(source.includes("ShowcaseNav"), false);
   assert.equal(source.includes("impact-review-band"), false);
   assert.equal(source.includes("impact-evidence-section"), false);
@@ -63,14 +63,6 @@ test("impact page uses summary-first dashboard sections in the required priority
   assert.equal(/这里不是传统成果条目页/u.test(source), false);
   assert.equal(source.includes("impact-summary-notes"), false);
   assert.equal(source.includes("impact-summary-side"), false);
-  assert.equal(source.includes("content.impact.sections.map"), false);
-  assert.equal(/content\.impact\??\.sections/u.test(source), false);
-  assert.equal(/content\.impact(?!Dashboard)/u.test(source), false);
-  assert.equal(source.includes("buildImpactSectionMeta"), false);
-  assert.equal(source.includes("buildImpactSummary"), false);
-  assert.equal(source.includes("教学建设成效"), false);
-  assert.equal(source.includes("学生发展成效"), false);
-  assert.equal(source.includes("推广示范成效"), false);
   assert.equal(summaryIndex > -1, true);
   assert.equal(trendIndex > summaryIndex, true);
   assert.equal(coverageIndex > trendIndex, true);

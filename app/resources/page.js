@@ -12,17 +12,17 @@ export default function ResourcesPage() {
       <div className="showcase-page-body">
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">课程视频</p>
-          <h1>示范性教学视频</h1>
-          <p>集中呈现双师课堂相关课程视频，覆盖案例进入、课堂组织与研习展开等内容。</p>
+          <h1>八期课程视频成果</h1>
+          <p>本页按第一期至第八期顺序集中展示课程视频成果，并通过阶段说明交代前四期与后四期在成果形态上的递进关系。</p>
         </section>
 
         <article className="showcase-card supporting-callout">
           <span className="showcase-card-eyebrow">视频导览</span>
-          <strong>课程视频与示范性教学视频汇集双师课堂的主要片段与典型环节。</strong>
+          <strong>八期课程视频保持统一主线连续展示，前四期侧重课堂实施成果，后四期侧重示范性课程视频与资源化成果。</strong>
           <ul className="supporting-list">
-            <li>主视频呈现每期课堂主线与主要议题。</li>
-            <li>播放列表补充教学阶段中的课堂片段与案例讨论。</li>
-            <li>视频中心与课程体系、成效展示保持联动，可配合站内内容一并查看。</li>
+            <li>前四期集中呈现案例进入、课堂互动与机制验证的实施线索。</li>
+            <li>后四期集中呈现程序正义、数字治理与智能治理议题下的视频成果沉淀。</li>
+            <li>第一期、第二期的分段内容已下沉到各自说明页，八期主列表保持连续顺序。</li>
           </ul>
         </article>
 

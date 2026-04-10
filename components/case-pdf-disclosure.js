@@ -30,7 +30,7 @@ export default function CasePdfDisclosure({ fileUrl, fileName }) {
           <div className="case-pdf-panel-head">
             <div>
               <h2>PDF 预览</h2>
-              <p>可结合案例摘要和裁判信息阅读原文，也可在新窗口中打开完整 PDF。</p>
+              <p>可直接在站内阅读原文，也可在新窗口中打开完整 PDF 作为备用方式。</p>
             </div>
             <span>{fileName}</span>
           </div>
