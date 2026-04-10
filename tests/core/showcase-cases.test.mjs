@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 
 import {
   getShowcaseCanonicalDemoCaseId,
@@ -8,6 +9,7 @@ import {
   getShowcaseCaseStudyById,
   getShowcaseCaseStaticParams,
   loadShowcaseCases,
+  resolveShowcaseCasesJsonPath,
   selectCanonicalDemoCaseId,
 } from "../../lib/showcase-cases.js";
 import { buildFilterOptions, buildStarterActions, normalizeCaseRows } from "../../lib/cases-workspace.js";
@@ -19,6 +21,13 @@ import {
   buildPrimaryContinuation,
 } from "../../lib/case-presentation.mjs";
 import { normalizePublicFileName } from "../../lib/data/public-files.js";
+
+test("showcase case source resolver finds a real json file", () => {
+  const jsonPath = resolveShowcaseCasesJsonPath();
+
+  assert.match(jsonPath, /cases-extracted\.json$/u);
+  assert.equal(existsSync(jsonPath), true);
+});
 
 test("showcase cases loader returns normalized source cases", async () => {
   const rows = await loadShowcaseCases();

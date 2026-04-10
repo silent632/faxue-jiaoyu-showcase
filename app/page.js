@@ -14,6 +14,7 @@ export default async function HomePage() {
   const quickKpis = (content.homeDashboard?.kpis ?? []).slice(0, 3);
   const featuredCases = cases.slice(0, 3);
   const coverageCards = content.impactDashboard?.coverageCards ?? [];
+  const homeVideoBlock = content.homeVideoBlock;
   const trendPanels = content.impactDashboard?.trendPanels ?? [];
   const reviewHighlights = [
     "平台运行、课程建设与案例研习入口已形成连续展示。",
@@ -180,6 +181,84 @@ export default async function HomePage() {
               ))}
             </div>
           </aside>
+        </section>
+
+        <section className="homepage-video-block showcase-card" aria-label="课程视频展示">
+          <div className="homepage-band-head">
+            <span className="showcase-section-eyebrow">课程视频</span>
+            <h2>{homeVideoBlock.title}</h2>
+            <p>{homeVideoBlock.description}</p>
+          </div>
+
+          <div className="homepage-video-featured">
+            <div className="homepage-video-cover homepage-video-cover-featured">
+              <span className="homepage-video-cover-label">{homeVideoBlock.featured.label}</span>
+              <strong>{homeVideoBlock.featured.title}</strong>
+              <p>{homeVideoBlock.featured.summary}</p>
+            </div>
+
+            <article className="homepage-video-featured-card">
+              <span className="showcase-card-eyebrow">重点观看</span>
+              <strong>{homeVideoBlock.featured.title}</strong>
+              <p>{homeVideoBlock.featured.summary}</p>
+              <p className="homepage-video-purpose">{homeVideoBlock.featured.purpose}</p>
+              <a href={homeVideoBlock.featured.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+                点击观看
+              </a>
+            </article>
+          </div>
+
+          <div className="homepage-video-grid">
+            {homeVideoBlock.supporting.map((item) => (
+              <article key={item.slug} className="homepage-video-card">
+                <div className="homepage-video-cover">
+                  <span className="homepage-video-cover-label">{item.label}</span>
+                  <strong>{item.title}</strong>
+                  <p>{item.summary}</p>
+                </div>
+
+                <div className="homepage-video-card-copy">
+                  <span className="showcase-card-eyebrow">课程视频</span>
+                  <strong>{item.title}</strong>
+                  <p>{item.purpose}</p>
+                  <a href={item.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+                    点击观看
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {homeVideoBlock.segmented ? (
+            <div className="homepage-video-subgroup">
+              <div className="homepage-video-subgroup-head">
+                <span className="showcase-card-eyebrow">分段课程视频</span>
+                <strong>{homeVideoBlock.segmented.title}</strong>
+                <p>{homeVideoBlock.segmented.description}</p>
+              </div>
+
+              <div className="homepage-video-grid">
+                {homeVideoBlock.segmented.items.map((item) => (
+                  <article key={item.slug} className="homepage-video-card">
+                    <div className="homepage-video-cover">
+                      <span className="homepage-video-cover-label">{item.label}</span>
+                      <strong>{item.title}</strong>
+                      <p>{item.summary}</p>
+                    </div>
+
+                    <div className="homepage-video-card-copy">
+                      <span className="showcase-card-eyebrow">课程视频</span>
+                      <strong>{item.title}</strong>
+                      <p>{item.purpose}</p>
+                      <a href={item.href} target="_blank" rel="noreferrer" className="homepage-video-link">
+                        点击观看
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </section>
 
         <section className="homepage-audit-entry-grid showcase-card" aria-label="核心入口">
