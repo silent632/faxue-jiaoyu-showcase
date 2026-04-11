@@ -17,16 +17,16 @@ export default function ImpactPage() {
   ];
   const summaryLedger = [
     {
-      label: "成果导向",
-      point: "本页集中呈现平台运行、课程建设与推广应用的概括性结果。",
+      label: "平台运行",
+      point: "围绕访问、活跃与使用延续情况集中呈现平台运行结果。",
     },
     {
-      label: "页面边界",
-      point: "成效展示页偏总览表达，不展开过细的活动档案与过程证明。",
+      label: "课程建设",
+      point: "八期课程、课程资料与视频成果共同支撑课程建设的连续推进。",
     },
     {
-      label: "站内联动",
-      point: "课程视频与课程档案继续承担观看与资料归档的后续承接。",
+      label: "推广应用",
+      point: "课程视频、课程档案与平台入口共同构成对外展示与应用证明。",
     },
   ];
 
@@ -39,7 +39,7 @@ export default function ImpactPage() {
           <div className="impact-summary-main">
             <p className="showcase-page-kicker">成效展示</p>
             <h1>平台应用结果总览</h1>
-            <p>本页以概括性方式展示课程建设、平台运行与推广应用结果，不替代课程档案页和课程视频页。</p>
+            <p>本页集中呈现平台运行、课程建设与推广应用的核心结果，帮助评审快速把握项目形成的整体成效。</p>
           </div>
 
           <div className="impact-summary-inline">
@@ -66,7 +66,7 @@ export default function ImpactPage() {
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">运行趋势</span>
             <h2>平台运行趋势作为成效总览的首要轴线</h2>
-            <p>访问、活跃与回访留存作为平台运行结果的核心观察面向，在此做概括性呈现。</p>
+            <p>访问、活跃与回访留存共同反映平台运行的持续性与使用深度。</p>
           </div>
 
           <div className="impact-dashboard-grid">
@@ -87,7 +87,7 @@ export default function ImpactPage() {
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">应用覆盖</span>
             <h2>教学建设与推广应用在此做概括性承接</h2>
-            <p>覆盖区块回答成果已经覆盖到哪些方向，但不在此页展开过细的档案式内容。</p>
+            <p>从课程建设、资源配置与外部展示三个方向查看项目应用覆盖情况。</p>
           </div>
 
           <div className="impact-grid-two-up">
@@ -105,7 +105,7 @@ export default function ImpactPage() {
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">成果概览</span>
             <h2>课程建设、学生发展、平台运行与推广示范四条结果线索集中呈现</h2>
-            <p>这里保留概括性成果条目，与课程视频页、课程体系页形成分工。</p>
+            <p>围绕四条结果线索梳理本项目已经形成的代表性成效。</p>
           </div>
 
           <div className="impact-dashboard-grid">
@@ -123,7 +123,7 @@ export default function ImpactPage() {
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">后续查看</span>
             <h2>继续进入课程视频页或课程档案页查看对应内容</h2>
-            <p>课程视频页负责观看承接，课程体系页负责课程档案承接，两者与成效展示页保持边界清晰。</p>
+            <p>如需继续查看课程内容与期次资料，可分别进入课程视频页和课程体系页。</p>
           </div>
 
           <div className="impact-grid-two-up">

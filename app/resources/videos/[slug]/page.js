@@ -20,6 +20,7 @@ export default async function VideoPlayerPage({ params }) {
 
   const isSegmentPage = video.playerMode === "segments";
   const actionLabel = isSegmentPage ? "查看分段内容" : "打开原始视频";
+  const courseHref = `/courses/${video.slug}`;
 
   return (
     <main className="showcase-page" data-page-role="video-player">
@@ -67,8 +68,8 @@ export default async function VideoPlayerPage({ params }) {
                 <Link href="/resources" className="btn btn-ghost">
                   返回视频中心
                 </Link>
-                <Link href="/courses" className="btn btn-ghost">
-                  查看课程档案
+                <Link href={courseHref} className="btn btn-ghost">
+                  查看本期课程档案
                 </Link>
                 {!isSegmentPage ? (
                   <a href={video.sourceHref} target="_blank" rel="noreferrer" className="showcase-home-panel-link">

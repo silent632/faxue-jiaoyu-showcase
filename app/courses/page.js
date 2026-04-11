@@ -3,14 +3,15 @@ import Link from "next/link";
 import ShowcaseSection from "@/components/showcase-section";
 import ShowcaseNav from "@/components/showcase-nav";
 import { buildShowcaseContent } from "@/lib/showcase-content";
+import { getCoursePackagePeriods } from "@/lib/course-package";
 
 export default function CoursesPage() {
   const content = buildShowcaseContent();
-  const periods = content.courses.periods;
+  const periods = getCoursePackagePeriods();
   const pageHighlights = [
-    "每一期按课程档案方式集中承接主题、阶段定位、配套资料与对应视频入口。",
-    "前四期突出课堂实施线索，后四期突出视频成果与资料沉淀的归档关系。",
-    "课程体系页负责课程档案承接，不承担播放器主功能。",
+    "八期课程均按期次建立独立档案页，可按主题查看课程内容、配套资料与实施佐证。",
+    "前四期侧重课堂实施与课程进入，后四期进一步补充视频化结构、脚本与成果沉淀。",
+    "每期页面均保留课程主题、学习目标、资料概览、佐证材料与视频入口的统一骨架。",
   ];
 
   return (
@@ -21,12 +22,12 @@ export default function CoursesPage() {
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">课程体系</p>
           <h1>八期课程档案</h1>
-          <p>课程体系页集中承接八期课程档案。每一期均保留课程主题、阶段定位、简要说明、配套资料与对应视频入口，形成完整的课程单元归档。</p>
+          <p>本页按期次梳理八期课程的主题、阶段定位、资料构成与视频入口，帮助评审快速查看各期课程内容和材料组织情况。</p>
         </section>
 
         <article className="showcase-card supporting-callout">
           <span className="showcase-card-eyebrow">课程导览</span>
-          <strong>这里是八期课程的档案承接页，重心放在课程主题、资料归档与视频入口之间的对应关系。</strong>
+          <strong>八期课程均已整理为独立课程单元，可继续进入每期页面查看课程主题、资料概览与实施佐证。</strong>
           <ul className="supporting-list">
             {pageHighlights.map((item) => (
               <li key={item}>{item}</li>
@@ -37,7 +38,7 @@ export default function CoursesPage() {
         <ShowcaseSection
           title="八期课程档案单元"
           eyebrow="课程档案"
-          description="课程主题、阶段定位、配套资料与对应视频入口在每一期内部统一呈现，确保八期主线清晰、职责分工稳定。"
+          description="每一期均提供课程主题、资料概览、佐证材料与视频入口，可从课程内容而非原始文件名理解本期建设重点。"
           className="showcase-section-compact"
           aria-label="课程档案"
         >
@@ -66,15 +67,26 @@ export default function CoursesPage() {
                 <div className="course-archive-materials">
                   <span>配套资料</span>
                   <ul>
-                    {item.materials.map((material) => (
-                      <li key={`${item.slug}-${material}`}>{material}</li>
+                    {item.materialGroups.flatMap((group) => group.items).slice(0, 4).map((material) => (
+                      <li key={`${item.slug}-${material.displayName}`}>{material.displayName}</li>
                     ))}
                   </ul>
                 </div>
 
-                <Link href={item.videoHref} className="showcase-home-panel-link">
-                  {item.videoEntryLabel}
-                </Link>
+                <div className="course-archive-stats">
+                  <span>{`课程资料 ${item.stats.materialCount} 项`}</span>
+                  <span>{`佐证材料 ${item.stats.evidenceCount} 项`}</span>
+                  {item.stats.outlineCount ? <span>{`课程结构 ${item.stats.outlineCount} 页`}</span> : null}
+                </div>
+
+                <div className="course-archive-actions">
+                  <Link href={item.detailHref} className="showcase-home-panel-link">
+                    查看本期课程档案
+                  </Link>
+                  <Link href={item.videoHref} className="btn btn-ghost">
+                    对应视频入口
+                  </Link>
+                </div>
               </article>
             ))}
           </div>

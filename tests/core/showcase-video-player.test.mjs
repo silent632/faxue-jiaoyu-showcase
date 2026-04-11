@@ -7,6 +7,7 @@ import { getShowcaseVideoBySlug, getShowcaseVideoStaticParams } from "../../lib/
 test("site player dataset exposes static params and hosted video entries", () => {
   const params = getShowcaseVideoStaticParams();
   const period01 = getShowcaseVideoBySlug("course-period-01");
+  const period05 = getShowcaseVideoBySlug("course-period-05");
   const period08 = getShowcaseVideoBySlug("course-period-08");
   const period03 = getShowcaseVideoBySlug("course-period-03");
 
@@ -20,7 +21,12 @@ test("site player dataset exposes static params and hosted video entries", () =>
   assert.equal(period01.href, "/resources/videos/course-period-01");
   assert.equal(period01.playerMode, "segments");
   assert.equal(Array.isArray(period01.segments), true);
-  assert.equal(period01.segments.length >= 1, true);
+  assert.equal(period01.segments.length, 4);
+  assert.equal(period01.segments.some((item) => /非法证据排除规则/u.test(item.title)), false);
+
+  assert.ok(period05);
+  assert.match(period05.title, /非法证据排除规则/u);
+  assert.match(period05.summary, /程序正义|权利保障/u);
 
   assert.ok(period08);
   assert.equal(period08.external, false);

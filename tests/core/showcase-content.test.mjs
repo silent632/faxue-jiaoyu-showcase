@@ -33,25 +33,25 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
     "首页",
     "案例检索",
     "研习工作台",
-    "成效展示",
     "课程视频",
     "课程体系",
+    "成效展示",
   ]);
   assert.deepEqual(content.nav.map((item) => item.href), [
     "/",
     "/cases",
     getShowcaseCanonicalStudyHref(),
-    "/impact",
     "/resources",
     "/courses",
+    "/impact",
   ]);
   assert.deepEqual(content.nav.map((item) => item.matchKind || item.matchPrefix), [
     "/",
     "cases",
     "study",
-    "/impact",
     "/resources",
     "/courses",
+    "/impact",
   ]);
   assert.ok(content.homeDashboard);
   assert.ok(content.homeDashboard.hero);
@@ -232,7 +232,7 @@ test("video hub dataset supports eight-period video results and segmented early 
   assert.ok(periods.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
   assert.ok(periods.slice(2).every((item) => typeof item.sourceHref === "string" && /^https?:\/\//u.test(item.sourceHref)));
   assert.ok(Array.isArray(periods[0].segments));
-  assert.equal(periods[0].segments.length, 5);
+  assert.equal(periods[0].segments.length, 4);
   assert.equal(periods[1].segments.length, 2);
 
   const slugs = periods.map((item) => item.slug);
@@ -249,5 +249,6 @@ test("course archive data exposes period summaries, materials, and video links",
   assert.ok(periods.every((item) => typeof item.stageTag === "string" && item.stageTag.length > 0));
   assert.ok(periods.every((item) => typeof item.description === "string" && item.description.length > 0));
   assert.ok(periods.every((item) => Array.isArray(item.materials) && item.materials.length >= 2));
+  assert.ok(periods.every((item) => typeof item.detailHref === "string" && /^\/courses\/course-period-/u.test(item.detailHref)));
   assert.ok(periods.every((item) => typeof item.videoHref === "string" && /^\/resources\/videos\//u.test(item.videoHref)));
 });
