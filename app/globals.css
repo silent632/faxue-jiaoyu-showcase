@@ -645,16 +645,13 @@ main {
 }
 
 .course-archive-actions,
-.course-archive-stats,
 .course-archive-head,
-.course-archive-meta,
-.course-archive-materials {
+.course-archive-meta {
   display: grid;
   gap: 10px;
 }
 
-.course-archive-meta p,
-.course-archive-materials ul {
+.course-archive-meta p {
   margin: 0;
 }
 
@@ -665,35 +662,11 @@ main {
   line-height: 1.7;
 }
 
-.course-archive-meta span,
-.course-archive-materials span {
+.course-archive-meta span {
   color: var(--accent-strong);
   font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-}
-
-.course-archive-materials ul {
-  padding-left: 1.1rem;
-  color: var(--muted);
-  line-height: 1.8;
-}
-
-.course-archive-stats {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.course-archive-stats span {
-  display: inline-flex;
-  justify-content: center;
-  padding: 0.45rem 0.65rem;
-  border-radius: 999px;
-  background: rgba(35, 67, 93, 0.08);
-  color: var(--primary);
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-align: center;
 }
 
 .course-archive-actions {
@@ -826,13 +799,19 @@ main {
 .course-detail-stat-grid,
 .course-detail-meta-grid,
 .course-detail-outline-grid,
-.course-detail-material-group-grid {
+.course-detail-material-group-grid,
+.course-detail-summary-grid,
+.course-detail-support-grid {
   display: grid;
   gap: 16px;
 }
 
 .course-detail-stat-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.course-detail-summary-grid {
+  grid-template-columns: 1fr;
 }
 
 .course-detail-stat-card,
@@ -895,6 +874,21 @@ main {
   border-radius: 22px;
 }
 
+.course-detail-support-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.course-detail-support-card {
+  display: grid;
+  align-content: start;
+  min-height: 140px;
+  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 241, 232, 0.98));
+  border: 1px solid rgba(35, 67, 93, 0.1);
+  line-height: 1.85;
+}
+
 .course-detail-material-list li {
   display: grid;
   gap: 4px;
@@ -923,7 +917,6 @@ main {
 }
 
 @media (max-width: 760px) {
-  .course-archive-stats,
   .course-detail-stat-grid,
   .course-detail-meta-grid {
     grid-template-columns: 1fr;

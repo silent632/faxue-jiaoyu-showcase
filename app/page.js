@@ -11,15 +11,16 @@ export default async function HomePage() {
   const user = getPublicShowcaseUser();
   const studyHref = getShowcaseCanonicalStudyHref();
   const cases = await loadShowcaseCases();
-  const quickKpis = (content.homeDashboard?.kpis ?? []).slice(0, 3);
+  const quickKpis = (content.homeDashboard?.kpis ?? []).slice(0, 4);
   const featuredCases = cases.slice(0, 3);
   const coverageCards = content.impactDashboard?.coverageCards ?? [];
   const homeVideoBlock = content.homeVideoBlock;
   const trendPanels = content.impactDashboard?.trendPanels ?? [];
   const reviewHighlights = [
     "平台运行、课程建设与案例研习入口已形成连续展示。",
+    "八期课程视频累计播放已超过 5 万次，形成明确传播成果。",
     "案例检索、详情页、研习工作台与 PDF 原文保持同一路径。",
-    "课程视频与课程体系补充呈现课堂组织与建设背景。",
+    "课程视频与课程档案分工清晰，分别承担观看展示与课程导览。",
   ];
   const consoleLedger = [
     {
@@ -27,12 +28,16 @@ export default async function HomePage() {
       value: "运行指标、覆盖范围与核心入口集中呈现。",
     },
     {
+      label: "传播成果",
+      value: "课程视频累计播放 5万+，可直接作为建设成效展示。",
+    },
+    {
       label: "案例链路",
       value: "详情页、研习页与 PDF 原文保持连通。",
     },
     {
       label: "课程支撑",
-      value: "课程视频与课程体系补充呈现建设背景。",
+      value: "课程视频与课程档案分别承担观看展示与课程导览。",
     },
   ];
   const evidenceCards = [
@@ -41,6 +46,12 @@ export default async function HomePage() {
       title: trendPanels[0]?.value || "运行指标持续更新",
       description: trendPanels[0]?.detail || "围绕访问、活跃与课程迭代形成连续运行轨迹。",
       metric: `${trendPanels[0]?.metricLabel || "指标"} · ${trendPanels[0]?.metricValue || "更新中"}`,
+    },
+    {
+      eyebrow: "传播成效",
+      title: "八期课程视频累计播放超过 5 万次",
+      description: "课程视频成果已形成明确传播数据，可直接作为项目建设与推广应用的支撑证据。",
+      metric: "视频播放 · 5万+",
     },
     {
       eyebrow: "覆盖证明",
@@ -59,6 +70,10 @@ export default async function HomePage() {
     {
       label: "运行状态",
       value: trendPanels[0]?.value || "稳定运行",
+    },
+    {
+      label: "视频传播",
+      value: "5万+ 播放",
     },
     {
       label: "覆盖范围",
@@ -213,12 +228,6 @@ export default async function HomePage() {
               </article>
             ))}
           </div>
-
-          <article className="homepage-video-note-card">
-            <span className="showcase-card-eyebrow">补充说明</span>
-            <strong>{homeVideoBlock.segmentNotice.title}</strong>
-            <p>{homeVideoBlock.segmentNotice.description}</p>
-          </article>
         </section>
 
         <section className="homepage-audit-entry-grid showcase-card" aria-label="核心入口">

@@ -42,14 +42,6 @@ export default function ShowcaseVideoHub({ hub }) {
           </ShowcaseVideoLink>
         ))}
       </div>
-
-      {hub?.segmentNotice ? (
-        <article className="showcase-card showcase-video-note-card">
-          <span className="showcase-card-eyebrow">补充说明</span>
-          <strong>{hub.segmentNotice.title}</strong>
-          <p>{hub.segmentNotice.description}</p>
-        </article>
-      ) : null}
     </ShowcaseSection>
   );
 }

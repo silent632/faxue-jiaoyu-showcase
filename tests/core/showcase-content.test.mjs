@@ -24,11 +24,14 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.metrics.coursePeriods.value, "8期");
   assert.equal(content.metrics.coursePeriods.raw, 8);
   assert.equal(content.metrics.totalVisits.label, "累计访问");
+  assert.equal(content.metrics.totalVideoPlays.label, "视频播放");
   assert.equal(content.metrics.registeredUsers.label, "平台使用者");
   assert.equal(content.metrics.registeredUsers.value, "800+");
   assert.equal(content.metrics.registeredUsers.raw, 800);
   assert.equal(content.metrics.totalVisits.value, "5万+");
   assert.equal(content.metrics.totalVisits.raw, 50000);
+  assert.equal(content.metrics.totalVideoPlays.value, "5万+");
+  assert.equal(content.metrics.totalVideoPlays.raw, 50000);
   assert.deepEqual(content.nav.map((item) => item.label), [
     "首页",
     "案例检索",
@@ -127,7 +130,7 @@ test("operations-first dashboards present formed impact and platform metrics sem
   assert.equal(/先完成|再进入|最后/u.test(heroText), false);
 
   assert.ok(kpiLabels.includes("平台使用者"));
-  assert.ok(kpiLabels.includes("累计访问"));
+  assert.ok(kpiLabels.includes("视频播放"));
   assert.ok(kpiLabels.includes("活跃用户"));
   assert.ok(kpiLabels.includes("工作台回访率"));
   assert.ok(kpiLabels.includes("案例检索使用占比"));
@@ -139,7 +142,7 @@ test("operations-first dashboards present formed impact and platform metrics sem
   assert.ok(content.impactDashboard.trendPanels.length >= 2);
   assert.ok(content.impactDashboard.trendPanels.every((panel) => typeof panel.metricLabel === "string" && panel.metricLabel.length > 0));
   assert.ok(content.impactDashboard.trendPanels.every((panel) => typeof panel.metricValue === "string" && /\d/.test(panel.metricValue)));
-  assert.ok(content.impactDashboard.trendPanels.some((panel) => /活跃用户|回访率|访问/u.test(panel.metricLabel)));
+  assert.ok(content.impactDashboard.trendPanels.some((panel) => /活跃用户|回访率|访问|播放/u.test(panel.metricLabel)));
 
   assert.ok(Array.isArray(content.impactDashboard?.coverageCards));
   assert.ok(content.impactDashboard.coverageCards.length >= 2);

@@ -13,6 +13,7 @@ export default function ImpactPage() {
   const summaryCards = [
     { label: "案例总量", value: content.metrics.caseCount.value, note: "案例详情与 PDF 原文已连通" },
     { label: "课程周期", value: content.metrics.coursePeriods.value, note: "八期课程形成连续主题序列" },
+    { label: "视频播放", value: content.metrics.totalVideoPlays.value, note: "课程视频成果已形成可量化传播支撑" },
     { label: "平台使用者", value: content.metrics.registeredUsers.value, note: "平台运行保持稳定覆盖" },
   ];
   const summaryLedger = [
@@ -26,7 +27,7 @@ export default function ImpactPage() {
     },
     {
       label: "推广应用",
-      point: "课程视频、课程档案与平台入口共同构成对外展示与应用证明。",
+      point: "课程视频累计播放 5万+，与课程档案、平台入口共同构成对外展示与应用证明。",
     },
   ];
 
@@ -39,7 +40,7 @@ export default function ImpactPage() {
           <div className="impact-summary-main">
             <p className="showcase-page-kicker">成效展示</p>
             <h1>平台应用结果总览</h1>
-            <p>本页集中呈现平台运行、课程建设与推广应用的核心结果，帮助评审快速把握项目形成的整体成效。</p>
+            <p>本页集中呈现平台运行、课程建设与推广应用的核心结果，用于快速查看项目已经形成的整体成效。</p>
           </div>
 
           <div className="impact-summary-inline">
@@ -136,7 +137,7 @@ export default function ImpactPage() {
             <Link href="/courses" className="showcase-entry-card impact-entry-card">
               <span>课程体系</span>
               <strong>查看八期课程档案</strong>
-              <p>每一期课程主题、阶段定位、配套资料与对应视频入口在此集中归档。</p>
+              <p>八期课程按主题、目标、教学设计和成果支撑形成统一导览。</p>
             </Link>
           </div>
         </section>
