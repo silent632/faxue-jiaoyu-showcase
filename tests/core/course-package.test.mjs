@@ -55,6 +55,7 @@ test("course detail page is exported as a static route with package-backed conte
   assert.match(source, /generateStaticParams/u);
   assert.match(source, /getCoursePackageStaticParams/u);
   assert.match(source, /getCoursePackagePeriodBySlug/u);
-  assert.match(source, /课程档案/u);
-  assert.match(source, /查看本期视频/u);
+  assert.match(source, /本期成果|课程看点/u);
+  assert.match(source, /教学设计/u);
+  assert.equal(/课程概况/u.test(source), false);
 });

@@ -12,22 +12,22 @@ export default function ImpactPage() {
   const impactSections = content.impact?.sections ?? [];
   const summaryCards = [
     { label: "案例总量", value: content.metrics.caseCount.value, note: "案例详情与 PDF 原文已连通" },
-    { label: "课程周期", value: content.metrics.coursePeriods.value, note: "八期课程形成连续主题序列" },
-    { label: "视频播放", value: content.metrics.totalVideoPlays.value, note: "课程视频成果已形成可量化传播支撑" },
+    { label: "课程周期", value: content.metrics.coursePeriods.value, note: "八期课程覆盖连续主题" },
+    { label: "视频播放", value: content.metrics.totalVideoPlays.value, note: "课程视频播放超过 5 万次" },
     { label: "平台使用者", value: content.metrics.registeredUsers.value, note: "平台运行保持稳定覆盖" },
   ];
   const summaryLedger = [
     {
       label: "平台运行",
-      point: "围绕访问、活跃与使用延续情况集中呈现平台运行结果。",
+      point: "访问、活跃和回访数据能够直接说明平台状态。",
     },
     {
       label: "课程建设",
-      point: "八期课程、课程资料与视频成果共同支撑课程建设的连续推进。",
+      point: "八期课程、课程视频和课程档案已经连通。",
     },
     {
       label: "推广应用",
-      point: "课程视频累计播放 5万+，与课程档案、平台入口共同构成对外展示与应用证明。",
+      point: "课程视频累计播放 5万+，传播结果已经清晰可见。",
     },
   ];
 
@@ -40,7 +40,7 @@ export default function ImpactPage() {
           <div className="impact-summary-main">
             <p className="showcase-page-kicker">成效展示</p>
             <h1>平台应用结果总览</h1>
-            <p>本页集中呈现平台运行、课程建设与推广应用的核心结果，用于快速查看项目已经形成的整体成效。</p>
+            <p>查看平台运行、课程建设和传播结果。</p>
           </div>
 
           <div className="impact-summary-inline">
@@ -66,8 +66,8 @@ export default function ImpactPage() {
         <section className="impact-trend-section showcase-card" aria-label="运行趋势">
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">运行趋势</span>
-            <h2>平台运行趋势作为成效总览的首要轴线</h2>
-            <p>访问、活跃与回访留存共同反映平台运行的持续性与使用深度。</p>
+            <h2>平台运行</h2>
+            <p>访问、活跃和回访数据保持稳定。</p>
           </div>
 
           <div className="impact-dashboard-grid">
@@ -87,8 +87,8 @@ export default function ImpactPage() {
         <section className="impact-coverage-section showcase-card" aria-label="应用覆盖">
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">应用覆盖</span>
-            <h2>教学建设与推广应用在此做概括性承接</h2>
-            <p>从课程建设、资源配置与外部展示三个方向查看项目应用覆盖情况。</p>
+            <h2>课程建设与应用覆盖</h2>
+            <p>课程、资源和展示入口已经连成一体。</p>
           </div>
 
           <div className="impact-grid-two-up">
@@ -105,8 +105,8 @@ export default function ImpactPage() {
         <section className="impact-proof-ledger showcase-card" aria-label="成果概览">
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">成果概览</span>
-            <h2>课程建设、学生发展、平台运行与推广示范四条结果线索集中呈现</h2>
-            <p>围绕四条结果线索梳理本项目已经形成的代表性成效。</p>
+            <h2>代表性成果</h2>
+            <p>课程建设、学生发展、平台运行和推广结果集中展示。</p>
           </div>
 
           <div className="impact-dashboard-grid">
@@ -123,8 +123,8 @@ export default function ImpactPage() {
         <section className="impact-support-appendix showcase-card" aria-label="后续查看">
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">后续查看</span>
-            <h2>继续进入课程视频页或课程档案页查看对应内容</h2>
-            <p>如需继续查看课程内容与期次资料，可分别进入课程视频页和课程体系页。</p>
+            <h2>继续查看课程视频和课程体系</h2>
+            <p>课程视频和课程档案都可以继续展开查看。</p>
           </div>
 
           <div className="impact-grid-two-up">
@@ -137,7 +137,7 @@ export default function ImpactPage() {
             <Link href="/courses" className="showcase-entry-card impact-entry-card">
               <span>课程体系</span>
               <strong>查看八期课程档案</strong>
-              <p>八期课程按主题、目标、教学设计和成果支撑形成统一导览。</p>
+              <p>按主题、目标、教学设计和成果支撑查看八期课程档案。</p>
             </Link>
           </div>
         </section>

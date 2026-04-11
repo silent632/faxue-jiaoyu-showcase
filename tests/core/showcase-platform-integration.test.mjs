@@ -73,10 +73,10 @@ test("impact page uses summary-first dashboard sections in the required priority
 test("showcase nav fallback uses shared nav builder to keep task-1 semantics", () => {
   const source = readFileSync(new URL("../../components/showcase-nav.js", import.meta.url), "utf8");
 
-  assert.equal(source.includes("buildShowcaseNavItems"), true);
-  assert.equal(source.includes("items ?? buildShowcaseNavItems()"), true);
-  assert.equal(source.includes("isShowcaseNavItemActive"), true);
-  assert.equal(source.includes("aria-label=\"主导航\""), true);
+  assert.equal(source.includes("TopNav"), true);
+  assert.equal(source.includes("getPublicShowcaseUser"), true);
+  assert.equal(source.includes("showcase-nav-link"), false);
+  assert.equal(source.includes("showcase-brand"), false);
 });
 
 test("case detail and study routes export the full case set instead of truncating to 24 items", () => {

@@ -119,14 +119,16 @@ test("showcase content avoids label-board wording in content pages", () => {
   assert.equal(/补充说明/u.test(text), false);
 });
 
-test("operations-first dashboards present formed impact and platform metrics semantics", () => {
+test("operations-first dashboards keep concise homepage hero semantics", () => {
   const content = buildShowcaseContent();
   const heroText = JSON.stringify(content.homeDashboard?.hero || {});
   const kpiLabels = (content.homeDashboard?.kpis || []).map((item) => item.label);
 
-  assert.match(heroText, /应用成果|平台成效/u);
-  assert.match(heroText, /推广影响|推广应用/u);
-  assert.match(heroText, /已形成/u);
+  assert.match(heroText, /裁判文书研习平台/u);
+  assert.match(heroText, /案例检索/u);
+  assert.match(heroText, /课程视频/u);
+  assert.match(heroText, /成效展示/u);
+  assert.equal(/应用成果|平台成效|推广影响|已形成/u.test(heroText), false);
   assert.equal(/先完成|再进入|最后/u.test(heroText), false);
 
   assert.ok(kpiLabels.includes("平台使用者"));

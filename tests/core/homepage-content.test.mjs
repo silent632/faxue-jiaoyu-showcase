@@ -10,16 +10,17 @@ test("homepage dashboard content keeps operations metrics and trend snapshot", (
 
   assert.equal(content.site.title, "裁判文书研习平台");
   assert.ok(content.homeDashboard);
-  assert.equal(content.homeDashboard.hero.title, "平台成效与应用成果看板");
-  assert.match(content.homeDashboard.hero.summary, /应用成果与推广影响/u);
+  assert.match(content.homeDashboard.hero.title, /平台|首页/u);
+  assert.match(content.homeDashboard.hero.summary, /案例检索|课程视频|成效展示/u);
   assert.ok(Array.isArray(content.homeDashboard.kpis));
   assert.equal(content.homeDashboard.kpis.length >= 5, true);
   assert.ok(Array.isArray(content.homeDashboard.trendSnapshot.points));
   assert.equal(content.homeDashboard.trendSnapshot.points.length >= 3, true);
+  assert.ok(Array.isArray(content.homeResultTracks));
+  assert.equal(content.homeResultTracks.length, 3);
   assert.ok(content.homeEntries.some((item) => item.label === "案例检索库"));
   assert.ok(content.homeEntries.some((item) => item.label === "研习工作台"));
-  assert.equal(/推广影响/u.test(text), true);
-  assert.equal(/看板/u.test(text), true);
+  assert.equal(/看板/u.test(text), false);
 });
 
 test("homepage page layout is operations-first with required structure classes", () => {
@@ -27,18 +28,13 @@ test("homepage page layout is operations-first with required structure classes",
 
   assert.match(source, /homepage-review-console/u);
   assert.match(source, /homepage-validation-rail/u);
-  assert.match(source, /homepage-evidence-ledger/u);
-  assert.match(source, /homepage-review-ledger/u);
+  assert.match(source, /homepage-results-grid/u);
   assert.match(source, /homepage-video-block/u);
   assert.match(source, /homepage-video-stage-grid/u);
   assert.match(source, /homepage-video-period-grid/u);
   assert.match(source, /homepage-audit-entry-grid/u);
-  assert.match(source, /homepage-console-ledger/u);
-  assert.match(source, /homepage-console-inline-evidence/u);
-  assert.equal(source.includes("homepage-review-strip"), false);
-  assert.equal(source.includes("homepage-platform-entry-grid"), false);
-  assert.equal(source.includes("homepage-evidence-grid"), false);
-  assert.equal(source.includes("homepage-console-note"), false);
+  assert.equal(source.includes("homepage-review-ledger"), false);
+  assert.equal(source.includes("homepage-evidence-ledger"), false);
 });
 
 test("homepage content keeps platform entry links after the operations overview", () => {

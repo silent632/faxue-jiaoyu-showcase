@@ -6,6 +6,8 @@ import { buildShowcaseContent } from "../../lib/showcase-content.js";
 
 const FORBIDDEN_PATTERNS = [
   /本页用于/u,
+  /本页按/u,
+  /本页集中呈现/u,
   /这里保留/u,
   /展示站/u,
   /公开展示模式/u,
@@ -38,7 +40,7 @@ test("showcase content avoids task-execution and backstage language", () => {
   }
 });
 
-test("showcase content reads like an operations-results homepage", () => {
+test("showcase content reads like a concise public-facing homepage", () => {
   const content = buildShowcaseContent();
 
   assert.equal(content.site.title, "裁判文书研习平台");
@@ -46,9 +48,10 @@ test("showcase content reads like an operations-results homepage", () => {
   assert.ok(content.homeEntries.length >= 3);
   assert.ok(content.platformHighlights.length >= 3);
   assert.ok(content.homeDashboard);
-  assert.match(content.homeDashboard.hero.title, /成效|成果/u);
-  assert.match(content.homeDashboard.hero.summary, /已形成/u);
-  assert.match(content.homeDashboard.hero.summary, /推广影响/u);
+  assert.match(content.homeDashboard.hero.title, /平台|首页/u);
+  assert.match(content.homeDashboard.hero.summary, /案例检索/u);
+  assert.match(content.homeDashboard.hero.summary, /课程体系/u);
+  assert.equal(/已形成|推广影响/u.test(content.homeDashboard.hero.summary), false);
   assert.equal(Array.isArray(content.homeDashboard.kpis), true);
   assert.equal(content.homeDashboard.kpis.length >= 4, true);
   assert.equal(Array.isArray(content.homeDashboard.trendSnapshot.points), true);
@@ -70,7 +73,7 @@ test("resources and courses pages keep stable role markers with support-oriented
   assert.match(coursesSource, /data-page-role="courses-support"/u);
   assert.match(coursesSource, /课程档案/u);
   assert.match(coursesSource, /阶段定位|课程主题/u);
-  assert.match(coursesSource, /配套资料|视频入口/u);
+  assert.match(coursesSource, /查看本期视频|课程展陈|课程建设主线/u);
   assert.equal(/课程编排以“进入案例、展开讨论、形成表达”/u.test(coursesSource), false);
 });
 
@@ -109,6 +112,9 @@ test("homepage and impact pages avoid meta design commentary in review copy", ()
   assert.equal(/注册用户/u.test(impactSource), false);
   assert.equal(/主视频|辅助视频/u.test(homeSource), false);
   assert.equal(/主视频|辅助视频/u.test(impactSource), false);
+  assert.equal(/本页集中呈现|本页按/u.test(homeSource), false);
+  assert.equal(/本页集中呈现|本页按/u.test(impactSource), false);
+  assert.equal(/首要轴线|结果线索|梳理/u.test(impactSource), false);
 });
 
 test("public pages avoid exposed reviewer-facing guidance and analyst narration", () => {

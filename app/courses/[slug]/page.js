@@ -33,14 +33,11 @@ export default async function CourseDetailPage({ params }) {
     notFound();
   }
 
-  const overviewMeta = [
+  const infoMeta = [
     { label: "阶段定位", value: period.module },
     { label: "课程主题", value: period.guide.courseTheme || period.theme },
     { label: "建议讲授标题", value: period.guide.teachingTitle || period.title.replace(/^第[一二三四五六七八]期\s*/u, "") },
     { label: "授课对象", value: period.guide.audience || "法学本科二、三年级学生" },
-  ].filter((item) => item.value);
-
-  const mentorMeta = [
     { label: "理论导师", value: period.guide.theoryMentor },
     { label: "实务导师", value: period.guide.practiceMentor },
   ].filter((item) => item.value);
@@ -49,18 +46,26 @@ export default async function CourseDetailPage({ params }) {
     ? period.outline
     : ["案例进入", "问题识别", "课堂研讨", "总结提升"];
 
-  const supportPoints = [
-    period.videoHref
-      ? (period.videoHref.includes("/resources/videos/")
-        ? "已配置本期视频入口，可继续进入课程视频页查看完整内容。"
-        : "已配置本期视频入口，可作为课程展示与推广应用支撑。")
-      : "本期课程已完成视频成果整理，可作为课堂展示支撑。",
-    period.playerMode === "segments"
-      ? "已形成分段课堂记录，可按教学推进顺序查看课程实施过程。"
-      : "已形成完整课程视频成果，可直接用于课程展示与观摩。",
-    period.stats.evidenceCount > 0
-      ? "已保留课堂实施、学生反馈或研习成果等过程性支撑材料。"
-      : "已形成课堂实施过程记录，可作为教学建设的阶段性支撑。",
+  const resultCards = [
+    {
+      label: "展示重点",
+      title: period.playerMode === "segments" ? "分段课堂记录" : "站内课程视频",
+      description: period.playerMode === "segments"
+        ? "本期内容可按分段顺序查看。"
+        : "本期课程视频可直接观看。",
+    },
+    {
+      label: "课程亮点",
+      title: period.guide.highlights?.[0] || "课程主题与课堂推进保持统一。",
+      description: period.summary,
+    },
+    {
+      label: "支撑内容",
+      title: period.stats.evidenceCount > 0 ? "课堂记录与学生反馈已保留。" : "课堂推进过程已有记录。",
+      description: period.playerMode === "segments"
+        ? "课程展示和课堂推进可以对应查看。"
+        : "课程视频与课程主题可以对照查看。",
+    },
   ];
 
   return (
@@ -76,7 +81,7 @@ export default async function CourseDetailPage({ params }) {
 
         <section className="showcase-card course-detail-hero">
           <div className="course-detail-hero-copy">
-            <p className="showcase-page-kicker">课程档案</p>
+            <p className="showcase-page-kicker">课程展陈</p>
             <h1>{period.title}</h1>
             <p className="course-detail-lead">{period.guide.coursePosition || period.summary}</p>
           </div>
@@ -85,21 +90,6 @@ export default async function CourseDetailPage({ params }) {
             <div className="course-detail-chip-row">
               <span className="tag tag-accent">{period.stageTag}</span>
               <span className="tag">{period.phaseLabel}</span>
-            </div>
-
-            <div className="course-detail-summary-grid">
-              <article className="course-detail-meta-card">
-                <span>阶段定位</span>
-                <strong>{period.module}</strong>
-              </article>
-              <article className="course-detail-meta-card">
-                <span>课程主题</span>
-                <strong>{period.guide.courseTheme || period.theme}</strong>
-              </article>
-              <article className="course-detail-meta-card">
-                <span>授课对象</span>
-                <strong>{period.guide.audience || "法学本科二、三年级学生"}</strong>
-              </article>
             </div>
 
             <div className="course-detail-action-row">
@@ -114,22 +104,17 @@ export default async function CourseDetailPage({ params }) {
         </section>
 
         <ShowcaseSection
-          title="课程概况"
+          title="本期成果"
           eyebrow={period.period}
-          description="围绕课程主题、建议讲授标题、授课对象与双师配置，快速说明本期课程的基本组织方式。"
+          description="先看本期成果与亮点。"
           className="showcase-section-compact"
         >
-          <div className="course-detail-meta-grid">
-            {overviewMeta.map((item) => (
-              <article key={item.label} className="course-detail-meta-card">
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
-              </article>
-            ))}
-            {mentorMeta.map((item) => (
-              <article key={item.label} className="course-detail-meta-card">
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
+          <div className="course-detail-support-grid">
+            {resultCards.map((item) => (
+              <article key={item.label} className="course-detail-support-card">
+                <span className="showcase-card-eyebrow">{item.label}</span>
+                <strong>{item.title}</strong>
+                <p>{item.description}</p>
               </article>
             ))}
           </div>
@@ -137,29 +122,25 @@ export default async function CourseDetailPage({ params }) {
 
         <div className="course-detail-two-up">
           <ShowcaseSection
-            title="本期学习目标"
-            eyebrow="学习目标"
-            description="本期课程希望学生在案例进入、规范判断和法理表达上形成的核心能力。"
+            title="课程信息"
+            eyebrow="基本信息"
+            description="课程主题、讲授标题、授课对象与双师配置。"
             className="showcase-section-compact"
           >
-            {renderList(period.guide.goals, "本期围绕课程主题组织学生形成案例分析与法理表达能力。")}
+            <div className="course-detail-meta-grid">
+              {infoMeta.map((item) => (
+                <article key={item.label} className="course-detail-meta-card">
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </article>
+              ))}
+            </div>
           </ShowcaseSection>
 
           <ShowcaseSection
-            title="核心问题与案例方向"
-            eyebrow="问题导向"
-            description="本期围绕哪些问题进入课程、组织案例讨论，并推动学生展开判断。"
-            className="showcase-section-compact"
-          >
-            {renderList(period.guide.caseDirections, "本期以课程主题为主线组织案例讨论与问题推进。")}
-          </ShowcaseSection>
-        </div>
-
-        <div className="course-detail-two-up">
-          <ShowcaseSection
-            title="教学推进"
-            eyebrow="教学设计"
-            description="按课堂推进顺序概括本期课程的主要组织步骤与内容结构。"
+            title="教学设计"
+            eyebrow="课堂推进"
+            description="本期课堂推进结构。"
             className="showcase-section-compact"
           >
             <div className="course-detail-outline-grid">
@@ -171,39 +152,35 @@ export default async function CourseDetailPage({ params }) {
               ))}
             </div>
           </ShowcaseSection>
+        </div>
 
+        <div className="course-detail-two-up">
           <ShowcaseSection
-            title="教学亮点"
-            eyebrow="亮点归纳"
-            description="概括本期课程在双师协同、课堂组织和法理表达上的重点处理。"
+            title="学习目标"
+            eyebrow="课堂目标"
+            description="本期核心能力目标。"
             className="showcase-section-compact"
           >
-            {renderList(period.guide.highlights, "本期重点围绕课程主题、案例讨论与结构化表达展开。")}
+            {renderList(period.guide.goals, "本期围绕课程主题组织案例分析与法理表达。")}
+          </ShowcaseSection>
+
+          <ShowcaseSection
+            title="问题线索"
+            eyebrow="讨论重点"
+            description="本期主要讨论问题。"
+            className="showcase-section-compact"
+          >
+            {renderList(period.guide.caseDirections, "本期讨论围绕课程主题展开。")}
           </ShowcaseSection>
         </div>
 
         <ShowcaseSection
-          title="学习准备"
-          eyebrow="课前要求"
-          description="进入课堂前的阅读、复习与问题准备，帮助学生更快进入本期讨论。"
+          title="课前准备"
+          eyebrow="学习准备"
+          description="进入课堂前的阅读与准备。"
           className="showcase-section-compact"
         >
-          {renderList(period.guide.preStudy, "本期以课程主题导入和课堂问题准备为主要课前要求。")}
-        </ShowcaseSection>
-
-        <ShowcaseSection
-          title="成果支撑"
-          eyebrow="支撑说明"
-          description="本页不再展开材料清单，改为直接说明本期已经形成的课程成果与支撑类型。"
-          className="showcase-section-compact"
-        >
-          <div className="course-detail-support-grid">
-            {supportPoints.map((item) => (
-              <article key={item} className="course-detail-support-card">
-                <strong>{item}</strong>
-              </article>
-            ))}
-          </div>
+          {renderList(period.guide.preStudy, "本期以课程主题导入和课堂问题准备为主。")}
         </ShowcaseSection>
       </div>
     </main>

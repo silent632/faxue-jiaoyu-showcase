@@ -39,7 +39,7 @@ export default async function VideoPlayerPage({ params }) {
               <div className="showcase-video-placeholder">
                 <span className="showcase-card-eyebrow">{video.stageTag}</span>
                 <strong>{video.period}</strong>
-                <p>本期保留分段内容入口，点击下方分段卡片后可继续查看各段课程记录。</p>
+                <p>点击下方卡片查看本期各段内容。</p>
               </div>
             ) : (
               <video className="showcase-video-player-element" controls preload="metadata" playsInline>
@@ -53,16 +53,14 @@ export default async function VideoPlayerPage({ params }) {
             <section className="showcase-video-player-copy">
               <span className="showcase-card-eyebrow">{video.stageTag}</span>
               <strong>{video.theme}</strong>
-              <p>{video.purpose}</p>
+              <p>{isSegmentPage ? "保留分段课堂记录。" : "本期视频可直接在站内观看。"}</p>
               <small>{video.phaseLabel}</small>
             </section>
 
             <section className="showcase-video-player-actions">
-              <span className="showcase-card-eyebrow">观看说明</span>
+              <span className="showcase-card-eyebrow">相关入口</span>
               <p>
-                {isSegmentPage
-                  ? "第一期、第二期的分段入口保留在站内说明页内展开，以保持课程视频总览页的八期连续顺序。"
-                  : "第三至第八期视频已接入站内播放器，可直接观看；如需备用入口，可继续打开原始视频。"}
+                {isSegmentPage ? "下方提供本期分段入口。" : "如需单独打开视频，可继续使用原始视频链接。"}
               </p>
               <div className="showcase-video-player-action-row">
                 <Link href="/resources" className="btn btn-ghost">
@@ -85,8 +83,8 @@ export default async function VideoPlayerPage({ params }) {
           <section className="showcase-card showcase-video-segment-shell" aria-label="本期分段内容">
             <div className="homepage-band-head">
               <span className="showcase-section-eyebrow">本期分段内容</span>
-              <h2>第一期、第二期的分段入口在此展开</h2>
-              <p>点击后会打开对应分段内容，以便继续查看本期课程的完整展开过程。</p>
+              <h2>本期分段视频</h2>
+              <p>点击卡片查看本期各段内容。</p>
             </div>
 
             <div className="showcase-video-segment-grid">
