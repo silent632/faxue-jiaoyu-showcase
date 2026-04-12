@@ -1076,6 +1076,7 @@ main {
 }
 
 .course-period-card p,
+.course-period-home-panel p,
 .course-question-card p,
 .course-material-section-card p {
   margin: 0;

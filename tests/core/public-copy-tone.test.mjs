@@ -170,6 +170,16 @@ test("course system route copy avoids explainer wording after the split", () => 
   }
 });
 
+test("course system public copy avoids raw material-name placeholders", () => {
+  const text = [
+    readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/courses/[slug]/materials/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/courses/[slug]/outcomes/page.js", import.meta.url), "utf8"),
+  ].join("\n");
+
+  assert.equal(/学生课后反馈（一）|学生课后反馈（二）|学生研习报告（二）|资料包制作清单/u.test(text), false);
+});
+
 test("public-facing source copy avoids incomplete-state wording in expert-visible flows", () => {
   const sources = [
     readFileSync(new URL("../../app/cases/[id]/page.js", import.meta.url), "utf8"),

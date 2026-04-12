@@ -17,14 +17,19 @@ export default async function CourseDetailPage({ params }) {
     notFound();
   }
 
-  const home = period.periodHome;
+  const { periodHome, courseContentProfile } = period;
+  const focusQuestions = courseContentProfile.coreQuestions.slice(0, 3);
+  const caseHighlights = [...courseContentProfile.caseStudy.mainCases, ...courseContentProfile.caseStudy.supportCases].slice(0, 4);
+  const learningSignals = courseContentProfile.studentOutcomes.learningShift.length > 0
+    ? courseContentProfile.studentOutcomes.learningShift
+    : courseContentProfile.teachingDesign.trainingFocus;
 
   return (
-    <CoursePeriodShell period={period} title={period.title} summary={home.summary}>
+    <CoursePeriodShell period={period} title={period.title} summary={periodHome.summary}>
       <ShowcaseSection
-        title="本期线索"
+        title="本期概览"
         eyebrow={period.period}
-        description="这一期的课程主线、材料入口和六个栏目入口都集中放在这里。"
+        description={courseContentProfile.periodSummary.lead}
         className="showcase-section-compact course-period-home-section"
       >
         <p className="course-period-home-order">
@@ -33,28 +38,45 @@ export default async function CourseDetailPage({ params }) {
 
         <div className="course-period-home-grid">
           <div className="course-period-home-panel">
-            <strong>主线概览</strong>
+            <strong>课程定位</strong>
+            <p>{courseContentProfile.periodSummary.position}</p>
             <ul className="course-detail-list">
-              {home.highlights.map((item) => (
+              {courseContentProfile.periodSummary.keySignals.slice(0, 3).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
 
           <div className="course-period-home-panel">
-            <strong>材料线索</strong>
-            <div className="course-material-clue-row">
-              {home.materialClues.map((item) => (
-                <span key={item} className="course-material-clue">
-                  {item}
-                </span>
+            <strong>重点问题</strong>
+            <ul className="course-detail-list">
+              {focusQuestions.map((item) => (
+                <li key={item.question}>{item.question}</li>
               ))}
-            </div>
+            </ul>
+          </div>
+
+          <div className="course-period-home-panel">
+            <strong>核心案例</strong>
+            <ul className="course-detail-list">
+              {caseHighlights.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="course-period-home-panel">
+            <strong>学习转变</strong>
+            <ul className="course-detail-list">
+              {learningSignals.slice(0, 3).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
         </div>
 
         <div className="course-period-card-grid">
-          {period.periodHome.cards.map((card) => (
+          {periodHome.cards.map((card) => (
             <article key={card.key} className="course-period-card">
               <div className="course-period-card-copy">
                 <span className="showcase-card-eyebrow">{card.label}</span>

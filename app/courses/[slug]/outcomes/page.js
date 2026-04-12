@@ -15,10 +15,16 @@ export default async function CoursePeriodOutcomesPage({ params }) {
     notFound();
   }
 
-  const section = period.sectionPages.outcomes;
+  const { courseContentProfile, sectionPages } = period;
+  const section = sectionPages.outcomes;
 
   return (
-    <CoursePeriodShell period={period} title={`${period.period} · ${section.title}`} summary={section.lead} activeSectionKey="outcomes">
+    <CoursePeriodShell
+      period={period}
+      title={`${period.period} · ${section.title}`}
+      summary={courseContentProfile.sectionSummaries.outcomes.detail}
+      activeSectionKey="outcomes"
+    >
       <CoursePeriodSectionContent period={period} section={section} />
     </CoursePeriodShell>
   );

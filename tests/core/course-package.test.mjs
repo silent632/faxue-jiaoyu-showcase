@@ -62,6 +62,18 @@ test("course package exposes period home and six fixed section pages", () => {
   }
 });
 
+test("course package exposes structured content profiles for rebuilt periods", () => {
+  const period01 = getCoursePackagePeriodBySlug("course-period-01");
+  const period08 = getCoursePackagePeriodBySlug("course-period-08");
+
+  for (const period of [period01, period08]) {
+    assert.ok(period.courseContentProfile);
+    assert.equal(typeof period.courseContentProfile.periodSummary.lead, "string");
+    assert.equal(Array.isArray(period.courseContentProfile.caseStudy.mainCases), true);
+    assert.equal(Array.isArray(period.courseContentProfile.studentOutcomes.feedbackInsights), true);
+  }
+});
+
 test("material display name normalization removes raw file noise", () => {
   assert.equal(
     normalizeCourseMaterialDisplayName("课件：类案检索与法律适用（0905）.pptx"),
