@@ -59,3 +59,19 @@ test("course detail page is exported as a static route with package-backed conte
   assert.match(source, /教学设计/u);
   assert.equal(/课程概况/u.test(source), false);
 });
+
+test("course package exposes readable archive content for overview and detail pages", () => {
+  const period01 = getCoursePackagePeriodBySlug("course-period-01");
+  const period07 = getCoursePackagePeriodBySlug("course-period-07");
+
+  assert.ok(period01.archiveCard);
+  assert.ok(period01.archiveCard.lead);
+  assert.equal(period01.archiveCard.keyPoints.length >= 2, true);
+
+  assert.ok(period07.detailContent);
+  assert.ok(period07.detailContent.intro);
+  assert.equal(period07.detailContent.keyQuestions.length >= 3, true);
+  assert.equal(period07.detailContent.sections.length >= 3, true);
+  assert.equal(period07.detailContent.materialHighlights.length >= 2, true);
+  assert.equal(period07.detailContent.learningTakeaways.length >= 2, true);
+});
