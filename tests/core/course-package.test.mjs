@@ -65,11 +65,21 @@ test("course package exposes period home and six fixed section pages", () => {
 test("course package section pages can carry material-level rich content blocks", () => {
   const period02 = getCoursePackagePeriodBySlug("course-period-02");
 
+  assert.equal(period02.sectionPages.introduction.replaceDefaultContent, true);
+  assert.equal(period02.sectionPages.questions.replaceDefaultContent, true);
   assert.equal(Array.isArray(period02.sectionPages.content.detailSections), true);
   assert.equal(Array.isArray(period02.sectionPages.materials.detailSections), true);
   assert.equal(Array.isArray(period02.sectionPages.outcomes.detailSections), true);
   assert.equal(Array.isArray(period02.sectionPages.teaching.detailSections), true);
 
+  assert.equal(
+    period02.sectionPages.introduction.detailSections.some((section) => /本期课程概况/u.test(section.title)),
+    true
+  );
+  assert.equal(
+    period02.sectionPages.questions.detailSections.some((section) => /法理导学里的核心争议/u.test(section.title)),
+    true
+  );
   assert.equal(
     period02.sectionPages.materials.detailSections.some((section) => /双师合作互评问卷/u.test(section.title)),
     true

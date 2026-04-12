@@ -132,32 +132,48 @@ function renderDetailSections(detailSections) {
     return null;
   }
 
+  const cards = [];
+
+  for (const section of detailSections) {
+    cards.push({
+      key: `${section.title}-section`,
+      sectionTitle: section.title,
+      title: section.title,
+      intro: section.intro,
+      paragraphs: section.paragraphs,
+      bullets: section.bullets,
+      meta: null,
+      scoreItems: null,
+    });
+
+    for (const card of section.cards || []) {
+      cards.push({
+        key: `${section.title}-${card.title}`,
+        sectionTitle: section.title,
+        title: card.title,
+        intro: null,
+        paragraphs: card.paragraphs,
+        bullets: card.bullets,
+        meta: card.meta,
+        scoreItems: card.scoreItems,
+      });
+    }
+  }
+
   return (
-    <div className="course-detail-section-stack">
-      {detailSections.map((section) => (
-        <section key={section.title} className="course-detail-section-panel">
-          <div className="course-detail-section-header">
-            <strong>{section.title}</strong>
-            {section.intro ? <p>{section.intro}</p> : null}
-          </div>
-
-          {renderParagraphs(section.paragraphs)}
-          {renderBullets(section.bullets)}
-
-          {Array.isArray(section.cards) && section.cards.length > 0 ? (
-            <div className="course-detail-section-card-grid">
-              {section.cards.map((card) => (
-                <article key={card.title} className="course-detail-section-card">
-                  <strong>{card.title}</strong>
-                  {renderMeta(card.meta)}
-                  {renderParagraphs(card.paragraphs)}
-                  {renderScoreItems(card.scoreItems)}
-                  {renderBullets(card.bullets)}
-                </article>
-              ))}
-            </div>
+    <div className="course-reading-section-grid">
+      {cards.map((card) => (
+        <article key={card.key} className="course-reading-section-card">
+          {card.sectionTitle && card.sectionTitle !== card.title ? (
+            <span className="showcase-card-eyebrow">{card.sectionTitle}</span>
           ) : null}
-        </section>
+          <strong>{card.title}</strong>
+          {card.intro ? <p className="course-detail-card-intro">{card.intro}</p> : null}
+          {renderMeta(card.meta)}
+          {renderParagraphs(card.paragraphs)}
+          {renderScoreItems(card.scoreItems)}
+          {renderBullets(card.bullets)}
+        </article>
       ))}
     </div>
   );
@@ -223,6 +239,8 @@ export function CoursePeriodShell({ period, title, summary, activeSectionKey = n
 }
 
 export function CoursePeriodSectionContent({ period, section }) {
+  const shouldRenderDefaultContent = section.replaceDefaultContent !== true;
+
   return (
     <ShowcaseSection
       title={section.title}
@@ -230,10 +248,10 @@ export function CoursePeriodSectionContent({ period, section }) {
       description={section.lead}
       className="showcase-section-compact course-period-section"
     >
-      {renderParagraphs(section.paragraphs)}
-      {renderQuestions(section.questions)}
-      {renderBlocks(section.blocks)}
-      {renderGroups(section.groups)}
+      {shouldRenderDefaultContent ? renderParagraphs(section.paragraphs) : null}
+      {shouldRenderDefaultContent ? renderQuestions(section.questions) : null}
+      {shouldRenderDefaultContent ? renderBlocks(section.blocks) : null}
+      {shouldRenderDefaultContent ? renderGroups(section.groups) : null}
       {renderDetailSections(section.detailSections)}
     </ShowcaseSection>
   );

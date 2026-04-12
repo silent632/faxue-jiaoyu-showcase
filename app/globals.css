@@ -1062,54 +1062,10 @@ main {
   gap: 16px;
 }
 
-.course-detail-section-stack {
-  display: grid;
-  gap: 18px;
-  margin-top: 18px;
-}
-
-.course-detail-section-panel {
-  display: grid;
-  gap: 16px;
-  padding: 22px;
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 239, 228, 0.98));
-  border: 1px solid rgba(35, 67, 93, 0.12);
-}
-
-.course-detail-section-header {
-  display: grid;
-  gap: 8px;
-}
-
-.course-detail-section-header strong {
-  color: var(--ink);
-  line-height: 1.55;
-}
-
-.course-detail-section-header p {
+.course-detail-card-intro {
   margin: 0;
   color: var(--muted);
   line-height: 1.8;
-}
-
-.course-detail-section-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-.course-detail-section-card {
-  display: grid;
-  gap: 12px;
-  padding: 18px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(35, 67, 93, 0.08);
-}
-
-.course-detail-section-card > strong {
-  line-height: 1.6;
 }
 
 .course-detail-meta-pairs {
@@ -1222,8 +1178,7 @@ main {
 
 @media (max-width: 760px) {
   .course-detail-stat-grid,
-  .course-detail-meta-grid,
-  .course-detail-section-card-grid {
+  .course-detail-meta-grid {
     grid-template-columns: 1fr;
   }
 
