@@ -13,13 +13,20 @@ test("homepage dashboard content keeps operations metrics and trend snapshot", (
   assert.match(content.homeDashboard.hero.title, /平台|首页/u);
   assert.match(content.homeDashboard.hero.summary, /案例检索|课程视频|成效展示/u);
   assert.ok(Array.isArray(content.homeDashboard.kpis));
-  assert.equal(content.homeDashboard.kpis.length >= 5, true);
+  assert.equal(content.homeDashboard.kpis.length, 5);
+  assert.ok(
+    content.homeDashboard.kpis.some((item) => item.label === "累计访问量" && item.value === "5万+")
+  );
   assert.ok(Array.isArray(content.homeDashboard.trendSnapshot.points));
   assert.equal(content.homeDashboard.trendSnapshot.points.length >= 3, true);
   assert.ok(Array.isArray(content.homeResultTracks));
   assert.equal(content.homeResultTracks.length, 3);
   assert.ok(content.homeEntries.some((item) => item.label === "案例检索库"));
   assert.ok(content.homeEntries.some((item) => item.label === "研习工作台"));
+  const courseEntry = content.homeEntries.find((item) => item.href === "/courses");
+  assert.ok(courseEntry);
+  assert.match(courseEntry.description, /阅读|课程主题|视频|资料/u);
+  assert.equal(/档案/u.test(courseEntry.description), false);
   assert.equal(/看板/u.test(text), false);
 });
 
@@ -41,9 +48,10 @@ test("homepage content keeps platform entry links after the operations overview"
   const content = buildShowcaseContent();
 
   assert.ok(Array.isArray(content.homeEntries));
-  assert.equal(content.homeEntries.length >= 3, true);
+  assert.equal(content.homeEntries.length >= 4, true);
   assert.ok(content.homeEntries.some((item) => item.label === "案例检索库"));
   assert.ok(content.homeEntries.some((item) => item.label === "研习工作台"));
+  assert.ok(content.homeEntries.some((item) => item.label === "课程体系"));
   assert.ok(content.impactDashboard);
   assert.ok(Array.isArray(content.impactDashboard.coverageCards));
   assert.equal(content.impactDashboard.coverageCards.length >= 2, true);
