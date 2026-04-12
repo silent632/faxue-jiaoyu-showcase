@@ -130,4 +130,7 @@ test("course archive builder surfaces production-focused highlights for late per
   assert.ok(content.detailContent.sections.length >= 3);
   assert.equal(content.detailContent.materialHighlights.length >= 2, true);
   assert.match(content.detailContent.materialHighlights[0].title, /章节配音稿|资料包制作清单/);
+  const secondCall = buildCourseArchiveContent("第八期", rawLate);
+  assert.notStrictEqual(content.detailContent.sections, secondCall.detailContent.sections);
+  assert.notStrictEqual(content.detailContent.keyQuestions, secondCall.detailContent.keyQuestions);
 });
