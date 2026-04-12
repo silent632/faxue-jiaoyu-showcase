@@ -158,6 +158,18 @@ test("homepage and course pages avoid AI-tone, report-tone, and execution-tone w
   }
 });
 
+test("course system route copy avoids explainer wording after the split", () => {
+  const sources = [
+    readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/courses/[slug]/introduction/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/courses/[slug]/content/page.js", import.meta.url), "utf8"),
+  ];
+
+  for (const source of sources) {
+    assert.equal(/本页|在这里可以|继续进入|对应查看|系统梳理|页面说明/u.test(source), false);
+  }
+});
+
 test("public-facing source copy avoids incomplete-state wording in expert-visible flows", () => {
   const sources = [
     readFileSync(new URL("../../app/cases/[id]/page.js", import.meta.url), "utf8"),

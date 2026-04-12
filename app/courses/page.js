@@ -11,7 +11,7 @@ const GUIDE_BANDS = [
   },
   {
     title: "第五期至第八期",
-    description: "从示范课程延伸到专题议题，继续保留课程主线、材料摘要与教学组织。",
+    description: "从程序正义延伸到数字治理与智能治理，重心转向专题议题与制度判断。",
   },
 ];
 
@@ -26,7 +26,7 @@ export default function CoursesPage() {
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">课程体系</p>
           <h1>八期课程导览</h1>
-          <p>八期课程按主题推进，每一期都提供课程阅读页和视频入口。</p>
+          <p>八期课程按主题推进，进入各期主页后可继续查看六个栏目。</p>
         </section>
 
         <div className="course-guide-band-grid" aria-label="课程阶段">
@@ -42,7 +42,7 @@ export default function CoursesPage() {
         <ShowcaseSection
           title="课程档案"
           eyebrow="八期课程"
-          description="每一期都给出切入点、关键词和课程入口。"
+          description="每一期先进入单期主页，再展开本期导读、重点问题、内容展开、材料与案例、学习成果、教学安排。"
           className="showcase-section-compact"
           aria-label="课程档案"
         >

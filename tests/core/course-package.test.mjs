@@ -43,6 +43,25 @@ test("course package metadata exposes eight detail pages with normalized materia
   assert.ok(period06.materialGroups.some((group) => group.title === "佐证材料"));
 });
 
+test("course package exposes period home and six fixed section pages", () => {
+  const period01 = getCoursePackagePeriodBySlug("course-period-01");
+  const period05 = getCoursePackagePeriodBySlug("course-period-05");
+
+  for (const period of [period01, period05]) {
+    assert.ok(period.periodHome);
+    assert.equal(period.periodHome.cards.length, 6);
+    assert.ok(Array.isArray(period.sectionNavItems));
+    assert.equal(period.sectionNavItems.length, 6);
+    assert.ok(period.sectionPages);
+    assert.ok(period.sectionPages.introduction);
+    assert.ok(period.sectionPages.questions);
+    assert.ok(period.sectionPages.content);
+    assert.ok(period.sectionPages.materials);
+    assert.ok(period.sectionPages.outcomes);
+    assert.ok(period.sectionPages.teaching);
+  }
+});
+
 test("material display name normalization removes raw file noise", () => {
   assert.equal(
     normalizeCourseMaterialDisplayName("课件：类案检索与法律适用（0905）.pptx"),
@@ -58,20 +77,20 @@ test("material display name normalization removes raw file noise", () => {
   );
 });
 
-test("course detail page is exported as a static route with package-backed content", () => {
+test("course detail route is exported as a static period home with six section entries", () => {
   const source = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
 
   assert.match(source, /generateStaticParams/u);
   assert.match(source, /getCoursePackageStaticParams/u);
   assert.match(source, /getCoursePackagePeriodBySlug/u);
+  assert.match(source, /periodHome\.cards/u);
   assert.match(source, /本期导读/u);
-  assert.match(source, /核心问题/u);
+  assert.match(source, /重点问题/u);
   assert.match(source, /内容展开/u);
-  assert.match(source, /课程材料/u);
-  assert.match(source, /教学设计/u);
-  assert.match(source, /学习收获/u);
-  assert.equal(/本期成果|课程信息|问题线索|课前准备/u.test(source), false);
-  assert.equal(/课程概况/u.test(source), false);
+  assert.match(source, /材料与案例/u);
+  assert.match(source, /学习成果/u);
+  assert.match(source, /教学安排/u);
+  assert.equal(/核心问题|课程材料|教学设计|学习收获/u.test(source), false);
 });
 
 test("courses page presents each period as a guide card instead of a metadata-only archive card", () => {

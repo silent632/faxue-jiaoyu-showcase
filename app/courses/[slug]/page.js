@@ -1,26 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import ShowcaseNav from "@/components/showcase-nav";
+import { CoursePeriodShell } from "@/components/course-period-shell";
 import ShowcaseSection from "@/components/showcase-section";
 import { getCoursePackagePeriodBySlug, getCoursePackageStaticParams } from "@/lib/course-package";
 
 export function generateStaticParams() {
   return getCoursePackageStaticParams();
-}
-
-function renderList(items) {
-  if (!Array.isArray(items) || items.length === 0) {
-    return null;
-  }
-
-  return (
-    <ul className="course-detail-list">
-      {items.map((item) => (
-        <li key={item}>{item}</li>
-      ))}
-    </ul>
-  );
 }
 
 export default async function CourseDetailPage({ params }) {
@@ -31,106 +17,58 @@ export default async function CourseDetailPage({ params }) {
     notFound();
   }
 
-  const detail = period.detailContent;
-  const heroMeta = [
-    { label: "课程主题", value: period.guide.courseTheme || period.theme },
-    { label: "课程位置", value: period.module },
-    { label: "内容类型", value: period.archiveCard.contentType },
-    { label: "理论导师", value: period.guide.theoryMentor },
-    { label: "实务导师", value: period.guide.practiceMentor },
-  ].filter((item) => item.value);
+  const home = period.periodHome;
 
   return (
-    <main className="showcase-page" data-page-role="course-detail">
-      <ShowcaseNav />
+    <CoursePeriodShell period={period} title={period.title} summary={home.summary}>
+      <ShowcaseSection
+        title="本期线索"
+        eyebrow={period.period}
+        description="这一期的课程主线、材料入口和六个栏目入口都集中放在这里。"
+        className="showcase-section-compact course-period-home-section"
+      >
+        <p className="course-period-home-order">
+          本期导读 · 重点问题 · 内容展开 · 材料与案例 · 学习成果 · 教学安排
+        </p>
 
-      <div className="showcase-page-body">
-        <div className="course-detail-back-row">
-          <Link href="/courses" className="btn btn-ghost">
-            返回课程体系
-          </Link>
-        </div>
-
-        <section className="showcase-card course-detail-hero">
-          <div className="course-detail-hero-copy">
-            <p className="showcase-page-kicker">{period.period}</p>
-            <h1>{period.title}</h1>
-            <p className="course-detail-lead">{period.archiveCard.lead}</p>
+        <div className="course-period-home-grid">
+          <div className="course-period-home-panel">
+            <strong>主线概览</strong>
+            <ul className="course-detail-list">
+              {home.highlights.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
 
-          <div className="course-detail-hero-side">
-            <div className="course-detail-chip-row">
-              <span className="tag tag-accent">{period.stageTag}</span>
-              <span className="tag">{period.phaseLabel}</span>
-            </div>
-
-            <div className="course-detail-meta-grid">
-              {heroMeta.map((item) => (
-                <article key={item.label} className="course-detail-meta-card">
-                  <span>{item.label}</span>
-                  <strong>{item.value}</strong>
-                </article>
+          <div className="course-period-home-panel">
+            <strong>材料线索</strong>
+            <div className="course-material-clue-row">
+              {home.materialClues.map((item) => (
+                <span key={item} className="course-material-clue">
+                  {item}
+                </span>
               ))}
             </div>
+          </div>
+        </div>
 
-            <div className="course-detail-action-row">
-              <Link href={period.videoHref} className="showcase-home-panel-link">
-                查看本期视频
+        <div className="course-period-card-grid">
+          {period.periodHome.cards.map((card) => (
+            <article key={card.key} className="course-period-card">
+              <div className="course-period-card-copy">
+                <span className="showcase-card-eyebrow">{card.label}</span>
+                <strong>{card.summary}</strong>
+                <p>{card.detail}</p>
+              </div>
+
+              <Link href={card.href} className="showcase-home-panel-link">
+                查看{card.label}
               </Link>
-              <Link href="/resources" className="btn btn-ghost">
-                返回课程视频
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <ShowcaseSection title="本期导读" eyebrow={period.period} className="showcase-section-compact">
-          <div className="course-reading-paragraph-group">
-            {detail.intro.map((paragraph) => (
-              <p key={paragraph} className="course-reading-paragraph">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </ShowcaseSection>
-
-        <ShowcaseSection title="核心问题" eyebrow="问题进入" className="showcase-section-compact">
-          {renderList(detail.keyQuestions)}
-        </ShowcaseSection>
-
-        <ShowcaseSection title="内容展开" eyebrow="课程主线" className="showcase-section-compact">
-          <div className="course-reading-section-grid">
-            {detail.sections.map((section) => (
-              <article key={section.title} className="course-reading-section-card">
-                <strong>{section.title}</strong>
-                <p>{section.body}</p>
-              </article>
-            ))}
-          </div>
-        </ShowcaseSection>
-
-        <ShowcaseSection title="课程材料" eyebrow="材料摘要" className="showcase-section-compact">
-          <div className="course-material-highlight-grid">
-            {detail.materialHighlights.map((item) => (
-              <article key={item.title} className="course-material-highlight-card">
-                <strong>{item.title}</strong>
-                <p>{item.summary}</p>
-              </article>
-            ))}
-          </div>
-        </ShowcaseSection>
-
-        <ShowcaseSection title="教学设计" eyebrow="课堂组织" className="showcase-section-compact">
-          <div className="course-reading-paragraph-group">
-            <p className="course-reading-paragraph">{detail.teachingDesign.summary}</p>
-          </div>
-          {renderList(detail.teachingDesign.bullets)}
-        </ShowcaseSection>
-
-        <ShowcaseSection title="学习收获" eyebrow="阅读收束" className="showcase-section-compact">
-          {renderList(detail.learningTakeaways)}
-        </ShowcaseSection>
-      </div>
-    </main>
+            </article>
+          ))}
+        </div>
+      </ShowcaseSection>
+    </CoursePeriodShell>
   );
 }
