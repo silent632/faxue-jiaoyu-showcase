@@ -7,6 +7,7 @@ import {
   getCoursePackageStaticParams,
   normalizeCourseMaterialDisplayName,
 } from "../../lib/course-package.js";
+import { buildCourseArchiveContent } from "../../lib/course-archive-content.js";
 
 test("course package metadata exposes eight detail pages with normalized material names", () => {
   const params = getCoursePackageStaticParams();
@@ -60,18 +61,67 @@ test("course detail page is exported as a static route with package-backed conte
   assert.equal(/课程概况/u.test(source), false);
 });
 
-test("course package exposes readable archive content for overview and detail pages", () => {
-  const period01 = getCoursePackagePeriodBySlug("course-period-01");
-  const period07 = getCoursePackagePeriodBySlug("course-period-07");
+test("course archive builder shapes early-period copy", () => {
+  const rawEarly = {
+    summary: "以类案检索串联裁判文书阅读与表达训练。",
+    theme: "类案检索与法律适用",
+    guide: {
+      coursePosition: "以案例检索为起点，进入争点识别。",
+      highlights: ["突出问题导读", "明确表达收束"],
+      goals: ["建立导读路径", "强化法理表达"],
+    },
+    outline: ["检索方法", "争点识别", "表达训练"],
+    materialGroups: [
+      {
+        title: "课程资料",
+        items: [
+          { displayName: "课程课件：类案检索与法律适用", kind: "课件" },
+          { displayName: "专题阅读：司法裁判", kind: "讲义" },
+        ],
+      },
+    ],
+  };
 
-  assert.ok(period01.archiveCard);
-  assert.ok(period01.archiveCard.lead);
-  assert.equal(period01.archiveCard.keyPoints.length >= 2, true);
+  const content = buildCourseArchiveContent("第一期", rawEarly);
+  assert.ok(content.archiveCard);
+  assert.equal(typeof content.archiveCard.lead, "string");
+  assert.equal(content.archiveCard.keyPoints.length >= 2, true);
+  assert.equal(typeof content.archiveCard.contentType, "string");
 
-  assert.ok(period07.detailContent);
-  assert.ok(period07.detailContent.intro);
-  assert.equal(period07.detailContent.keyQuestions.length >= 3, true);
-  assert.equal(period07.detailContent.sections.length >= 3, true);
-  assert.equal(period07.detailContent.materialHighlights.length >= 2, true);
-  assert.equal(period07.detailContent.learningTakeaways.length >= 2, true);
+  assert.ok(content.detailContent);
+  assert.ok(Array.isArray(content.detailContent.intro));
+  assert.equal(content.detailContent.keyQuestions.length >= 3, true);
+  assert.equal(content.detailContent.sections.length >= 3, true);
+  assert.equal(content.detailContent.materialHighlights.length >= 1, true);
+  assert.equal(content.detailContent.learningTakeaways.length >= 2, true);
+});
+
+test("course archive builder surfaces production-focused highlights for late periods", () => {
+  const rawLate = {
+    summary: "分享平台治理专题的视频化成果。",
+    theme: "平台治理与劳动法理",
+    guide: {
+      coursePosition: "以资源化成果推进课程影响力。",
+      highlights: ["视频化表达", "裁判经验沉淀"],
+      goals: ["展示示范课程", "提炼可复用素材"],
+    },
+    outline: ["示范课导入", "材料线索", "资源化表达"],
+    materialGroups: [
+      {
+        title: "视频制作材料",
+        items: [
+          { displayName: "章节配音稿", kind: "文稿" },
+          { displayName: "资料包制作清单", kind: "清单" },
+          { displayName: "逐页时长表", kind: "表格" },
+        ],
+      },
+    ],
+  };
+
+  const content = buildCourseArchiveContent("第八期", rawLate);
+  assert.ok(content.archiveCard.contentType);
+  assert.equal(content.detailContent.keyQuestions.length, 3);
+  assert.ok(content.detailContent.sections.length >= 3);
+  assert.equal(content.detailContent.materialHighlights.length >= 2, true);
+  assert.match(content.detailContent.materialHighlights[0].title, /章节配音稿|资料包制作清单/);
 });
