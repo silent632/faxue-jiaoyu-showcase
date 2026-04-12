@@ -74,7 +74,6 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.deepEqual(content.homeEntries.map((item) => item.href), [
     "/cases",
     canonicalDetailHref,
-    "/courses",
     canonicalStudyHref,
   ]);
   assert.equal(content.homeFlow.length, 3);
@@ -137,11 +136,10 @@ test("operations-first dashboards keep concise homepage hero semantics", () => {
   assert.equal(/先完成|再进入|最后/u.test(heroText), false);
 
   assert.ok(kpiLabels.includes("平台使用者"));
-  assert.ok(kpiLabels.includes("累计访问量"));
   assert.ok(kpiLabels.includes("视频播放"));
   assert.ok(kpiLabels.includes("活跃用户"));
   assert.ok(kpiLabels.includes("工作台回访率"));
-  assert.equal(kpiLabels.includes("案例检索使用占比"), false);
+  assert.ok(kpiLabels.includes("案例检索使用占比"));
   assert.equal(kpiLabels.includes("注册用户"), false);
   assert.equal(kpiLabels.includes("典型案例"), false);
   assert.equal(kpiLabels.includes("双师课程"), false);

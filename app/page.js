@@ -9,7 +9,8 @@ export default async function HomePage() {
   const user = getPublicShowcaseUser();
   const studyHref = getShowcaseCanonicalStudyHref();
   const cases = await loadShowcaseCases();
-  const quickKpis = content.homeDashboard?.kpis ?? [];
+  const quickKpis =
+    content.homeDashboard?.kpiHighlights ?? content.homeDashboard?.kpis ?? [];
   const featuredCases = cases.slice(0, 3);
   const homeVideoBlock = content.homeVideoBlock;
   const resultTracks = content.homeResultTracks ?? [];
