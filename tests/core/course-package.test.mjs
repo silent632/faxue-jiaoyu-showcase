@@ -87,6 +87,7 @@ test("course archive builder shapes early-period copy", () => {
   assert.equal(typeof content.archiveCard.lead, "string");
   assert.equal(content.archiveCard.keyPoints.length >= 2, true);
   assert.equal(content.archiveCard.keyPoints.length <= 3, true);
+  assert.ok(content.archiveCard.keyPoints.every((point) => typeof point === "string" && point.trim().length > 0));
   assert.equal(typeof content.archiveCard.contentType, "string");
 
   assert.ok(content.detailContent);
