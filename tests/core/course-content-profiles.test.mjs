@@ -63,3 +63,36 @@ test("periods 02 to 04 expose dedicated content instead of fallback skeletons", 
     true
   );
 });
+
+test("period 02 exposes material-level rich content instead of summary-only copy", () => {
+  const period02 = getCoursePackagePeriodBySlug("course-period-02");
+  const { sectionRichContent } = period02.courseContentProfile;
+
+  assert.ok(sectionRichContent);
+  assert.equal(Array.isArray(sectionRichContent.materials), true);
+  assert.equal(Array.isArray(sectionRichContent.outcomes), true);
+  assert.equal(Array.isArray(sectionRichContent.teaching), true);
+
+  assert.equal(
+    sectionRichContent.materials.some((section) => section.title.includes("双师合作互评问卷")),
+    true
+  );
+  assert.equal(
+    sectionRichContent.materials.flatMap((section) => section.cards || []).some((card) =>
+      Array.isArray(card.scoreItems) && card.scoreItems.some((item) => /理论导师在课前准备中投入了充分的时间和精力/u.test(item.label))
+    ),
+    true
+  );
+  assert.equal(
+    sectionRichContent.outcomes.flatMap((section) => section.cards || []).some((card) =>
+      /陈佳琪/u.test(card.title) && Array.isArray(card.meta) && card.meta.some((item) => item.value === "2023214243004")
+    ),
+    true
+  );
+  assert.equal(
+    sectionRichContent.teaching.flatMap((section) => section.cards || []).some((card) =>
+      Array.isArray(card.paragraphs) && card.paragraphs.some((item) => /穿插一个实务小问题/u.test(item))
+    ),
+    true
+  );
+});

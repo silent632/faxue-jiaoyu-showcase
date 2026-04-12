@@ -62,6 +62,24 @@ test("course package exposes period home and six fixed section pages", () => {
   }
 });
 
+test("course package section pages can carry material-level rich content blocks", () => {
+  const period02 = getCoursePackagePeriodBySlug("course-period-02");
+
+  assert.equal(Array.isArray(period02.sectionPages.content.detailSections), true);
+  assert.equal(Array.isArray(period02.sectionPages.materials.detailSections), true);
+  assert.equal(Array.isArray(period02.sectionPages.outcomes.detailSections), true);
+  assert.equal(Array.isArray(period02.sectionPages.teaching.detailSections), true);
+
+  assert.equal(
+    period02.sectionPages.materials.detailSections.some((section) => /双师合作互评问卷/u.test(section.title)),
+    true
+  );
+  assert.equal(
+    period02.sectionPages.outcomes.detailSections.some((section) => /学生课后反馈（一）原文展开/u.test(section.title)),
+    true
+  );
+});
+
 test("course package exposes structured content profiles for rebuilt periods", () => {
   const period01 = getCoursePackagePeriodBySlug("course-period-01");
   const period08 = getCoursePackagePeriodBySlug("course-period-08");

@@ -20,6 +20,54 @@ function renderParagraphs(paragraphs) {
   );
 }
 
+function renderBullets(bullets) {
+  if (!Array.isArray(bullets) || bullets.length === 0) {
+    return null;
+  }
+
+  return (
+    <ul className="course-detail-list">
+      {bullets.map((bullet) => (
+        <li key={bullet}>{bullet}</li>
+      ))}
+    </ul>
+  );
+}
+
+function renderMeta(meta) {
+  if (!Array.isArray(meta) || meta.length === 0) {
+    return null;
+  }
+
+  return (
+    <dl className="course-detail-meta-pairs">
+      {meta.map((item) => (
+        <div key={`${item.label}-${item.value}`} className="course-detail-meta-pair">
+          <dt>{item.label}</dt>
+          <dd>{item.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function renderScoreItems(items) {
+  if (!Array.isArray(items) || items.length === 0) {
+    return null;
+  }
+
+  return (
+    <ul className="course-detail-score-list">
+      {items.map((item) => (
+        <li key={`${item.label}-${item.score}`} className="course-detail-score-item">
+          <span>{item.label}</span>
+          <strong>{item.score}</strong>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function renderQuestions(items) {
   if (!Array.isArray(items) || items.length === 0) {
     return null;
@@ -48,13 +96,7 @@ function renderBlocks(blocks) {
         <article key={block.title} className="course-reading-section-card">
           <strong>{block.title}</strong>
           {renderParagraphs(block.paragraphs)}
-          {Array.isArray(block.bullets) && block.bullets.length > 0 ? (
-            <ul className="course-detail-list">
-              {block.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
-          ) : null}
+          {renderBullets(block.bullets)}
         </article>
       ))}
     </div>
@@ -80,6 +122,42 @@ function renderGroups(groups) {
             </ul>
           ) : null}
         </article>
+      ))}
+    </div>
+  );
+}
+
+function renderDetailSections(detailSections) {
+  if (!Array.isArray(detailSections) || detailSections.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="course-detail-section-stack">
+      {detailSections.map((section) => (
+        <section key={section.title} className="course-detail-section-panel">
+          <div className="course-detail-section-header">
+            <strong>{section.title}</strong>
+            {section.intro ? <p>{section.intro}</p> : null}
+          </div>
+
+          {renderParagraphs(section.paragraphs)}
+          {renderBullets(section.bullets)}
+
+          {Array.isArray(section.cards) && section.cards.length > 0 ? (
+            <div className="course-detail-section-card-grid">
+              {section.cards.map((card) => (
+                <article key={card.title} className="course-detail-section-card">
+                  <strong>{card.title}</strong>
+                  {renderMeta(card.meta)}
+                  {renderParagraphs(card.paragraphs)}
+                  {renderScoreItems(card.scoreItems)}
+                  {renderBullets(card.bullets)}
+                </article>
+              ))}
+            </div>
+          ) : null}
+        </section>
       ))}
     </div>
   );
@@ -156,6 +234,7 @@ export function CoursePeriodSectionContent({ period, section }) {
       {renderQuestions(section.questions)}
       {renderBlocks(section.blocks)}
       {renderGroups(section.groups)}
+      {renderDetailSections(section.detailSections)}
     </ShowcaseSection>
   );
 }
