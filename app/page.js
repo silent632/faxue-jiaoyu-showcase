@@ -26,7 +26,7 @@ export default async function HomePage() {
               <p className="showcase-hero-kicker">平台首页</p>
               <h1>{content.homeDashboard.hero.title}</h1>
               <p className="showcase-hero-subtitle">{content.homeDashboard.hero.summary}</p>
-              <p className="showcase-hero-brief">案例检索、课程视频、课程体系和成效展示都从这里进入。</p>
+              <p className="showcase-hero-brief">案例检索、课程阅读和成果浏览保持同一站内路径。</p>
             </div>
 
             <div className="homepage-console-kpis" aria-label="首页关键结果">
@@ -41,9 +41,9 @@ export default async function HomePage() {
 
           <aside className="homepage-validation-rail showcase-card">
             <div className="homepage-validation-head">
-              <span className="showcase-section-eyebrow">快速入口</span>
-              <h2>直接进入核心页面</h2>
-              <p>案例检索、研习工作台和成效展示都在同一层级。</p>
+              <span className="showcase-section-eyebrow">核心入口</span>
+              <h2>核心页面</h2>
+              <p>案例检索、研习工作台和成效展示保持并列。</p>
             </div>
 
             <div className="homepage-validation-links">
@@ -111,8 +111,8 @@ export default async function HomePage() {
         <section className="homepage-audit-entry-grid showcase-card" aria-label="核心入口">
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">更多入口</span>
-            <h2>继续进入案例与研习</h2>
-            <p>从首页可继续进入案例检索、代表样本和研习工作台。</p>
+            <h2>案例与研习</h2>
+            <p>案例检索、案例详情和研习页面可直接打开。</p>
           </div>
 
           <div className="homepage-audit-entry-shell">

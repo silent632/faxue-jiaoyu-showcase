@@ -644,6 +644,63 @@ main {
   align-content: start;
 }
 
+.course-guide-band-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.course-guide-band-card {
+  display: grid;
+  gap: 10px;
+  padding: 22px;
+}
+
+.course-guide-band-card p,
+.course-guide-card-meta,
+.course-reading-section-card p,
+.course-material-highlight-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.course-guide-card,
+.course-guide-card-head {
+  display: grid;
+  gap: 12px;
+}
+
+.course-guide-lead {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.82;
+}
+
+.course-guide-key-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.course-guide-key-list li + li {
+  margin-top: 8px;
+}
+
+.course-guide-card-meta {
+  display: grid;
+  gap: 4px;
+}
+
+.course-guide-card-meta span {
+  color: var(--accent-strong);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
 .course-archive-actions,
 .course-archive-head,
 .course-archive-meta {
@@ -796,6 +853,17 @@ main {
   gap: 8px;
 }
 
+.course-reading-paragraph-group {
+  display: grid;
+  gap: 12px;
+}
+
+.course-reading-paragraph {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.88;
+}
+
 .course-detail-stat-grid,
 .course-detail-meta-grid,
 .course-detail-outline-grid,
@@ -855,6 +923,10 @@ main {
   line-height: 1.85;
 }
 
+.course-detail-list li + li {
+  margin-top: 10px;
+}
+
 .course-detail-outline-grid {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
@@ -906,12 +978,30 @@ main {
   gap: 12px;
 }
 
+.course-reading-section-grid,
+.course-material-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.course-reading-section-card,
+.course-material-highlight-card {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 241, 232, 0.98));
+  border: 1px solid rgba(35, 67, 93, 0.1);
+}
+
 @media (max-width: 920px) {
   .homepage-video-stage-grid,
   .showcase-video-phase-grid,
   .showcase-video-player-meta,
   .course-detail-hero,
-  .course-detail-two-up {
+  .course-detail-two-up,
+  .course-guide-band-grid {
     grid-template-columns: 1fr;
   }
 }

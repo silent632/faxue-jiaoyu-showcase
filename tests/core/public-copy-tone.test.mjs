@@ -72,9 +72,10 @@ test("resources and courses pages keep stable role markers with support-oriented
 
   assert.match(coursesSource, /data-page-role="courses-support"/u);
   assert.match(coursesSource, /课程档案/u);
-  assert.match(coursesSource, /阶段定位|课程主题/u);
-  assert.match(coursesSource, /查看本期视频|课程展陈|课程建设主线/u);
+  assert.match(coursesSource, /archiveCard\.lead|course-guide-card/u);
+  assert.match(coursesSource, /进入本期课程|查看本期视频/u);
   assert.equal(/课程编排以“进入案例、展开讨论、形成表达”/u.test(coursesSource), false);
+  assert.equal(/本页|在这里可以|集中呈现/u.test(coursesSource), false);
 });
 
 test("cases page reads like a working retrieval desk instead of a generic entry splash", () => {
@@ -132,6 +133,7 @@ test("public pages avoid exposed reviewer-facing guidance and analyst narration"
     readFileSync(new URL("../../components/study-workspace-actions.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../app/resources/page.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../lib/public-showcase-study.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../lib/study-workspace.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../lib/case-presentation.mjs", import.meta.url), "utf8"),
@@ -144,6 +146,16 @@ test("public pages avoid exposed reviewer-facing guidance and analyst narration"
   assert.equal(/适用于/u.test(sources), false);
   assert.equal(/便于/u.test(sources), false);
   assert.equal(/当前页面/u.test(sources), false);
+});
+
+test("homepage and course pages avoid AI-tone, report-tone, and execution-tone wording", () => {
+  const homepageSource = readFileSync(new URL("../../app/page.js", import.meta.url), "utf8");
+  const coursesSource = readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8");
+  const courseDetailSource = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
+
+  for (const source of [homepageSource, coursesSource, courseDetailSource]) {
+    assert.equal(/本页|在这里可以|系统梳理|阶段性成果|多维呈现|对应查看/u.test(source), false);
+  }
 });
 
 test("public-facing source copy avoids incomplete-state wording in expert-visible flows", () => {

@@ -64,9 +64,23 @@ test("course detail page is exported as a static route with package-backed conte
   assert.match(source, /generateStaticParams/u);
   assert.match(source, /getCoursePackageStaticParams/u);
   assert.match(source, /getCoursePackagePeriodBySlug/u);
-  assert.match(source, /本期成果|课程看点/u);
+  assert.match(source, /本期导读/u);
+  assert.match(source, /核心问题/u);
+  assert.match(source, /内容展开/u);
+  assert.match(source, /课程材料/u);
   assert.match(source, /教学设计/u);
+  assert.match(source, /学习收获/u);
+  assert.equal(/本期成果|课程信息|问题线索|课前准备/u.test(source), false);
   assert.equal(/课程概况/u.test(source), false);
+});
+
+test("courses page presents each period as a guide card instead of a metadata-only archive card", () => {
+  const source = readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8");
+
+  assert.match(source, /archiveCard\.lead/u);
+  assert.match(source, /archiveCard\.keyPoints/u);
+  assert.match(source, /contentType/u);
+  assert.equal(/每一期都保留主题、阶段定位和双入口/u.test(source), false);
 });
 
 test("course archive builder shapes early-period copy", () => {
