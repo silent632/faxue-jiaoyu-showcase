@@ -67,7 +67,7 @@ test("course archive builder shapes early-period copy", () => {
     theme: "类案检索与法律适用",
     guide: {
       coursePosition: "以案例检索为起点，进入争点识别。",
-      highlights: ["突出问题导读", "明确表达收束"],
+      highlights: ["  突出问题导读  ", null, 123, "明确表达收束"],
       goals: ["建立导读路径", "强化法理表达"],
     },
     outline: ["检索方法", "争点识别", "表达训练"],
@@ -86,14 +86,19 @@ test("course archive builder shapes early-period copy", () => {
   assert.ok(content.archiveCard);
   assert.equal(typeof content.archiveCard.lead, "string");
   assert.equal(content.archiveCard.keyPoints.length >= 2, true);
+  assert.equal(content.archiveCard.keyPoints.length <= 3, true);
   assert.equal(typeof content.archiveCard.contentType, "string");
 
   assert.ok(content.detailContent);
   assert.ok(Array.isArray(content.detailContent.intro));
   assert.equal(content.detailContent.keyQuestions.length >= 3, true);
+  assert.equal(content.detailContent.intro.length <= 2, true);
   assert.equal(content.detailContent.sections.length >= 3, true);
   assert.equal(content.detailContent.materialHighlights.length >= 1, true);
   assert.equal(content.detailContent.learningTakeaways.length >= 2, true);
+  assert.equal(content.detailContent.teachingDesign.bullets.length <= 3, true);
+  assert.ok(content.detailContent.teachingDesign.bullets.includes("突出问题导读"));
+  assert.ok(content.detailContent.teachingDesign.bullets.every((bullet) => !/123/.test(bullet)));
 });
 
 test("course archive builder surfaces production-focused highlights for late periods", () => {
