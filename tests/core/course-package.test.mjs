@@ -26,6 +26,14 @@ test("course package metadata exposes eight detail pages with normalized materia
   assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "课程课件：类案检索与法律适用")));
   assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "课件讲义版：类案检索与法律适用")));
   assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "专题阅读：司法裁判的“同”与“不同”")));
+  assert.ok(period01.archiveCard);
+  assert.equal(typeof period01.archiveCard.lead, "string");
+  assert.ok(Array.isArray(period01.archiveCard.keyPoints));
+  assert.ok(period01.archiveCard.keyPoints.length >= 2);
+  assert.ok(period01.detailContent);
+  assert.ok(Array.isArray(period01.detailContent.intro));
+  assert.ok(Array.isArray(period01.detailContent.sections));
+  assert.ok(period01.detailContent.sections.length >= 3);
 
   assert.ok(period06);
   assert.equal(period06.period, "第六期");
