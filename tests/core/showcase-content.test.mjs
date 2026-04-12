@@ -71,11 +71,7 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.videoHub.phaseGuide.length, 2);
   assert.ok(Array.isArray(content.videoHub.periods));
   assert.equal(content.videoHub.periods.length, 8);
-  assert.deepEqual(content.homeEntries.map((item) => item.href), [
-    "/cases",
-    canonicalDetailHref,
-    canonicalStudyHref,
-  ]);
+  assert.deepEqual(content.homeEntries.map((item) => item.href), ["/cases", canonicalDetailHref, canonicalStudyHref]);
   assert.equal(content.homeFlow.length, 3);
   assert.ok(content.homePreview);
   assert.equal(content.homePreview.featuredCases.length, 3);
