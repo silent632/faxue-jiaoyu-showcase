@@ -19,58 +19,63 @@ export default async function CourseDetailPage({ params }) {
   }
 
   const profile = period.courseContentProfile;
-  const featuredQuestions = profile.coreQuestions.slice(0, 3);
-  const outlineEntries = profile.contentFlow.slice(0, 4);
+  const entryPanels = period.periodHome.entryPanels?.slice(0, 3) ?? [];
+  const materialNotes = period.periodHome.materialNotes ?? [];
+  const highlights = period.periodHome.highlights ?? [];
   const firstMaterial = period.materialPages[0];
   const materialCount = period.materialPages.length;
 
   return (
     <CoursePeriodShell period={period} title={period.title} summary={period.periodHome.summary}>
-      <section className="showcase-card course-period-bridge">
-        <div className="course-period-bridge-copy">
+      <section className="showcase-card course-period-entry-grid">
+        <div className="course-period-entry-main">
           <span className="showcase-card-eyebrow">{period.period}</span>
-          <h2>本期进入方式</h2>
-          <p className="course-detail-lead">{profile.periodSummary.lead}</p>
-          <p>{profile.periodSummary.position}</p>
-          <p>{profile.periodSummary.bridge}</p>
-          <ul className="course-detail-list">
-            {profile.periodSummary.keySignals.slice(0, 3).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
+          <h2>本期核心摘要</h2>
+          <p className="course-detail-lead">{period.periodHome.summary}</p>
 
-        <div className="course-period-bridge-side">
-          <div className="course-period-home-panel">
-            <strong>本期核心问题</strong>
+          <div className="course-period-entry-panel">
+            <strong>课程定位与承接</strong>
+            <p>{profile.periodSummary.position}</p>
+            <p>{profile.periodSummary.bridge}</p>
+          </div>
+
+          {highlights.length > 0 ? (
             <ul className="course-detail-list">
-              {featuredQuestions.map((item) => (
-                <li key={item.question}>{item.question}</li>
+              {highlights.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          ) : null}
+
+          <div>
+            <strong>材料阅读提示</strong>
+            <ul className="course-period-material-notes">
+              {materialNotes.map((item) => (
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
+        </div>
 
-          <div className="course-period-home-panel">
-            <strong>进入正文前先抓住这四步</strong>
-            <ol className="course-period-outline-list">
-              {outlineEntries.map((item, index) => (
-                <li key={item.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <strong>{item.title}</strong>
-                    <p>{item.goal}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
+        <div className="course-period-entry-side">
+          {entryPanels.map((panel) => (
+            <div className="course-period-entry-panel" key={panel.title}>
+              <strong>{panel.title}</strong>
+              {panel.summary ? <p>{panel.summary}</p> : null}
+              <ul className="course-detail-list">
+                {panel.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </section>
 
       <ShowcaseSection
-        title="统一材料目录"
+        title="本期材料入口"
         eyebrow={`${materialCount}份材料`}
-        description="这一页只做引子，下面的链接直接进入材料正文。"
+        description="材料目录按教学用途分组，先用课件与导学把主线搭起来，再用任务单、课堂观察与评价材料回看判断链路是否闭合。"
         className="showcase-section-compact course-period-home-section"
       >
         <CourseMaterialDirectory groups={period.materialDirectory} variant="inline" />

@@ -1035,6 +1035,55 @@ main {
   margin-bottom: 18px;
 }
 
+.course-period-entry-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(240px, 0.95fr);
+  gap: 18px;
+  padding: 22px;
+}
+
+.course-period-entry-main,
+.course-period-entry-side {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.course-period-entry-panel {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 243, 235, 0.98));
+  border: 1px solid rgba(35, 67, 93, 0.1);
+}
+
+.course-period-entry-main h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2vw, 2rem);
+  line-height: 1.3;
+}
+
+.course-period-entry-panel strong {
+  line-height: 1.6;
+}
+
+.course-period-entry-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.course-period-material-notes {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
 .course-period-bridge {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.95fr);
@@ -1280,6 +1329,18 @@ main {
   margin-top: 16px;
 }
 
+.course-period-home-section {
+  padding: 22px;
+}
+
+.course-period-home-section .showcase-section-heading {
+  margin-bottom: 16px;
+}
+
+.course-period-home-section .showcase-section-description {
+  max-width: 52rem;
+}
+
 .course-material-shell {
   display: grid;
   grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
@@ -1489,6 +1550,7 @@ main {
   .showcase-video-player-meta,
   .course-detail-hero,
   .course-period-bridge,
+  .course-period-entry-grid,
   .course-detail-two-up,
   .course-guide-band-grid,
   .course-material-shell,

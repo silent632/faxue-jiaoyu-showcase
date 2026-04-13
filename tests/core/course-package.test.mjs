@@ -49,6 +49,10 @@ test("course package exposes a period home plus ten standard material pages", ()
 
   for (const period of [period01, period05]) {
     assert.ok(period.periodHome);
+    assert.ok(Array.isArray(period.periodHome.entryPanels));
+    assert.ok(period.periodHome.entryPanels.length >= 3);
+    assert.ok(Array.isArray(period.periodHome.materialNotes));
+    assert.ok(period.periodHome.materialNotes.length >= 3);
     assert.ok(Array.isArray(period.materialDirectory));
     assert.equal(period.materialDirectory.length, 4);
     assert.ok(Array.isArray(period.materialPages));
@@ -124,16 +128,20 @@ test("course detail route is exported as a static period home with a unified mat
   assert.match(source, /getCoursePackagePeriodBySlug/u);
   assert.match(source, /materialDirectory/u);
   assert.match(source, /统一材料目录|本期材料/u);
+  assert.doesNotMatch(source, /这一页只做引子/u);
   assert.doesNotMatch(source, /本期导读|重点问题|内容展开|材料与案例|学习成果|教学安排/u);
 });
 
-test("course detail route is a compact bridge page instead of a progression card wall", () => {
+test("course detail route adopts the dense entry layout instead of the bridge scaffold", () => {
   const source = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
 
   assert.doesNotMatch(source, /课程推进/u);
   assert.doesNotMatch(source, /course-period-card-grid/u);
-  assert.match(source, /course-period-bridge/u);
-  assert.match(source, /course-period-outline-list/u);
+  assert.doesNotMatch(source, /course-period-bridge/u);
+  assert.doesNotMatch(source, /course-period-outline-list/u);
+  assert.match(source, /course-period-entry-grid/u);
+  assert.match(source, /course-period-entry-panel/u);
+  assert.match(source, /course-period-material-notes/u);
 });
 
 test("courses page presents each period as a guide card instead of a metadata-only archive card", () => {
