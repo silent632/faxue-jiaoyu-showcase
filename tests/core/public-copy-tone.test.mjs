@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
 
@@ -159,24 +159,26 @@ test("homepage and course pages avoid AI-tone, report-tone, and execution-tone w
 });
 
 test("course system route copy avoids explainer wording after the split", () => {
+  const dynamicRouteUrl = new URL("../../app/courses/[slug]/[materialSlug]/page.js", import.meta.url);
   const sources = [
     readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8"),
-    readFileSync(new URL("../../app/courses/[slug]/introduction/page.js", import.meta.url), "utf8"),
-    readFileSync(new URL("../../app/courses/[slug]/content/page.js", import.meta.url), "utf8"),
+    existsSync(dynamicRouteUrl) ? readFileSync(dynamicRouteUrl, "utf8") : "",
   ];
 
+  assert.equal(existsSync(dynamicRouteUrl), true);
   for (const source of sources) {
     assert.equal(/本页|在这里可以|继续进入|对应查看|系统梳理|页面说明/u.test(source), false);
   }
 });
 
 test("course system public copy avoids raw material-name placeholders", () => {
+  const dynamicRouteUrl = new URL("../../app/courses/[slug]/[materialSlug]/page.js", import.meta.url);
   const text = [
     readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8"),
-    readFileSync(new URL("../../app/courses/[slug]/materials/page.js", import.meta.url), "utf8"),
-    readFileSync(new URL("../../app/courses/[slug]/outcomes/page.js", import.meta.url), "utf8"),
+    existsSync(dynamicRouteUrl) ? readFileSync(dynamicRouteUrl, "utf8") : "",
   ].join("\n");
 
+  assert.equal(existsSync(dynamicRouteUrl), true);
   assert.equal(/学生课后反馈（一）|学生课后反馈（二）|学生研习报告（二）|资料包制作清单/u.test(text), false);
 });
 

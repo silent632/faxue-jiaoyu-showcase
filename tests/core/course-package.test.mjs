@@ -43,49 +43,48 @@ test("course package metadata exposes eight detail pages with normalized materia
   assert.ok(period06.materialGroups.some((group) => group.title === "佐证材料"));
 });
 
-test("course package exposes period home and six fixed section pages", () => {
+test("course package exposes a period home plus fourteen standard material pages", () => {
   const period01 = getCoursePackagePeriodBySlug("course-period-01");
   const period05 = getCoursePackagePeriodBySlug("course-period-05");
 
   for (const period of [period01, period05]) {
     assert.ok(period.periodHome);
-    assert.equal(period.periodHome.cards.length, 6);
-    assert.ok(Array.isArray(period.sectionNavItems));
-    assert.equal(period.sectionNavItems.length, 6);
-    assert.ok(period.sectionPages);
-    assert.ok(period.sectionPages.introduction);
-    assert.ok(period.sectionPages.questions);
-    assert.ok(period.sectionPages.content);
-    assert.ok(period.sectionPages.materials);
-    assert.ok(period.sectionPages.outcomes);
-    assert.ok(period.sectionPages.teaching);
+    assert.ok(Array.isArray(period.materialDirectory));
+    assert.equal(period.materialDirectory.length, 4);
+    assert.ok(Array.isArray(period.materialPages));
+    assert.equal(period.materialPages.length, 14);
+    assert.equal(period.materialPages[0].slug, "teaching-guide");
+    assert.equal(period.materialPages.at(-1).slug, "feedback-03");
   }
 });
 
-test("course package section pages can carry material-level rich content blocks", () => {
+test("course package material pages can carry detailed period-level content blocks", () => {
   const period02 = getCoursePackagePeriodBySlug("course-period-02");
+  const guidePage = period02.materialPages.find((item) => item.slug === "teaching-guide");
+  const jurisprudencePage = period02.materialPages.find((item) => item.slug === "jurisprudence-guide");
+  const observationPage = period02.materialPages.find((item) => item.slug === "classroom-observation");
+  const reportPage = period02.materialPages.find((item) => item.slug === "study-report-01");
 
-  assert.equal(period02.sectionPages.introduction.replaceDefaultContent, true);
-  assert.equal(period02.sectionPages.questions.replaceDefaultContent, true);
-  assert.equal(Array.isArray(period02.sectionPages.content.detailSections), true);
-  assert.equal(Array.isArray(period02.sectionPages.materials.detailSections), true);
-  assert.equal(Array.isArray(period02.sectionPages.outcomes.detailSections), true);
-  assert.equal(Array.isArray(period02.sectionPages.teaching.detailSections), true);
+  assert.equal(typeof guidePage.lead, "string");
+  assert.equal(Array.isArray(guidePage.sections), true);
+  assert.equal(Array.isArray(jurisprudencePage.sections), true);
+  assert.equal(Array.isArray(observationPage.sections), true);
+  assert.equal(Array.isArray(reportPage.sections), true);
 
   assert.equal(
-    period02.sectionPages.introduction.detailSections.some((section) => /本期课程概况/u.test(section.title)),
+    guidePage.sections.some((section) => /课程概况|资料包内容清单/u.test(section.title)),
     true
   );
   assert.equal(
-    period02.sectionPages.questions.detailSections.some((section) => /法理导学里的核心争议/u.test(section.title)),
+    jurisprudencePage.sections.some((section) => /法理|推演|思考题/u.test(section.title)),
     true
   );
   assert.equal(
-    period02.sectionPages.materials.detailSections.some((section) => /双师合作互评问卷/u.test(section.title)),
+    observationPage.sections.some((section) => /课堂|观察|评析/u.test(section.title)),
     true
   );
   assert.equal(
-    period02.sectionPages.outcomes.detailSections.some((section) => /学生课后反馈（一）原文展开/u.test(section.title)),
+    reportPage.sections.some((section) => /研习报告|实质正义|受益者负担/u.test(section.title)),
     true
   );
 });
@@ -117,20 +116,15 @@ test("material display name normalization removes raw file noise", () => {
   );
 });
 
-test("course detail route is exported as a static period home with six section entries", () => {
+test("course detail route is exported as a static period home with a unified material entry matrix", () => {
   const source = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
 
   assert.match(source, /generateStaticParams/u);
   assert.match(source, /getCoursePackageStaticParams/u);
   assert.match(source, /getCoursePackagePeriodBySlug/u);
-  assert.match(source, /periodHome\.cards/u);
-  assert.match(source, /本期导读/u);
-  assert.match(source, /重点问题/u);
-  assert.match(source, /内容展开/u);
-  assert.match(source, /材料与案例/u);
-  assert.match(source, /学习成果/u);
-  assert.match(source, /教学安排/u);
-  assert.equal(/核心问题|课程材料|教学设计|学习收获/u.test(source), false);
+  assert.match(source, /materialDirectory/u);
+  assert.match(source, /统一材料目录|本期材料/u);
+  assert.doesNotMatch(source, /本期导读|重点问题|内容展开|材料与案例|学习成果|教学安排/u);
 });
 
 test("courses page presents each period as a guide card instead of a metadata-only archive card", () => {

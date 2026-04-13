@@ -1,25 +1,40 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
-test("course system source includes period home and six child routes", () => {
+test("course system source includes one dynamic material route instead of six fixed child routes", () => {
   const homeSource = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
-  const introSource = readFileSync(new URL("../../app/courses/[slug]/introduction/page.js", import.meta.url), "utf8");
-  const materialsSource = readFileSync(new URL("../../app/courses/[slug]/materials/page.js", import.meta.url), "utf8");
-  const outcomesSource = readFileSync(new URL("../../app/courses/[slug]/outcomes/page.js", import.meta.url), "utf8");
+  const dynamicRouteUrl = new URL("../../app/courses/[slug]/[materialSlug]/page.js", import.meta.url);
+  const retiredRoutes = [
+    new URL("../../app/courses/[slug]/introduction/page.js", import.meta.url),
+    new URL("../../app/courses/[slug]/questions/page.js", import.meta.url),
+    new URL("../../app/courses/[slug]/content/page.js", import.meta.url),
+    new URL("../../app/courses/[slug]/materials/page.js", import.meta.url),
+    new URL("../../app/courses/[slug]/outcomes/page.js", import.meta.url),
+    new URL("../../app/courses/[slug]/teaching/page.js", import.meta.url),
+  ];
 
-  assert.match(homeSource, /periodHome\.cards/u);
-  assert.match(homeSource, /本期导读|重点问题|内容展开|材料与案例|学习成果|教学安排/u);
-  assert.match(introSource, /course-period-subnav|本期导读/u);
-  assert.match(materialsSource, /材料与案例/u);
-  assert.match(outcomesSource, /courseContentProfile/u);
+  assert.match(homeSource, /materialDirectory|materialPages/u);
+  assert.equal(existsSync(dynamicRouteUrl), true);
+  if (existsSync(dynamicRouteUrl)) {
+    const dynamicRouteSource = readFileSync(dynamicRouteUrl, "utf8");
+    assert.match(dynamicRouteSource, /materialSlug/u);
+    assert.match(dynamicRouteSource, /materialPages/u);
+  }
+
+  for (const routeUrl of retiredRoutes) {
+    assert.equal(existsSync(routeUrl), false, `retired route should be removed: ${routeUrl.pathname}`);
+  }
 });
 
-test("public course copy avoids explainer wording after the multi-page split", () => {
+test("public course copy avoids explainer wording after the material-archive rebuild", () => {
   const homeSource = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
-  const contentSource = readFileSync(new URL("../../app/courses/[slug]/content/page.js", import.meta.url), "utf8");
+  const dynamicRouteUrl = new URL("../../app/courses/[slug]/[materialSlug]/page.js", import.meta.url);
+  const dynamicSource = existsSync(dynamicRouteUrl) ? readFileSync(dynamicRouteUrl, "utf8") : "";
 
-  for (const source of [homeSource, contentSource]) {
-    assert.equal(/本页|在这里可以|继续进入|对应查看|系统梳理/u.test(source), false);
+  assert.equal(existsSync(dynamicRouteUrl), true);
+
+  for (const source of [homeSource, dynamicSource]) {
+    assert.equal(/本页|在这里可以|继续进入|对应查看|系统梳理|页面说明/u.test(source), false);
   }
 });

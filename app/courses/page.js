@@ -7,16 +7,22 @@ import { getCoursePackagePeriods } from "@/lib/course-package";
 const GUIDE_BANDS = [
   {
     title: "第一期至第四期",
-    description: "从类案检索、法理原理到程序判断，重心落在课堂问题推进与案例阅读。",
+    description: "从类案检索、法理原理到程序判断，重心放在案例进入、争点识别与课堂表达。",
   },
   {
     title: "第五期至第八期",
-    description: "从程序正义延伸到数字治理与智能治理，重心转向专题议题与制度判断。",
+    description: "从程序正义延伸到数字治理、平台劳动与生成式 AI，重心转向治理边界和责任判断。",
+  },
+  {
+    title: "统一材料框架",
+    description: "八期课程统一保留四类、十四份材料档案；单期课程交代主题与承接关系，材料子页展开具体正文。",
   },
 ];
 
 export default function CoursesPage() {
   const periods = getCoursePackagePeriods();
+  const standardDirectory = periods[0]?.materialDirectory ?? [];
+  const standardMaterialCount = periods[0]?.materialPages?.length ?? 14;
 
   return (
     <main className="showcase-page" data-page-role="courses-support">
@@ -25,8 +31,11 @@ export default function CoursesPage() {
       <div className="showcase-page-body">
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">课程体系</p>
-          <h1>八期课程导览</h1>
-          <p>八期课程按主题推进，进入各期主页后可继续查看六个栏目。</p>
+          <h1>八期课程档案</h1>
+          <p>
+            八期课程沿两个阶段推进，统一采用四类、{standardMaterialCount}份材料档案组织课程内容；单期课程交代主题、
+            承接关系与进入路径，材料子页展开具体正文。
+          </p>
         </section>
 
         <div className="course-guide-band-grid" aria-label="课程阶段">
@@ -40,9 +49,34 @@ export default function CoursesPage() {
         </div>
 
         <ShowcaseSection
+          title="统一材料框架"
+          eyebrow={`四类材料 · ${standardMaterialCount}份档案`}
+          description="四类材料贯穿八期课程，但每一期都围绕自身主题重写法理导学、任务单、课堂观察和学习成果。"
+          className="showcase-section-compact"
+          aria-label="统一材料框架"
+        >
+          <div className="course-unified-material-grid">
+            {standardDirectory.map((group) => (
+              <article key={group.title} className="course-unified-material-card">
+                <span className="showcase-card-eyebrow">{group.items.length}份材料</span>
+                <strong>{group.title}</strong>
+
+                <ul className="course-unified-material-list" aria-label={`${group.title}材料`}>
+                  {group.items.map((item) => (
+                    <li key={item.slug} className="course-unified-material-item">
+                      {item.shortLabel}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </ShowcaseSection>
+
+        <ShowcaseSection
           title="课程档案"
           eyebrow="八期课程"
-          description="每一期先进入单期主页，再展开本期导读、重点问题、内容展开、材料与案例、学习成果、教学安排。"
+          description="八期课程按主题递进，进入单期课程后，统一材料档案与本期视频分别展开。"
           className="showcase-section-compact"
           aria-label="课程档案"
         >
@@ -64,7 +98,7 @@ export default function CoursesPage() {
                 </ul>
 
                 <div className="course-guide-card-meta">
-                  <span>{item.stageTag}</span>
+                  <span>{item.stageTag} · {standardMaterialCount}份材料</span>
                   <strong>{item.module}</strong>
                 </div>
 
