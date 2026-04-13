@@ -145,6 +145,37 @@ test("courses page presents each period as a guide card instead of a metadata-on
   assert.equal(/每一期都保留主题、阶段定位和双入口/u.test(source), false);
 });
 
+test("late-period archive cards use issue-anchored copy without template labels", () => {
+  const period05 = getCoursePackagePeriodBySlug("course-period-05");
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const period07 = getCoursePackagePeriodBySlug("course-period-07");
+  const period08 = getCoursePackagePeriodBySlug("course-period-08");
+
+  assert.match(period05.archiveCard.lead, /非法证据/u);
+  assert.match(period05.archiveCard.lead, /程序正义/u);
+  assert.match(period05.archiveCard.lead, /取证权力/u);
+
+  assert.match(period06.archiveCard.lead, /人脸识别/u);
+  assert.match(period06.archiveCard.lead, /同意边界/u);
+  assert.match(period06.archiveCard.lead, /人格权/u);
+
+  assert.match(period07.archiveCard.lead, /平台/u);
+  assert.match(period07.archiveCard.lead, /算法/u);
+  assert.match(period07.archiveCard.lead, /劳动关系/u);
+
+  assert.match(period08.archiveCard.lead, /生成式 AI/u);
+  assert.match(period08.archiveCard.lead, /作品认定/u);
+  assert.match(period08.archiveCard.lead, /责任边界/u);
+
+  const banned = /课程定位与双师设计页|学习目标页|内容导图页|示范课程视频展示|资源化表达的延展方向|阶段性收束/u;
+  for (const period of [period05, period06, period07, period08]) {
+    assert.doesNotMatch(period.archiveCard.lead, banned);
+    for (const point of period.archiveCard.keyPoints) {
+      assert.doesNotMatch(point, banned);
+    }
+  }
+});
+
 test("course archive builder shapes early-period copy", () => {
   const rawEarly = {
     summary: "以类案检索串联裁判文书阅读与表达训练。",

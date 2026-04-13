@@ -72,3 +72,12 @@ test("course overview and detail pages no longer hardcode fourteen material copi
   assert.doesNotMatch(coursesSource, /\?\?\s*14/u);
   assert.doesNotMatch(periodSource, /十四份材料/u);
 });
+
+test("courses page removes legacy unified material copy and adopts compact framework class names", () => {
+  const coursesSource = readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8");
+
+  assert.doesNotMatch(coursesSource, /四类材料贯穿八期课程/u);
+  assert.doesNotMatch(coursesSource, /每一期都围绕自身主题重写法理导学、任务单、课堂观察和学习成果/u);
+  assert.match(coursesSource, /course-framework/u);
+  assert.doesNotMatch(coursesSource, /course-unified-material-/u);
+});

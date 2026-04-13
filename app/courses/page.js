@@ -15,7 +15,7 @@ const GUIDE_BANDS = [
   },
   {
     title: "统一材料框架",
-    description: "八期课程统一保留四类、十份材料档案；单期课程交代主题与承接关系，材料子页展开具体正文。",
+    description: "四类材料统一命名，十份档案快速对照。",
   },
 ];
 
@@ -33,8 +33,7 @@ export default function CoursesPage() {
           <p className="showcase-page-kicker">课程体系</p>
           <h1>八期课程档案</h1>
           <p>
-            八期课程沿两个阶段推进，统一采用四类、{standardMaterialCount}份材料档案组织课程内容；单期课程交代主题、
-            承接关系与进入路径，材料子页展开具体正文。
+            八期课程沿两个阶段推进，四类材料对齐主题脉络，{standardMaterialCount}份档案保持统一入口。
           </p>
         </section>
 
@@ -51,25 +50,30 @@ export default function CoursesPage() {
         <ShowcaseSection
           title="统一材料框架"
           eyebrow={`四类材料 · ${standardMaterialCount}份档案`}
-          description="四类材料贯穿八期课程，但每一期都围绕自身主题重写法理导学、任务单、课堂观察和学习成果。"
+          description="四类材料统一入口，便于快速定位。"
           className="showcase-section-compact"
           aria-label="统一材料框架"
         >
-          <div className="course-unified-material-grid">
-            {standardDirectory.map((group) => (
-              <article key={group.title} className="course-unified-material-card">
-                <span className="showcase-card-eyebrow">{group.items.length}份材料</span>
-                <strong>{group.title}</strong>
-
-                <ul className="course-unified-material-list" aria-label={`${group.title}材料`}>
-                  {group.items.map((item) => (
-                    <li key={item.slug} className="course-unified-material-item">
-                      {item.shortLabel}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
+          <div className="course-framework">
+            <div className="course-framework-summary">
+              <strong>统一材料入口</strong>
+              <span>{standardMaterialCount}份档案</span>
+            </div>
+            <div className="course-framework-grid">
+              {standardDirectory.map((group) => (
+                <article key={group.title} className="course-framework-group">
+                  <div className="course-framework-summary">
+                    <strong>{group.title}</strong>
+                    <span>{group.items.length}份</span>
+                  </div>
+                  <ul className="course-framework-list" aria-label={`${group.title}材料`}>
+                    {group.items.map((item) => (
+                      <li key={item.slug}>{item.shortLabel}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
           </div>
         </ShowcaseSection>
 
