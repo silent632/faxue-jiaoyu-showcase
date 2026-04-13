@@ -51,8 +51,18 @@ test("course package exposes a period home plus ten standard material pages", ()
     assert.ok(period.periodHome);
     assert.ok(Array.isArray(period.periodHome.entryPanels));
     assert.ok(period.periodHome.entryPanels.length >= 3);
+    for (const panel of period.periodHome.entryPanels) {
+      assert.equal(typeof panel.title, "string");
+      assert.ok(panel.title.length > 0);
+      assert.ok(Array.isArray(panel.items));
+      assert.ok(panel.items.length > 0);
+    }
     assert.ok(Array.isArray(period.periodHome.materialNotes));
     assert.ok(period.periodHome.materialNotes.length >= 3);
+    for (const note of period.periodHome.materialNotes) {
+      assert.match(note, /.+：.+/u);
+      assert.doesNotMatch(note, /？|\?/u);
+    }
     assert.ok(Array.isArray(period.materialDirectory));
     assert.equal(period.materialDirectory.length, 4);
     assert.ok(Array.isArray(period.materialPages));
