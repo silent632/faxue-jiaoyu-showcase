@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 import { getCoursePackagePeriodBySlug } from "../../lib/course-package.js";
+import { buildCourseMaterialPages } from "../../lib/course-material-pages.js";
 
 test("course package exposes four material groups and ten material pages for period 02", () => {
   const period02 = getCoursePackagePeriodBySlug("course-period-02");
@@ -105,6 +106,32 @@ test("report and feedback pages lock in merged section structure cues", () => {
   assert.match(feedbackTitles, /继续追问/u);
 
   assert.doesNotMatch(reportPage.lead, /一份学生研习文本|单一|单样本/u);
+});
+
+test("study report sample cards include body content", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report");
+  const sampleSection = reportPage.sections.find((section) => /代表性|书面样本/u.test(section.title || ""));
+
+  assert.ok(sampleSection);
+  assert.equal(Array.isArray(sampleSection.cards), true);
+  assert.equal(sampleSection.cards.length > 0, true);
+  assert.equal(sampleSection.cards.every((card) => Array.isArray(card.paragraphs) && card.paragraphs.length > 0), true);
+});
+
+test("study report sample cards survive when core questions are missing", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const cloned = JSON.parse(JSON.stringify(period06));
+
+  cloned.courseContentProfile.coreQuestions = [];
+  const pages = buildCourseMaterialPages(cloned).materialPages;
+  const reportPage = pages.find((item) => item.slug === "study-report");
+  const sampleSection = reportPage.sections.find((section) => /代表性|书面样本/u.test(section.title || ""));
+
+  assert.ok(sampleSection);
+  assert.equal(Array.isArray(sampleSection.cards), true);
+  assert.equal(sampleSection.cards.length > 0, true);
+  assert.equal(sampleSection.cards.every((card) => Array.isArray(card.paragraphs) && card.paragraphs.length > 0), true);
 });
 
 test("material directory keeps single entry labels for report and feedback", () => {
