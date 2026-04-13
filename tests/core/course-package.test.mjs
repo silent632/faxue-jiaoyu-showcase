@@ -318,3 +318,11 @@ test("course archive builder skips generic outline labels when later points carr
   assert.match(content.archiveCard.keyPoints.join(" "), /人格权/u);
   assert.ok(content.archiveCard.keyPoints.every((point) => !/主题界定页|章节页|问题切入页/u.test(point)));
 });
+
+test("course archive builder falls back for early periods without inputs", () => {
+  const content = buildCourseArchiveContent("第一期", {});
+
+  assert.ok(Array.isArray(content.archiveCard.keyPoints));
+  assert.ok(content.archiveCard.keyPoints.length >= 2);
+  assert.deepEqual(content.archiveCard.keyPoints, ["类案检索", "争点识别", "导读训练"]);
+});
