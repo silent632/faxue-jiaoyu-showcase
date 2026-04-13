@@ -298,3 +298,23 @@ test("course archive builder keeps qualified late-period lead and key points", (
   assert.match(content.archiveCard.keyPoints.join(" "), /作品认定/u);
   assert.match(content.archiveCard.keyPoints.join(" "), /责任边界/u);
 });
+
+test("course archive builder skips generic outline labels when later points carry issues", () => {
+  const rawWithGenericOutline = {
+    outline: ["主题界定页", "第一部分章节页", "问题切入页"],
+    guide: {
+      highlights: ["人脸识别与同意边界", "人格权保护与技术治理", "同意边界与责任边界"],
+    },
+  };
+
+  const content = buildCourseArchiveContent("第六期", rawWithGenericOutline);
+  assert.deepEqual(content.archiveCard.keyPoints, [
+    "人脸识别与同意边界",
+    "人格权保护与技术治理",
+    "同意边界与责任边界",
+  ]);
+  assert.match(content.archiveCard.keyPoints.join(" "), /人脸识别/u);
+  assert.match(content.archiveCard.keyPoints.join(" "), /同意边界/u);
+  assert.match(content.archiveCard.keyPoints.join(" "), /人格权/u);
+  assert.ok(content.archiveCard.keyPoints.every((point) => !/主题界定页|章节页|问题切入页/u.test(point)));
+});
