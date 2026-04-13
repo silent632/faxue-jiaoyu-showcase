@@ -265,3 +265,36 @@ test("course archive builder surfaces production-focused highlights for late per
   assert.notStrictEqual(content.detailContent.sections, secondCall.detailContent.sections);
   assert.notStrictEqual(content.detailContent.keyQuestions, secondCall.detailContent.keyQuestions);
 });
+
+test("course archive builder keeps qualified late-period lead and key points", () => {
+  const rawQualified = {
+    summary: "围绕生成式人工智能作品认定，讨论责任边界与权利归属。",
+    guide: {
+      coursePosition: "以生成式人工智能文本为例，检验作品认定的边界与责任分配。",
+      highlights: [
+        "生成式人工智能作品认定",
+        "责任边界与权利归属",
+        "作者资格与平台义务",
+      ],
+    },
+    outline: [
+      "生成式人工智能作品认定",
+      "责任边界与权利归属",
+      "作者资格与平台义务",
+    ],
+  };
+
+  const content = buildCourseArchiveContent("第八期", rawQualified);
+  assert.equal(
+    content.archiveCard.lead,
+    "围绕生成式人工智能作品认定，讨论责任边界与权利归属。"
+  );
+  assert.deepEqual(content.archiveCard.keyPoints, [
+    "生成式人工智能作品认定",
+    "责任边界与权利归属",
+    "作者资格与平台义务",
+  ]);
+  assert.match(content.archiveCard.keyPoints.join(" "), /生成式人工智能|生成式 AI/u);
+  assert.match(content.archiveCard.keyPoints.join(" "), /作品认定/u);
+  assert.match(content.archiveCard.keyPoints.join(" "), /责任边界/u);
+});
