@@ -167,6 +167,22 @@ test("late-period archive cards use issue-anchored copy without template labels"
   assert.match(period08.archiveCard.lead, /作品认定/u);
   assert.match(period08.archiveCard.lead, /责任边界/u);
 
+  assert.match(period05.archiveCard.keyPoints.join(" "), /非法证据/u);
+  assert.match(period05.archiveCard.keyPoints.join(" "), /程序正义/u);
+  assert.match(period05.archiveCard.keyPoints.join(" "), /取证权力/u);
+
+  assert.match(period06.archiveCard.keyPoints.join(" "), /人脸识别/u);
+  assert.match(period06.archiveCard.keyPoints.join(" "), /同意边界/u);
+  assert.match(period06.archiveCard.keyPoints.join(" "), /人格权/u);
+
+  assert.match(period07.archiveCard.keyPoints.join(" "), /平台/u);
+  assert.match(period07.archiveCard.keyPoints.join(" "), /算法/u);
+  assert.match(period07.archiveCard.keyPoints.join(" "), /劳动关系/u);
+
+  assert.match(period08.archiveCard.keyPoints.join(" "), /生成式 AI/u);
+  assert.match(period08.archiveCard.keyPoints.join(" "), /作品认定/u);
+  assert.match(period08.archiveCard.keyPoints.join(" "), /责任边界/u);
+
   const banned = /课程定位与双师设计页|学习目标页|内容导图页|示范课程视频展示|资源化表达的延展方向|阶段性收束/u;
   for (const period of [period05, period06, period07, period08]) {
     assert.doesNotMatch(period.archiveCard.lead, banned);
