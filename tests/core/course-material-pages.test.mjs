@@ -57,6 +57,46 @@ test("feedback and report pages avoid proof-style wrappers and synthetic section
   assert.equal(reportPage.sections.some((section) => /^研习报告视角\d+$/u.test(section.title || "")), false);
 });
 
+test("period 06 report and feedback pages merge multiple sections without numbered stubs", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const feedbackPage = period06.materialPages.find((item) => item.slug === "feedback");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report");
+
+  assert.equal(reportPage.sections.length >= 3, true);
+  assert.equal(feedbackPage.sections.length >= 3, true);
+
+  const extractTexts = (sections) =>
+    sections.flatMap((section) =>
+      [
+        section.title,
+        section.intro,
+        ...(section.paragraphs || []),
+        ...(section.bullets || []),
+        ...(section.cards || []).flatMap((card) => [
+          card.title,
+          ...(card.paragraphs || []),
+          ...(card.bullets || []),
+        ]),
+      ].filter(Boolean)
+    );
+
+  const reportTexts = extractTexts(reportPage.sections).join(" ");
+  const feedbackTexts = extractTexts(feedbackPage.sections).join(" ");
+
+  assert.doesNotMatch(reportTexts, /（一）|（二）|（三）/u);
+  assert.doesNotMatch(feedbackTexts, /（一）|（二）|（三）/u);
+});
+
+test("material directory keeps single entry labels for report and feedback", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const items = period06.materialDirectory.flatMap((group) => group.items);
+  const reportItems = items.filter((item) => item.shortLabel === "研习报告");
+  const feedbackItems = items.filter((item) => item.shortLabel === "课后反馈");
+
+  assert.equal(reportItems.length, 1);
+  assert.equal(feedbackItems.length, 1);
+});
+
 test("material article source uses article-first rendering without stacked summary wrappers", () => {
   const source = readFileSync(new URL("../../components/course-material-article.js", import.meta.url), "utf8");
 
