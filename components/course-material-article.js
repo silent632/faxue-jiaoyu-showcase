@@ -1,14 +1,12 @@
 import Link from "next/link";
 
-import ShowcaseSection from "@/components/showcase-section";
-
-function renderParagraphs(paragraphs) {
+function renderParagraphs(paragraphs, className = "course-reading-paragraph-group") {
   if (!Array.isArray(paragraphs) || paragraphs.length === 0) {
     return null;
   }
 
   return (
-    <div className="course-reading-paragraph-group">
+    <div className={className}>
       {paragraphs.map((paragraph) => (
         <p key={paragraph} className="course-reading-paragraph">
           {paragraph}
@@ -66,42 +64,51 @@ function renderScoreItems(items) {
   );
 }
 
-function renderSections(sections) {
-  if (!Array.isArray(sections) || sections.length === 0) {
+function renderCards(cards) {
+  if (!Array.isArray(cards) || cards.length === 0) {
     return null;
   }
 
   return (
-    <div className="course-reading-section-grid">
-      {sections.map((section) => (
-        <article key={section.title} className="course-reading-section-card">
-          <strong>{section.title}</strong>
-          {section.intro ? <p className="course-detail-card-intro">{section.intro}</p> : null}
-          {renderMeta(section.meta)}
-          {renderParagraphs(section.paragraphs)}
-          {renderScoreItems(section.scoreItems)}
-          {renderBullets(section.bullets)}
-
-          {Array.isArray(section.cards) && section.cards.length > 0 ? (
-            <div className="course-material-card-grid">
-              {section.cards.map((card) => (
-                <article key={card.title} className="course-material-section-card">
-                  <strong>{card.title}</strong>
-                  {renderMeta(card.meta)}
-                  {renderParagraphs(card.paragraphs)}
-                  {renderScoreItems(card.scoreItems)}
-                  {renderBullets(card.bullets)}
-                </article>
-              ))}
-            </div>
-          ) : null}
-        </article>
+    <div className="course-material-subsection-stack">
+      {cards.map((card) => (
+        <section key={card.title} className="course-material-subsection">
+          {card.title ? <h4>{card.title}</h4> : null}
+          {renderMeta(card.meta)}
+          {renderParagraphs(card.paragraphs, "course-material-subsection-paragraphs")}
+          {renderScoreItems(card.scoreItems)}
+          {renderBullets(card.bullets)}
+        </section>
       ))}
     </div>
   );
 }
 
-export default function CourseMaterialArticle({ period, page }) {
+function shouldDisplayTitle(title) {
+  if (!title) {
+    return false;
+  }
+
+  return !/^反馈焦点\d+$|^研习报告视角\d+$/u.test(title);
+}
+
+function renderSection(section, index) {
+  const key = section.title || `section-${index}`;
+
+  return (
+    <section key={key} className="course-material-article-body-block">
+      {shouldDisplayTitle(section.title) ? <h3>{section.title}</h3> : null}
+      {section.intro ? <p className="course-material-body-intro">{section.intro}</p> : null}
+      {renderMeta(section.meta)}
+      {renderParagraphs(section.paragraphs)}
+      {renderScoreItems(section.scoreItems)}
+      {renderBullets(section.bullets)}
+      {renderCards(section.cards)}
+    </section>
+  );
+}
+
+export default function CourseMaterialArticle({ page }) {
   return (
     <div className="course-material-layout">
       <article className="showcase-card course-material-article">
@@ -110,17 +117,9 @@ export default function CourseMaterialArticle({ period, page }) {
             {String(page.order).padStart(2, "0")} · {page.group}
           </span>
           <h2>{page.label}</h2>
-          <p className="course-detail-lead">{page.purpose}</p>
         </header>
 
-        <ShowcaseSection
-          title={page.label}
-          eyebrow={period.period}
-          description={page.lead}
-          className="showcase-section-compact course-period-section"
-        >
-          {renderSections(page.sections)}
-        </ShowcaseSection>
+        <div className="course-material-article-body">{page.sections.map((section, index) => renderSection(section, index))}</div>
 
         <div className="course-material-page-tail">
           {page.previousPage ? (

@@ -127,6 +127,15 @@ test("course detail route is exported as a static period home with a unified mat
   assert.doesNotMatch(source, /本期导读|重点问题|内容展开|材料与案例|学习成果|教学安排/u);
 });
 
+test("course detail route is a compact bridge page instead of a progression card wall", () => {
+  const source = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
+
+  assert.doesNotMatch(source, /课程推进/u);
+  assert.doesNotMatch(source, /course-period-card-grid/u);
+  assert.match(source, /course-period-bridge/u);
+  assert.match(source, /course-period-outline-list/u);
+});
+
 test("courses page presents each period as a guide card instead of a metadata-only archive card", () => {
   const source = readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8");
 

@@ -10,6 +10,7 @@ export function CoursePeriodShell({
   activeMaterialSlug = null,
   children,
 }) {
+  const isMaterialPage = Boolean(activeMaterialSlug);
   const heroMeta = [
     { label: "课程主题", value: period.guide.courseTheme || period.theme },
     { label: "课程模块", value: period.module },
@@ -58,11 +59,16 @@ export function CoursePeriodShell({
           </div>
         </section>
 
-        {activeMaterialSlug ? (
-          <CourseMaterialDirectory groups={period.materialDirectory} activeSlug={activeMaterialSlug} />
-        ) : null}
-
-        {children}
+        {isMaterialPage ? (
+          <div className="course-material-shell">
+            <aside className="course-material-shell-aside">
+              <CourseMaterialDirectory groups={period.materialDirectory} activeSlug={activeMaterialSlug} variant="aside" />
+            </aside>
+            <div className="course-material-shell-main">{children}</div>
+          </div>
+        ) : (
+          children
+        )}
       </div>
     </main>
   );

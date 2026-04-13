@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-export default function CourseMaterialDirectory({ groups, activeSlug }) {
+export default function CourseMaterialDirectory({ groups, activeSlug, variant = activeSlug ? "aside" : "inline" }) {
   return (
-    <nav className="course-material-directory" aria-label="本期材料目录">
+    <nav className={`course-material-directory course-material-directory-${variant}`} aria-label="本期材料目录">
       {groups.map((group) => (
         <section key={group.title} className="course-material-directory-group">
           <strong className="course-material-directory-title">{group.title}</strong>
@@ -15,8 +15,8 @@ export default function CourseMaterialDirectory({ groups, activeSlug }) {
                 className={`course-material-directory-link${item.slug === activeSlug ? " active" : ""}`}
                 aria-current={item.slug === activeSlug ? "page" : undefined}
               >
-                <span>{String(item.order).padStart(2, "0")}</span>
-                <span>{item.shortLabel}</span>
+                <span className="course-material-directory-order">{String(item.order).padStart(2, "0")}</span>
+                <span className="course-material-directory-text">{item.shortLabel}</span>
               </Link>
             ))}
           </div>

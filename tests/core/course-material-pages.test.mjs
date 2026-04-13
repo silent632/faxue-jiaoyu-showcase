@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import { getCoursePackagePeriodBySlug } from "../../lib/course-package.js";
 
@@ -43,4 +44,31 @@ test("late periods expose course-style pages instead of production-process wordi
     assert.equal(Array.isArray(reportPage.sections), true);
     assert.equal(reportPage.sections.length >= 2, true);
   }
+});
+
+test("feedback and report pages avoid proof-style wrappers and synthetic section headings", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const feedbackPage = period06.materialPages.find((item) => item.slug === "feedback-02");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report-02");
+
+  assert.equal("purpose" in feedbackPage, false);
+  assert.doesNotMatch(feedbackPage.lead, /证明|课后反馈页整理/u);
+  assert.equal(feedbackPage.sections.some((section) => /^反馈焦点\d+$/u.test(section.title || "")), false);
+  assert.equal(reportPage.sections.some((section) => /^研习报告视角\d+$/u.test(section.title || "")), false);
+});
+
+test("material article source uses article-first rendering without stacked summary wrappers", () => {
+  const source = readFileSync(new URL("../../components/course-material-article.js", import.meta.url), "utf8");
+
+  assert.doesNotMatch(source, /page\.purpose/u);
+  assert.doesNotMatch(source, /ShowcaseSection/u);
+  assert.match(source, /course-material-article-body/u);
+});
+
+test("course period shell source exposes a split material layout for active material pages", () => {
+  const source = readFileSync(new URL("../../components/course-period-shell.js", import.meta.url), "utf8");
+
+  assert.match(source, /course-material-shell/u);
+  assert.match(source, /course-material-shell-aside/u);
+  assert.match(source, /course-material-shell-main/u);
 });

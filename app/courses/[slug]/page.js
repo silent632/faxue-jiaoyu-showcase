@@ -20,68 +20,59 @@ export default async function CourseDetailPage({ params }) {
 
   const profile = period.courseContentProfile;
   const featuredQuestions = profile.coreQuestions.slice(0, 3);
-  const flowEntries = profile.contentFlow.slice(0, 4);
+  const outlineEntries = profile.contentFlow.slice(0, 4);
   const firstMaterial = period.materialPages[0];
 
   return (
     <CoursePeriodShell period={period} title={period.title} summary={period.periodHome.summary}>
-      <ShowcaseSection
-        title="本期定位"
-        eyebrow={period.period}
-        description={profile.periodSummary.lead}
-        className="showcase-section-compact course-period-home-section"
-      >
-        <div className="course-period-home-grid">
-          <div className="course-period-home-panel">
-            <strong>课程位置</strong>
-            <p>{profile.periodSummary.position}</p>
-            <ul className="course-detail-list">
-              {profile.periodSummary.keySignals.slice(0, 3).map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
+      <section className="showcase-card course-period-bridge">
+        <div className="course-period-bridge-copy">
+          <span className="showcase-card-eyebrow">{period.period}</span>
+          <h2>本期进入方式</h2>
+          <p className="course-detail-lead">{profile.periodSummary.lead}</p>
+          <p>{profile.periodSummary.position}</p>
+          <p>{profile.periodSummary.bridge}</p>
+          <ul className="course-detail-list">
+            {profile.periodSummary.keySignals.slice(0, 3).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
 
+        <div className="course-period-bridge-side">
           <div className="course-period-home-panel">
-            <strong>承接关系</strong>
-            <p>{profile.periodSummary.bridge}</p>
+            <strong>本期核心问题</strong>
             <ul className="course-detail-list">
               {featuredQuestions.map((item) => (
                 <li key={item.question}>{item.question}</li>
               ))}
             </ul>
           </div>
-        </div>
-      </ShowcaseSection>
 
-      <ShowcaseSection
-        title="课程推进"
-        eyebrow="课堂结构"
-        description="课程围绕核心问题、典型争议、裁判方法与课堂收束逐步展开。"
-        className="showcase-section-compact course-period-home-section"
-      >
-        <div className="course-period-card-grid">
-          {flowEntries.map((item, index) => (
-            <article key={item.title} className="course-period-card">
-              <div className="course-period-card-copy">
-                <span className="showcase-card-eyebrow">
-                  {String(index + 1).padStart(2, "0")} · {item.title}
-                </span>
-                <strong>{item.goal}</strong>
-                <p>{item.body}</p>
-              </div>
-            </article>
-          ))}
+          <div className="course-period-home-panel">
+            <strong>进入正文前先抓住这四步</strong>
+            <ol className="course-period-outline-list">
+              {outlineEntries.map((item, index) => (
+                <li key={item.title}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <strong>{item.title}</strong>
+                    <p>{item.goal}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
-      </ShowcaseSection>
+      </section>
 
       <ShowcaseSection
         title="统一材料目录"
-        eyebrow="十四份材料档案"
-        description="四类材料沿教学设计、课堂实施、协同反思与结课输出展开，所有链接直接落到材料正文。"
+        eyebrow="十四份材料"
+        description="这一页只做引子，下面的链接直接进入材料正文。"
         className="showcase-section-compact course-period-home-section"
       >
-        <CourseMaterialDirectory groups={period.materialDirectory} />
+        <CourseMaterialDirectory groups={period.materialDirectory} variant="inline" />
 
         <div className="course-period-home-actions">
           {firstMaterial ? (
