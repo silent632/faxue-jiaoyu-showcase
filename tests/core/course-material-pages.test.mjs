@@ -4,12 +4,12 @@ import { readFileSync } from "node:fs";
 
 import { getCoursePackagePeriodBySlug } from "../../lib/course-package.js";
 
-test("course package exposes four material groups and fourteen material pages for period 02", () => {
+test("course package exposes four material groups and ten material pages for period 02", () => {
   const period02 = getCoursePackagePeriodBySlug("course-period-02");
 
   assert.ok(period02);
   assert.equal(period02.materialDirectory.length, 4);
-  assert.equal(period02.materialPages.length, 14);
+  assert.equal(period02.materialPages.length, 10);
   assert.deepEqual(
     period02.materialDirectory.map((group) => group.title),
     ["教学设计类", "课堂实施类", "协同反思类", "学习成果类"]
@@ -36,7 +36,7 @@ test("late periods expose course-style pages instead of production-process wordi
 
   for (const period of [period05, period08]) {
     const guidePage = period.materialPages.find((item) => item.slug === "teaching-guide");
-    const reportPage = period.materialPages.find((item) => item.slug === "study-report-01");
+    const reportPage = period.materialPages.find((item) => item.slug === "study-report");
 
     assert.equal(typeof guidePage.lead, "string");
     assert.equal(guidePage.lead.length > 30, true);
@@ -48,8 +48,8 @@ test("late periods expose course-style pages instead of production-process wordi
 
 test("feedback and report pages avoid proof-style wrappers and synthetic section headings", () => {
   const period06 = getCoursePackagePeriodBySlug("course-period-06");
-  const feedbackPage = period06.materialPages.find((item) => item.slug === "feedback-02");
-  const reportPage = period06.materialPages.find((item) => item.slug === "study-report-02");
+  const feedbackPage = period06.materialPages.find((item) => item.slug === "feedback");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report");
 
   assert.equal("purpose" in feedbackPage, false);
   assert.doesNotMatch(feedbackPage.lead, /证明|课后反馈页整理/u);

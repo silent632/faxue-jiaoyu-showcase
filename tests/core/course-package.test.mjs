@@ -43,7 +43,7 @@ test("course package metadata exposes eight detail pages with normalized materia
   assert.ok(period06.materialGroups.some((group) => group.title === "佐证材料"));
 });
 
-test("course package exposes a period home plus fourteen standard material pages", () => {
+test("course package exposes a period home plus ten standard material pages", () => {
   const period01 = getCoursePackagePeriodBySlug("course-period-01");
   const period05 = getCoursePackagePeriodBySlug("course-period-05");
 
@@ -52,9 +52,9 @@ test("course package exposes a period home plus fourteen standard material pages
     assert.ok(Array.isArray(period.materialDirectory));
     assert.equal(period.materialDirectory.length, 4);
     assert.ok(Array.isArray(period.materialPages));
-    assert.equal(period.materialPages.length, 14);
+    assert.equal(period.materialPages.length, 10);
     assert.equal(period.materialPages[0].slug, "teaching-guide");
-    assert.equal(period.materialPages.at(-1).slug, "feedback-03");
+    assert.equal(period.materialPages.at(-1).slug, "feedback");
   }
 });
 
@@ -63,7 +63,7 @@ test("course package material pages can carry detailed period-level content bloc
   const guidePage = period02.materialPages.find((item) => item.slug === "teaching-guide");
   const jurisprudencePage = period02.materialPages.find((item) => item.slug === "jurisprudence-guide");
   const observationPage = period02.materialPages.find((item) => item.slug === "classroom-observation");
-  const reportPage = period02.materialPages.find((item) => item.slug === "study-report-01");
+  const reportPage = period02.materialPages.find((item) => item.slug === "study-report");
 
   assert.equal(typeof guidePage.lead, "string");
   assert.equal(Array.isArray(guidePage.sections), true);
