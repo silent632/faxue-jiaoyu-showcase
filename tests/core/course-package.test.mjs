@@ -129,6 +129,7 @@ test("course detail route is exported as a static period home with a unified mat
   assert.match(source, /materialDirectory/u);
   assert.match(source, /统一材料目录|本期材料/u);
   assert.doesNotMatch(source, /这一页只做引子/u);
+  assert.doesNotMatch(source, /本期进入方式|网站结构|结构说明|页面结构/u);
   assert.doesNotMatch(source, /本期导读|重点问题|内容展开|材料与案例|学习成果|教学安排/u);
 });
 
@@ -140,8 +141,12 @@ test("course detail route adopts the dense entry layout instead of the bridge sc
   assert.doesNotMatch(source, /course-period-bridge/u);
   assert.doesNotMatch(source, /course-period-outline-list/u);
   assert.match(source, /course-period-entry-grid/u);
+  assert.match(source, /course-period-entry-main/u);
+  assert.match(source, /course-period-entry-side/u);
   assert.match(source, /course-period-entry-panel/u);
   assert.match(source, /course-period-material-notes/u);
+  assert.match(source, /period\.periodHome\.entryPanels/u);
+  assert.match(source, /period\.periodHome\.materialNotes/u);
 });
 
 test("courses page presents each period as a guide card instead of a metadata-only archive card", () => {
