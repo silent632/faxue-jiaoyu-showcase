@@ -50,7 +50,7 @@ export default function CoursesPage() {
         <ShowcaseSection
           title="统一材料框架"
           eyebrow={`四类材料 · ${standardMaterialCount}份档案`}
-          description="四类材料统一入口，便于快速定位。"
+          description="四类材料统一入口，对照同一套课程档案。"
           className="showcase-section-compact"
           aria-label="统一材料框架"
         >

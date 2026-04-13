@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
+import { getCoursePackagePeriods } from "../../lib/course-package.js";
 
 const FORBIDDEN_PATTERNS = [
   /本页用于/u,
@@ -146,6 +147,14 @@ test("public pages avoid exposed reviewer-facing guidance and analyst narration"
   assert.equal(/适用于/u.test(sources), false);
   assert.equal(/便于/u.test(sources), false);
   assert.equal(/当前页面/u.test(sources), false);
+});
+
+test("public material-page copy avoids 便于-style explainer wording", () => {
+  const text = JSON.stringify(
+    getCoursePackagePeriods().flatMap((period) => period.materialPages)
+  );
+
+  assert.equal(/便于/u.test(text), false);
 });
 
 test("homepage and course pages avoid AI-tone, report-tone, and execution-tone wording", () => {

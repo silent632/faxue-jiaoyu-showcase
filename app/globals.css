@@ -1084,69 +1084,6 @@ main {
   line-height: 1.75;
 }
 
-.course-period-bridge {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.95fr);
-  gap: 20px;
-  padding: 24px;
-}
-
-.course-period-bridge-copy,
-.course-period-bridge-side {
-  display: grid;
-  gap: 14px;
-}
-
-.course-period-bridge-copy h2 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.55rem, 2vw, 2rem);
-  line-height: 1.3;
-}
-
-.course-period-bridge-copy p,
-.course-period-outline-list p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.82;
-}
-
-.course-period-outline-list {
-  display: grid;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.course-period-outline-list li {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 12px;
-  align-items: start;
-  padding: 14px 0;
-  border-top: 1px solid rgba(35, 67, 93, 0.08);
-}
-
-.course-period-outline-list li:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.course-period-outline-list span {
-  color: var(--accent-strong);
-  font-size: 0.82rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.04em;
-}
-
-.course-period-outline-list strong {
-  display: block;
-  margin: 0 0 4px;
-  line-height: 1.6;
-}
-
-.course-period-home-panel,
 .course-period-card,
 .course-question-card,
 .course-material-section-card {
@@ -1158,7 +1095,6 @@ main {
   border: 1px solid rgba(35, 67, 93, 0.1);
 }
 
-.course-period-home-panel strong,
 .course-period-card strong,
 .course-question-card strong,
 .course-material-section-card strong {
@@ -1292,34 +1228,17 @@ main {
   line-height: 1.7;
 }
 
-.course-period-card-copy,
-.course-material-clue-row {
+.course-period-card-copy {
   display: grid;
   gap: 10px;
 }
 
 .course-period-card p,
-.course-period-home-panel p,
 .course-question-card p,
 .course-material-section-card p {
   margin: 0;
   color: var(--muted);
   line-height: 1.8;
-}
-
-.course-material-clue-row {
-  grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
-}
-
-.course-material-clue {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.2rem;
-  padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-  background: rgba(35, 67, 93, 0.08);
-  color: var(--primary);
-  font-size: 0.92rem;
 }
 
 .course-period-home-actions {
@@ -1549,7 +1468,6 @@ main {
   .showcase-video-phase-grid,
   .showcase-video-player-meta,
   .course-detail-hero,
-  .course-period-bridge,
   .course-period-entry-grid,
   .course-detail-two-up,
   .course-guide-band-grid,
