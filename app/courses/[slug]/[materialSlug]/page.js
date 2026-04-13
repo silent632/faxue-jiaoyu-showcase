@@ -3,13 +3,15 @@ import { notFound, redirect } from "next/navigation";
 import CourseMaterialArticle from "@/components/course-material-article";
 import { CoursePeriodShell } from "@/components/course-period-shell";
 import { getCoursePackagePeriods, getCoursePackagePeriodBySlug } from "@/lib/course-package";
-import { resolveCourseMaterialSlug } from "@/lib/course-material-pages";
+import { getCourseMaterialStaticSlugs, resolveCourseMaterialSlug } from "@/lib/course-material-pages";
 
 export function generateStaticParams() {
+  const materialSlugs = getCourseMaterialStaticSlugs();
+
   return getCoursePackagePeriods().flatMap((period) =>
-    period.materialPages.map((page) => ({
+    materialSlugs.map((materialSlug) => ({
       slug: period.slug,
-      materialSlug: page.slug,
+      materialSlug,
     }))
   );
 }

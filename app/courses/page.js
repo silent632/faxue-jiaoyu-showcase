@@ -15,14 +15,14 @@ const GUIDE_BANDS = [
   },
   {
     title: "统一材料框架",
-    description: "八期课程统一保留四类、十四份材料档案；单期课程交代主题与承接关系，材料子页展开具体正文。",
+    description: "八期课程统一保留四类、十份材料档案；单期课程交代主题与承接关系，材料子页展开具体正文。",
   },
 ];
 
 export default function CoursesPage() {
   const periods = getCoursePackagePeriods();
   const standardDirectory = periods[0]?.materialDirectory ?? [];
-  const standardMaterialCount = periods[0]?.materialPages?.length ?? 14;
+  const standardMaterialCount = periods[0]?.materialPages?.length ?? 10;
 
   return (
     <main className="showcase-page" data-page-role="courses-support">

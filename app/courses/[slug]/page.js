@@ -22,6 +22,7 @@ export default async function CourseDetailPage({ params }) {
   const featuredQuestions = profile.coreQuestions.slice(0, 3);
   const outlineEntries = profile.contentFlow.slice(0, 4);
   const firstMaterial = period.materialPages[0];
+  const materialCount = period.materialPages.length;
 
   return (
     <CoursePeriodShell period={period} title={period.title} summary={period.periodHome.summary}>
@@ -68,7 +69,7 @@ export default async function CourseDetailPage({ params }) {
 
       <ShowcaseSection
         title="统一材料目录"
-        eyebrow="十四份材料"
+        eyebrow={`${materialCount}份材料`}
         description="这一页只做引子，下面的链接直接进入材料正文。"
         className="showcase-section-compact course-period-home-section"
       >
