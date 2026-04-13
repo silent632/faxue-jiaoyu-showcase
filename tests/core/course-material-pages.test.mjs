@@ -37,12 +37,14 @@ test("late periods expose course-style pages instead of production-process wordi
   for (const period of [period05, period08]) {
     const guidePage = period.materialPages.find((item) => item.slug === "teaching-guide");
     const reportPage = period.materialPages.find((item) => item.slug === "study-report");
+    const feedbackPage = period.materialPages.find((item) => item.slug === "feedback");
 
     assert.equal(typeof guidePage.lead, "string");
     assert.equal(guidePage.lead.length > 30, true);
     assert.doesNotMatch(guidePage.lead, /manifest|配音稿|逐页时长表|制作清单/u);
     assert.equal(Array.isArray(reportPage.sections), true);
-    assert.equal(reportPage.sections.length >= 2, true);
+    assert.equal(reportPage.sections.length >= 3, true);
+    assert.equal(feedbackPage.sections.length >= 3, true);
   }
 });
 
@@ -85,6 +87,24 @@ test("period 06 report and feedback pages merge multiple sections without number
 
   assert.doesNotMatch(reportTexts, /（一）|（二）|（三）/u);
   assert.doesNotMatch(feedbackTexts, /（一）|（二）|（三）/u);
+});
+
+test("report and feedback pages lock in merged section structure cues", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const feedbackPage = period06.materialPages.find((item) => item.slug === "feedback");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report");
+
+  const reportTitles = reportPage.sections.map((section) => section.title).filter(Boolean).join(" ");
+  assert.match(reportTitles, /总体回应|问题定位/u);
+  assert.match(reportTitles, /代表性|书面样本/u);
+  assert.match(reportTitles, /共通路径|推进路径|论证/u);
+
+  const feedbackTitles = feedbackPage.sections.map((section) => section.title).filter(Boolean).join(" ");
+  assert.match(feedbackTitles, /课后判断|共识/u);
+  assert.match(feedbackTitles, /课堂进入学生端/u);
+  assert.match(feedbackTitles, /继续追问/u);
+
+  assert.doesNotMatch(reportPage.lead, /一份学生研习文本|单一|单样本/u);
 });
 
 test("material directory keeps single entry labels for report and feedback", () => {
