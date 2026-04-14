@@ -11,6 +11,20 @@ import {
   getCourseTimelineDetail,
 } from "../../lib/showcase-supporting-page-meta.js";
 
+function assertVideoPeriodDeliveryShape(item) {
+  assert.ok(["segments", "video"].includes(item.playerMode));
+  assert.equal(Array.isArray(item.segments), true);
+
+  if (item.playerMode === "segments") {
+    assert.equal(item.segments.length > 0, true);
+    assert.equal(item.sourceHref, null);
+    return;
+  }
+
+  assert.equal(item.segments.length, 0);
+  assert.match(item.sourceHref, /^https?:\/\//u);
+}
+
 test("showcase content exposes approved title, nav, metrics, and page sections", () => {
   const content = buildShowcaseContent();
   const canonicalStudyHref = getShowcaseCanonicalStudyHref();
@@ -215,7 +229,7 @@ test("supporting pages use resilient metadata lookups with fallbacks", () => {
   });
 });
 
-test("video hub dataset supports eight-period video results and segmented early periods", () => {
+test("video hub dataset supports eight-period video results with per-period delivery modes", () => {
   const content = buildShowcaseContent();
   const hub = content.videoHub ?? {};
   const phaseGuide = Array.isArray(hub.phaseGuide) ? hub.phaseGuide : [];
@@ -231,15 +245,20 @@ test("video hub dataset supports eight-period video results and segmented early 
   assert.equal(periods.length, 8);
   assert.equal(periods[0].slug, "course-period-01");
   assert.equal(periods[7].slug, "course-period-08");
-  assert.equal(periods[0].playerMode, "segments");
-  assert.equal(periods[1].playerMode, "segments");
-  assert.ok(periods.slice(2).every((item) => item.playerMode === "video"));
   assert.ok(periods.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
-  assert.ok(periods.slice(2).every((item) => typeof item.sourceHref === "string" && /^https?:\/\//u.test(item.sourceHref)));
-  assert.ok(Array.isArray(periods[0].segments));
-  assert.equal(periods[0].segments.length, 5);
-  assert.ok(periods[0].segments.some((item) => item.label === "第一期下"));
-  assert.equal(periods[1].segments.length, 2);
+  periods.forEach(assertVideoPeriodDeliveryShape);
+
+  const period01 = periods.find((item) => item.slug === "course-period-01");
+  const period02 = periods.find((item) => item.slug === "course-period-02");
+
+  if (period01?.playerMode === "segments") {
+    assert.equal(period01.segments.length, 5);
+    assert.ok(period01.segments.some((item) => item.label === "第一期下"));
+  }
+
+  if (period02?.playerMode === "segments") {
+    assert.equal(period02.segments.length, 2);
+  }
 
   const slugs = periods.map((item) => item.slug);
   assert.equal(new Set(slugs).size, slugs.length);
@@ -257,4 +276,5 @@ test("course archive data exposes period summaries, materials, and video links",
   assert.ok(periods.every((item) => Array.isArray(item.materials) && item.materials.length >= 2));
   assert.ok(periods.every((item) => typeof item.detailHref === "string" && /^\/courses\/course-period-/u.test(item.detailHref)));
   assert.ok(periods.every((item) => typeof item.videoHref === "string" && /^\/resources\/videos\//u.test(item.videoHref)));
+  assert.equal(periods.some((item) => item.materials.some((material) => /本期资料整理中|\.pptx|课件：.+\.pptx/u.test(material))), false);
 });

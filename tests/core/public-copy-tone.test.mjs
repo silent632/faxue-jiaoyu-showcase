@@ -191,6 +191,18 @@ test("course system public copy avoids raw material-name placeholders", () => {
   assert.equal(/学生课后反馈（一）|学生课后反馈（二）|学生研习报告（二）|资料包制作清单/u.test(text), false);
 });
 
+test("public course-system source avoids production-process wording in visible flows", () => {
+  const sources = [
+    readFileSync(new URL("../../app/courses/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/course-period-shell.js", import.meta.url), "utf8"),
+    JSON.stringify(getCoursePackagePeriods().map((period) => period.periodHome)),
+    JSON.stringify(buildShowcaseContent().courses.periods),
+  ].join("\n");
+
+  assert.equal(/章节配音稿与内容导图|内容展开页|材料页|配音稿|制作层文件|\.pptx/u.test(sources), false);
+});
+
 test("public-facing source copy avoids incomplete-state wording in expert-visible flows", () => {
   const sources = [
     readFileSync(new URL("../../app/cases/[id]/page.js", import.meta.url), "utf8"),
@@ -204,4 +216,11 @@ test("public-facing source copy avoids incomplete-state wording in expert-visibl
   for (const text of ["Word 原文待补充", "PDF 预览待补充", "案号待补充", "法院待补充", "日期待补充", "线上提交入口暂未开放", "提交研习"]) {
     assert.equal(sources.includes(text), false, `found incomplete public wording: ${text}`);
   }
+});
+
+test("public app ships an explicit favicon or app icon asset", () => {
+  const appIconUrl = new URL("../../app/icon.svg", import.meta.url);
+  const publicFaviconUrl = new URL("../../public/favicon.ico", import.meta.url);
+
+  assert.equal(existsSync(appIconUrl) || existsSync(publicFaviconUrl), true);
 });

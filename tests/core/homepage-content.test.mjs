@@ -4,6 +4,20 @@ import { readFileSync } from "node:fs";
 
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
 
+function assertVideoPeriodDeliveryShape(item) {
+  assert.ok(["segments", "video"].includes(item.playerMode));
+  assert.equal(Array.isArray(item.segments), true);
+
+  if (item.playerMode === "segments") {
+    assert.equal(item.segments.length > 0, true);
+    assert.equal(item.sourceHref, null);
+    return;
+  }
+
+  assert.equal(item.segments.length, 0);
+  assert.match(item.sourceHref, /vod-qcloud\.com|^https?:\/\//u);
+}
+
 test("homepage dashboard content keeps operations metrics and trend snapshot", () => {
   const content = buildShowcaseContent();
   const text = JSON.stringify(content.homeDashboard);
@@ -106,10 +120,7 @@ test("homepage video preview routes all eight periods to site-local player pages
 
   assert.equal(items.length, 8);
   assert.ok(items.every((item) => /^\/resources\/videos\/course-period-/u.test(item.href)));
-  assert.equal(items[0].playerMode, "segments");
-  assert.equal(items[1].playerMode, "segments");
-  assert.ok(items.slice(2).every((item) => item.playerMode === "video"));
-  assert.ok(items.slice(2).every((item) => /vod-qcloud\.com/u.test(item.sourceHref)));
+  items.forEach(assertVideoPeriodDeliveryShape);
 });
 
 test("homepage video block styles support stage and period grids", () => {

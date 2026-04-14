@@ -72,6 +72,16 @@ test("course package exposes a period home plus ten standard material pages", ()
   }
 });
 
+test("late-period home notes stay course-facing instead of exposing production-process language", () => {
+  for (const slug of ["course-period-05", "course-period-06", "course-period-07", "course-period-08"]) {
+    const period = getCoursePackagePeriodBySlug(slug);
+    const notes = period.periodHome.materialNotes.join("\n");
+
+    assert.equal(/章节配音稿与内容导图|配音稿|内容展开页|材料页|制作层文件|\.pptx/u.test(notes), false);
+    assert.match(notes, /课程正文|课程主线|讲授主线|结构图|课堂目标/u);
+  }
+});
+
 test("course package material pages can carry detailed period-level content blocks", () => {
   const period02 = getCoursePackagePeriodBySlug("course-period-02");
   const guidePage = period02.materialPages.find((item) => item.slug === "teaching-guide");
@@ -138,6 +148,16 @@ test("material display name normalization removes raw file noise", () => {
   );
 });
 
+test("course data source resolution avoids user-specific absolute paths", () => {
+  const coursePackageSource = readFileSync(new URL("../../lib/course-package.js", import.meta.url), "utf8");
+  const showcaseCasesSource = readFileSync(new URL("../../lib/showcase-cases.js", import.meta.url), "utf8");
+
+  assert.doesNotMatch(coursePackageSource, /\/Users\/silent/u);
+  assert.doesNotMatch(showcaseCasesSource, /\/Users\/silent/u);
+  assert.match(coursePackageSource, /COURSE_PACKAGE_ROOT|homedir|COURSE_PACKAGE_ROOT/u);
+  assert.match(showcaseCasesSource, /SHOWCASE_SOURCE_ROOT|homedir/u);
+});
+
 test("course detail route is exported as a static period home with a unified material entry matrix", () => {
   const source = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
 
@@ -165,6 +185,14 @@ test("course detail route adopts the dense entry layout instead of the bridge sc
   assert.match(source, /course-period-material-notes/u);
   assert.match(source, /period\.periodHome\.entryPanels/u);
   assert.match(source, /period\.periodHome\.materialNotes/u);
+});
+
+test("course detail route does not repeat the hero summary inside the first content block", () => {
+  const source = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
+
+  assert.doesNotMatch(source, /period\.periodHome\.summary/u);
+  assert.match(source, /profile\.periodSummary\.position/u);
+  assert.match(source, /profile\.periodSummary\.bridge/u);
 });
 
 test("courses page presents each period as a guide card instead of a metadata-only archive card", () => {

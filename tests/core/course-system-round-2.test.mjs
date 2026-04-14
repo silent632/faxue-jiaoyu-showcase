@@ -57,12 +57,13 @@ test("material static slug helper includes legacy material slugs", () => {
   assert.ok(slugs.includes("feedback-03"));
 });
 
-test("material page route source wires redirect and static slug support", () => {
+test("material page route source keeps static slug support without server redirect calls", () => {
   const source = readFileSync(new URL("../../app/courses/[slug]/[materialSlug]/page.js", import.meta.url), "utf8");
 
-  assert.match(source, /redirect/u);
   assert.match(source, /resolveCourseMaterialSlug/u);
   assert.match(source, /getCourseMaterialStaticSlugs/u);
+  assert.doesNotMatch(source, /redirect\s*\(/u);
+  assert.match(source, /window\.location\.replace|LegacyCourseMaterialRedirect/u);
 });
 
 test("course overview and detail pages no longer hardcode fourteen material copies", () => {

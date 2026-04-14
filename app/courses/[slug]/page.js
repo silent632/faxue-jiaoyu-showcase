@@ -19,19 +19,19 @@ export default async function CourseDetailPage({ params }) {
   }
 
   const profile = period.courseContentProfile;
+  const { periodHome } = period;
+  const summary = periodHome.summary;
   const entryPanels = period.periodHome.entryPanels?.slice(0, 3) ?? [];
   const materialNotes = period.periodHome.materialNotes ?? [];
-  const highlights = period.periodHome.highlights ?? [];
+  const highlights = periodHome.highlights ?? [];
   const firstMaterial = period.materialPages[0];
   const materialCount = period.materialPages.length;
 
   return (
-    <CoursePeriodShell period={period} title={period.title} summary={period.periodHome.summary}>
+    <CoursePeriodShell period={period} title={period.title} summary={summary}>
       <section className="showcase-card course-period-entry-grid">
         <div className="course-period-entry-main">
           <span className="showcase-card-eyebrow">{period.period}</span>
-          <h2>本期核心摘要</h2>
-          <p className="course-detail-lead">{period.periodHome.summary}</p>
 
           <div className="course-period-entry-panel">
             <strong>课程定位与承接</strong>
@@ -40,14 +40,17 @@ export default async function CourseDetailPage({ params }) {
           </div>
 
           {highlights.length > 0 ? (
-            <ul className="course-detail-list">
-              {highlights.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+            <div className="course-period-entry-panel">
+              <strong>本期进入线索</strong>
+              <ul className="course-detail-list">
+                {highlights.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
           ) : null}
 
-          <div>
+          <div className="course-period-entry-panel">
             <strong>材料阅读提示</strong>
             <ul className="course-period-material-notes">
               {materialNotes.map((item) => (
@@ -75,7 +78,7 @@ export default async function CourseDetailPage({ params }) {
       <ShowcaseSection
         title="本期材料入口"
         eyebrow={`${materialCount}份材料`}
-        description="材料目录按教学用途分组，先用课件与导学把主线搭起来，再用任务单、课堂观察与评价材料回看判断链路是否闭合。"
+        description="统一材料目录按课堂功能分组，先看教学材料指南与法理导学，再进入任务单、课堂观察与学生成果。"
         className="showcase-section-compact course-period-home-section"
       >
         <CourseMaterialDirectory groups={period.materialDirectory} variant="inline" />
