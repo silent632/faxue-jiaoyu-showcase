@@ -4,6 +4,9 @@ import { readFileSync } from "node:fs";
 
 import { getShowcaseVideoBySlug, getShowcaseVideoStaticParams } from "../../lib/showcase-home-videos.js";
 
+const PERIOD_05_EXPECTED_SOURCE =
+  "https://1409009022.vod-qcloud.com/83d5ffe5vodtranscq1409009022/2aa8fb625145403719721435646/v.f100040.mp4";
+
 test("site player dataset exposes static params and hosted video entries", () => {
   const params = getShowcaseVideoStaticParams();
   const period01 = getShowcaseVideoBySlug("course-period-01");
@@ -30,6 +33,7 @@ test("site player dataset exposes static params and hosted video entries", () =>
   assert.ok(period05);
   assert.match(period05.title, /非法证据排除规则/u);
   assert.match(period05.summary, /程序正义|权利保障/u);
+  assert.equal(period05.sourceHref, PERIOD_05_EXPECTED_SOURCE);
 
   assert.ok(period08);
   assert.equal(period08.external, false);
