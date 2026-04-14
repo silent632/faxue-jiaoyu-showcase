@@ -96,3 +96,13 @@ test("period 02 exposes material-level rich content instead of summary-only copy
     true
   );
 });
+
+test("period 02 introduction cards show full mentor names with units", () => {
+  const period02 = getCoursePackagePeriodBySlug("course-period-02");
+  const introductionBullets = period02.courseContentProfile.sectionRichContent.introduction.flatMap((section) =>
+    (section.cards || []).flatMap((card) => card.bullets || [])
+  );
+
+  assert.equal(introductionBullets.includes("理论导师：朱腾伟（广东技术师范大学）。"), true);
+  assert.equal(introductionBullets.includes("实务导师：刘宏（广东炜衡律师事务所）。"), true);
+});

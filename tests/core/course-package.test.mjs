@@ -133,6 +133,13 @@ test("all periods expose complete mentor names with units", () => {
   }
 });
 
+test("period 02 mentor metadata uses the approved unit names", () => {
+  const period02 = getCoursePackagePeriodBySlug("course-period-02");
+
+  assert.equal(period02.guide.theoryMentor, "朱腾伟（广东技术师范大学）");
+  assert.equal(period02.guide.practiceMentor, "刘宏（广东炜衡律师事务所）");
+});
+
 test("material display name normalization removes raw file noise", () => {
   assert.equal(
     normalizeCourseMaterialDisplayName("课件：类案检索与法律适用（0905）.pptx"),
