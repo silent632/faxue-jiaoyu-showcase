@@ -21,7 +21,10 @@ test("site player dataset exposes static params and hosted video entries", () =>
   assert.equal(period01.href, "/resources/videos/course-period-01");
   assert.equal(period01.playerMode, "segments");
   assert.equal(Array.isArray(period01.segments), true);
-  assert.equal(period01.segments.length, 4);
+  assert.equal(period01.segments.length, 5);
+  assert.ok(period01.segments.some((item) => item.label === "第一期下"));
+  assert.match(period01.segments.find((item) => item.label === "第一期下").title, /类案检索意义|优先承租权/u);
+  assert.match(period01.segments.find((item) => item.label === "第一期下").note, /统一法律适用|司法公信|优先承租权/u);
   assert.equal(period01.segments.some((item) => /非法证据排除规则/u.test(item.title)), false);
 
   assert.ok(period05);

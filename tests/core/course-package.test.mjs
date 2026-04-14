@@ -115,6 +115,14 @@ test("course package exposes structured content profiles for rebuilt periods", (
   }
 });
 
+test("all periods expose complete mentor names with units", () => {
+  for (const { slug } of getCoursePackageStaticParams()) {
+    const period = getCoursePackagePeriodBySlug(slug);
+    assert.match(period.guide.theoryMentor, /（.+）/u);
+    assert.match(period.guide.practiceMentor, /（.+）/u);
+  }
+});
+
 test("material display name normalization removes raw file noise", () => {
   assert.equal(
     normalizeCourseMaterialDisplayName("课件：类案检索与法律适用（0905）.pptx"),
@@ -165,6 +173,8 @@ test("courses page presents each period as a guide card instead of a metadata-on
   assert.match(source, /archiveCard\.lead/u);
   assert.match(source, /archiveCard\.keyPoints/u);
   assert.match(source, /contentType/u);
+  assert.match(source, /courses-page-body/u);
+  assert.match(source, /course-archive-section/u);
   assert.equal(/每一期都保留主题、阶段定位和双入口/u.test(source), false);
 });
 

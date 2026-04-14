@@ -237,7 +237,8 @@ test("video hub dataset supports eight-period video results and segmented early 
   assert.ok(periods.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
   assert.ok(periods.slice(2).every((item) => typeof item.sourceHref === "string" && /^https?:\/\//u.test(item.sourceHref)));
   assert.ok(Array.isArray(periods[0].segments));
-  assert.equal(periods[0].segments.length, 4);
+  assert.equal(periods[0].segments.length, 5);
+  assert.ok(periods[0].segments.some((item) => item.label === "第一期下"));
   assert.equal(periods[1].segments.length, 2);
 
   const slugs = periods.map((item) => item.slug);

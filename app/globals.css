@@ -396,6 +396,10 @@ main {
   margin-top: 0;
 }
 
+.courses-page-body .course-archive-section {
+  margin-top: 34px;
+}
+
 .supporting-callout {
   display: grid;
   gap: 16px;

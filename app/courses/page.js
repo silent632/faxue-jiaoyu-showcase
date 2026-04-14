@@ -28,7 +28,7 @@ export default function CoursesPage() {
     <main className="showcase-page" data-page-role="courses-support">
       <ShowcaseNav />
 
-      <div className="showcase-page-body">
+      <div className="showcase-page-body courses-page-body">
         <section className="showcase-page-head">
           <p className="showcase-page-kicker">课程体系</p>
           <h1>八期课程档案</h1>
@@ -81,7 +81,7 @@ export default function CoursesPage() {
           title="课程档案"
           eyebrow="八期课程"
           description="八期课程按主题递进，进入单期课程后，统一材料档案与本期视频分别展开。"
-          className="showcase-section-compact"
+          className="showcase-section-compact course-archive-section"
           aria-label="课程档案"
         >
           <div className="course-archive-grid">
