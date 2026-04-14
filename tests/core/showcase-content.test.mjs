@@ -234,6 +234,8 @@ test("video hub dataset supports eight-period video results with per-period deli
   const hub = content.videoHub ?? {};
   const phaseGuide = Array.isArray(hub.phaseGuide) ? hub.phaseGuide : [];
   const periods = Array.isArray(hub.periods) ? hub.periods : [];
+  const period01 = periods.find((item) => item.slug === "course-period-01");
+  const period02 = periods.find((item) => item.slug === "course-period-02");
 
   assert.equal(typeof hub.title, "string");
   assert.match(hub.title, /课程视频/u);
@@ -248,17 +250,13 @@ test("video hub dataset supports eight-period video results with per-period deli
   assert.ok(periods.every((item) => typeof item.href === "string" && /^\/resources\/videos\//u.test(item.href)));
   periods.forEach(assertVideoPeriodDeliveryShape);
 
-  const period01 = periods.find((item) => item.slug === "course-period-01");
-  const period02 = periods.find((item) => item.slug === "course-period-02");
+  assert.equal(period01?.playerMode, "video");
+  assert.equal(period01?.segments.length, 0);
+  assert.match(period01?.sourceHref || "", /^https?:\/\//u);
 
-  if (period01?.playerMode === "segments") {
-    assert.equal(period01.segments.length, 5);
-    assert.ok(period01.segments.some((item) => item.label === "第一期下"));
-  }
-
-  if (period02?.playerMode === "segments") {
-    assert.equal(period02.segments.length, 2);
-  }
+  assert.equal(period02?.playerMode, "video");
+  assert.equal(period02?.segments.length, 0);
+  assert.match(period02?.sourceHref || "", /^https?:\/\//u);
 
   const slugs = periods.map((item) => item.slug);
   assert.equal(new Set(slugs).size, slugs.length);

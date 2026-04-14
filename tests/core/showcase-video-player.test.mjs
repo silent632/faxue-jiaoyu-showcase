@@ -10,6 +10,10 @@ import {
 
 const PERIOD_05_EXPECTED_SOURCE =
   "https://1409009022.vod-qcloud.com/83d5ffe5vodtranscq1409009022/2af44ff05145403719796872346/v.f100040.mp4";
+const PERIOD_02_EXPECTED_SOURCE =
+  "https://1409009022.vod-qcloud.com/83d5ffe5vodtranscq1409009022/2af4e1125145403719796873482/v.f100040.mp4";
+const PERIOD_01_EXPECTED_SOURCE =
+  "https://1409009022.vod-qcloud.com/83d5ffe5vodtranscq1409009022/31744ff95145403719721709300/v.f100040.mp4";
 
 function assertVideoDeliveryShape(item) {
   assert.ok(item);
@@ -63,17 +67,15 @@ test("site player dataset exposes static params and hosted video entries", () =>
   assert.equal(period01.external, false);
   assert.equal(period01.href, "/resources/videos/course-period-01");
   assertVideoDeliveryShape(period01);
-
-  if (period01.playerMode === "segments") {
-    assert.equal(period01.segments.length, 5);
-    assert.ok(period01.segments.some((item) => item.label === "第一期下"));
-    assert.match(period01.segments.find((item) => item.label === "第一期下").title, /类案检索意义|优先承租权/u);
-    assert.match(period01.segments.find((item) => item.label === "第一期下").note, /统一法律适用|司法公信|优先承租权/u);
-    assert.equal(period01.segments.some((item) => /非法证据排除规则/u.test(item.title)), false);
-  }
+  assert.equal(period01.playerMode, "video");
+  assert.equal(period01.segments.length, 0);
+  assert.equal(period01.sourceHref, PERIOD_01_EXPECTED_SOURCE);
 
   assert.equal(period02.href, "/resources/videos/course-period-02");
   assertVideoDeliveryShape(period02);
+  assert.equal(period02.playerMode, "video");
+  assert.equal(period02.segments.length, 0);
+  assert.equal(period02.sourceHref, PERIOD_02_EXPECTED_SOURCE);
 
   assert.ok(period05);
   assert.match(period05.title, /非法证据排除规则/u);
