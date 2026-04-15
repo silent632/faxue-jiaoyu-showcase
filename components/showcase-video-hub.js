@@ -38,7 +38,6 @@ export default function ShowcaseVideoHub({ hub }) {
             <span className="showcase-card-eyebrow">{item.period}</span>
             <strong>{item.title}</strong>
             <p>{item.summary}</p>
-            <small>{item.stageTag}</small>
           </ShowcaseVideoLink>
         ))}
       </div>

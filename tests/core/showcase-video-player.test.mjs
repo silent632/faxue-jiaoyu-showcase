@@ -105,3 +105,9 @@ test("video player page is exported as a static route with an html5 video elemen
   assert.match(source, /返回视频中心/u);
   assert.match(source, /课程视频成果/u);
 });
+
+test("resources video hub cards do not render stage labels under the eight period cards", () => {
+  const source = readFileSync(new URL("../../components/showcase-video-hub.js", import.meta.url), "utf8");
+
+  assert.doesNotMatch(source, /<small>\{item\.stageTag\}<\/small>/u);
+});
