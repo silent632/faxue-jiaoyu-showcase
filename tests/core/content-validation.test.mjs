@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
 
@@ -26,4 +27,9 @@ test("content validation passes for committed content sources", () => {
 
   assert.equal(result.ok, true);
   assert.deepEqual(result.errors, []);
+});
+
+test("content maintenance scripts exist", () => {
+  assert.equal(existsSync(new URL("../../scripts/validate-content.mjs", import.meta.url)), true);
+  assert.equal(existsSync(new URL("../../scripts/audit-assets.mjs", import.meta.url)), true);
 });
