@@ -106,3 +106,12 @@ test("period 02 introduction cards show full mentor names with units", () => {
   assert.equal(introductionBullets.includes("理论导师：朱腾伟（广东技术师范大学）。"), true);
   assert.equal(introductionBullets.includes("实务导师：刘宏（广东炜衡律师事务所）。"), true);
 });
+
+test("period 01 profile is served from migrated content source without changing public shape", () => {
+  const period01 = getCoursePackagePeriodBySlug("course-period-01");
+
+  assert.equal(period01.courseContentProfile.periodSummary.theme, "类案检索与法律适用");
+  assert.ok(period01.courseContentProfile.coreQuestions.length >= 3);
+  assert.ok(period01.courseContentProfile.contentFlow.length >= 3);
+  assert.ok(period01.courseContentProfile.caseStudy.mainCases.includes("借名买房案"));
+});

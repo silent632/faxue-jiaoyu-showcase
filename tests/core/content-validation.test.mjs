@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
 
+import { loadCourseContentProfileSource } from "../../lib/content/course-content-source.js";
 import { loadCopyPolicy, listForbiddenCopyMatches } from "../../lib/content/copy-policy.js";
 import { validateContent } from "../../lib/content/validate-content.js";
 
@@ -32,4 +33,17 @@ test("content validation passes for committed content sources", () => {
 test("content maintenance scripts exist", () => {
   assert.equal(existsSync(new URL("../../scripts/validate-content.mjs", import.meta.url)), true);
   assert.equal(existsSync(new URL("../../scripts/audit-assets.mjs", import.meta.url)), true);
+});
+
+test("period 01 course content loads from migrated content source", () => {
+  const profile = loadCourseContentProfileSource("course-period-01");
+
+  assert.ok(profile);
+  assert.equal(profile.periodSummary.theme, "类案检索与法律适用");
+  assert.ok(profile.coreQuestions.length >= 3);
+  assert.ok(profile.contentFlow.length >= 3);
+});
+
+test("non-migrated course content returns null from content source", () => {
+  assert.equal(loadCourseContentProfileSource("course-period-02"), null);
 });
