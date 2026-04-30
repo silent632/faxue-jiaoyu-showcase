@@ -2,35 +2,14 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 
+import { loadCopyPolicy } from "../../lib/content/copy-policy.js";
 import { buildShowcaseContent } from "../../lib/showcase-content.js";
 import { getCoursePackagePeriods } from "../../lib/course-package.js";
 
-const FORBIDDEN_PATTERNS = [
-  /本页用于/u,
-  /本页按/u,
-  /本页集中呈现/u,
-  /这里保留/u,
-  /展示站/u,
-  /公开展示模式/u,
-  /页面保留/u,
-  /不再停留在/u,
-  /真实模块预览/u,
-  /真实平台链路/u,
-  /公开化展示/u,
-  /设计者/u,
-];
-
-const FORBIDDEN_PUBLIC_REVIEW_PATTERNS = [
-  /专家可/u,
-  /服务专家/u,
-  /本页聚焦专家/u,
-  /建议核验/u,
-  /继续核验/u,
-  /便于继续核验/u,
-  /进入下层页面前/u,
-  /支持从总览继续进入/u,
-  /供专家/u,
-];
+const COPY_POLICY = loadCopyPolicy();
+const escapeRegExp = (term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const FORBIDDEN_PATTERNS = COPY_POLICY.forbiddenPatterns.map((term) => new RegExp(escapeRegExp(term), "u"));
+const FORBIDDEN_PUBLIC_REVIEW_PATTERNS = COPY_POLICY.forbiddenPublicReviewPatterns.map((term) => new RegExp(escapeRegExp(term), "u"));
 
 test("showcase content avoids task-execution and backstage language", () => {
   const content = buildShowcaseContent();
@@ -200,7 +179,10 @@ test("public course-system source avoids production-process wording in visible f
     JSON.stringify(buildShowcaseContent().courses.periods),
   ].join("\n");
 
-  assert.equal(/章节配音稿与内容导图|内容展开页|材料页|配音稿|制作层文件|\.pptx/u.test(sources), false);
+  for (const text of COPY_POLICY.forbiddenProductionPhrases) {
+    assert.equal(sources.includes(text), false, `found production-process wording: ${text}`);
+  }
+  assert.equal(/配音稿|\.pptx/u.test(sources), false);
 });
 
 test("public-facing source copy avoids incomplete-state wording in expert-visible flows", () => {
@@ -213,7 +195,7 @@ test("public-facing source copy avoids incomplete-state wording in expert-visibl
     readFileSync(new URL("../../lib/study-workspace.js", import.meta.url), "utf8"),
   ].join("\n");
 
-  for (const text of ["Word 原文待补充", "PDF 预览待补充", "案号待补充", "法院待补充", "日期待补充", "线上提交入口暂未开放", "提交研习"]) {
+  for (const text of COPY_POLICY.forbiddenIncompleteStatePhrases) {
     assert.equal(sources.includes(text), false, `found incomplete public wording: ${text}`);
   }
 });
