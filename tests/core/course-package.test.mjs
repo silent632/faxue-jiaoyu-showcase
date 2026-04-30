@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 import {
   getCoursePackagePeriodBySlug,
   getCoursePackageStaticParams,
+  hasCoursePackageRoot,
   normalizeCourseMaterialDisplayName,
 } from "../../lib/course-package.js";
 import { buildCourseArchiveContent } from "../../lib/course-archive-content.js";
@@ -22,10 +23,14 @@ test("course package metadata exposes eight detail pages with normalized materia
   assert.equal(period01.period, "第一期");
   assert.equal(period01.detailHref, "/courses/course-period-01");
   assert.ok(Array.isArray(period01.materialGroups));
-  assert.ok(period01.materialGroups.some((group) => group.title === "课程资料"));
-  assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "课程课件：类案检索与法律适用")));
-  assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "课件讲义版：类案检索与法律适用")));
-  assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "专题阅读：司法裁判的“同”与“不同”")));
+  if (hasCoursePackageRoot()) {
+    assert.ok(period01.materialGroups.some((group) => group.title === "课程资料"));
+    assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "课程课件：类案检索与法律适用")));
+    assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "课件讲义版：类案检索与法律适用")));
+    assert.ok(period01.materialGroups.some((group) => group.items.some((item) => item.displayName === "专题阅读：司法裁判的“同”与“不同”")));
+  } else {
+    assert.equal(period01.materialGroups.length, 0);
+  }
   assert.ok(period01.archiveCard);
   assert.equal(typeof period01.archiveCard.lead, "string");
   assert.ok(Array.isArray(period01.archiveCard.keyPoints));
@@ -40,7 +45,15 @@ test("course package metadata exposes eight detail pages with normalized materia
   assert.match(period06.guide.courseTheme, /个人信息保护与技术治理/u);
   assert.match(period06.guide.teachingTitle, /人脸识别中的同意边界/u);
   assert.ok(period06.outline.length >= 6);
-  assert.ok(period06.materialGroups.some((group) => group.title === "佐证材料"));
+  if (hasCoursePackageRoot()) {
+    assert.ok(period06.materialGroups.some((group) => group.title === "佐证材料"));
+  } else {
+    assert.equal(period06.materialGroups.length, 0);
+  }
+});
+
+test("course package root availability is explicit for reproducible tests", () => {
+  assert.equal(typeof hasCoursePackageRoot(), "boolean");
 });
 
 test("course package exposes a period home plus ten standard material pages", () => {
