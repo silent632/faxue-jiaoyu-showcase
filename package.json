@@ -8,6 +8,9 @@
     "build": "next build",
     "start": "next start -p 3011",
     "test:core": "node --test tests/core/*.test.mjs",
+    "validate:content": "node ./scripts/validate-content.mjs",
+    "audit:assets": "node ./scripts/audit-assets.mjs",
+    "check": "npm run validate:content && npm run audit:assets && npm run test:core && npm run build",
     "sync:pdfs": "node ./lib/showcase-pdf-sync.mjs"
   },
   "dependencies": {

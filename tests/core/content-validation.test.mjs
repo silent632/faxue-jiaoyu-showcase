@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { loadCopyPolicy, listForbiddenCopyMatches } from "../../lib/content/copy-policy.js";
+import { validateContent } from "../../lib/content/validate-content.js";
 
 test("copy policy loads centralized public wording rules", () => {
   const policy = loadCopyPolicy();
@@ -18,4 +19,11 @@ test("copy policy matcher reports forbidden public copy terms", () => {
   const matches = listForbiddenCopyMatches("本页用于公开展示模式，专家可继续核验。");
 
   assert.deepEqual(matches, ["本页用于", "公开展示模式", "专家可", "继续核验"]);
+});
+
+test("content validation passes for committed content sources", () => {
+  const result = validateContent();
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.errors, []);
 });
