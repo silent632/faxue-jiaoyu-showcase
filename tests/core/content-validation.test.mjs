@@ -1,4 +1,5 @@
 import { existsSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
 
@@ -44,6 +45,25 @@ test("period 01 course content loads from migrated content source", () => {
   assert.ok(profile.contentFlow.length >= 3);
 });
 
-test("non-migrated course content returns null from content source", () => {
-  assert.equal(loadCourseContentProfileSource("course-period-02"), null);
+test("all public course content loads from migrated content sources", () => {
+  for (let index = 1; index <= 8; index += 1) {
+    const slug = `course-period-${String(index).padStart(2, "0")}`;
+    const profile = loadCourseContentProfileSource(slug);
+
+    assert.ok(profile, `${slug} should load from content source`);
+    assert.ok(profile.periodSummary.theme);
+    assert.ok(profile.coreQuestions.length >= 3);
+    assert.ok(profile.contentFlow.length >= 3);
+  }
+});
+
+test("core public content is not hardcoded in legacy lib modules", () => {
+  const profileSource = readFileSync(new URL("../../lib/course-content-profiles.js", import.meta.url), "utf8");
+  const videoSource = readFileSync(new URL("../../lib/showcase-home-videos.js", import.meta.url), "utf8");
+  const showcaseSource = readFileSync(new URL("../../lib/showcase-content.js", import.meta.url), "utf8");
+
+  assert.equal(/function buildPeriod0[2-8]Profile/u.test(profileSource), false);
+  assert.equal(videoSource.includes("vod-qcloud.com"), false);
+  assert.equal(showcaseSource.includes("homeDashboard:"), false);
+  assert.equal(showcaseSource.includes("COURSE_MATERIALS_BY_PERIOD"), false);
 });
