@@ -1,0 +1,9 @@
+.DS_Store
+.next
+node_modules
+.worktrees
+.superpowers
+.artifacts
+.playwright-cli
+out
+output

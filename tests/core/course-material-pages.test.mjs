@@ -1,0 +1,161 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+
+import { getCoursePackagePeriodBySlug } from "../../lib/course-package.js";
+import { buildCourseMaterialPages } from "../../lib/course-material-pages.js";
+
+test("course package exposes four material groups and ten material pages for period 02", () => {
+  const period02 = getCoursePackagePeriodBySlug("course-period-02");
+
+  assert.ok(period02);
+  assert.equal(period02.materialDirectory.length, 4);
+  assert.equal(period02.materialPages.length, 10);
+  assert.deepEqual(
+    period02.materialDirectory.map((group) => group.title),
+    ["教学设计类", "课堂实施类", "协同反思类", "学习成果类"]
+  );
+});
+
+test("period 02 material pages keep concrete course-facing copy", () => {
+  const period02 = getCoursePackagePeriodBySlug("course-period-02");
+  const guidePage = period02.materialPages.find((item) => item.slug === "teaching-guide");
+  const jurisprudencePage = period02.materialPages.find((item) => item.slug === "jurisprudence-guide");
+
+  assert.match(guidePage.lead, /权利义务相一致|小马奔腾/u);
+  assert.equal(Array.isArray(guidePage.sections), true);
+  assert.equal(guidePage.sections.length >= 3, true);
+  assert.equal(
+    jurisprudencePage.sections.some((section) => /法理|推演|思考/u.test(section.title)),
+    true
+  );
+});
+
+test("late periods expose course-style pages instead of production-process wording", () => {
+  const period05 = getCoursePackagePeriodBySlug("course-period-05");
+  const period08 = getCoursePackagePeriodBySlug("course-period-08");
+
+  for (const period of [period05, period08]) {
+    const guidePage = period.materialPages.find((item) => item.slug === "teaching-guide");
+    const reportPage = period.materialPages.find((item) => item.slug === "study-report");
+    const feedbackPage = period.materialPages.find((item) => item.slug === "feedback");
+
+    assert.equal(typeof guidePage.lead, "string");
+    assert.equal(guidePage.lead.length > 30, true);
+    assert.doesNotMatch(guidePage.lead, /manifest|配音稿|逐页时长表|制作清单/u);
+    assert.equal(Array.isArray(reportPage.sections), true);
+    assert.equal(reportPage.sections.length >= 3, true);
+    assert.equal(feedbackPage.sections.length >= 3, true);
+  }
+});
+
+test("feedback and report pages avoid proof-style wrappers and synthetic section headings", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const feedbackPage = period06.materialPages.find((item) => item.slug === "feedback");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report");
+
+  assert.equal("purpose" in feedbackPage, false);
+  assert.doesNotMatch(feedbackPage.lead, /证明|课后反馈页整理/u);
+  assert.equal(feedbackPage.sections.some((section) => /^反馈焦点\d+$/u.test(section.title || "")), false);
+  assert.equal(reportPage.sections.some((section) => /^研习报告视角\d+$/u.test(section.title || "")), false);
+});
+
+test("period 06 report and feedback pages merge multiple sections without numbered stubs", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const feedbackPage = period06.materialPages.find((item) => item.slug === "feedback");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report");
+
+  assert.equal(reportPage.sections.length >= 3, true);
+  assert.equal(feedbackPage.sections.length >= 3, true);
+
+  const extractTexts = (sections) =>
+    sections.flatMap((section) =>
+      [
+        section.title,
+        section.intro,
+        ...(section.paragraphs || []),
+        ...(section.bullets || []),
+        ...(section.cards || []).flatMap((card) => [
+          card.title,
+          ...(card.paragraphs || []),
+          ...(card.bullets || []),
+        ]),
+      ].filter(Boolean)
+    );
+
+  const reportTexts = extractTexts(reportPage.sections).join(" ");
+  const feedbackTexts = extractTexts(feedbackPage.sections).join(" ");
+
+  assert.doesNotMatch(reportTexts, /（一）|（二）|（三）/u);
+  assert.doesNotMatch(feedbackTexts, /（一）|（二）|（三）/u);
+});
+
+test("report and feedback pages lock in merged section structure cues", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const feedbackPage = period06.materialPages.find((item) => item.slug === "feedback");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report");
+
+  const reportTitles = reportPage.sections.map((section) => section.title).filter(Boolean).join(" ");
+  assert.match(reportTitles, /总体回应|问题定位/u);
+  assert.match(reportTitles, /代表性|书面样本/u);
+  assert.match(reportTitles, /共通路径|推进路径|论证/u);
+
+  const feedbackTitles = feedbackPage.sections.map((section) => section.title).filter(Boolean).join(" ");
+  assert.match(feedbackTitles, /课后判断|共识/u);
+  assert.match(feedbackTitles, /课堂进入学生端/u);
+  assert.match(feedbackTitles, /继续追问/u);
+
+  assert.doesNotMatch(reportPage.lead, /一份学生研习文本|单一|单样本/u);
+});
+
+test("study report sample cards include body content", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const reportPage = period06.materialPages.find((item) => item.slug === "study-report");
+  const sampleSection = reportPage.sections.find((section) => /代表性|书面样本/u.test(section.title || ""));
+
+  assert.ok(sampleSection);
+  assert.equal(Array.isArray(sampleSection.cards), true);
+  assert.equal(sampleSection.cards.length > 0, true);
+  assert.equal(sampleSection.cards.every((card) => Array.isArray(card.paragraphs) && card.paragraphs.length > 0), true);
+});
+
+test("study report sample cards survive when core questions are missing", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const cloned = JSON.parse(JSON.stringify(period06));
+
+  cloned.courseContentProfile.coreQuestions = [];
+  const pages = buildCourseMaterialPages(cloned).materialPages;
+  const reportPage = pages.find((item) => item.slug === "study-report");
+  const sampleSection = reportPage.sections.find((section) => /代表性|书面样本/u.test(section.title || ""));
+
+  assert.ok(sampleSection);
+  assert.equal(Array.isArray(sampleSection.cards), true);
+  assert.equal(sampleSection.cards.length > 0, true);
+  assert.equal(sampleSection.cards.every((card) => Array.isArray(card.paragraphs) && card.paragraphs.length > 0), true);
+});
+
+test("material directory keeps single entry labels for report and feedback", () => {
+  const period06 = getCoursePackagePeriodBySlug("course-period-06");
+  const items = period06.materialDirectory.flatMap((group) => group.items);
+  const reportItems = items.filter((item) => item.shortLabel === "研习报告");
+  const feedbackItems = items.filter((item) => item.shortLabel === "课后反馈");
+
+  assert.equal(reportItems.length, 1);
+  assert.equal(feedbackItems.length, 1);
+});
+
+test("material article source uses article-first rendering without stacked summary wrappers", () => {
+  const source = readFileSync(new URL("../../components/course-material-article.js", import.meta.url), "utf8");
+
+  assert.doesNotMatch(source, /page\.purpose/u);
+  assert.doesNotMatch(source, /ShowcaseSection/u);
+  assert.match(source, /course-material-article-body/u);
+});
+
+test("course period shell source exposes a split material layout for active material pages", () => {
+  const source = readFileSync(new URL("../../components/course-period-shell.js", import.meta.url), "utf8");
+
+  assert.match(source, /course-material-shell/u);
+  assert.match(source, /course-material-shell-aside/u);
+  assert.match(source, /course-material-shell-main/u);
+});

@@ -1,0 +1,172 @@
+{
+  "version": "1.0",
+  "description": "法理知识点标签分类体系——双索引架构的第二套索引，用于实验模块的选案推荐",
+  "groups": [
+    {
+      "id": "reasoning",
+      "name": "法律推理结构",
+      "feedsModule": "exp-reasoning",
+      "chapter": "法律适用 · 司法过程论"
+    },
+    {
+      "id": "argumentation",
+      "name": "争点与论证",
+      "feedsModule": "exp-argumentation",
+      "chapter": "法律论证理论"
+    },
+    {
+      "id": "norm-retrieval",
+      "name": "规范检索与适用",
+      "feedsModule": "exp-norm-retrieval",
+      "chapter": "法的渊源 · 法律体系"
+    },
+    {
+      "id": "interpretation",
+      "name": "法律解释方法",
+      "feedsModule": "exp-interpretation",
+      "chapter": "法律解释方法论"
+    },
+    {
+      "id": "value-balancing",
+      "name": "价值冲突与衡量",
+      "feedsModule": "exp-value-balancing",
+      "chapter": "法的价值 · 正义理论"
+    },
+    {
+      "id": "annotation",
+      "name": "裁判说理质量",
+      "feedsModule": "exp-annotation",
+      "chapter": "司法公开 · 裁判说理"
+    }
+  ],
+  "tags": [
+    {
+      "id": "syllogism-clear",
+      "label": "三段论结构清晰",
+      "group": "reasoning",
+      "description": "裁判说理中大前提、小前提、结论三步结构完整可辨，适合拆解和重建训练。",
+      "detection": "rule",
+      "rule": "ref_legal 含「大前提「和「小前提「关键词"
+    },
+    {
+      "id": "multi-norm-reasoning",
+      "label": "多法条协同推理",
+      "group": "reasoning",
+      "description": "援引 3 部以上不同法律，推理过程需要在多个规范之间建立逻辑关系。",
+      "detection": "rule",
+      "rule": "laws_json 去重法律名称 ≥ 3"
+    },
+    {
+      "id": "clear-dispute",
+      "label": "争点明确",
+      "group": "argumentation",
+      "description": "争议焦点清楚，双方立场对立明确，适合拆解为控辩/原被告双方论证。",
+      "detection": "rule+llm",
+      "rule": "ref_issue 字数 > 100"
+    },
+    {
+      "id": "appellate-reversal",
+      "label": "二审改判",
+      "group": "argumentation",
+      "description": "二审撤销或改变一审裁判，两级法院对同一事实持不同法律判断。",
+      "detection": "rule",
+      "rule": "procedure=二审 且 result 含「撤销「或「改判「"
+    },
+    {
+      "id": "burden-of-proof",
+      "label": "举证责任争议",
+      "group": "argumentation",
+      "description": "案件中明确讨论了举证责任的分配及是否完成举证。",
+      "detection": "rule+llm",
+      "rule": "全文含「举证责任「「证明责任「「谁主张「"
+    },
+    {
+      "id": "norm-competition",
+      "label": "规范竞合",
+      "group": "norm-retrieval",
+      "description": "多部法律的多个条文可能适用于同一事实，需判断适用优先级。",
+      "detection": "rule",
+      "rule": "laws_json 去重法律名称 ≥ 3"
+    },
+    {
+      "id": "cross-domain",
+      "label": "跨部门法交叉",
+      "group": "norm-retrieval",
+      "description": "同一案件涉及民事、刑事或行政等不同法律部门的规范。",
+      "detection": "rule",
+      "rule": "laws_json 法律名称归入不同领域，领域数 ≥ 2"
+    },
+    {
+      "id": "judicial-interpretation",
+      "label": "司法解释援引",
+      "group": "norm-retrieval",
+      "description": "除基本法律外还援引了最高法院司法解释，涉及法律渊源层级问题。",
+      "detection": "rule",
+      "rule": "laws_json 法律名称含「最高「「解释「「规定「「意见「"
+    },
+    {
+      "id": "concept-boundary",
+      "label": "概念边界争议",
+      "group": "interpretation",
+      "description": "争议核心在于某一事实是否落入某个法律概念的外延，需要运用不同解释方法来界定。",
+      "detection": "llm",
+      "rule": "预筛含「是否属于「「是否构成「「如何认定「的案例，LLM 确认"
+    },
+    {
+      "id": "guiding-case",
+      "label": "指导性案例参照",
+      "group": "interpretation",
+      "description": "裁判中明确参照了指导性案例或类案检索制度。",
+      "detection": "rule",
+      "rule": "laws_json 含「案例指导「「类案检索「相关名称"
+    },
+    {
+      "id": "value-tension",
+      "label": "价值冲突显现",
+      "group": "value-balancing",
+      "description": "案件中可识别出两种或以上相互冲突的法律价值，裁判实质上是一次价值选择。",
+      "detection": "llm",
+      "rule": "预筛含「公平「「正义「「均衡「「冲突「的案例，LLM 确认"
+    },
+    {
+      "id": "principle-clause",
+      "label": "原则条款援引",
+      "group": "value-balancing",
+      "description": "裁判中援引了诚实信用、公序良俗、公平原则等一般条款，进入原则层面的价值判断。",
+      "detection": "rule",
+      "rule": "全文含「诚实信用「「公序良俗「「公平原则「「权利不得滥用「"
+    },
+    {
+      "id": "public-interest",
+      "label": "公共利益考量",
+      "group": "value-balancing",
+      "description": "裁判中公共利益被明确作为衡量因素。",
+      "detection": "rule",
+      "rule": "全文含「公共利益「「社会利益「「国家利益「"
+    },
+    {
+      "id": "reasoning-rich",
+      "label": "说理充分",
+      "group": "annotation",
+      "description": "裁判理由段较长且推理步骤完整，适合正面批注学习。",
+      "detection": "rule",
+      "rule": "ref_legal 字数 > 324（前 25%）"
+    },
+    {
+      "id": "reasoning-contested",
+      "label": "说理存疑",
+      "group": "annotation",
+      "description": "被上级法院改判或撤销，原审说理可能存在瑕疵，适合批判性批注。",
+      "detection": "rule",
+      "rule": "二审+撤销/改判 或 再审"
+    },
+    {
+      "id": "discretion-explicit",
+      "label": "自由裁量显现",
+      "group": "annotation",
+      "description": "法官明确行使自由裁量权，批注可重点评价裁量理由是否充分。",
+      "detection": "rule",
+      "rule": "全文含「裁量「「酌定「「酌情「"
+    }
+  ]
+}
