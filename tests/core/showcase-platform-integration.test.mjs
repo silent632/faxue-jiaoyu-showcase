@@ -33,18 +33,12 @@ test("showcase content stays client-safe by avoiding direct case-source imports"
   assert.equal(source.includes("./showcase-cases.js"), false);
 });
 
-test("homepage includes impact data sections after the main content", () => {
+test("homepage includes impact proof section and nav", () => {
   const source = readFileSync(new URL("../../app/page.js", import.meta.url), "utf8");
-  const dataIndex = source.indexOf("impact-data");
-  const proofIndex = source.indexOf("impact-proof");
 
-  assert.match(source, /impact-data-card-number/u);
-  assert.match(source, /impact-data-bar/u);
+  assert.match(source, /impact-proof/u);
   assert.match(source, /ShowcaseNav/u);
-  assert.match(source, /content\.impactDashboard/u);
   assert.match(source, /content\.impact/u);
-  assert.equal(dataIndex > -1, true);
-  assert.equal(proofIndex > dataIndex, true);
 });
 
 test("showcase nav fallback uses shared nav builder to keep task-1 semantics", () => {

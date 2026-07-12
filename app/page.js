@@ -30,31 +30,6 @@ function pickFeaturedCases(cases, limit = 3) {
   return picked;
 }
 
-function buildImpactDataPanels(content) {
-  const trendPanels = content.impactDashboard?.trendPanels ?? [];
-  const coverageCards = content.impactDashboard?.coverageCards ?? [];
-  return [
-    ...trendPanels.map((panel) => ({
-      key: panel.title,
-      label: panel.title,
-      value: panel.metricValue || panel.value,
-      valueNote: panel.metricLabel || "",
-      headline: panel.value,
-      desc: panel.detail,
-      percent: null,
-    })),
-    ...coverageCards.map((panel) => ({
-      key: panel.title,
-      label: panel.title,
-      value: panel.coverageValue,
-      valueNote: "覆盖率",
-      headline: "",
-      desc: panel.description,
-      percent: Number.parseFloat(panel.coverageValue) || null,
-    })),
-  ];
-}
-
 export default async function HomePage() {
   const content = buildShowcaseContent();
   const studyHref = getShowcaseCanonicalStudyHref();
@@ -63,7 +38,6 @@ export default async function HomePage() {
   const featuredCases = pickFeaturedCases(cases);
   const homeVideoBlock = content.homeVideoBlock;
   const impactSections = content.impact?.sections ?? [];
-  const dataPanels = buildImpactDataPanels(content);
 
   const pillars = [
     {
@@ -217,36 +191,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 成效展示：运行数据 */}
-        {dataPanels.length > 0 && (
-          <section className="showcase-card impact-data" aria-label="运行数据">
-            <div className="impact-data-head">
-              <p className="section-eyebrow">成效展示</p>
-              <h2>平台运行趋势与建设覆盖</h2>
-            </div>
-
-            <div className="impact-data-grid">
-              {dataPanels.map((panel) => (
-                <article key={panel.key} className="impact-data-card">
-                  <span className="impact-data-card-label">{panel.label}</span>
-                  <div className="impact-data-card-figure">
-                    <strong className="impact-data-card-number">{panel.value}</strong>
-                    {panel.valueNote ? <span className="impact-data-card-unit">{panel.valueNote}</span> : null}
-                  </div>
-                  {panel.percent !== null ? (
-                    <div className="impact-data-bar" role="presentation">
-                      <span className="impact-data-bar-fill" style={{ width: `${Math.min(100, panel.percent)}%` }} />
-                    </div>
-                  ) : null}
-                  {panel.headline ? <strong className="impact-data-card-headline">{panel.headline}</strong> : null}
-                  <p className="impact-data-card-desc">{panel.desc}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* 成效展示：成果明细 */}
+        {/* 教学成果 */}
         <section className="showcase-card impact-proof" aria-label="成果明细">
           <div className="impact-proof-head">
             <p className="section-eyebrow">教学成果</p>
