@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import ExperimentShell from "@/components/experiment-shell";
 import ShowcaseNav from "@/components/showcase-nav";
+import { buildShowcaseContent } from "@/lib/showcase-content.js";
 import { loadShowcaseCases } from "@/lib/showcase-cases.js";
 import {
+  getExperimentModules,
   getExperimentModuleById,
   getExperimentStaticParams,
   getExperimentMicroLoop,
@@ -24,7 +27,9 @@ export default async function ExperimentModulePage({ params }) {
 
   const allCases = await loadShowcaseCases();
   const eligible = sortCasesByRelevance(filterCasesForModule(allCases, moduleId), moduleId);
+  const modules = getExperimentModules();
   const microLoop = getExperimentMicroLoop();
+  const loopCopy = buildShowcaseContent().learningLoop;
 
   const tagsData = loadJurisprudenceTags();
   const tagLabels = {};
@@ -101,7 +106,15 @@ export default async function ExperimentModulePage({ params }) {
       </section>
 
       <section className="exp-detail-workspace-wrap">
-        <ExperimentShell module={mod} cases={eligible} tagLabels={tagLabels} />
+        <Suspense fallback={null}>
+          <ExperimentShell
+            module={mod}
+            modules={modules}
+            cases={eligible}
+            tagLabels={tagLabels}
+            loopCopy={loopCopy}
+          />
+        </Suspense>
       </section>
     </main>
   );

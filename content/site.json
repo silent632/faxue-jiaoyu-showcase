@@ -24,6 +24,11 @@
       "label": "仿真实验",
       "href": "/experiments",
       "matchPrefix": "/experiments"
+    },
+    {
+      "label": "研习档案",
+      "href": "/archive",
+      "matchPrefix": "/archive"
     }
   ],
   "metrics": {
@@ -51,6 +56,100 @@
       "label": "工作台回访率",
       "value": "68%",
       "raw": 0.68
+    }
+  },
+  "learningLoop": {
+    "caseDetail": {
+      "eyebrow": "本案适训模块",
+      "title": "沿着本案继续做能力训练",
+      "description": "模块按本案法理标签的匹配程度排列，进入后会直接带入当前案例。",
+      "actionLabel": "带案进入"
+    },
+    "caseProgress": {
+      "studyLabel": "研习",
+      "experimentLabel": "实验",
+      "closedLabel": "已闭环"
+    },
+    "studyNext": {
+      "eyebrow": "实验训练",
+      "title": "把三步判断带进实验",
+      "readyDescription": "三步研习已经完成，可沿着当前案例进入适配模块，不需要重新选案。",
+      "lockedDescription": "三步均写满 50 字后，即可带着当前案例进入实验。",
+      "archiveLabel": "查看研习档案"
+    },
+    "courseRecommendation": {
+      "eyebrow": "本期推荐研习案例",
+      "title": "把课程问题带进真实裁判",
+      "description": "先阅读推荐理由，再进入案例详情和三步研习。",
+      "actionLabel": "进入案例"
+    },
+    "homeContinue": {
+      "eyebrow": "继续研习",
+      "title": "接着上次的案例继续",
+      "studyProgressLabel": "三步研习",
+      "experimentProgressLabel": "实验存档",
+      "continueLabel": "继续当前案例",
+      "archiveLabel": "打开研习档案"
+    },
+    "archive": {
+      "eyebrow": "我的研习档案",
+      "title": "看见每一次判断如何累积",
+      "description": "三步研习、实验存档和六能自评统一汇集在当前浏览器中，帮助你判断已经完成什么、下一步最值得做什么。",
+      "overview": {
+        "studyLabel": "已研习",
+        "experimentLabel": "已实验",
+        "closedLabel": "已闭环",
+        "caseUnit": "篇",
+        "experimentUnit": "项"
+      },
+      "abilities": {
+        "eyebrow": "六能统计",
+        "title": "能力训练分布",
+        "completedLabel": "完成",
+        "scoreLabel": "自评均分",
+        "emptyScore": "尚未评分"
+      },
+      "records": {
+        "eyebrow": "案例记录",
+        "title": "按案例回看学习路径",
+        "studyLabel": "三步研习",
+        "closedLabel": "已闭环",
+        "continueLabel": "继续研习"
+      },
+      "recommendation": {
+        "eyebrow": "推荐下一步",
+        "title": "继续推进学习闭环",
+        "experimentText": "这篇案例的三步研习已经完成，接下来进入适配实验。",
+        "studyText": "这篇案例已有实验存档，接下来补齐三步研习。",
+        "moduleText": "从完成次数较少的能力模块继续训练。",
+        "casesText": "从案例库选择一篇案例，开始新的学习闭环。",
+        "actionLabel": "现在继续"
+      },
+      "actions": {
+        "eyebrow": "本地记录",
+        "title": "导出或清理",
+        "description": "记录只保存在当前浏览器。导出后可自行备份；清空操作无法撤销。",
+        "exportLabel": "导出全部记录",
+        "clearLabel": "清空本地记录",
+        "clearConfirm": "确定清空全部三步研习和实验存档吗？此操作无法撤销。",
+        "exportedMessage": "全部记录已导出为 JSON 文件。",
+        "clearedMessage": "当前浏览器中的研习记录已清空。"
+      },
+      "empty": {
+        "title": "还没有本地研习记录",
+        "description": "可以先从课程主题选案，也可以直接进入案例库或实验中心。",
+        "courseLabel": "浏览课程",
+        "casesLabel": "进入案例库",
+        "experimentsLabel": "查看实验"
+      }
+    },
+    "experimentNext": {
+      "eyebrow": "下一步",
+      "title": "把这次实验接回学习路径",
+      "description": "存档已经留在当前浏览器，可回看完整记录，也可以沿着同一案例继续训练。",
+      "archiveLabel": "查看研习档案",
+      "changeCaseLabel": "换一篇案例",
+      "otherModulesTitle": "本案还适配这些训练"
     }
   },
   "impactDashboard": {

@@ -14,7 +14,14 @@ import {
   getStudyWorkspaceMetrics,
 } from "@/lib/study-workspace";
 
-export default function StudyWorkspace({ caseItem, userSid, hasPdf = true, mode = "split" }) {
+export default function StudyWorkspace({
+  caseItem,
+  userSid,
+  hasPdf = true,
+  mode = "split",
+  recommendedModules = [],
+  loopCopy,
+}) {
   const { draft, saveInfo, updateDraftField } = useStudyWorkspaceDraft({ caseId: caseItem.id, userSid });
   const [exportFeedback, setExportFeedback] = useState(null);
   const [exporting, setExporting] = useState(false);
@@ -93,8 +100,12 @@ export default function StudyWorkspace({ caseItem, userSid, hasPdf = true, mode 
       })}
 
       <StudyWorkspaceActions
+        caseId={caseItem.id}
         hasPdf={hasPdf}
         mode={mode}
+        doneCount={metrics.doneCount}
+        recommendedModules={recommendedModules}
+        copy={loopCopy?.studyNext}
         exporting={exporting}
         exportFeedback={exportFeedback}
         onExport={handleExport}

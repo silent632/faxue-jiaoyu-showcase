@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const DEFAULT_FEEDBACK = Object.freeze({
   ok: true,
   tone: "soft",
@@ -28,8 +30,12 @@ function FeedbackBox({ item }) {
 }
 
 export default function StudyWorkspaceActions({
+  caseId,
   hasPdf,
   mode,
+  doneCount,
+  recommendedModules,
+  copy,
   exporting,
   exportFeedback,
   onExport,
@@ -56,6 +62,29 @@ export default function StudyWorkspaceActions({
         <button className="btn btn-primary" type="button" onClick={onExport} disabled={exporting}>
           {exporting ? "导出中..." : "导出研习记录"}
         </button>
+      </div>
+
+      <div className={`study-next-panel${doneCount === 3 ? " is-ready" : " is-locked"}`}>
+        <div>
+          <span className="section-eyebrow">{copy?.eyebrow}</span>
+          <h3>{copy?.title}</h3>
+          <p>{doneCount === 3 ? copy?.readyDescription : copy?.lockedDescription}</p>
+        </div>
+        {doneCount === 3 ? (
+          <div className="study-next-links">
+            {(recommendedModules || []).map((item) => (
+              <Link key={item.id} href={`/experiments/${item.id}?case=${caseId}`} className="btn btn-outline">
+                {item.shortName}
+              </Link>
+            ))}
+            <Link href="/archive" className="btn btn-ghost">{copy?.archiveLabel}</Link>
+          </div>
+        ) : (
+          <div className="exp-ws3-stage-locked">
+            <span className="exp-ws3-lock-num">{doneCount}/3</span>
+            <span>{copy?.lockedDescription}</span>
+          </div>
+        )}
       </div>
 
       <div className="study-feedback-stack">

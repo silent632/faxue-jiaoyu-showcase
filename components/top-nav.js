@@ -50,6 +50,7 @@ function pickIcon(href) {
   if (href.startsWith("/courses")) return "book";
   if (href.startsWith("/cases")) return "scale";
   if (href.startsWith("/experiments")) return "flask";
+  if (href.startsWith("/archive")) return "chart";
   return "book";
 }
 

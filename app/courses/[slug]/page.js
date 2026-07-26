@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import CourseMaterialDirectory from "@/components/course-material-directory";
 import { CoursePeriodShell } from "@/components/course-period-shell";
 import { getCoursePackagePeriodBySlug, getCoursePackageStaticParams } from "@/lib/course-package";
+import { buildShowcaseContent } from "@/lib/showcase-content.js";
+import { loadShowcaseCases } from "@/lib/showcase-cases.js";
 
 export function generateStaticParams() {
   return getCoursePackageStaticParams();
@@ -25,6 +27,15 @@ export default async function CourseDetailPage({ params }) {
   const highlights = periodHome.highlights ?? [];
   const firstMaterial = period.materialPages[0];
   const materialCount = period.materialPages.length;
+  const allCases = await loadShowcaseCases();
+  const caseMap = new Map(allCases.map((item) => [item.id, item]));
+  const recommendedCases = (profile.recommendedCases || [])
+    .map((item) => ({
+      ...item,
+      caseItem: caseMap.get(item.caseId),
+    }))
+    .filter((item) => item.caseItem);
+  const recommendationCopy = buildShowcaseContent().learningLoop.courseRecommendation;
 
   return (
     <CoursePeriodShell period={period} title={period.title} summary={summary}>
@@ -72,6 +83,27 @@ export default async function CourseDetailPage({ params }) {
           ) : null}
         </div>
       </section>
+
+      {recommendedCases.length ? (
+        <section className="showcase-card course-recommended-cases" aria-label={recommendationCopy.title}>
+          <div className="course-recommended-head">
+            <span className="section-eyebrow">{recommendationCopy.eyebrow}</span>
+            <h2>{recommendationCopy.title}</h2>
+            <p>{recommendationCopy.description}</p>
+          </div>
+          <div className="course-recommended-grid">
+            {recommendedCases.map(({ caseId, reason, caseItem }) => (
+              <Link key={caseId} className="course-recommended-card" href={`/cases/${caseId}`}>
+                <span>{caseItem.causeFocus}</span>
+                <strong>{caseItem.title}</strong>
+                <small>{caseItem.caseNumber}</small>
+                <p>{reason}</p>
+                <em>{recommendationCopy.actionLabel} →</em>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {/* 本期材料档案 */}
       <section className="showcase-card course-period-materials" aria-label="本期材料入口">

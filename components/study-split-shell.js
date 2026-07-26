@@ -57,7 +57,14 @@ function clampPaneWidth(value) {
   return Math.min(MAX_LEFT_PANE, Math.max(MIN_LEFT_PANE, value));
 }
 
-export default function StudySplitShell({ caseItem, userSid, pdfFileName, hasPdf }) {
+export default function StudySplitShell({
+  caseItem,
+  userSid,
+  pdfFileName,
+  hasPdf,
+  recommendedModules,
+  loopCopy,
+}) {
   const shellRef = useRef(null);
   const [leftPaneWidth, setLeftPaneWidth] = useState(DEFAULT_LEFT_PANE);
   const [isDragging, setIsDragging] = useState(false);
@@ -216,7 +223,14 @@ export default function StudySplitShell({ caseItem, userSid, pdfFileName, hasPdf
 
 
           <div className="study-pane-scroll">
-            <StudyWorkspace caseItem={caseItem} userSid={userSid} hasPdf={hasPdf} mode="split" />
+            <StudyWorkspace
+              caseItem={caseItem}
+              userSid={userSid}
+              hasPdf={hasPdf}
+              mode="split"
+              recommendedModules={recommendedModules}
+              loopCopy={loopCopy}
+            />
           </div>
         </div>
       </section>

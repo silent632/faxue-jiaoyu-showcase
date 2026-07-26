@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import ExpReasoning from "@/components/exp-reasoning";
 import ExpArgumentation from "@/components/exp-argumentation";
@@ -9,8 +10,13 @@ import ExpNormRetrieval from "@/components/exp-norm-retrieval";
 import ExpInterpretation from "@/components/exp-interpretation";
 import ExpValueBalancing from "@/components/exp-value-balancing";
 import ExpAnnotation from "@/components/exp-annotation";
-import { saveExperimentRecord, loadExperimentRecord } from "@/lib/experiment-archive";
+import {
+  loadExperimentRecord,
+  readExperimentArchive,
+  saveExperimentRecord,
+} from "@/lib/experiment-archive";
 import { ModuleHistory } from "@/components/experiment-progress";
+import { recommendModulesForCase } from "@/lib/learning-loop";
 
 const INTERACTION_MAP = {
   "exp-reasoning": ExpReasoning,
@@ -168,12 +174,13 @@ const TRAINER_STAGES = [
 
 const STAGE_ORDER = { task: 0, review: 1, eval: 2 };
 
-function ExperimentWorkspace({ module: mod, caseItem, tagLabels, onBack }) {
+function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCopy, onBack }) {
   const [output, setOutput] = useState("");
   const [selfScores, setSelfScores] = useState({});
   const [interactionData, setInteractionData] = useState(null);
   const [saved, setSaved] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [completedModuleIds, setCompletedModuleIds] = useState([]);
   const [stage, setStage] = useState("task");
   const trainerRef = useRef(null);
   const reviewRef = useRef(null);
@@ -190,12 +197,20 @@ function ExperimentWorkspace({ module: mod, caseItem, tagLabels, onBack }) {
   }, []);
 
   useEffect(() => {
+    const archive = readExperimentArchive();
+    setCompletedModuleIds(
+      Object.entries(archive)
+        .filter(([, records]) => records?.[caseItem.id])
+        .map(([moduleId]) => moduleId),
+    );
+
     const rec = loadExperimentRecord(mod.id, caseItem.id);
     if (rec) {
       setSelfScores(rec.selfScores || {});
       if (rec.interactionData) setInteractionData(rec.interactionData);
       if (rec.output) setOutput(rec.output);
       setLoaded(true);
+      setSaved(true);
       setStage("eval");
     }
   }, [mod.id, caseItem.id]);
@@ -219,6 +234,7 @@ function ExperimentWorkspace({ module: mod, caseItem, tagLabels, onBack }) {
       caseTitle: caseItem.title,
       dimensionCount: evalDimensions.length,
     });
+    setCompletedModuleIds((current) => [...new Set([...current, mod.id])]);
     setSaved(true);
   }
 
@@ -259,6 +275,9 @@ function ExperimentWorkspace({ module: mod, caseItem, tagLabels, onBack }) {
   }
 
   const isGuidedReading = mod.feedbackStrategy?.type === "guided-reading";
+  const otherModules = recommendModulesForCase(caseItem.jurisprudenceTags, modules)
+    .filter((item) => item.id !== mod.id && !completedModuleIds.includes(item.id));
+  const nextCopy = loopCopy?.experimentNext || {};
 
   return (
     <div className="exp-ws3">
@@ -374,7 +393,7 @@ function ExperimentWorkspace({ module: mod, caseItem, tagLabels, onBack }) {
             {stage === "task" && (
               <div className="exp-ws3-advance">
                 <button className="exp-ws3-advance-btn" disabled={!taskDone} onClick={goReview}>
-                  提交产出，进入双师点评 →
+                  完成产出，进入双师点评 →
                 </button>
                 {!taskDone && (
                   <p className="exp-ws3-advance-hint">先完成上方实验操作（或写满 20 字），再进入点评环节。</p>
@@ -434,7 +453,7 @@ function ExperimentWorkspace({ module: mod, caseItem, tagLabels, onBack }) {
           ) : (
             <div className="exp-ws3-stage-locked">
               <span className="exp-ws3-lock-num">02</span>
-              <span>双师点评 · 提交实验产出后解锁</span>
+              <span>双师点评 · 完成实验产出后解锁</span>
             </div>
           )}
 
@@ -471,6 +490,40 @@ function ExperimentWorkspace({ module: mod, caseItem, tagLabels, onBack }) {
                     <p className="exp-ws3-advance-hint">给全部 {evalDimensions.length} 个维度打分后即可存档。</p>
                   )}
                 </div>
+
+                {saved ? (
+                  <section className="exp-ws3-next" aria-label={nextCopy.title || "下一步"}>
+                    <div className="exp-ws3-next-copy">
+                      <span className="section-eyebrow">{nextCopy.eyebrow}</span>
+                      <h4>{nextCopy.title}</h4>
+                      <p>{nextCopy.description}</p>
+                    </div>
+                    <div className="exp-ws3-next-actions">
+                      <Link className="btn btn-primary" href="/archive">
+                        {nextCopy.archiveLabel}
+                      </Link>
+                      <button className="btn btn-outline" type="button" onClick={handleBack}>
+                        {nextCopy.changeCaseLabel}
+                      </button>
+                    </div>
+                    {otherModules.length ? (
+                      <div className="exp-ws3-next-modules">
+                        <strong>{nextCopy.otherModulesTitle}</strong>
+                        <div>
+                          {otherModules.map((item) => (
+                            <Link
+                              key={item.id}
+                              href={`/experiments/${item.id}?case=${caseItem.id}`}
+                              className="tag"
+                            >
+                              {item.shortName}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
+                  </section>
+                ) : null}
               </div>
             )
           ) : (
@@ -485,8 +538,16 @@ function ExperimentWorkspace({ module: mod, caseItem, tagLabels, onBack }) {
   );
 }
 
-export default function ExperimentShell({ module: mod, cases, tagLabels }) {
+export default function ExperimentShell({ module: mod, modules, cases, tagLabels, loopCopy }) {
+  const searchParams = useSearchParams();
   const [selectedCase, setSelectedCase] = useState(null);
+  const requestedCaseId = searchParams.get("case");
+
+  useEffect(() => {
+    if (!requestedCaseId) return;
+    const matchedCase = cases.find((item) => item.id === requestedCaseId);
+    if (matchedCase) setSelectedCase(matchedCase);
+  }, [cases, requestedCaseId]);
 
   const handleSelect = useCallback((caseItem) => {
     setSelectedCase(caseItem);
@@ -502,8 +563,10 @@ export default function ExperimentShell({ module: mod, cases, tagLabels }) {
     return (
       <ExperimentWorkspace
         module={mod}
+        modules={modules}
         caseItem={selectedCase}
         tagLabels={tagLabels}
+        loopCopy={loopCopy}
         onBack={handleBack}
       />
     );

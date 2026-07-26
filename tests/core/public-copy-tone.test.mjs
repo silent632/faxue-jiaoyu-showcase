@@ -26,7 +26,7 @@ test("showcase content reads like a concise public-facing homepage", () => {
   assert.equal(content.site.title, "裁判文书研习平台");
   assert.match(content.site.subtitle, /法理学教学改革/u);
   assert.equal(Array.isArray(content.nav), true);
-  assert.equal(content.nav.length, 4);
+  assert.equal(content.nav.length, 5);
   assert.ok(content.metrics);
   assert.equal(Object.keys(content.metrics).length >= 4, true);
   assert.ok(content.homeVideoBlock);
@@ -194,6 +194,7 @@ test("experiment feedback copy never leaks internal data field names to students
     ].join("\n");
 
     assert.equal(/ref_legal|ref_issue|ref_fact|laws_json/u.test(studentFacing), false, `module ${mod.id} leaks field names`);
+    assert.equal(/请评价学生|学生的|系统会|顶部 Tab|提交/u.test(studentFacing), false, `module ${mod.id} uses non-student-facing feedback`);
   }
 });
 

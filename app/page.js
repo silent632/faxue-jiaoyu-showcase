@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HomeContinueCard from "@/components/home-continue-card";
 import ShowcaseNav from "@/components/showcase-nav";
 import { getShowcaseCanonicalStudyHref, loadShowcaseCases } from "@/lib/showcase-cases";
 import { buildShowcaseContent } from "@/lib/showcase-content";
@@ -38,6 +39,11 @@ export default async function HomePage() {
   const featuredCases = pickFeaturedCases(cases);
   const homeVideoBlock = content.homeVideoBlock;
   const impactSections = content.impact?.sections ?? [];
+  const homeCaseIndex = cases.map((item) => ({
+    id: item.id,
+    title: item.title,
+    caseNumber: item.caseNumber,
+  }));
 
   const pillars = [
     {
@@ -101,6 +107,12 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+
+        <HomeContinueCard
+          caseIndex={homeCaseIndex}
+          copy={content.learningLoop.homeContinue}
+          userSid="public-showcase"
+        />
 
         {/* 三阶递进 */}
         <section className="homepage-results-grid stagger-in" aria-label="三阶递进">

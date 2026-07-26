@@ -15,6 +15,8 @@ test("course system source includes one dynamic material route instead of six fi
   ];
 
   assert.match(homeSource, /materialDirectory|materialPages/u);
+  assert.match(homeSource, /recommendedCases/u);
+  assert.match(homeSource, /\/cases\/\$\{caseId\}/u);
   assert.equal(existsSync(dynamicRouteUrl), true);
   if (existsSync(dynamicRouteUrl)) {
     const dynamicRouteSource = readFileSync(dynamicRouteUrl, "utf8");

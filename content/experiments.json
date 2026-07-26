@@ -52,14 +52,14 @@
       ],
       "interactionType": "chip-fill",
       "interactionLabel": "素材搭建 + 补写",
-      "description": "从素材池中点选法条与事实素材，填入三段论面板的对应位置（大前提/小前提/结论），再在每个框内补写涵摄过程。训练从规范到事实到结论的完整推理能力。",
+      "description": "从法条和事实素材出发，依次写出大前提、小前提与结论，并检查涵摄过程是否完整连贯。",
       "primaryTags": [
         "syllogism-clear",
         "multi-norm-reasoning"
       ],
       "dualTeacher": {
-        "theoryPrompt": "请检查学生构建的三段论：大前提的法律规范是否准确提取？小前提的事实涵摄是否逐一对应了规范要件？结论是否从前两步逻辑推导而来？有无跳步？",
-        "practicePrompt": "请从裁判实务角度评价：学生选择的法条是否是本案的核心裁判依据？涵摄过程中对事实的概括是否与判决书一致？遗漏了哪些实务中必须考虑的法条？"
+        "theoryPrompt": "检查你的三段论：大前提是否准确，小前提是否逐一对应规范要件，结论能否由前两步推出，推理中有无跳步。",
+        "practicePrompt": "对照裁判实务再看一次：所选法条是否抓住核心依据，事实概括是否与判决一致，还有哪些裁判时不能遗漏的规范。"
       },
       "feedbackStrategy": {
         "type": "field-comparison",
@@ -108,15 +108,15 @@
       ],
       "interactionType": "role-switch-split",
       "interactionLabel": "角色切换 + 对照面板",
-      "description": "顶部 Tab 切换角色视角（原告/控方、被告/辩方），中间左右分栏同时展示双方论证，底部是学生自己的判断区。必须先写完两边，才能解锁「我的判断」面板。",
+      "description": "分别站在双方立场写出规范依据、事实支撑和论证理由，再回应核心争点，形成自己的最终判断。",
       "primaryTags": [
         "clear-dispute",
         "appellate-reversal",
         "burden-of-proof"
       ],
       "dualTeacher": {
-        "theoryPrompt": "请评价学生的论证结构：双方论证是否都有规范依据和事实支撑？学生最终的判断是否回应了双方的核心争点？论证中是否混淆了事实问题与法律问题？",
-        "practicePrompt": "请从诉讼实务角度评价：学生提炼的争点是否抓住了裁判的关键转折？双方论证中哪些是法院实际采纳的？学生的判断与法院的裁判结论差异在哪里？"
+        "theoryPrompt": "检查你的论证结构：双方是否都有规范依据和事实支撑，最终判断是否回应核心争点，事实问题与法律问题有没有混淆。",
+        "practicePrompt": "对照诉讼实务再看一次：争点是否抓住裁判转折，哪些理由被法院采纳，你的判断与裁判结论差在哪里。"
       },
       "feedbackStrategy": {
         "type": "field-comparison",
@@ -165,22 +165,22 @@
       ],
       "interactionType": "chip-select-reveal",
       "interactionLabel": "芯片选择 + 揭示对照",
-      "description": "上方只展示案件事实（不给法条），学生从规范池中选择适用的法律并排列优先级，写明选择理由。完成后点击「揭示法院选择」，展示法院实际援引的法条做对照。",
+      "description": "先依据案件事实独立选择适用规范、排列优先级并写明理由，再与法院实际援引的法条逐项对照。",
       "primaryTags": [
         "norm-competition",
         "cross-domain",
         "judicial-interpretation"
       ],
       "dualTeacher": {
-        "theoryPrompt": "请评价学生的找法路径：选择的法律渊源层级是否正确（法律 > 行政法规 > 司法解释）？是否遗漏了应当适用的特别法或新法？排列的优先级是否符合法律适用规则？",
-        "practicePrompt": "请从裁判实务角度评价：学生选择的法条与法院实际援引的差异在哪里？法院为什么选了某些学生没选的法条？实务中法官找法的常见路径是什么？"
+        "theoryPrompt": "检查你的找法路径：法律渊源层级是否正确，有没有遗漏特别法或新法，优先级是否符合法律适用规则。",
+        "practicePrompt": "对照法院实际援引的法条，找出命中、遗漏和多选，并追问法院为什么采用了与你不同的规范路径。"
       },
       "feedbackStrategy": {
         "type": "reveal-comparison",
         "fields": [
           "laws_json"
         ],
-        "instruction": "完成选择并写明理由后，点击「揭示法院选择」，系统会把你的选择与法院实际援引的法条逐条对照，标出命中、遗漏与多选。"
+        "instruction": "完成选择并写明理由后，点击「揭示法院选择」，逐条查看命中、遗漏与多选，再修正自己的找法路径。"
       },
       "selfEvaluation": {
         "instruction": "请对自己的规范检索结果进行自评，每个维度用 1–5 分评价。",
@@ -222,14 +222,14 @@
       ],
       "interactionType": "multi-column-compare",
       "interactionLabel": "多栏并写 + 择优判断",
-      "description": "同一个条文、同一个争议场景，三列并排，学生分别用文义解释、体系解释、目的解释写出各自的结论。底部选择最合理的解释方法并说明理由。",
+      "description": "围绕同一条文分别运用文义、体系和目的解释，比较三种结论后选择最合理的方法并说明理由。",
       "primaryTags": [
         "concept-boundary",
         "guiding-case"
       ],
       "dualTeacher": {
-        "theoryPrompt": "请评价学生对三种解释方法的运用：文义解释是否忠实于条文字面？体系解释是否考虑了相关条文的上下文？目的解释是否准确把握了立法目的？最终的方法选择理由是否有说服力？",
-        "practicePrompt": "请从裁判实务角度看：法院在本案中实际使用了哪种解释方法？实务中法官通常优先使用哪种方法？学生的解释结论与法院的裁判结果是否一致？不一致的原因是什么？"
+        "theoryPrompt": "检查你的三种解释：文义解释是否忠实于条文，体系解释是否照顾上下文，目的解释是否把握制度功能，择优理由是否充分。",
+        "practicePrompt": "对照法院说理，判断裁判实际采用了哪种解释方法，你的结论与裁判结果是否一致，差异由什么造成。"
       },
       "feedbackStrategy": {
         "type": "guided-reading",
@@ -277,15 +277,15 @@
       ],
       "interactionType": "scale-slider",
       "interactionLabel": "天平模型 + 滑块表态",
-      "description": "左右两侧分别代表冲突的两种价值，学生在每侧写论证理由。中间滑块表示衡量倾向——滑块位置不算最终答案，下方必须写出完整的衡量理由。",
+      "description": "识别相互冲突的两种价值，为双方分别写出法理依据，再用完整理由说明最终衡量结论。",
       "primaryTags": [
         "value-tension",
         "principle-clause",
         "public-interest"
       ],
       "dualTeacher": {
-        "theoryPrompt": "请评价学生的价值衡量：是否准确识别了冲突的价值对？双方论证是否都有法理依据？最终的衡量结论是否给出了充分的理由？是否考虑了比例原则？",
-        "practicePrompt": "请从裁判实务角度看：法院在本案中实际偏向了哪种价值？这种偏向是显性的（在说理中明确表达）还是隐性的（需要从裁判结果倒推）？学生的衡量结论与法院的实际选择一致吗？"
+        "theoryPrompt": "检查你的价值衡量：价值冲突是否识别准确，双方是否都有法理依据，最终理由是否充分并回应比例原则。",
+        "practicePrompt": "对照裁判结果，判断法院实际偏向哪种价值、这种选择是否明说，以及你的衡量结论与法院有何差异。"
       },
       "feedbackStrategy": {
         "type": "guided-reading",
@@ -333,7 +333,7 @@
       ],
       "interactionType": "inline-annotation",
       "interactionLabel": "逐段标注 + 标签系统",
-      "description": "对本案的说理结构逐段批注——点击段落，从工具栏选择标签类型（大前提/小前提/结论/解释方法/推理跳步），该段被高亮标记。最后写一段整体说理评价。",
+      "description": "逐段识别裁判说理中的大前提、小前提、结论、解释方法和推理跳步，最后形成整体说理评价。",
       "primaryTags": [
         "reasoning-rich",
         "reasoning-contested",
@@ -367,8 +367,8 @@
         }
       ],
       "dualTeacher": {
-        "theoryPrompt": "请评价学生的批注：三段论各环节的标注是否准确？有没有遗漏应当标注的段落？对推理跳步的识别是否正确？整体评价中是否运用了法理学的说理标准？",
-        "practicePrompt": "请从裁判实务角度看：学生批注的重点与实务中法官写作裁判文书的结构是否对应？对「推理跳步」的判断是否考虑了实务中说理简化的惯例？整体评价是否公允？"
+        "theoryPrompt": "检查你的批注：三段论各环节是否标注准确，有无遗漏，对推理跳步的识别是否符合说理标准。",
+        "practicePrompt": "对照裁判文书的实际写作结构，判断你标出的推理跳步是否只是合理简化，整体评价是否公允。"
       },
       "feedbackStrategy": {
         "type": "guided-reading",

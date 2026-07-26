@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import { getShowcaseCanonicalDemoCaseId, getShowcaseCaseById } from "../../lib/showcase-cases.js";
 import {
@@ -57,4 +58,20 @@ test("submitStudyWorkspace returns public showcase guidance instead of network s
   assert.equal(/提交入口/u.test(result.message), false);
   assert.equal(/暂未开放/u.test(result.message), false);
   assert.equal(/公开展示模式/u.test(result.message), false);
+});
+
+test("completed study actions expose case-preserving experiment links", () => {
+  const actionsSource = readFileSync(
+    new URL("../../components/study-workspace-actions.js", import.meta.url),
+    "utf8",
+  );
+  const studySource = readFileSync(
+    new URL("../../components/study-workspace.js", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(actionsSource, /doneCount === 3/u);
+  assert.match(actionsSource, /\/experiments\/\$\{item\.id\}\?case=\$\{caseId\}/u);
+  assert.match(actionsSource, /\/archive/u);
+  assert.match(studySource, /recommendedModules/u);
 });

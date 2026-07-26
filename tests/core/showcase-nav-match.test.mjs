@@ -12,6 +12,7 @@ test("showcase nav matcher treats case and study routes as section-aware", () =>
   // 视频播放页归属课程认知板块
   assert.equal(isShowcaseNavItemActive("/resources/videos/course-period-01", { matchPrefix: "/courses" }), true);
   assert.equal(isShowcaseNavItemActive("/experiments/exp-reasoning", { matchPrefix: "/experiments" }), true);
+  assert.equal(isShowcaseNavItemActive("/archive", { matchPrefix: "/archive" }), true);
   assert.equal(isShowcaseNavItemActive("/impact", { matchPrefix: "/cases" }), false);
 });
 
@@ -21,7 +22,7 @@ test("showcase nav matcher keeps five-section boundaries with content nav items"
   const coursesItem = navItems.find((item) => item.matchPrefix === "/courses");
   const homeItem = navItems.find((item) => item.href === "/");
 
-  assert.equal(navItems.length, 4);
+  assert.equal(navItems.length, 5);
   assert.equal(casesItem?.label, "案例研习");
   assert.equal(coursesItem?.label, "课程认知");
 

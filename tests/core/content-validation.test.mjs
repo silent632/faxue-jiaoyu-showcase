@@ -46,6 +46,9 @@ test("period 01 course content loads from migrated content source", () => {
 });
 
 test("all public course content loads from migrated content sources", () => {
+  const cases = JSON.parse(readFileSync(new URL("../../data/generated/cases-extracted.json", import.meta.url), "utf8"));
+  const caseIds = new Set(cases.map((item) => item.case_id));
+
   for (let index = 1; index <= 8; index += 1) {
     const slug = `course-period-${String(index).padStart(2, "0")}`;
     const profile = loadCourseContentProfileSource(slug);
@@ -54,6 +57,9 @@ test("all public course content loads from migrated content sources", () => {
     assert.ok(profile.periodSummary.theme);
     assert.ok(profile.coreQuestions.length >= 3);
     assert.ok(profile.contentFlow.length >= 3);
+    assert.ok(profile.recommendedCases.length >= 3 && profile.recommendedCases.length <= 4);
+    assert.ok(profile.recommendedCases.every((item) => caseIds.has(item.caseId)));
+    assert.ok(profile.recommendedCases.every((item) => item.reason.trim().length > 0));
   }
 });
 

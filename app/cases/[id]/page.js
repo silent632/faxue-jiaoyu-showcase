@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import CasePdfDisclosure from "@/components/case-pdf-disclosure";
+import CaseLoopProgress from "@/components/case-loop-progress";
 import ShowcaseNav from "@/components/showcase-nav";
 import {
   buildCaseReadingJudgment,
@@ -13,6 +14,9 @@ import {
   sanitizeSummaryForReading,
 } from "@/lib/case-presentation.mjs";
 import { normalizePublicFileName, publicFileExists } from "@/lib/data/public-files.js";
+import { getExperimentModules } from "@/lib/experiments.js";
+import { recommendModulesForCase } from "@/lib/learning-loop.js";
+import { buildShowcaseContent } from "@/lib/showcase-content.js";
 import { getShowcaseCaseById, getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
 
 function compactText(value) {
@@ -94,6 +98,8 @@ export default async function CaseDetailPage({ params }) {
 
   const metaRows = buildMetaRows(caseItem);
   const detailMetaLine = joinMetaParts([caseItem.caseNumber, caseItem.courtName, caseItem.judgmentDate]);
+  const loopCopy = buildShowcaseContent().learningLoop;
+  const recommendedModules = recommendModulesForCase(caseItem.jurisprudenceTags, getExperimentModules());
 
   const jumpLinks = [
     { href: "#case-reading-judgment", label: "导读判断" },
@@ -128,6 +134,11 @@ export default async function CaseDetailPage({ params }) {
               <p className="case-detail-kicker">案例导读判断</p>
               <h1 className="case-detail-title">{caseItem.title}</h1>
               <p className="case-detail-meta-line">{detailMetaLine}</p>
+              <CaseLoopProgress
+                caseId={caseItem.id}
+                userSid="public-showcase"
+                copy={loopCopy.caseProgress}
+              />
               <p className="case-detail-lead">{leadText}</p>
 
               {/* Jump links — merged from roadmap */}
@@ -188,6 +199,30 @@ export default async function CaseDetailPage({ params }) {
             </div>
           </div>
         </section>
+
+        {recommendedModules.length ? (
+          <section className="showcase-card case-training-modules" aria-label={loopCopy.caseDetail.title}>
+            <div className="case-training-head">
+              <span className="section-eyebrow">{loopCopy.caseDetail.eyebrow}</span>
+              <h2>{loopCopy.caseDetail.title}</h2>
+              <p>{loopCopy.caseDetail.description}</p>
+            </div>
+            <div className="case-training-grid">
+              {recommendedModules.map((item) => (
+                <Link
+                  key={item.id}
+                  className="case-training-card"
+                  href={`/experiments/${item.id}?case=${caseItem.id}`}
+                >
+                  <span>{item.shortName}</span>
+                  <strong>{item.name}</strong>
+                  <small>{item.skill}</small>
+                  <em>{loopCopy.caseDetail.actionLabel} →</em>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="case-detail-grid">
           <section id="case-basic-info" className="showcase-card case-detail-panel">
