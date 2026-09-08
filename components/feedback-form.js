@@ -3,16 +3,17 @@ import {useEffect,useState} from 'react';
 import {buildFeedbackMail} from '../lib/feedback-mail.js';
 const KEY='faxue-feedback-draft-v1';
 export default function FeedbackForm({config}){
+ const [ready,setReady]=useState(false);
  const [text,setText]=useState('');const [category,setCategory]=useState('操作问题');const [source,setSource]=useState('');const [notice,setNotice]=useState('');
- useEffect(()=>{try{const saved=JSON.parse(sessionStorage.getItem(KEY)||'{}');setText(typeof saved.text==='string'?saved.text:'');setCategory(['操作问题','内容疑问','功能建议','其他'].includes(saved.category)?saved.category:'操作问题');const from=new URLSearchParams(location.search).get('from');setSource(from?.startsWith('/')&&!from.startsWith('//')?from.split(/[?#]/)[0]:saved.source||'');}catch{/* 草稿损坏不阻断反馈入口。 */}},[]);
+ useEffect(()=>{try{const saved=JSON.parse(sessionStorage.getItem(KEY)||'{}');setText(typeof saved.text==='string'?saved.text:'');setCategory(['操作问题','内容疑问','功能建议','其他'].includes(saved.category)?saved.category:'操作问题');const from=new URLSearchParams(location.search).get('from');setSource(from?.startsWith('/')&&!from.startsWith('//')?from.split(/[?#]/)[0]:saved.source||'');}catch{/* 草稿损坏不阻断反馈入口。 */}finally{setReady(true);}},[]);
  function update(next){const data={text,category,source,...next};setText(data.text);setCategory(data.category);setSource(data.source);try{sessionStorage.setItem(KEY,JSON.stringify(data));setNotice('内容暂存在本次浏览器会话，尚未提交。');}catch{setNotice('浏览器无法暂存内容，请先复制保存。');}}
  const summary=`反馈类型：${category}\n问题页面：${source||'未指定'}\n具体描述：\n${text}`;
  const mail=buildFeedbackMail(config.email||'',category,summary);
  async function copy(){try{await navigator.clipboard.writeText(summary);setNotice('已复制反馈内容。请粘贴到邮件或意见表单，并自行确认发送；当前尚未发送。');}catch{setNotice('复制未成功，请手动选中下方内容复制。');}}
  return <section className="showcase-card help-card feedback-form"><h2>把你的经历告诉我们</h2><p>请描述遇到的问题、操作步骤或改进建议。可以先在下方整理意见，再通过邮件发送；点击联系按钮会打开邮件应用，仍需你确认发送。</p>
- <label htmlFor="feedback-type">反馈类型</label><select id="feedback-type" value={category} onChange={e=>update({category:e.target.value})}>{['操作问题','内容疑问','功能建议','其他'].map(v=><option key={v}>{v}</option>)}</select>
- <label htmlFor="feedback-source">问题所在页面（可修改）</label><input id="feedback-source" value={source} maxLength={500} onChange={e=>update({source:e.target.value})} placeholder="例如 /courses/course-period-01/"/>
- <label htmlFor="feedback-description">具体描述</label><textarea id="feedback-description" rows={6} maxLength={5000} value={text} onChange={e=>update({text:e.target.value})} placeholder="你在哪一步遇到了什么问题？希望怎样改善？"/>
+ <label htmlFor="feedback-type">反馈类型</label><select disabled={!ready} id="feedback-type" value={category} onChange={e=>update({category:e.target.value})}>{['操作问题','内容疑问','功能建议','其他'].map(v=><option key={v}>{v}</option>)}</select>
+ <label htmlFor="feedback-source">问题所在页面（可修改）</label><input disabled={!ready} id="feedback-source" value={source} maxLength={500} onChange={e=>update({source:e.target.value})} placeholder="例如 /courses/course-period-01/"/>
+ <label htmlFor="feedback-description">具体描述</label><textarea disabled={!ready} id="feedback-description" rows={6} maxLength={5000} value={text} onChange={e=>update({text:e.target.value})} placeholder="你在哪一步遇到了什么问题？希望怎样改善？"/>
  <p className="help-caption">{config.privacy}</p>
  {config.email && <div className="feedback-email"><p>直接联系：<a href={`mailto:${config.email}`}>{config.email}</a></p><div className="help-actions"><button type="button" className="btn btn-outline" disabled={!text.trim()} onClick={copy}>复制反馈内容</button>{text.trim() ? <a className="btn btn-accent" href={mail.href}>通过邮件反馈</a> : <a className="btn btn-outline" href={`mailto:${config.email}`}>打开邮件联系</a>}</div><p>{mail.copyRequired ? '意见较长，请先复制反馈内容，再粘贴到邮件正文，避免邮件应用截断内容。' : '邮件草稿会带入反馈类型、问题页面与描述。请在邮件应用中确认内容并发送。'}若没有打开邮件应用，可复制邮箱和内容，使用网页版邮箱发送。网站不会自动发送邮件，也无法确认邮件是否送达。</p></div>}
 

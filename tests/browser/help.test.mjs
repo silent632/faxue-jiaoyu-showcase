@@ -36,3 +36,13 @@ test('欢迎信显示反馈邀请与准确邮箱，邮件反馈保留类型、�
  await page.keyboard.press('Escape');await page.goto(origin+'/help/feedback/?from=%2Fcases%2Fcase-0012%2F');await page.getByLabel('具体描述').fill('希望补充权利与义务的概念解释。');const href=await page.getByRole('link',{name:'通过邮件反馈',exact:true}).getAttribute('href');const url=new URL(href);assert.equal(url.pathname,'yuqingliao486@gmail.com');assert.match(url.searchParams.get('body'),/case-0012/);assert.match(url.searchParams.get('body'),/权利与义务/);assert.doesNotMatch(await page.locator('.feedback-form').innerText(),/正在配置|已发送成功/);
  await page.getByLabel('具体描述').fill('需要详细描述的问题。'.repeat(250));const long=new URL(await page.getByRole('link',{name:'通过邮件反馈',exact:true}).getAttribute('href'));assert.equal(long.searchParams.has('body'),false);assert.match(await page.locator('.feedback-form').innerText(),/意见较长，请先复制/);
 },{viewport:{width:375,height:812}}));
+
+test('脚本慢加载时先恢复草稿再开放输入，邮件正文不丢失首次输入',()=>pageWith(async page=>{
+ await page.addInitScript(()=>localStorage.setItem('faxue-welcome-dismissed','2026-welcome-1'));
+ await page.route('**/*.js',async route=>{await new Promise(r=>setTimeout(r,400));await route.continue();});
+ await page.goto(origin+'/help/feedback/',{waitUntil:'commit'});
+ await page.getByLabel('具体描述').fill('首次输入必须保留');
+ await page.waitForTimeout(500);
+ assert.equal(await page.getByLabel('具体描述').inputValue(),'首次输入必须保留');
+ assert.match(new URL(await page.getByRole('link',{name:'通过邮件反馈',exact:true}).getAttribute('href')).searchParams.get('body'),/首次输入必须保留/);
+}));
