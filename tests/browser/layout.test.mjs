@@ -10,7 +10,7 @@ test('页面类型矩阵：四种宽度、明暗模式、真实操作区边界�
  const failures=[];
  try {
  for(const width of [375,390,768,1280]) for(const colorScheme of ['light','dark']) {
-  const context=await browser.newContext({viewport:{width,height:900},colorScheme});const page=await context.newPage();
+  const context=await browser.newContext({viewport:{width,height:900},colorScheme});await context.addInitScript(()=>localStorage.setItem("faxue-welcome-dismissed","2026-welcome-1"));const page=await context.newPage();
   page.on('pageerror',e=>failures.push(e.message));
   for(const route of routes){
    const response=await page.goto(origin+route,{waitUntil:"domcontentloaded"});assert.equal(response.status(),200,route);

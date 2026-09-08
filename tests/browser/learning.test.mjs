@@ -20,6 +20,7 @@ after(async () => { await browser?.close(); await new Promise((resolve) => serve
 
 async function withPage(run, options = {}) {
   const context = await browser.newContext(options);
+  await context.addInitScript(() => localStorage.setItem("faxue-welcome-dismissed", "2026-welcome-1"));
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));

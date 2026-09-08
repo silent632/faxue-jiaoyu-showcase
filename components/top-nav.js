@@ -3,6 +3,7 @@
 import { getAllProgress } from "@/lib/experiment-archive";
 import { listLocalRecordKeys, subscribeRecords } from "@/lib/local-record";
 import Link from "next/link";
+import FeedbackLink from "./feedback-link";
 import { usePathname } from "next/navigation";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { isShowcaseNavItemActive } from "@/lib/showcase-nav-match";
@@ -186,7 +187,7 @@ export default function TopNav({ user, items }) {
           })}
         </nav>
 
-        <div className="sidenav-foot">
+        <div className="sidenav-foot"><FeedbackLink/>
           <div className="sidenav-stats">
             <div className="sidenav-stat">
               <strong>{stats.cases}</strong>

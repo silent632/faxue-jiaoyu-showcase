@@ -16,13 +16,13 @@ test("showcase nav matcher treats case and study routes as section-aware", () =>
   assert.equal(isShowcaseNavItemActive("/impact", { matchPrefix: "/cases" }), false);
 });
 
-test("showcase nav matcher keeps five-section boundaries with content nav items", () => {
+test("showcase nav matcher keeps learning and help section boundaries with content nav items", () => {
   const navItems = buildShowcaseContent().nav;
   const casesItem = navItems.find((item) => item.matchKind === "cases");
   const coursesItem = navItems.find((item) => item.matchPrefix === "/courses");
   const homeItem = navItems.find((item) => item.href === "/");
 
-  assert.equal(navItems.length, 5);
+  assert.equal(navItems.length, 6);
   assert.equal(casesItem?.label, "案例研习");
   assert.equal(coursesItem?.label, "课程认知");
 

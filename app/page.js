@@ -84,6 +84,7 @@ export default async function HomePage() {
       <ShowcaseNav items={content.nav} />
 
       <div className="showcase-page-body">
+        <section className="home-newcomer" aria-label="使用指南入口"><div><strong>从这里，开始法理学探索</strong><p>从一个真实案例出发，开始你的法理学探索。</p></div><Link className="btn btn-outline" href="/help/guide/">查看使用指南 →</Link></section>
         {/* Hero */}
         <section className="showcase-card" aria-label="平台概览">
           <div className="homepage-console-main">

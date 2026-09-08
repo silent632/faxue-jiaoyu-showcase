@@ -9,8 +9,8 @@ test("shared nav builder aligns content nav and route matching semantics", () =>
   const content = buildShowcaseContent();
 
   assert.deepEqual(content.nav, navItems);
-  assert.deepEqual(navItems.map((item) => item.href), ["/", "/courses", "/cases", "/experiments", "/archive"]);
-  assert.deepEqual(navItems.map((item) => item.label), ["首页", "课程认知", "案例研习", "仿真实验", "研习档案"]);
+  assert.deepEqual(navItems.map((item) => item.href), ["/", "/courses", "/cases", "/experiments", "/archive", "/help"]);
+  assert.deepEqual(navItems.map((item) => item.label), ["首页", "课程认知", "案例研习", "仿真实验", "研习档案", "帮助与反馈"]);
 
   const casesItem = navItems.find((item) => item.matchKind === "cases");
   assert.equal(isShowcaseNavItemActive("/cases/case-0001", casesItem), true);

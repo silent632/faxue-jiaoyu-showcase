@@ -26,7 +26,7 @@ test("showcase content reads like a concise public-facing homepage", () => {
   assert.equal(content.site.title, "裁判文书研习平台");
   assert.match(content.site.subtitle, /法理学教学改革/u);
   assert.equal(Array.isArray(content.nav), true);
-  assert.equal(content.nav.length, 5);
+  assert.equal(content.nav.length, 6);
   assert.ok(content.metrics);
   assert.equal(Object.keys(content.metrics).length >= 4, true);
   assert.ok(content.homeVideoBlock);

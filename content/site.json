@@ -29,6 +29,11 @@
       "label": "研习档案",
       "href": "/archive",
       "matchPrefix": "/archive"
+    },
+    {
+      "label": "帮助与反馈",
+      "href": "/help",
+      "matchPrefix": "/help"
     }
   ],
   "metrics": {

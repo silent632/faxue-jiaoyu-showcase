@@ -22,13 +22,14 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
 
   assert.equal(content.site.title, "裁判文书研习平台");
 
-  // 五项主导航（成效展示已合并到首页，研习档案独立成页）
+  // 学习入口之外提供固定帮助与反馈入口
   assert.deepEqual(content.nav.map((item) => item.label), [
     "首页",
     "课程认知",
     "案例研习",
     "仿真实验",
     "研习档案",
+    "帮助与反馈",
   ]);
   assert.deepEqual(content.nav.map((item) => item.href), [
     "/",
@@ -36,6 +37,7 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
     "/cases",
     "/experiments",
     "/archive",
+    "/help",
   ]);
 
   // 平台指标：标签唯一、无重复数值口径
