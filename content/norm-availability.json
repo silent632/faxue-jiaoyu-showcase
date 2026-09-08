@@ -1,0 +1,2261 @@
+{
+  "scope": "75个候选案例的任务可用性核对，不代表整篇法条已核对。被排除条目保留原文阅读和旧数据；不产生空参考答案。",
+  "cases": {
+    "case-0001": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 13,
+      "sourceSha256": "01a58c2c4e4b2c2d834f9af32f49c51db6e713d5693d39a3b769cf349a8afe6c",
+      "originalLaws": [
+        {
+          "law": "刑法",
+          "article": "第一百五十一条第三款",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "刑事诉讼法",
+          "article": "第十五条",
+          "displayLaw": "刑事诉讼法"
+        },
+        {
+          "law": "最高法刑诉法解释",
+          "article": "第三百六十五条第二款",
+          "displayLaw": "最高法刑诉法解释"
+        }
+      ]
+    },
+    "case-0003": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 7,
+      "sourceSha256": "5fc08f41378fcdbfd8cb675b67b685410d6946e73c92ee3b37a5d21577df9155",
+      "originalLaws": [
+        {
+          "law": "道路交通安全法",
+          "article": "第七十六条",
+          "displayLaw": "道路交通安全法"
+        },
+        {
+          "law": "最高人民法院关于案例指导工作的规定",
+          "article": "第七条",
+          "displayLaw": "案例指导规定"
+        },
+        {
+          "law": "最高人民法院关于统一法律适用加强类案检索的指导意见(试行)",
+          "article": "第十条",
+          "displayLaw": "类案检索指导意见"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0005": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 15,
+      "sourceSha256": "c45a8ace57ce577941fc04f15d7d5eaf1ebedc031410efee59aaab4d3d69633a",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于审理民事案件适用诉讼时效制度若干问题的规定",
+          "article": "第一条",
+          "displayLaw": "诉讼时效规定"
+        },
+        {
+          "law": "物权法",
+          "article": "第二十八条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第四百九十一条",
+          "displayLaw": "民诉法解释"
+        }
+      ]
+    },
+    "case-0006": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 11,
+      "sourceSha256": "3fd54ab45acb0fca0526b6c77a1856486176dd9eeae5f638bcdc7d7d37e04fbe",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于民事诉讼证据的若干规定",
+          "article": "第四十条",
+          "displayLaw": "民诉证据规定"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条第一款第二项",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百六十四条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "民事诉讼证据规定",
+          "article": "第四十条",
+          "displayLaw": "民事诉讼证据规定"
+        }
+      ]
+    },
+    "case-0012": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 8,
+      "sourceSha256": "48a5682415da00385032bceb1de2a22bbf742fc29cce0439a88a30809f6f97b9",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《民法典》时间效力的若干规定",
+          "article": "第一条",
+          "displayLaw": "民法典时间效力规定"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0015": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "f747ebb5b1386024ce6786826a5cac00917a26cfd9ab6e5b18fe59a44b8a2b9d",
+      "originalLaws": [
+        {
+          "law": "担保法",
+          "article": "第二十六条第二款",
+          "displayLaw": "担保法"
+        },
+        {
+          "law": "担保法司法解释",
+          "article": "第三十条第二款",
+          "displayLaw": "担保法司法解释"
+        },
+        {
+          "law": "贷款通则",
+          "article": "第十二条",
+          "displayLaw": "贷款通则"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百零四条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0016": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 12,
+      "sourceSha256": "448950bfc9521aff953f3cff024558336c61c3033aa19c0820c0c4f097484a5c",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于统一法律适用加强类案检索的指导意见（试行）",
+          "article": "第九条",
+          "displayLaw": "类案检索意见"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十条第一款第一项",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第三百三十四条",
+          "displayLaw": "民诉法解释"
+        }
+      ]
+    },
+    "case-0017": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 7,
+      "sourceSha256": "2647ca0073cd6a295faf38469605f6f85890aa416831f8d68a5222c8b60a3c16",
+      "originalLaws": [
+        {
+          "law": "道路交通安全法",
+          "article": "第十九条",
+          "displayLaw": "道路交通安全法"
+        },
+        {
+          "law": "抚州市电动自行车通行管理条例",
+          "article": "第九条",
+          "displayLaw": "抚州电自条例"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条第一款第一项",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院公报",
+          "article": "",
+          "displayLaw": "最高人民法院公报"
+        },
+        {
+          "law": "最高人民法院统一法律适用工作实施办法",
+          "article": "第9条",
+          "displayLaw": "统一法律适用办法"
+        }
+      ]
+    },
+    "case-0020": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 12,
+      "sourceSha256": "96c0380fe1870c2cb334608a77cb81fa3144c29d864ce9c557b4017794758c5f",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《民法典》有关担保制度的解释",
+          "article": "第七十条",
+          "displayLaw": "民法典担保解释"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百三十四条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第三百一十二条",
+          "displayLaw": "民诉法解释"
+        }
+      ]
+    },
+    "case-0021": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 16,
+      "sourceSha256": "6bbd40a6de5d26e44ed4789833053ab7b313459acf475693736e087054d58c2f",
+      "originalLaws": [
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十七条",
+          "displayLaw": "执行异议和复议规定"
+        },
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十八条",
+          "displayLaw": "执行异议和复议规定"
+        },
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十九条",
+          "displayLaw": "执行异议和复议规定"
+        },
+        {
+          "law": "最高人民法院关于商品房消费者权利保护问题的批复",
+          "article": "第二条",
+          "displayLaw": "商品房消费者保护批复"
+        }
+      ]
+    },
+    "case-0024": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 18,
+      "sourceSha256": "00aec171bfb6c950b6fe1b47751bb9c9414c23b376daf4867aada367b680e1af",
+      "originalLaws": [
+        {
+          "law": "行政诉讼法",
+          "article": "第十二条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第四十九条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《行政诉讼法》的解释",
+          "article": "第一条",
+          "displayLaw": "行诉法解释"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第八十九条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "行诉法解释",
+          "article": "第一百一十九条",
+          "displayLaw": "行诉法解释"
+        }
+      ]
+    },
+    "case-0027": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 31,
+      "sourceSha256": "c469b99ab6bc7eaa19b54c56f9aab25dd296ba8f4c651ff9ee2b719779fc3f9e",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第三百一十条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十七条",
+          "displayLaw": "执行异议和复议规定"
+        },
+        {
+          "law": "最高人民法院关于建设工程价款优先受偿权问题的批复",
+          "article": "",
+          "displayLaw": "工程价款优先受偿批复"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十八条",
+          "displayLaw": "执行异议和复议规定"
+        }
+      ]
+    },
+    "case-0030": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 18,
+      "sourceSha256": "23a6831cbbb64a5ef83f95e8bb302e9af22fcb89bef158d7d22c99cb569abab8",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《民法典》时间效力的若干规定",
+          "article": "第一条第二款",
+          "displayLaw": "民法典时间效力规定"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第四百零三条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百一十四条第一款",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条第一款第二项",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0034": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 23,
+      "sourceSha256": "21a1156e783e569485b012cccd5ab238fffb22cac39037c0424a7f455af01574",
+      "originalLaws": [
+        {
+          "law": "涉外民事关系法律适用法",
+          "article": "第三条",
+          "displayLaw": "涉外民事关系法律适用法"
+        },
+        {
+          "law": "民诉法解释",
+          "article": "第二百四十七条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "全国法院民商事审判工作会议纪要",
+          "article": "第71条",
+          "displayLaw": "九民纪要"
+        }
+      ]
+    },
+    "case-0044": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "1f1c05343efd1861975c73cb87459e2bcb1c4b52b534d20666fad73dc08e2152",
+      "originalLaws": [
+        {
+          "law": "行政诉讼法",
+          "article": "第六十九条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第七十条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "最高人民法院关于审理专利授权确权行政案件适用法律若干问题的规定（一）",
+          "article": "第二十四条",
+          "displayLaw": "专利授权确权规定"
+        }
+      ]
+    },
+    "case-0048": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "91de8f7539de5200c0df0a001518f7403f3f91d780ec970fb3a672d477029639",
+      "originalLaws": [
+        {
+          "law": "建设项目环境保护管理条例",
+          "article": "第十九条",
+          "displayLaw": "建设项目环境保护管理条例"
+        },
+        {
+          "law": "建设项目环境保护管理条例",
+          "article": "第二十三条",
+          "displayLaw": "建设项目环境保护管理条例"
+        },
+        {
+          "law": "行政处罚法",
+          "article": "第四条",
+          "displayLaw": "行政处罚法"
+        },
+        {
+          "law": "行政处罚法",
+          "article": "第二十七条",
+          "displayLaw": "行政处罚法"
+        },
+        {
+          "law": "环境行政处罚办法",
+          "article": "第六条",
+          "displayLaw": "环境行政处罚办法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第七十条",
+          "displayLaw": "行政诉讼法"
+        }
+      ]
+    },
+    "case-0050": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "449cb7b0347e4ec96a5147765b48b786fe4c626c6ed65ae2bac6762578d71ea9",
+      "originalLaws": [
+        {
+          "law": "刑法",
+          "article": "第三百四十三条",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "刑法",
+          "article": "第二十五条",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "刑法",
+          "article": "第二十六条",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "长江保护法",
+          "article": "第二十八条",
+          "displayLaw": "长江保护法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第五十八条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0051": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 6,
+      "sourceSha256": "d4859352426a66a25f019424cfe4f7f5f02e0a4d3224955175fc31044bfef09c",
+      "originalLaws": [
+        {
+          "law": "刑法",
+          "article": "第二百五十三条",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "刑法",
+          "article": "第六十七条第三款",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "刑事诉讼法",
+          "article": "第十五条",
+          "displayLaw": "刑事诉讼法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第五十五条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0055": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "ec376967e7b805e6f09c128ae6bc0016c6908922f3bde4b19486cdc1939a00b7",
+      "originalLaws": [
+        {
+          "law": "环境民事公益诉讼解释",
+          "article": "第一条",
+          "displayLaw": "环境民事公益诉讼解释"
+        },
+        {
+          "law": "环境影响评价法",
+          "article": "第二十四条",
+          "displayLaw": "环境影响评价法"
+        },
+        {
+          "law": "环境影响评价法",
+          "article": "第二十七条",
+          "displayLaw": "环境影响评价法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0065": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 13,
+      "sourceSha256": "5ff865adf41960943ffecef97e0738c63af8586e15bc97589b49cdafb37ac8a7",
+      "originalLaws": [
+        {
+          "law": "刑法",
+          "article": "第二十条第一款",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "最高人民法院关于适用《民法典》时间效力的若干规定",
+          "article": "第一条第二款",
+          "displayLaw": "民法典时间效力规定"
+        },
+        {
+          "law": "刑事诉讼法",
+          "article": "第二百三十六条第一款",
+          "displayLaw": "刑事诉讼法"
+        }
+      ]
+    },
+    "case-0068": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 21,
+      "sourceSha256": "8447fe06f928370c0a966482f79b01fc15f0c001d03ea7f73fe97a147c712052",
+      "originalLaws": [
+        {
+          "law": "刑法",
+          "article": "第二百八十五条",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "刑法",
+          "article": "第一百八十条",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "证券法",
+          "article": "第七十五条",
+          "displayLaw": "证券法"
+        },
+        {
+          "law": "刑法",
+          "article": "第五十二条",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "刑事诉讼法",
+          "article": "第一百九十五条第三项",
+          "displayLaw": "刑事诉讼法"
+        },
+        {
+          "law": "刑事诉讼法",
+          "article": "第二百三十六条第一款第三项",
+          "displayLaw": "刑事诉讼法"
+        }
+      ]
+    },
+    "case-0073": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 20,
+      "sourceSha256": "48fd967b34444a8fc3bdf3e1f0e568ca6ab2b4fc633df91e0a0e740fcbb2dcea",
+      "originalLaws": [
+        {
+          "law": "刑法",
+          "article": "第二十条第一款",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "最高人民法院、最高人民检察院、公安部关于依法适用正当防卫制度的指导意见",
+          "article": "第九条",
+          "displayLaw": "正当防卫指导意见"
+        },
+        {
+          "law": "刑事诉讼法",
+          "article": "第二百三十六条第一款",
+          "displayLaw": "刑事诉讼法"
+        }
+      ]
+    },
+    "case-0080": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 12,
+      "sourceSha256": "2caa3ed1e7042b2915a263b9b70c785b967d7ea6bf3437ca1fe7cb1f4adf0642",
+      "originalLaws": [
+        {
+          "law": "刑法",
+          "article": "第64条",
+          "displayLaw": "刑法"
+        },
+        {
+          "law": "最高人民法院关于刑事裁判涉财产部分执行的若干规定",
+          "article": "第13条",
+          "displayLaw": "刑事涉财产执行规定"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百一十一条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院关于人民法院执行工作若干问题的规定（试行）",
+          "article": "第71条",
+          "displayLaw": "执行工作规定"
+        }
+      ]
+    },
+    "case-0081": {
+      "status": "excluded",
+      "reason": "案例案号与来源内容存在冲突，不作为规范答案",
+      "sourceSha256": "077df4abffd44941b22b73f09fc3b487e35dff4b12f4b487703c005b9cccf1d6",
+      "originalLaws": [
+        {
+          "law": "环境保护法",
+          "article": "第六十四条",
+          "displayLaw": "环境保护法"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第十二条",
+          "displayLaw": "侵权责任法"
+        }
+      ]
+    },
+    "case-0086": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 32,
+      "sourceSha256": "c5d7c1babc50cd6f0c705a0fbbcc26c070e88c8c70b90386f7939753b0b9c352",
+      "originalLaws": [
+        {
+          "law": "环境保护法",
+          "article": "第五十八条",
+          "displayLaw": "环境保护法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第五十五条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第二条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第四条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第六十五条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第六十六条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0090": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 34,
+      "sourceSha256": "5aa4ef9088a149c2e7ba57941c9bb0078cf4df143bed135b3fb0d23da5c088c0",
+      "originalLaws": [
+        {
+          "law": "虚假陈述案件若干规定",
+          "article": "第十八条",
+          "displayLaw": "虚假陈述若干规定"
+        },
+        {
+          "law": "虚假陈述案件若干规定",
+          "article": "第二十条",
+          "displayLaw": "虚假陈述若干规定"
+        },
+        {
+          "law": "证券法",
+          "article": "第一百九十三条",
+          "displayLaw": "证券法"
+        },
+        {
+          "law": "代表人诉讼若干规定",
+          "article": "第六条",
+          "displayLaw": "代表人诉讼若干规定"
+        },
+        {
+          "law": "代表人诉讼若干规定",
+          "article": "第七条",
+          "displayLaw": "代表人诉讼若干规定"
+        },
+        {
+          "law": "代表人诉讼若干规定",
+          "article": "第十条",
+          "displayLaw": "代表人诉讼若干规定"
+        },
+        {
+          "law": "代表人诉讼若干规定",
+          "article": "第十六条",
+          "displayLaw": "代表人诉讼若干规定"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0094": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 17,
+      "sourceSha256": "329b3db5948022d7a142d4ea7dd338031c83b8ebfa83259ae6e3fd696a933a97",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《民法典》时间效力的若干规定",
+          "article": "第一条",
+          "displayLaw": "民法典时间效力规定"
+        },
+        {
+          "law": "海商法",
+          "article": "第二百五十二条",
+          "displayLaw": "海商法"
+        },
+        {
+          "law": "最高人民法院关于审理海上保险纠纷案件若干问题的规定",
+          "article": "第十四条",
+          "displayLaw": "审理海上保险纠纷规定"
+        }
+      ]
+    },
+    "case-0102": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "3ee26fca6f7e036a7a7f834a65ff574e871fbf48036f7a6deece82776c697a06",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第九十条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "最高人民法院关于审理涉及夫妻债务纠纷案件适用法律有关问题的解释",
+          "article": "第三条",
+          "displayLaw": "夫妻债务解释"
+        }
+      ]
+    },
+    "case-0103": {
+      "status": "excluded",
+      "reason": "原文援引段书名号缺失，第二项名称尚待逐字核实",
+      "sourceSha256": "eb6b578b0737b223f2f5f4c16266d131956e0bae18bc6016f16b8d1493ebc03f",
+      "originalLaws": [
+        {
+          "law": "反不正当竞争法",
+          "article": "第六条",
+          "displayLaw": "反不正当竞争法"
+        },
+        {
+          "law": "最高人民法院关于审理不正当竞争民事案件应用法律若干问题的解释",
+          "article": "第一条",
+          "displayLaw": "不正当竞争民事解释"
+        },
+        {
+          "law": "最高人民法院关于审理不正当竞争民事案件应用法律若干问题的解释",
+          "article": "第四条",
+          "displayLaw": "不正当竞争民事解释"
+        }
+      ]
+    },
+    "case-0105": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 26,
+      "sourceSha256": "38a6ce3cadcb15131a8b6b5e95e2164acc8fdf2687b6825121a75572a08e10f1",
+      "originalLaws": [
+        {
+          "law": "环境保护法",
+          "article": "第五十八条",
+          "displayLaw": "环境保护法"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第一条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第十四条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第二十二条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第六十五条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "最高人民法院关于适用时间效力的若干规定",
+          "article": "第二条",
+          "displayLaw": "时间效力规定"
+        }
+      ]
+    },
+    "case-0106": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 27,
+      "sourceSha256": "489f1301fa15902a7a06801dd89c76ce3db8638bea13c6234844f02aa2acb9e9",
+      "originalLaws": [
+        {
+          "law": "环境保护法",
+          "article": "第二十九条",
+          "displayLaw": "环境保护法"
+        },
+        {
+          "law": "环境保护法",
+          "article": "第六十四条",
+          "displayLaw": "环境保护法"
+        },
+        {
+          "law": "风景名胜区条例",
+          "article": "第二十四条",
+          "displayLaw": "风景名胜区条例"
+        },
+        {
+          "law": "江西省三清山风景名胜区管理条例",
+          "article": "第十三条",
+          "displayLaw": "三清山景区条例"
+        },
+        {
+          "law": "地质遗迹保护管理规定",
+          "article": "第四条",
+          "displayLaw": "地质遗迹保护管理规定"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第六条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第八条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第一条",
+          "displayLaw": "侵权责任法"
+        }
+      ]
+    },
+    "case-0109": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 13,
+      "sourceSha256": "925b20e593369088f030987f6277f17a443df13bc97b867b8b54d189bbc1ef68",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于人民法院网络司法拍卖若干问题的规定",
+          "article": "第六条",
+          "displayLaw": "人民法院网络司法拍卖规定"
+        },
+        {
+          "law": "最高人民法院关于人民法院网络司法拍卖若干问题的规定",
+          "article": "第十三条",
+          "displayLaw": "人民法院网络司法拍卖规定"
+        },
+        {
+          "law": "最高人民法院关于人民法院网络司法拍卖若干问题的规定",
+          "article": "第三十条",
+          "displayLaw": "人民法院网络司法拍卖规定"
+        },
+        {
+          "law": "税收征收管理法",
+          "article": "第五十二条",
+          "displayLaw": "税收征收管理法"
+        },
+        {
+          "law": "最高人民法院关于适用《民法典》时间效力的若干规定",
+          "article": "第一条",
+          "displayLaw": "民法典时间效力规定"
+        }
+      ]
+    },
+    "case-0114": {
+      "status": "excluded",
+      "reason": "原文时间效力规范名称缺失适用对象，不以推测补全",
+      "sourceSha256": "a1f39d9379edba6ef8abc3abb755c2b3f49f39eaada64293d1e8befd08897206",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释",
+          "article": "第十九条",
+          "displayLaw": "人身损害赔偿解释"
+        },
+        {
+          "law": "最高人民法院关于适用时间效力的若干规定",
+          "article": "第二条",
+          "displayLaw": "时间效力规定"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百五十三条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0118": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "07e748f1699ee07421b16a3efdb5138e1e384a7abb82cd7afdd6fbba989d73a4",
+      "originalLaws": [
+        {
+          "law": "涉外民事关系法律适用法",
+          "article": "第四十一条",
+          "displayLaw": "涉外民事关系法律适用法"
+        },
+        {
+          "law": "最高人民法院关于适用《公司法》若干问题的规定（三）",
+          "article": "第二十四条",
+          "displayLaw": "公司法解释三"
+        }
+      ]
+    },
+    "case-0119": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 18,
+      "sourceSha256": "49d9ffcd1b1a754d6b03e0714c6ba0e1778c3c837aaa98dede1cbe57ae0f30c8",
+      "originalLaws": [
+        {
+          "law": "涉外民事关系法律适用法",
+          "article": "第四十一条",
+          "displayLaw": "涉外民事关系法律适用法"
+        },
+        {
+          "law": "海商法",
+          "article": "第一百零五条",
+          "displayLaw": "海商法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第六十四条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "铁路服务实施法",
+          "article": "第五十一条",
+          "displayLaw": "铁路服务实施法"
+        }
+      ]
+    },
+    "case-0125": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 26,
+      "sourceSha256": "bb2b2c51f8262f82c7633d5657a4d64b2c3f6487358f1b79142b2c296cdb7d7d",
+      "originalLaws": [
+        {
+          "law": "医疗纠纷预防和处理条例",
+          "article": "第三十四条",
+          "displayLaw": "医疗纠纷预防和处理条例"
+        },
+        {
+          "law": "民事诉讼证据规定",
+          "article": "第三十七条",
+          "displayLaw": "民事诉讼证据规定"
+        },
+        {
+          "law": "民事诉讼证据规定",
+          "article": "第四十条",
+          "displayLaw": "民事诉讼证据规定"
+        },
+        {
+          "law": "民事诉讼证据规定",
+          "article": "第二十一条",
+          "displayLaw": "民事诉讼证据规定"
+        },
+        {
+          "law": "民事诉讼证据规定",
+          "article": "第二十五条",
+          "displayLaw": "民事诉讼证据规定"
+        }
+      ]
+    },
+    "case-0127": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 14,
+      "sourceSha256": "3dc026a36978656398d3a7dfc5b7abcbc50611b318fa308a7487d471c81dc700",
+      "originalLaws": [
+        {
+          "law": "民事诉讼法",
+          "article": "第一百一十九条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第三百零五条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第三百零六条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "企业破产法",
+          "article": "第二十条",
+          "displayLaw": "企业破产法"
+        },
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十七条",
+          "displayLaw": "执行异议和复议规定"
+        },
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十八条",
+          "displayLaw": "执行异议和复议规定"
+        },
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十九条",
+          "displayLaw": "执行异议和复议规定"
+        },
+        {
+          "law": "查封规定",
+          "article": "第十七条",
+          "displayLaw": "查封规定"
+        }
+      ]
+    },
+    "case-0130": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "7affd6aabf9bce4fe3afa04396f9884e4c12ae2319b58b7105566f101f9f0fbf",
+      "originalLaws": [
+        {
+          "law": "公司法",
+          "article": "第二十一条",
+          "displayLaw": "公司法"
+        },
+        {
+          "law": "公司法",
+          "article": "第二百一十六条",
+          "displayLaw": "公司法"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第九十条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "最高人民法院关于民事诉讼证据的若干规定",
+          "article": "第九十条",
+          "displayLaw": "民诉证据规定"
+        }
+      ]
+    },
+    "case-0132": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 8,
+      "sourceSha256": "92ee4005625c79684b8ea40c05f6edc508c193f39987aeb8477eb481962732f1",
+      "originalLaws": [
+        {
+          "law": "专利法",
+          "article": "第十一条",
+          "displayLaw": "专利法"
+        },
+        {
+          "law": "专利法",
+          "article": "第五十九条第一款",
+          "displayLaw": "专利法"
+        },
+        {
+          "law": "最高人民法院关于审理专利纠纷案件适用法律问题的若干规定",
+          "article": "第十七条",
+          "displayLaw": "专利纠纷规定"
+        },
+        {
+          "law": "专利法",
+          "article": "第六十九条第二项",
+          "displayLaw": "专利法"
+        },
+        {
+          "law": "最高人民法院关于审理侵犯专利权纠纷案件应用法律若干问题的解释",
+          "article": "第十五条",
+          "displayLaw": "专利侵权解释"
+        },
+        {
+          "law": "专利法",
+          "article": "第六十二条",
+          "displayLaw": "专利法"
+        }
+      ]
+    },
+    "case-0133": {
+      "status": "excluded",
+      "reason": "两项司法解释名称缺失适用对象，不能可靠区分",
+      "sourceSha256": "e6a85148662251799013bb74b3ca0d410389bf1eae51e6719e4a3018498b78b7",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于审理民间借贷案件适用法律若干问题的规定",
+          "article": "第十三条",
+          "displayLaw": "民间借贷规定"
+        },
+        {
+          "law": "担保法",
+          "article": "第十二条",
+          "displayLaw": "担保法"
+        },
+        {
+          "law": "民间借贷司法解释",
+          "article": "第十三条",
+          "displayLaw": "民间借贷司法解释"
+        }
+      ]
+    },
+    "case-0137": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 33,
+      "sourceSha256": "00c1488147b8823853f4ac2192dbaa8f95acf13ef90133cad2ba2f3be0705f60",
+      "originalLaws": []
+    },
+    "case-0139": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 27,
+      "sourceSha256": "ed1aba06fef3cc6066504724ed4b24bd54d40125a0e6ddc0fad8226e0422b3d6",
+      "originalLaws": [
+        {
+          "law": "行政诉讼法",
+          "article": "第四十九条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《行政诉讼法》的解释",
+          "article": "第六十九条",
+          "displayLaw": "行诉法解释"
+        },
+        {
+          "law": "环评法",
+          "article": "第二十四条",
+          "displayLaw": "环评法"
+        }
+      ]
+    },
+    "case-0142": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 22,
+      "sourceSha256": "e6122c19a1ecb5fe866bce42b1a17791733033c661db1c139f5cfed49f527cfd",
+      "originalLaws": [
+        {
+          "law": "国有土地上房屋征收与补偿条例",
+          "article": "第四条",
+          "displayLaw": "房屋征收补偿条例"
+        },
+        {
+          "law": "国有土地上房屋征收与补偿条例",
+          "article": "第八条",
+          "displayLaw": "房屋征收补偿条例"
+        },
+        {
+          "law": "国有土地上房屋征收与补偿条例",
+          "article": "第九条",
+          "displayLaw": "房屋征收补偿条例"
+        },
+        {
+          "law": "国有土地上房屋征收与补偿条例",
+          "article": "第十条",
+          "displayLaw": "房屋征收补偿条例"
+        },
+        {
+          "law": "国有土地上房屋征收与补偿条例",
+          "article": "第十二条",
+          "displayLaw": "房屋征收补偿条例"
+        },
+        {
+          "law": "国有土地上房屋征收与补偿条例",
+          "article": "第十三条",
+          "displayLaw": "房屋征收补偿条例"
+        },
+        {
+          "law": "国有土地上房屋征收与补偿条例",
+          "article": "第十五条",
+          "displayLaw": "房屋征收补偿条例"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第七十条",
+          "displayLaw": "行政诉讼法"
+        }
+      ]
+    },
+    "case-0143": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 14,
+      "sourceSha256": "dc4c1c5b79c29f42bd8be3aef1f46e0783ff56a6ae68cd795b370a0aef952b6a",
+      "originalLaws": [
+        {
+          "law": "行政诉讼法",
+          "article": "第二条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "铁路法",
+          "article": "第三条",
+          "displayLaw": "铁路法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第六十九条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第八十六条",
+          "displayLaw": "行政诉讼法"
+        }
+      ]
+    },
+    "case-0144": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "edbf6daeef9086b954397b28cb272c400dc883554e0ff45a26b725511821e0ee",
+      "originalLaws": [
+        {
+          "law": "行政诉讼法",
+          "article": "第九十三条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "行政许可法",
+          "article": "第六十九条",
+          "displayLaw": "行政许可法"
+        },
+        {
+          "law": "行政许可法",
+          "article": "第七十条",
+          "displayLaw": "行政许可法"
+        },
+        {
+          "law": "土地登记办法",
+          "article": "第五十八条",
+          "displayLaw": "土地登记办法"
+        },
+        {
+          "law": "河南省实施《土地管理法》办法",
+          "article": "第十五条",
+          "displayLaw": "河南省实施土地管理法办法"
+        }
+      ]
+    },
+    "case-0150": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 23,
+      "sourceSha256": "af53b911215fc5659318eeb1a669cbd18f9e81c030fc159a64a04b18220b5e12",
+      "originalLaws": [
+        {
+          "law": "行政许可法",
+          "article": "第八条第二款",
+          "displayLaw": "行政许可法"
+        },
+        {
+          "law": "最高人民法院关于适用《行政诉讼法》的解释",
+          "article": "第九十八条",
+          "displayLaw": "行诉法解释"
+        }
+      ]
+    },
+    "case-0151": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 19,
+      "sourceSha256": "003bb517e20aad5e28d1b98b5bbc35c1cec2b33dcd625dfa5b2846fc64d4fcd8",
+      "originalLaws": [
+        {
+          "law": "行政诉讼法",
+          "article": "第七十条第二项",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《行政诉讼法》的解释",
+          "article": "第九十一条",
+          "displayLaw": "行诉法解释"
+        },
+        {
+          "law": "处理意见",
+          "article": "",
+          "displayLaw": "处理意见"
+        }
+      ]
+    },
+    "case-0152": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 9,
+      "sourceSha256": "292bb3b7d0a9a478ac1c1fb8b14b468899b028a9d00684aaed11c578a9b46df2",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于审理民间借贷案件适用法律若干问题的规定",
+          "article": "第十二条",
+          "displayLaw": "民间借贷规定"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第五百一十八条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "全国法院民商事审判工作会议纪要",
+          "article": "第128条",
+          "displayLaw": "九民纪要"
+        }
+      ]
+    },
+    "case-0153": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "01a66b1ba0294172255b4662cd54241105ef5e23fb844ee8085b6af70a60a3a5",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《刑事诉讼法》的解释",
+          "article": "第五百二十八条",
+          "displayLaw": "刑诉法解释"
+        },
+        {
+          "law": "最高人民法院关于刑事裁判涉财产部分执行的若干规定",
+          "article": "第十四条",
+          "displayLaw": "刑事涉财产执行规定"
+        },
+        {
+          "law": "最高人民法院关于刑事裁判涉财产部分执行的若干规定",
+          "article": "第十五条",
+          "displayLaw": "刑事涉财产执行规定"
+        },
+        {
+          "law": "最高人民法院关于人民法院办理执行异议和复议案件若干问题的规定",
+          "article": "第二十三条",
+          "displayLaw": "执行异议复议规定"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百三十二条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0154": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "3d4e4faeb085c302835d5cddc42233cefdb43e4f1077b1c42a0273206671ae30",
+      "originalLaws": [
+        {
+          "law": "民事诉讼法",
+          "article": "第五十八条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院、最高人民检察院关于检察公益诉讼案件适用法律若干问题的解释",
+          "article": "第十三条",
+          "displayLaw": "两高检察公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于适用《民法典》时间效力的若干规定",
+          "article": "第一条",
+          "displayLaw": "民法典时间效力规定"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第六条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第十五条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "最高人民法院关于审理消费民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第十三条",
+          "displayLaw": "审理消费民事公益诉讼解释"
+        },
+        {
+          "law": "食品安全法",
+          "article": "第一百四十八条",
+          "displayLaw": "食品安全法"
+        }
+      ]
+    },
+    "case-0156": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 31,
+      "sourceSha256": "d4ff44f9484fb23122e532bf9fd4392b606ff1dff3279e2d3711f117a055d9d8",
+      "originalLaws": [
+        {
+          "law": "民事诉讼法",
+          "article": "第一百四十四条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百四十七条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院关于在审理经济纠纷案件中涉及经济犯罪嫌疑若干问题的规定",
+          "article": "第五条",
+          "displayLaw": "经济纠纷涉犯规定"
+        },
+        {
+          "law": "最高人民法院关于适用《民法典》时间效力的若干规定",
+          "article": "第一条",
+          "displayLaw": "民法典时间效力规定"
+        },
+        {
+          "law": "金融资产管理公司商业化收购业务风险管理办法",
+          "article": "第八条",
+          "displayLaw": "金融资产收购风控办法"
+        }
+      ]
+    },
+    "case-0157": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 10,
+      "sourceSha256": "53a4619de5feef66c6ed6f0baf71bfefb2e135669c20a132267efb586df6097e",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于人民法院办理执行异议和复议案件若干问题的规定",
+          "article": "第二十八条",
+          "displayLaw": "执行异议复议规定"
+        },
+        {
+          "law": "城市房地产管理法",
+          "article": "第三十八条第六项",
+          "displayLaw": "城市房地产管理法"
+        },
+        {
+          "law": "最高人民法院关于人民法院民事执行中查封、扣押、冻结财产的规定",
+          "article": "第十五条",
+          "displayLaw": "执行查扣冻规定"
+        },
+        {
+          "law": "执行异议和复议规定",
+          "article": "第二十八条",
+          "displayLaw": "执行异议和复议规定"
+        }
+      ]
+    },
+    "case-0158": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "b106aa6cc310c4c65468978a3d21424092a7d8b2ce6d028410bc832e1d75930f",
+      "originalLaws": [
+        {
+          "law": "证券投资基金法",
+          "article": "第五条",
+          "displayLaw": "证券投资基金法"
+        },
+        {
+          "law": "证券法",
+          "article": "第一百五十八条",
+          "displayLaw": "证券法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0161": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 14,
+      "sourceSha256": "0f0ef63c7b9873194b6f3592698db996b73350997d105241e88338f5e442de53",
+      "originalLaws": [
+        {
+          "law": "物权法",
+          "article": "第七十二条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "物权法",
+          "article": "第七十九条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "物业管理条例",
+          "article": "第七条",
+          "displayLaw": "物业管理条例"
+        },
+        {
+          "law": "住宅专项维修资金管理办法",
+          "article": "第二条",
+          "displayLaw": "住宅专项维修资金管理办法"
+        },
+        {
+          "law": "住宅专项维修资金管理办法",
+          "article": "第六条",
+          "displayLaw": "住宅专项维修资金管理办法"
+        },
+        {
+          "law": "最高人民法院关于审理民事案件适用诉讼时效制度若干问题的规定",
+          "article": "第一条",
+          "displayLaw": "诉讼时效规定"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百一十四条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "长春市物业专项维修资金管理办法",
+          "article": "第十一条",
+          "displayLaw": "长春物业维修资金办法"
+        }
+      ]
+    },
+    "case-0162": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 28,
+      "sourceSha256": "226d41af27e76761b91720e8c9285f82dfa3780c75f6e649c423e2950eb54b1b",
+      "originalLaws": [
+        {
+          "law": "涉外民事关系法律适用法",
+          "article": "第三十七条",
+          "displayLaw": "涉外民事关系法律适用法"
+        },
+        {
+          "law": "物权法",
+          "article": "第三十四条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "物权法",
+          "article": "第三十九条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "物权法",
+          "article": "第五十九条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "物权法",
+          "article": "第六十一条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "文物保护法",
+          "article": "第六十条",
+          "displayLaw": "文物保护法"
+        },
+        {
+          "law": "文物保护法",
+          "article": "第六十一条",
+          "displayLaw": "文物保护法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0165": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 19,
+      "sourceSha256": "227106d294ff42851049656c58bf68e41009a1814f5a87c30a61bd043e2972f0",
+      "originalLaws": [
+        {
+          "law": "环境保护法",
+          "article": "第五十八条",
+          "displayLaw": "环境保护法"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第一条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第十八条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第十九条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第二十条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释",
+          "article": "第二十二条",
+          "displayLaw": "环境公益诉讼解释"
+        },
+        {
+          "law": "公司法",
+          "article": "第十四条",
+          "displayLaw": "公司法"
+        }
+      ]
+    },
+    "case-0166": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 20,
+      "sourceSha256": "53ebf2d042e7095432c0de0da7171c3cd7e633bdeaa824ccad6c73ed209dfa72",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于审理民间借贷案件适用法律若干问题的规定",
+          "article": "第十三条",
+          "displayLaw": "民间借贷规定"
+        },
+        {
+          "law": "公司法",
+          "article": "第二十八条",
+          "displayLaw": "公司法"
+        },
+        {
+          "law": "最高人民法院关于适用《公司法》若干问题的规定（三）",
+          "article": "第十三条",
+          "displayLaw": "公司法解释三"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0175": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 23,
+      "sourceSha256": "221246c27a9baefe467773b2aba39d2b948df703c5ef776d07ca774e96965115",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于审理商标民事纠纷案件适用法律若干问题的解释",
+          "article": "第一条",
+          "displayLaw": "商标民事纠纷解释"
+        },
+        {
+          "law": "最高人民法院关于审理商标民事纠纷案件适用法律若干问题的解释",
+          "article": "第二十一条",
+          "displayLaw": "商标民事纠纷解释"
+        },
+        {
+          "law": "最高人民法院关于适用《反不正当竞争法》若干问题的解释",
+          "article": "第十三条",
+          "displayLaw": "反不正当竞争法解释"
+        },
+        {
+          "law": "最高人民法院关于适用《反不正当竞争法》若干问题的解释",
+          "article": "第二十五条",
+          "displayLaw": "反不正当竞争法解释"
+        },
+        {
+          "law": "最高人民法院关于适用《反不正当竞争法》若干问题的解释",
+          "article": "第二十八条",
+          "displayLaw": "反不正当竞争法解释"
+        }
+      ]
+    },
+    "case-0177": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 24,
+      "sourceSha256": "d4cbfee439adf099a5936d9e19ecdb97b64a21dd6a5a168550e3db454a5290e7",
+      "originalLaws": [
+        {
+          "law": "环境保护法",
+          "article": "第六十四条",
+          "displayLaw": "环境保护法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第五十五条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "森林法",
+          "article": "第六十七条",
+          "displayLaw": "森林法"
+        },
+        {
+          "law": "森林法",
+          "article": "",
+          "displayLaw": "森林法"
+        }
+      ]
+    },
+    "case-0178": {
+      "status": "excluded",
+      "reason": "原文混有法宝联想检索内容，须先校净再启用",
+      "sourceSha256": "6b50d8900b328e1ef46b7b2293357f7dd6c6be2b62ac95dd7cdc8b2def5b16eb",
+      "originalLaws": [
+        {
+          "law": "民事诉讼法",
+          "article": "第一百一十九条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《民法典》时间效力的若干规定",
+          "article": "第一条",
+          "displayLaw": "民法典时间效力规定"
+        },
+        {
+          "law": "建工司法解释",
+          "article": "第二十六条",
+          "displayLaw": "建工司法解释"
+        }
+      ]
+    },
+    "case-0181": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 14,
+      "sourceSha256": "9f49cdde40728e667665030d7e6a74d707694c4ad472432b297e572342a51981",
+      "originalLaws": [
+        {
+          "law": "民事诉讼法",
+          "article": "第六十六条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第六十七条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第九十条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "最高人民法院关于审理侵害植物新品种权纠纷案件具体应用法律问题的若干规定（二）",
+          "article": "第二十三条",
+          "displayLaw": "植新权规定二"
+        }
+      ]
+    },
+    "case-0185": {
+      "status": "excluded",
+      "reason": "未找到同一物理页内完整的结论前援引段；存在跨页或其他书写形式，暂排除为参考答案",
+      "sourceSha256": "eef578d3e1d7cb945c6a95748cdbec728112203d6048f74e6b0e12959d0c692b",
+      "originalLaws": [
+        {
+          "law": "商标法",
+          "article": "第十三条",
+          "displayLaw": "商标法"
+        },
+        {
+          "law": "商标法",
+          "article": "第十四条",
+          "displayLaw": "商标法"
+        },
+        {
+          "law": "反不正当竞争法",
+          "article": "第二条",
+          "displayLaw": "反不正当竞争法"
+        },
+        {
+          "law": "反不正当竞争法",
+          "article": "第十七条",
+          "displayLaw": "反不正当竞争法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0186": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 26,
+      "sourceSha256": "049d1470da1e45d9734ffd138a99291cbcbfb6df9e5350893bff6d0ef95d74ad",
+      "originalLaws": [
+        {
+          "law": "物权法",
+          "article": "第三十七条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "物权法",
+          "article": "第一百二十三条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第六条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "矿产资源开采登记管理办法",
+          "article": "第7条",
+          "displayLaw": "矿产资源开采登记管理办法"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第六十四条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0189": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 20,
+      "sourceSha256": "7063664b0ab65a4c00b2713f8c0b3f7f270a8462108298968dde4098ae852b84",
+      "originalLaws": [
+        {
+          "law": "民事诉讼法",
+          "article": "第五十八条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院、最高人民检察院关于检察公益诉讼案件适用法律若干问题的解释",
+          "article": "第十三条",
+          "displayLaw": "两高检察公益诉讼解释"
+        },
+        {
+          "law": "最高人民法院关于审理生态环境侵权纠纷案件适用惩罚性赔偿的解释",
+          "article": "第四条",
+          "displayLaw": "生态环境惩罚性赔偿解释"
+        },
+        {
+          "law": "最高人民法院关于审理生态环境侵权纠纷案件适用惩罚性赔偿的解释",
+          "article": "第五条",
+          "displayLaw": "生态环境惩罚性赔偿解释"
+        },
+        {
+          "law": "长江保护法",
+          "article": "第五十三条",
+          "displayLaw": "长江保护法"
+        },
+        {
+          "law": "长江保护法",
+          "article": "第九十三条",
+          "displayLaw": "长江保护法"
+        }
+      ]
+    },
+    "case-0191": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 14,
+      "sourceSha256": "ff6c0d3b2530290d619c45f88c5adbb521097c962ee9f7fce892984eeb5434dc",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《民法典》有关担保制度的解释",
+          "article": "第六十一条第三款",
+          "displayLaw": "民法典担保解释"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第九十条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第一百七十七条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    },
+    "case-0193": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 23,
+      "sourceSha256": "2afd41287bc85b3538a2fbdaaffdcd22b8c5f9c01cd7b77cb53625a36d4e48f8",
+      "originalLaws": [
+        {
+          "law": "侵权责任法",
+          "article": "第六十五条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "侵权责任法",
+          "article": "第六十六条",
+          "displayLaw": "侵权责任法"
+        },
+        {
+          "law": "最高人民法院关于审理环境侵权责任纠纷案件适用法律若干问题的解释",
+          "article": "第六条",
+          "displayLaw": "环境侵权解释"
+        },
+        {
+          "law": "环境保护法",
+          "article": "第五十八条",
+          "displayLaw": "环境保护法"
+        },
+        {
+          "law": "环境民事公益诉讼司法解释",
+          "article": "第一条",
+          "displayLaw": "环境民事公益诉讼司法解释"
+        },
+        {
+          "law": "环境民事公益诉讼司法解释",
+          "article": "第四条",
+          "displayLaw": "环境民事公益诉讼司法解释"
+        },
+        {
+          "law": "环境民事公益诉讼司法解释",
+          "article": "第十八条",
+          "displayLaw": "环境民事公益诉讼司法解释"
+        }
+      ]
+    },
+    "case-0196": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 11,
+      "sourceSha256": "d9cdfaa0b557b5d346a2e9635050c3cc9e78917d210e01fbabe58d670d943753",
+      "originalLaws": [
+        {
+          "law": "行政诉讼法",
+          "article": "第六条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "企业名称登记管理规定",
+          "article": "第十一条第八项",
+          "displayLaw": "企业名称登记规定"
+        },
+        {
+          "law": "企业名称登记管理规定",
+          "article": "第二十条",
+          "displayLaw": "企业名称登记规定"
+        },
+        {
+          "law": "企业名称登记管理规定",
+          "article": "第二十三条",
+          "displayLaw": "企业名称登记规定"
+        },
+        {
+          "law": "中国（海南）自由贸易试验区商事登记条例",
+          "article": "第四十八条",
+          "displayLaw": "海南商事登记条例"
+        },
+        {
+          "law": "企业名称禁限用规则",
+          "article": "第十七条",
+          "displayLaw": "企业名称禁限用规则"
+        },
+        {
+          "law": "企业名称禁限用规则",
+          "article": "第二十七条",
+          "displayLaw": "企业名称禁限用规则"
+        }
+      ]
+    },
+    "case-0197": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 15,
+      "sourceSha256": "0dbbac3f96aebc01c72ac284f45b527bfe8bd8278e5bba1c4e331da7e79d48a5",
+      "originalLaws": [
+        {
+          "law": "土地管理法",
+          "article": "第四十三条",
+          "displayLaw": "土地管理法"
+        },
+        {
+          "law": "土地管理法",
+          "article": "第四十六条",
+          "displayLaw": "土地管理法"
+        },
+        {
+          "law": "土地管理法",
+          "article": "第七十六条",
+          "displayLaw": "土地管理法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第七十条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第七十四条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《行政诉讼法》的解释",
+          "article": "第一百一十九条",
+          "displayLaw": "行诉法解释"
+        }
+      ]
+    },
+    "case-0201": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 14,
+      "sourceSha256": "3df1326007a74d1ca74c289fdf2ddf3e840fe0e61eaebdb4a4798dab9325fdd9",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于适用《行政诉讼法》的解释",
+          "article": "第十八条",
+          "displayLaw": "行诉法解释"
+        },
+        {
+          "law": "物权法",
+          "article": "第九条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "云南省城镇个人已购住房用地登记暂行规定",
+          "article": "第十二条",
+          "displayLaw": "云南已购房登记规定"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第六十九条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第八十九条",
+          "displayLaw": "行政诉讼法"
+        }
+      ]
+    },
+    "case-0202": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 19,
+      "sourceSha256": "7abfb2cb948589b1239c3a7d75a1271423616a5bf7059b0f5fdc9c8da3450676",
+      "originalLaws": [
+        {
+          "law": "行政诉讼法",
+          "article": "第八十九条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第六十九条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "商标法实施条例",
+          "article": "第四十一条",
+          "displayLaw": "商标法实施条例"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第五十四条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "立法法",
+          "article": "第九十三条",
+          "displayLaw": "立法法"
+        },
+        {
+          "law": "最高人民法院关于适用《行政诉讼法》的解释",
+          "article": "第一百一十九条",
+          "displayLaw": "行诉法解释"
+        }
+      ]
+    },
+    "case-0204": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 13,
+      "sourceSha256": "62adf43682f1d03133299e6b32c875a5f52b748ed58b71ece8a3bb82dcc26048",
+      "originalLaws": [
+        {
+          "law": "矿产资源法",
+          "article": "第三条",
+          "displayLaw": "矿产资源法"
+        },
+        {
+          "law": "矿产资源法实施条例",
+          "article": "第五条",
+          "displayLaw": "矿产资源法实施条例"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第八十九条",
+          "displayLaw": "行政诉讼法"
+        }
+      ]
+    },
+    "case-0205": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 11,
+      "sourceSha256": "b17754eb52906bcc949a95c1dae6cfddc879b87c1c495a4123ab21b1b6c6e320",
+      "originalLaws": [
+        {
+          "law": "国家赔偿法",
+          "article": "第二条",
+          "displayLaw": "国家赔偿法"
+        },
+        {
+          "law": "国家赔偿法",
+          "article": "第三十六条",
+          "displayLaw": "国家赔偿法"
+        },
+        {
+          "law": "行政强制法",
+          "article": "第八条",
+          "displayLaw": "行政强制法"
+        },
+        {
+          "law": "行政诉讼法",
+          "article": "第三十八条",
+          "displayLaw": "行政诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《行政诉讼法》的解释",
+          "article": "第四十七条",
+          "displayLaw": "行诉法解释"
+        }
+      ]
+    },
+    "case-0206": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 17,
+      "sourceSha256": "bcbed7761d475c11686a7f24da4b1891b46d9ad57f382fa77976630a764a0925",
+      "originalLaws": [
+        {
+          "law": "国家赔偿法",
+          "article": "第三十九条",
+          "displayLaw": "国家赔偿法"
+        },
+        {
+          "law": "最高人民法院关于审理民事、行政诉讼中司法赔偿案件适用法律若干问题的解释",
+          "article": "第十二条",
+          "displayLaw": "司法赔偿解释"
+        },
+        {
+          "law": "最高人民法院关于人民法院赔偿委员会审理国家赔偿案件程序的规定",
+          "article": "第十九条",
+          "displayLaw": "国家赔偿程序规定"
+        }
+      ]
+    },
+    "case-0209": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 20,
+      "sourceSha256": "7e0bea7130d2f739498961c736f7c0179cd23bae5bfa196a9f46a5544638f7db",
+      "originalLaws": [
+        {
+          "law": "民事诉讼法",
+          "article": "第二百二十七条",
+          "displayLaw": "民事诉讼法"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第三百一十一条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "最高人民法院关于适用《民事诉讼法》的解释",
+          "article": "第三百一十二条",
+          "displayLaw": "民诉法解释"
+        },
+        {
+          "law": "物权法",
+          "article": "第九条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "物权法",
+          "article": "第十五条",
+          "displayLaw": "物权法"
+        },
+        {
+          "law": "最高人民法院关于适用《物权法》若干问题的解释（一）",
+          "article": "第二条",
+          "displayLaw": "物权法解释一"
+        }
+      ]
+    },
+    "case-0210": {
+      "status": "enabled",
+      "reason": "仅以已核对的结论前援引段为对照范围；旧自动抽取列表不再作为答案",
+      "page": 7,
+      "sourceSha256": "343043ac65c4136955037d3e4ba587ab6655139ea2c6db84afd57b0d2a06fd9e",
+      "originalLaws": [
+        {
+          "law": "最高人民法院关于人民法院办理执行异议和复议案件若干问题的规定",
+          "article": "第二十八条",
+          "displayLaw": "执行异议复议规定"
+        },
+        {
+          "law": "最高人民法院关于人民法院办理执行异议和复议案件若干问题的规定",
+          "article": "第二十九条",
+          "displayLaw": "执行异议复议规定"
+        },
+        {
+          "law": "民事诉讼法",
+          "article": "第二百条",
+          "displayLaw": "民事诉讼法"
+        }
+      ]
+    }
+  }
+}

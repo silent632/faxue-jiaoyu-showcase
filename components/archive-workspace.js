@@ -1,17 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import ArchiveImportPanel from "@/components/archive-import-panel";
+import { readImportAlternatives } from "@/lib/archive-import";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { EXPERIMENT_ARCHIVE_STORAGE_KEY } from "@/lib/experiment-archive";
+import { EXPERIMENT_ARCHIVE_STORAGE_KEY, EXPERIMENT_RECORD_PREFIX } from "@/lib/experiment-archive";
 import {
   deriveCaseLoopState,
+  getLearningActivities,
   readAllStudyRecords,
   readExperimentArchive,
   recommendModulesForCase,
   recommendNextAction,
   summarizeAbilities,
 } from "@/lib/learning-loop";
+import { isExperimentComplete } from "@/lib/experiment-completion";
+import { IMPORT_VAULT_KEY, LEGACY_BACKUP_PREFIX, notifyRecordChanged, subscribeRecords, storageErrorMessage, storageErrorCode } from "@/lib/local-record";
 import { getRecentStudyStorageKey } from "@/lib/study-workspace";
 
 function downloadJson(data) {
@@ -29,6 +34,7 @@ function downloadJson(data) {
 }
 
 function buildCaseRecords({ studyRecords, experimentArchive, caseIndex, modules }) {
+  const activities = getLearningActivities(studyRecords, experimentArchive);
   const caseMap = new Map(caseIndex.map((item) => [item.id, item]));
   const caseIds = new Set(Object.keys(studyRecords));
 
@@ -40,7 +46,7 @@ function buildCaseRecords({ studyRecords, experimentArchive, caseIndex, modules 
     .map((caseId) => {
       const caseItem = caseMap.get(caseId) || { id: caseId };
       const completedModuleIds = modules
-        .filter((mod) => experimentArchive[mod.id]?.[caseId])
+        .filter((mod) => isExperimentComplete(mod.id, experimentArchive[mod.id]?.[caseId]))
         .map((mod) => mod.id);
       const experimentRecords = Object.fromEntries(
         completedModuleIds.map((moduleId) => [moduleId, experimentArchive[moduleId][caseId]]),
@@ -49,10 +55,11 @@ function buildCaseRecords({ studyRecords, experimentArchive, caseIndex, modules 
         studyDraft: studyRecords[caseId],
         experimentRecords,
       });
-      const experimentTimes = Object.values(experimentRecords)
+      const allExperimentRecords = Object.values(experimentArchive).map((records) => records?.[caseId]).filter(Boolean);
+      const experimentTimes = allExperimentRecords
         .map((record) => Date.parse(record.updatedAt || record.completedAt || "") || 0);
       const updatedAt = Math.max(Number(studyRecords[caseId]?.ts) || 0, ...experimentTimes, 0);
-      const fallbackTitle = Object.values(experimentRecords).find((record) => record.caseTitle)?.caseTitle;
+      const fallbackTitle = allExperimentRecords.find((record) => record.caseTitle)?.caseTitle;
       const recommendedModuleIds = recommendModulesForCase(caseItem.jurisprudenceTags, modules)
         .map((item) => item.id);
 
@@ -61,6 +68,8 @@ function buildCaseRecords({ studyRecords, experimentArchive, caseIndex, modules 
         title: caseItem.title || fallbackTitle || caseId,
         ...loopState,
         completedModuleIds,
+        pendingTasks: activities.filter((task) => task.caseId === caseId && !task.complete),
+        knownCase: caseMap.has(caseId),
         recommendedModuleIds,
         updatedAt,
       };
@@ -106,15 +115,18 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
   const [experimentArchive, setExperimentArchive] = useState({});
   const [hydrated, setHydrated] = useState(false);
   const [notice, setNotice] = useState("");
+  const [hasCopies, setHasCopies] = useState(false);
 
   const refreshRecords = useCallback(() => {
     setStudyRecords(readAllStudyRecords(userSid));
     setExperimentArchive(readExperimentArchive());
+    try { setHasCopies(readImportAlternatives(userSid).length > 0); } catch { /* 导入面板单独提示异常。 */ }
     setHydrated(true);
   }, [userSid]);
 
   useEffect(() => {
     refreshRecords();
+    return subscribeRecords(refreshRecords);
   }, [refreshRecords]);
 
   const records = useMemo(
@@ -128,7 +140,9 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
   const experimentCount = abilities.reduce((sum, item) => sum + item.completedCount, 0);
   const closedCount = records.filter((item) => item.closed).length;
   const hasRecords = records.length > 0;
-  const loopStates = Object.fromEntries(records.map((item) => [item.id, {
+  const loopStates = Object.fromEntries(records.filter((item) => item.knownCase).map((item) => [item.id, {
+    pendingTasks: item.pendingTasks,
+    studySteps: item.studySteps,
     studyDone: item.studyDone,
     experimentsDone: item.experimentsDone,
     completedModuleIds: item.completedModuleIds,
@@ -139,29 +153,36 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
   const recommendation = resolveRecommendation(nextAction, records, modules, copy.recommendation);
 
   function handleExport() {
+    try {
     downloadJson({
-      version: 1,
+      version: 2,
       exportedAt: new Date().toISOString(),
-      studyRecords,
-      experimentArchive,
+      studyRecords: readAllStudyRecords(userSid),
+      experimentArchive: readExperimentArchive(),
+      alternatives: readImportAlternatives(userSid),
     });
     setNotice(copy.actions.exportedMessage);
+    } catch (error) { setNotice(error.message || "导出失败，请重试。"); }
   }
 
   function handleClear() {
     if (!window.confirm(copy.actions.clearConfirm)) return;
 
+    try {
     const prefix = `study_${userSid}_`;
     const keysToRemove = [];
     for (let index = 0; index < window.localStorage.length; index += 1) {
       const key = window.localStorage.key(index);
-      if (key?.startsWith(prefix)) keysToRemove.push(key);
+      if (key?.startsWith(prefix) || key?.startsWith(EXPERIMENT_RECORD_PREFIX) || key?.startsWith(`${LEGACY_BACKUP_PREFIX}${prefix}`)) keysToRemove.push(key);
     }
     keysToRemove.forEach((key) => window.localStorage.removeItem(key));
     window.localStorage.removeItem(getRecentStudyStorageKey(userSid));
     window.localStorage.removeItem(EXPERIMENT_ARCHIVE_STORAGE_KEY);
+    window.localStorage.removeItem(IMPORT_VAULT_KEY);
     setNotice(copy.actions.clearedMessage);
+    notifyRecordChanged(null);
     refreshRecords();
+    } catch (error) { setNotice(storageErrorMessage(storageErrorCode(error))); }
   }
 
   if (!hydrated) {
@@ -259,7 +280,7 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
                       <span>{item.causeFocus || item.caseNumber || item.id}</span>
                       {item.closed ? <strong>{copy.records.closedLabel}</strong> : null}
                     </div>
-                    <Link href={`/cases/${item.id}/study`}>{item.title}</Link>
+                    {item.knownCase ? <Link href={`/cases/${item.id}/study`}>{item.title}</Link> : <strong>{item.title}（历史记录）</strong>}
                     <small>{item.caseNumber}</small>
                   </div>
                   <div className="archive-record-progress">
@@ -268,16 +289,16 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
                       {item.completedModuleIds.map((moduleId) => {
                         const mod = modules.find((entry) => entry.id === moduleId);
                         return (
-                          <Link key={moduleId} className="tag" href={`/experiments/${moduleId}?case=${item.id}`}>
+                          item.knownCase ? <Link key={moduleId} className="tag" href={`/experiments/${moduleId}?case=${item.id}`}>
                             {mod?.shortName || moduleId}
-                          </Link>
+                          </Link> : <span key={moduleId} className="tag">{mod?.shortName || moduleId}</span>
                         );
                       })}
                     </div>
                   </div>
-                  <Link className="btn btn-outline" href={`/cases/${item.id}/study`}>
+                  {item.knownCase ? <Link className="btn btn-outline" href={item.pendingTasks[0]?.kind === "experiment" ? `/experiments/${item.pendingTasks[0].moduleId}?case=${item.id}` : `/cases/${item.id}/study`}>
                     {copy.records.continueLabel}
-                  </Link>
+                  </Link> : null}
                 </article>
               ))}
             </div>
@@ -296,13 +317,14 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
           <button className="btn btn-primary" type="button" onClick={handleExport}>
             {copy.actions.exportLabel}
           </button>
-          {hasRecords ? (
+          {hasRecords || hasCopies ? (
             <button className="btn btn-outline" type="button" onClick={handleClear}>
               {copy.actions.clearLabel}
             </button>
           ) : null}
         </div>
       </section>
+      <ArchiveImportPanel caseIndex={caseIndex} userSid={userSid} downloadJson={downloadJson} />
     </div>
   );
 }

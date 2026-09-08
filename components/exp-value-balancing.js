@@ -26,7 +26,7 @@ export default function ExpValueBalancing({ caseItem, onChange, initialData }) {
           <input
             type="text"
             placeholder="如：个人隐私权"
-            value={leftValue}
+            aria-label="左侧价值" value={leftValue}
             onChange={(e) => { setLeftValue(e.target.value); notify("leftValue", e.target.value); }}
           />
         </div>
@@ -36,7 +36,7 @@ export default function ExpValueBalancing({ caseItem, onChange, initialData }) {
           <input
             type="text"
             placeholder="如：公共安全"
-            value={rightValue}
+            aria-label="右侧价值" value={rightValue}
             onChange={(e) => { setRightValue(e.target.value); notify("rightValue", e.target.value); }}
           />
         </div>
@@ -48,7 +48,7 @@ export default function ExpValueBalancing({ caseItem, onChange, initialData }) {
           <textarea
             rows={5}
             placeholder="为什么应当倾向保护这一价值？法理依据和事实支撑…"
-            value={leftArg}
+            aria-label="左侧价值论证理由" value={leftArg}
             onChange={(e) => { setLeftArg(e.target.value); notify("leftArg", e.target.value); }}
           />
         </div>
@@ -57,7 +57,7 @@ export default function ExpValueBalancing({ caseItem, onChange, initialData }) {
           <textarea
             rows={5}
             placeholder="为什么应当倾向保护这一价值？法理依据和事实支撑…"
-            value={rightArg}
+            aria-label="右侧价值论证理由" value={rightArg}
             onChange={(e) => { setRightArg(e.target.value); notify("rightArg", e.target.value); }}
           />
         </div>
@@ -82,7 +82,7 @@ export default function ExpValueBalancing({ caseItem, onChange, initialData }) {
           type="range"
           min={0}
           max={100}
-          value={slider}
+          aria-label="价值倾向" value={slider}
           onChange={(e) => { const v = Number(e.target.value); setSlider(v); onChange?.(Object.values({ leftValue, rightValue, leftArg, rightArg, reason }).join("\n"), { leftValue, rightValue, leftArg, rightArg, slider: v, reason }); }}
           className="exp-scale-slider"
         />
@@ -93,7 +93,7 @@ export default function ExpValueBalancing({ caseItem, onChange, initialData }) {
         <textarea
           rows={4}
           placeholder="滑块位置不算最终答案。请写出完整的衡量理由：为什么最终倾向某一方？是否考虑了比例原则？"
-          value={reason}
+          aria-label="衡量理由" value={reason}
           onChange={(e) => { setReason(e.target.value); notify("reason", e.target.value); }}
         />
       </div>

@@ -23,7 +23,7 @@ test("clampPdfPage keeps page index within valid bounds", () => {
 });
 
 test("clampPdfScale keeps zoom within readable bounds", () => {
-  assert.equal(clampPdfScale(0.1), 0.75);
+  assert.equal(clampPdfScale(0.1), 0.25);
   assert.equal(clampPdfScale(1.3), 1.3);
   assert.equal(clampPdfScale(4.2), 2.4);
 });
@@ -31,5 +31,6 @@ test("clampPdfScale keeps zoom within readable bounds", () => {
 test("getNextPdfScale nudges zoom by step and respects bounds", () => {
   assert.equal(getNextPdfScale(1, 0.15), 1.15);
   assert.equal(getNextPdfScale(2.35, 0.2), 2.4);
-  assert.equal(getNextPdfScale(0.8, -0.2), 0.75);
+  assert.equal(getNextPdfScale(0.8, -0.2), 0.6);
+  assert.equal(getNextPdfScale(0.3, -0.2), 0.25);
 });

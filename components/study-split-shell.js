@@ -172,6 +172,7 @@ export default function StudySplitShell({
               <PdfViewer
                 fileUrl={`/pdfs/${encodeURIComponent(pdfFileName)}`}
                 fileName={pdfFileName}
+                caseNumber={caseItem.caseNumber}
                 minHeight={0}
                 downloadHref={`/pdfs/${encodeURIComponent(pdfFileName)}`}
                 fillAvailableHeight

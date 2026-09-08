@@ -1481,6 +1481,7 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
 /* Pagination */
 .cases-pagination {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: var(--sp-1);
@@ -1560,7 +1561,8 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
 .case-card-summary { font-size: 15px; color: var(--muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .case-card-meta { font-size: 13.5px; color: var(--caption); display: flex; gap: var(--sp-2); }
 .case-card-date { font-family: var(--ff-mono); font-size: var(--fs-micro); color: var(--caption); }
-.case-card-tags { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+.case-card-tags { display: flex; flex-wrap: wrap; gap: var(--sp-1); min-width: 0; }
+.case-card-tags .tag { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 
 /* Case detail page */
 .case-detail-page { min-height: 100vh; }
@@ -3299,6 +3301,9 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
 }
 .exp-annotation-unavailable p { font-size: var(--fs-caption); color: var(--muted); }
 .exp-annotation-tag-btn {
+  min-height: 40px;
+  flex-shrink: 0;
+  white-space: nowrap;
   padding: 3px 12px;
   border: 1px solid var(--border-light);
   border-left: 3px solid var(--tag-color, var(--border-strong));
@@ -3451,6 +3456,7 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
 /* Value balancing */
 .exp-value-names { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-3); }
 .exp-value-name-input {
+  min-width: 0;
   flex: 1; border: 1px solid var(--border-light); border-radius: var(--radius-sm);
   padding: 6px var(--sp-3); font-size: var(--fs-caption); font-family: var(--ff-body);
   background: var(--surface-raised);
@@ -3468,10 +3474,10 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
 .exp-annotation-text {
   padding: var(--sp-4); border: 1px solid var(--border-light); border-radius: var(--radius);
   font-size: 15px; line-height: 1.8; color: var(--ink); margin-bottom: var(--sp-3);
-  background: var(--surface-raised); max-height: 200px; overflow-y: auto;
+  background: var(--surface-raised);
 }
 .exp-annotation-mark { background: rgba(44,74,120,0.12); border-radius: 2px; padding: 0 2px; cursor: pointer; }
-.exp-annotation-toolbar { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) 0; }
+.exp-annotation-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); padding: var(--sp-2) 0; }
 .exp-annotation-toolbar-label { font-size: var(--fs-micro); color: var(--muted); }
 .exp-annotation-hint { font-size: var(--fs-micro); color: var(--caption); margin-bottom: var(--sp-2); }
 .exp-annotation-stats { display: flex; gap: var(--sp-3); margin-bottom: var(--sp-3); }
@@ -3794,6 +3800,15 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
 }
 .course-period-materials-head h2 { font-family: var(--ff-display); font-size: 22px; margin: 4px 0 0; color: var(--navy); }
 .course-period-home-actions { display: flex; gap: var(--sp-2); flex-shrink: 0; }
+
+.archive-import { padding: var(--sp-5); min-width: 0; overflow-wrap: anywhere; }
+.archive-import h2 { margin-top: 0; }
+.archive-import-file { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
+.archive-import-file input { max-width: 100%; min-width: 0; }
+.archive-import-preview, .archive-import-copies { margin-top: var(--sp-4); }
+.archive-import-copies ul, .archive-import-preview ul { max-height: 24rem; overflow: auto; padding-left: 1.5rem; }
+.archive-import-copies li { margin-bottom: var(--sp-2); }
+.archive-import [role="alert"] { color: var(--ink); border-left: 3px solid var(--amber); padding-left: var(--sp-3); }
 .course-material-group { margin-bottom: var(--sp-4); }
 .course-material-group:last-child { margin-bottom: 0; }
 .course-material-group-title {
@@ -4118,7 +4133,7 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
   flex-shrink: 0;
   flex-wrap: wrap;
 }
-.pdf-toolbar-group { display: flex; align-items: center; gap: 2px; }
+.pdf-toolbar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
 .pdf-toolbar .btn {
   padding: 3px 10px;
   font-size: var(--fs-micro);
@@ -4126,13 +4141,30 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
 }
 .pdf-toolbar-meta { font-family: var(--ff-mono); font-size: 11.5px; color: var(--caption); }
 .pdf-canvas-wrap { flex: 1; overflow: auto; position: relative; }
-.pdf-canvas-stage { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); padding: var(--sp-2); }
-.pdf-canvas { display: block; max-width: 100%; }
+.pdf-canvas-stage { display: flex; flex-direction: column; align-items: center; min-width: max-content; gap: var(--sp-2); padding: var(--sp-2); }
+.pdf-canvas { display: block; max-width: none; }
+.pdf-page-surface { position: relative; flex: none; background: white; }
+/* PDF.js TextLayer 需要与画布共用物理尺寸；不能单独缩小 canvas 的宽度。 */
+.pdf-text-layer { position: absolute; inset: 0; overflow: clip; line-height: 1; text-align: initial; text-size-adjust: none; forced-color-adjust: none; transform-origin: 0 0; user-select: text; }
+.pdf-text-layer :is(span, br) { position: absolute; color: transparent; white-space: pre; cursor: text; transform-origin: 0 0; }
+.pdf-text-layer span.markedContent { top: 0; height: 0; }
+.pdf-text-layer ::selection { background: rgba(50, 100, 220, .35); }
+.pdf-text-layer .pdf-text-match { background: rgba(255, 170, 0, .35); }
+.pdf-page-jump, .pdf-search-form { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); }
+.pdf-page-jump input { width: 4.5rem; }
+.pdf-page-jump input, .pdf-search-form input { min-width: 0; padding: 5px; border: 1px solid var(--border-light); border-radius: var(--radius); color: var(--ink); background: var(--surface); }
+.pdf-search-form { padding: var(--sp-2) var(--sp-3); }
+.pdf-search-form input { flex: 1 1 10rem; max-width: 100%; }
+.pdf-text-notice { margin: 0; padding: var(--sp-1) var(--sp-3); font-size: 12px; color: var(--muted); }
+.pdf-search-results { padding: 0 var(--sp-3); font-size: 13px; overflow-wrap: anywhere; }
+.pdf-search-results p { margin: var(--sp-1) 0; }
+.pdf-search-results ul { max-height: 8rem; overflow: auto; padding-left: 1.5rem; }
+.pdf-search-results button { text-align: left; color: var(--ink); background: var(--surface); border: 0; cursor: pointer; padding: 5px; }
 .pdf-empty-state { padding: var(--sp-8); text-align: center; color: var(--muted); font-size: 15px; }
 .pdf-status-card { padding: var(--sp-3) var(--sp-4); border: 1px solid var(--border-light); border-radius: var(--radius); margin: var(--sp-2); font-size: var(--fs-caption); color: var(--muted); }
 .pdf-status-card-warning { border-color: rgba(122, 34, 34, 0.2); color: var(--danger); }
 .pdf-footer-note { padding: var(--sp-2) var(--sp-3); border-top: 1px solid var(--border-light); font-size: 11.5px; color: var(--caption); text-align: center; }
-.pdf-rendering-badge { font-family: var(--ff-mono); font-size: 10.5px; color: var(--caption); }
+.pdf-rendering-badge { position: absolute; top: 8px; right: 8px; z-index: 2; background: var(--surface); font-family: var(--ff-mono); font-size: 10.5px; color: var(--caption); }
 
 /* ═══════════════════════════════════════════════════════════════
    15. RESPONSIVE
@@ -4291,7 +4323,15 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
   .course-stage-card { border-right: none; }
   
   .course-material-shell { grid-template-columns: 1fr; }
-  .course-detail-hero { grid-template-columns: 1fr; }
+  .course-detail-hero-head { flex-direction: column; align-items: stretch; }
+  .course-detail-hero-copy { width: 100%; }
+  .course-detail-meta-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .course-detail-meta-cell { min-width: 0; overflow-wrap: anywhere; }
+  .course-detail-meta-cell:nth-child(2n) { border-right: none; }
+  .course-detail-meta-cell:nth-child(n+3) { border-top: 1px solid var(--border-light); }
+  .course-period-materials-head { flex-direction: column; align-items: stretch; }
+  .course-period-home-actions { flex-wrap: wrap; min-width: 0; }
+  .course-period-home-actions .btn { white-space: normal; max-width: 100%; }
   .showcase-video-phase-grid { grid-template-columns: 1fr; }
   .showcase-video-period-grid { grid-template-columns: repeat(2, 1fr); }
   /* 争点论证：移动端 Tab 真切换，仅显示活跃角色栏 */
@@ -5156,3 +5196,33 @@ textarea:focus { border-color: var(--steel); outline: none; box-shadow: 0 0 0 3p
   .video-player-below { flex-direction: column; }
   .video-period-nav { grid-template-columns: 1fr; }
 }
+
+/* 保存状态始终与当前输入一起可见。 */
+.exp-save-notice { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); padding: var(--sp-3); color: var(--ink-soft); overflow-wrap: anywhere; }
+.exp-save-notice > span { flex: 1 1 220px; }
+
+/* 完整规范名称与引文在窄屏中换行。 */
+.exp-norm-retrieval-interaction .exp-norm-chip { white-space: normal; text-align: left; max-width: 100%; overflow-wrap: anywhere; }
+.exp-norm-comparison blockquote { margin: 1rem 0; padding: 1rem; border-left: 3px solid currentColor; overflow-wrap: anywhere; }
+
+/* 原文段落使用原生按钮，保留阅读排版与键盘焦点。 */
+button.exp-annotation-para { display: block; width: 100%; font: inherit; color: inherit; text-align: left; background: transparent; border: 0; border-left: 3px solid transparent; white-space: normal; overflow-wrap: anywhere; }
+button.exp-annotation-para:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.exp-annotation-history { overflow-wrap: anywhere; }
+
+.exp-revision-panel { padding: var(--sp-4); border: 1px solid var(--border-light); border-radius: var(--radius); margin-top: var(--sp-3); }
+.exp-revision-output { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.exp-case-task, .exp-case-rubric { border: 1px solid var(--border-light); border-radius: var(--radius); padding: var(--sp-3); margin-bottom: var(--sp-3); overflow-wrap: anywhere; }
+.exp-rubric-check { border-left: 3px solid var(--border-strong); padding-left: var(--sp-3); margin: var(--sp-3) 0; }
+.exp-case-rubric figure { margin: var(--sp-3) 0; }
+.exp-case-rubric blockquote { margin: var(--sp-2) 0; padding-left: var(--sp-3); border-left: 2px solid var(--border-light); }
+
+.course-task-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.course-task-card { overflow-wrap: anywhere; }
+.course-task-actions .btn { white-space: normal; text-align: center; }
+
+.course-task-card { padding: var(--sp-5); overflow-wrap: anywhere; }
+
+.exp-value-name-input input { width: 100%; min-width: 0; }
+@media (max-width: 480px) { .exp-value-names { flex-direction: column; } .exp-value-args { grid-template-columns: minmax(0, 1fr); } }

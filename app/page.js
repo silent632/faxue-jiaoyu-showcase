@@ -1,3 +1,4 @@
+import { loadCourseTasks } from "@/lib/content/course-tasks.js";
 import Link from "next/link";
 import HomeContinueCard from "@/components/home-continue-card";
 import ShowcaseNav from "@/components/showcase-nav";
@@ -97,7 +98,7 @@ export default async function HomePage() {
 
             <div className="homepage-console-kpis" aria-label="平台规模">
               {[metrics.caseCount, metrics.coursePeriods, metrics.registeredUsers, metrics.totalVideoPlays]
-                .filter(Boolean)
+                .filter(m => m && m.status !== "unverified")
                 .map((m) => (
                   <article key={m.label} className="homepage-console-kpi">
                     <strong>{m.value}</strong>
@@ -108,7 +109,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <HomeContinueCard
+        <HomeContinueCard courseTasks={loadCourseTasks()}
           caseIndex={homeCaseIndex}
           copy={content.learningLoop.homeContinue}
           userSid="public-showcase"
@@ -156,7 +157,7 @@ export default async function HomePage() {
           <div className="homepage-course-cta">
             <div className="homepage-course-cta-copy">
               <strong>{homeVideoBlock.periods.length} 期课程</strong>
-              <span>双师视频与配套材料已就绪</span>
+              <span>课程正文与配套阅读入口</span>
             </div>
             <Link href="/courses" className="btn btn-primary">查看全部课程</Link>
           </div>

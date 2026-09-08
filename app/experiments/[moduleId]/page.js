@@ -1,3 +1,5 @@
+import availability from "@/content/norm-availability.json";
+import { loadCourseTasks } from "@/lib/content/course-tasks.js";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -108,9 +110,9 @@ export default async function ExperimentModulePage({ params }) {
       <section className="exp-detail-workspace-wrap">
         <Suspense fallback={null}>
           <ExperimentShell
-            module={mod}
+            module={{ ...mod, courseTasks: Object.fromEntries(loadCourseTasks().filter(task => task.moduleId === mod.id).map(task => [task.caseId, { slug: task.slug, version: task.version }])) }}
             modules={modules}
-            cases={eligible}
+            cases={eligible.map(item => ({ ...item, normUnavailableReason: availability.cases[item.id]?.status === "excluded" ? availability.cases[item.id].reason : "" }))}
             tagLabels={tagLabels}
             loopCopy={loopCopy}
           />
@@ -119,3 +121,5 @@ export default async function ExperimentModulePage({ params }) {
     </main>
   );
 }
+
+export async function generateMetadata({ params }) { const { moduleId } = await params; const mod = getExperimentModuleById(moduleId); return mod ? { title: `${mod.name} · 法理实验`, description: mod.description, alternates: { canonical: `/experiments/${moduleId}/` } } : {}; }

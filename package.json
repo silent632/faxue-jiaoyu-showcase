@@ -6,18 +6,23 @@
   "scripts": {
     "dev": "next dev -p 3011",
     "build": "next build",
-    "start": "next start -p 3011",
+    "start": "node scripts/serve-static.mjs",
     "test": "npm run test:core",
     "test:core": "node --test tests/core/*.test.mjs",
     "validate:content": "node ./scripts/validate-content.mjs",
     "audit:assets": "node ./scripts/audit-assets.mjs",
     "check": "npm run validate:content && npm run audit:assets && npm run test:core && npm run build",
-    "sync:pdfs": "node ./lib/showcase-pdf-sync.mjs"
+    "sync:pdfs": "node ./lib/showcase-pdf-sync.mjs",
+    "test:browser": "node --test tests/browser/*.test.mjs",
+    "check:browser": "npm run build && npm run test:browser"
   },
   "dependencies": {
     "next": "^15.5.10",
     "pdfjs-dist": "^5.4.149",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
   }
 }

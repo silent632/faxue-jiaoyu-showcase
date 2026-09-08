@@ -42,7 +42,8 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.equal(content.metrics.caseCount.label, "典型案例");
   assert.equal(content.metrics.caseCount.value, "210+");
   assert.equal(content.metrics.coursePeriods.value, "8期");
-  assert.equal(content.metrics.registeredUsers.value, "800+");
+  assert.equal(content.metrics.registeredUsers.status, "unverified");
+  assert.equal(content.metrics.registeredUsers.raw, null);
   assert.equal(content.metrics.totalVideoPlays.label, "视频播放");
   assert.ok(content.metrics.workspaceReturnRate);
   const labels = Object.values(content.metrics).map((item) => item.label);
@@ -82,18 +83,18 @@ test("showcase content avoids label-board wording in content pages", () => {
   assert.equal(/补充说明/u.test(text), false);
 });
 
-test("impact dashboard source data is ready for number-first composition", () => {
+test("impact dashboard source data is ready for unverified metrics without unsupported numbers", () => {
   const content = buildShowcaseContent();
   const trendPanels = content.impactDashboard?.trendPanels ?? [];
   const coverageCards = content.impactDashboard?.coverageCards ?? [];
 
-  // 趋势卡必须携带可上位展示的数字指标
+  // 无原始统计依据时不得恢复示例数字
   assert.ok(trendPanels.every((panel) => typeof panel.title === "string" && panel.title.length > 0));
   assert.ok(trendPanels.every((panel) => typeof panel.metricLabel === "string" && panel.metricLabel.length > 0));
-  assert.ok(trendPanels.every((panel) => typeof panel.metricValue === "string" && /\d/u.test(panel.metricValue)));
+  assert.ok(trendPanels.every((panel) => panel.status === "unverified" && panel.metricValue === "待核验"));
 
-  // 覆盖卡必须携带百分比数值（用于比例条）
-  assert.ok(coverageCards.every((card) => typeof card.coverageValue === "string" && /\d/u.test(card.coverageValue)));
+  // 未核验覆盖率不生成虚构比例
+  assert.ok(coverageCards.every((card) => card.status === "unverified" && card.coverageValue === "待核验"));
   assert.ok(coverageCards.some((card) => /覆盖/u.test(card.title)));
 
   const impactSections = content.impact?.sections ?? [];

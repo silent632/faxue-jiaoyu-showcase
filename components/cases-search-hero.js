@@ -42,6 +42,8 @@ export default function CasesSearchHero({
       <div className="cases-hero-search-row">
         <div className="cases-hero-search-box">
           <input
+            type="search"
+            aria-label="检索案例"
             className="input cases-search-input"
             placeholder="输入案号、案名、法院或关键词"
             value={keywordInput}

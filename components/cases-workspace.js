@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CasesFilterChipGroup from "@/components/cases-filter-chip-group";
 import CasesIntelligencePanels from "@/components/cases-intelligence-panels";
 import CasesResultsColumn from "@/components/cases-results-column";
@@ -24,6 +24,8 @@ import {
 
 export default function CasesWorkspace({ cases = [], initialFilters = {}, initialSort = "date-desc", initialPage = 1 }) {
   const pathname = usePathname();
+  const [hydrated, setHydrated] = useState(false);
+  const keywordEdited = useRef(false);
   const rows = useMemo(() => normalizeCaseRows(cases), [cases]);
   const [filters, setFilters] = useState(() => normalizeInitialCaseFilters(initialFilters));
   const [keywordInput, setKeywordInput] = useState(() => String(initialFilters.keyword || initialFilters.q || ""));
@@ -37,11 +39,13 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
     if (typeof window === "undefined") return undefined;
 
     const syncFromLocation = () => {
+      keywordEdited.current = false;
       const nextState = resolveCasesStateFromSearchParams(new URLSearchParams(window.location.search));
       setFilters(nextState.filters);
       setKeywordInput(nextState.keywordInput);
       setSortMode(nextState.sortMode);
       setCurrentPage(nextState.currentPage);
+      setHydrated(true);
     };
 
     syncFromLocation();
@@ -50,7 +54,9 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
   }, []);
 
   useEffect(() => {
+    if (!keywordEdited.current) return;
     const timer = setTimeout(() => {
+      keywordEdited.current = false;
       setFilters((prev) => ({ ...prev, keyword: keywordInput.trim() }));
       setCurrentPage(1);
     }, 240);
@@ -100,13 +106,13 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
   }, [currentPage, totalPages]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !hydrated) return;
     const query = buildCasesQueryString({ filters, sortMode, currentPage });
     const next = query ? `${pathname}?${query}` : pathname;
     if (`${window.location.pathname}${window.location.search}` !== next) {
       window.history.replaceState(null, "", next);
     }
-  }, [pathname, filters, sortMode, currentPage]);
+  }, [pathname, filters, sortMode, currentPage, hydrated]);
 
   const activeFilters = useMemo(
     () =>
@@ -143,6 +149,7 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
   }
 
   function handleSuggestionSelect(item) {
+    keywordEdited.current = true;
     setKeywordInput(item.title);
     setFilters((prev) => ({ ...prev, keyword: item.title }));
     setShowSuggestions(false);
@@ -158,7 +165,7 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
         keywordInput={keywordInput}
         showSuggestions={showSuggestions}
         suggestions={suggestions}
-        onKeywordInputChange={setKeywordInput}
+        onKeywordInputChange={(value) => { keywordEdited.current = true; setKeywordInput(value); }}
         onSuggestionsOpen={() => setShowSuggestions(true)}
         onSuggestionsClose={() => setTimeout(() => setShowSuggestions(false), 120)}
         onSuggestionSelect={handleSuggestionSelect}

@@ -63,3 +63,14 @@ Codex should end content maintenance work with:
 - Affected public pages.
 - Validation commands and results.
 - Any source data that could not be verified.
+
+
+## 2026-09 内容与记录契约
+
+默认构建仅使用仓库快照。`COURSE_PACKAGE_ROOT` 是显式外部覆盖，不能用来隐藏缺失输入；发布需保留 `scripts/build-input-manifest.mjs` 的输出。远端视频检查使用 `scripts/audit-remote-assets.mjs`，与本地文件审计分开。
+
+修改日期、法院或程序前记录旧值、页码、原文、来源文件指纹。日期不能取案件事实中的时间。全文事实/争点/说理仍属教学整理；精选量规即使引文核对通过也不得改称教师审定。
+
+实验新记录使用 v2 与共享完成规则；学习记录导出兼容 v1/v2。跨页写入需检查 revision。导入使用单次快照与冲突副本，不按时间覆盖。课程版本变化保留历史任务；课程完成必须有研习、指定实验与反思。
+
+修改行为后运行浏览器回归；改 PDF 依据后运行 PROGRESS.md 所列物理页验证脚本。运营数字必须同时提供原始来源、区间和口径，缺失则隐藏或保持待核验。当前状态只维护在 PROGRESS.md。

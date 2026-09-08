@@ -1,8 +1,17 @@
 "use client";
 
+import CaseRubric from "./case-rubric";
+import { getCaseRubric } from "../lib/case-rubrics.js";
+import { annotationTasks } from "../lib/annotation.js";
+import { normTasks } from "../lib/norm-comparison.js";
+
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+
+import useExperimentDraft from "@/components/use-experiment-draft";
+import { checkExperimentCompletion, isExperimentComplete } from "@/lib/experiment-completion";
+import { subscribeRecords } from "@/lib/local-record";
 
 import ExpReasoning from "@/components/exp-reasoning";
 import ExpArgumentation from "@/components/exp-argumentation";
@@ -11,9 +20,7 @@ import ExpInterpretation from "@/components/exp-interpretation";
 import ExpValueBalancing from "@/components/exp-value-balancing";
 import ExpAnnotation from "@/components/exp-annotation";
 import {
-  loadExperimentRecord,
   readExperimentArchive,
-  saveExperimentRecord,
 } from "@/lib/experiment-archive";
 import { ModuleHistory } from "@/components/experiment-progress";
 import { recommendModulesForCase } from "@/lib/learning-loop";
@@ -80,6 +87,7 @@ function CaseSelector({ cases, onSelect, tagLabels, moduleId }) {
               {c.courtLevel && <span className="exp-selector-card-level">{c.courtLevel}</span>}
             </div>
             <strong className="exp-selector-card-title">{c.title}</strong>
+            {getCaseRubric(c.id, moduleId) && <span className="exp-selector-tag">有案例专属量规</span>}
             <div className="exp-selector-card-meta">
               <span>{c.caseNumber}</span>
               <span>{c.courtName}</span>
@@ -90,7 +98,7 @@ function CaseSelector({ cases, onSelect, tagLabels, moduleId }) {
                 <span key={t} className="exp-selector-tag">{(tagLabels || {})[t] || t}</span>
               ))}
             </div>
-            <span className="exp-selector-card-action">开始实验 →</span>
+            <span className="exp-selector-card-action">{moduleId === "exp-norm-retrieval" ? (normTasks[c.id] ? "原文依据已核对 · 开始实验 →" : "原文依据待核查 · 可保存草稿 →") : moduleId === "exp-annotation" ? (annotationTasks[c.id] ? "原文摘录已核对 · 开始批注 →" : "原文摘录待核查 · 可保存草稿 →") : "开始实验 →"}</span>
           </button>
         ))}
         {pageCases.length === 0 && (
@@ -153,6 +161,8 @@ function SelfEvaluation({ dimensions, instruction, scores, onScoreChange }) {
                   className={`exp-eval-star${(scores[dim.id] || 0) >= v ? " active" : ""}`}
                   onClick={() => onScoreChange(dim.id, v)}
                   title={`${v} 分`}
+                  aria-label={`${dim.label} ${v} 分`}
+                  aria-pressed={scores[dim.id] === v}
                 >
                   {(scores[dim.id] || 0) >= v ? "★" : "☆"}
                 </button>
@@ -168,20 +178,18 @@ function SelfEvaluation({ dimensions, instruction, scores, onScoreChange }) {
 
 const TRAINER_STAGES = [
   { id: "task", num: "01", label: "实验产出" },
-  { id: "review", num: "02", label: "双师点评" },
+  { id: "review", num: "02", label: "对照指引" },
   { id: "eval", num: "03", label: "自评存档" },
 ];
 
 const STAGE_ORDER = { task: 0, review: 1, eval: 2 };
 
 function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCopy, onBack }) {
-  const [output, setOutput] = useState("");
-  const [selfScores, setSelfScores] = useState({});
-  const [interactionData, setInteractionData] = useState(null);
-  const [saved, setSaved] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const { output, selfScores, interactionData, saved, loaded, stage, restoreKey,
+    reviewRubric, initialDraft, revisionNote, revisionCheck, enterReview, enterEvaluation, handleRevisionNoteChange,
+    saveInfo, failed, hasUnsavedWork, handleOutputChange, handleScoreChange, handleSaveDraft, handleSave, exportCurrent,
+  } = useExperimentDraft(mod, caseItem);
   const [completedModuleIds, setCompletedModuleIds] = useState([]);
-  const [stage, setStage] = useState("task");
   const trainerRef = useRef(null);
   const reviewRef = useRef(null);
   const evalRef = useRef(null);
@@ -197,48 +205,12 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
   }, []);
 
   useEffect(() => {
-    const archive = readExperimentArchive();
-    setCompletedModuleIds(
-      Object.entries(archive)
-        .filter(([, records]) => records?.[caseItem.id])
-        .map(([moduleId]) => moduleId),
-    );
-
-    const rec = loadExperimentRecord(mod.id, caseItem.id);
-    if (rec) {
-      setSelfScores(rec.selfScores || {});
-      if (rec.interactionData) setInteractionData(rec.interactionData);
-      if (rec.output) setOutput(rec.output);
-      setLoaded(true);
-      setSaved(true);
-      setStage("eval");
-    }
-  }, [mod.id, caseItem.id]);
-
-  const handleScoreChange = useCallback((dimId, value) => {
-    setSelfScores((prev) => ({ ...prev, [dimId]: value }));
-    setSaved(false);
-  }, []);
-
-  const handleOutputChange = useCallback((val, data) => {
-    setOutput(val);
-    if (data) setInteractionData(data);
-    setSaved(false);
-  }, []);
-
-  function handleSave() {
-    saveExperimentRecord(mod.id, caseItem.id, {
-      output,
-      selfScores,
-      interactionData,
-      caseTitle: caseItem.title,
-      dimensionCount: evalDimensions.length,
-    });
-    setCompletedModuleIds((current) => [...new Set([...current, mod.id])]);
-    setSaved(true);
-  }
-
-  const hasUnsavedWork = !saved && (output.trim().length > 0 || Object.keys(selfScores).length > 0);
+    const refresh = () => setCompletedModuleIds(Object.entries(readExperimentArchive())
+      .filter(([moduleId, records]) => isExperimentComplete(moduleId, records?.[caseItem.id]))
+      .map(([moduleId]) => moduleId));
+    refresh();
+    return subscribeRecords(refresh);
+  }, [caseItem.id]);
 
   function handleBack() {
     if (hasUnsavedWork && !window.confirm("你有未保存的实验内容，确定返回吗？返回后内容将丢失。")) {
@@ -254,7 +226,8 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
   const scoredCount = Object.keys(selfScores).length;
 
   const outputChars = output.trim().length;
-  const taskDone = outputChars >= 20 || interactionData != null;
+  const taskCheck = checkExperimentCompletion(mod.id, interactionData);
+  const taskDone = taskCheck.complete;
   const stageIdx = STAGE_ORDER[stage];
 
   function scrollTrainerTo(ref) {
@@ -265,13 +238,11 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
 
   function goReview() {
     if (!taskDone) return;
-    setStage("review");
-    scrollTrainerTo(reviewRef);
+    if (enterReview()) scrollTrainerTo(reviewRef);
   }
 
   function goEval() {
-    setStage("eval");
-    scrollTrainerTo(evalRef);
+    if (enterEvaluation()) scrollTrainerTo(evalRef);
   }
 
   const isGuidedReading = mod.feedbackStrategy?.type === "guided-reading";
@@ -293,12 +264,18 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
         </div>
         <div className="exp-ws3-topbar-right">
           {loaded && <span className="exp-ws3-archive-badge">已有存档</span>}
-          <button className={`btn ${saved ? "btn-outline" : "btn-accent"}`} onClick={handleSave}>
-            {saved ? "✓ 已存档" : "存档铸能"}
+          <button className={`btn ${saved ? "btn-outline" : "btn-accent"}`} onClick={handleSaveDraft}>
+            保存草稿
           </button>
         </div>
       </div>
 
+      {mod.courseTasks?.[caseItem.id] && <Link className="btn btn-outline" href={`/courses/${mod.courseTasks[caseItem.id].slug}/`}>返回本期课程查看进度</Link>}
+      <div className="exp-save-notice" role="status">
+        <span>{saveInfo}</span>
+        <button type="button" className="btn btn-outline" onClick={exportCurrent}>导出当前实验</button>
+        {failed ? <button type="button" className="btn btn-outline" onClick={handleSaveDraft}>重试保存</button> : null}
+      </div>
       <div className="exp-ws3-split">
         {/* 左栏：纸面案例阅读器 */}
         <aside className="exp-ws3-reader">
@@ -374,9 +351,10 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
               <p>{mod.description}</p>
             </div>
             <div className="exp-ws3-stage-body">
+              {reviewRubric && <section className="exp-case-task"><h4>本案专属任务 · {reviewRubric.title}</h4><p>{reviewRubric.task}</p><p>{reviewRubric.courseRelation}</p></section>}
               {InteractionComponent ? (
                 <InteractionComponent
-                  key={loaded ? "restored" : "fresh"}
+                  key={restoreKey}
                   caseItem={caseItem}
                   onChange={handleOutputChange}
                   initialData={interactionData}
@@ -393,40 +371,41 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
             {stage === "task" && (
               <div className="exp-ws3-advance">
                 <button className="exp-ws3-advance-btn" disabled={!taskDone} onClick={goReview}>
-                  完成产出，进入双师点评 →
+                  完成产出，进入对照指引 →
                 </button>
                 {!taskDone && (
-                  <p className="exp-ws3-advance-hint">先完成上方实验操作（或写满 20 字），再进入点评环节。</p>
+                  <p className="exp-ws3-advance-hint">请补充：{taskCheck.missing.join("、")}。</p>
                 )}
               </div>
             )}
           </div>
 
-          {/* 阶段二：双师点评（递进揭示） */}
+          {/* 阶段二：对照指引（递进揭示） */}
           {stageIdx >= 1 ? (
             <div className="exp-ws3-stage" ref={reviewRef}>
               <div className="exp-ws3-stage-head">
-                <h3>双师点评</h3>
-                <p>从理论与实务两个维度审视你的产出。</p>
+                <h3>对照指引</h3>
+                <p>以下是固定学习指引，不是教师对本次作答的审阅意见。</p>
               </div>
-              <div className="exp-ws3-teacher-grid">
+              {reviewRubric && <CaseRubric rubric={reviewRubric} caseId={caseItem.id} />}
+              {!reviewRubric && <div className="exp-ws3-teacher-grid">
                 <article className="exp-ws3-teacher-card">
                   <span className="exp-ws3-teacher-avatar exp-ws3-teacher-avatar-theory">理</span>
                   <div>
-                    <span className="exp-ws3-teacher-label">理论导师视角</span>
+                    <span className="exp-ws3-teacher-label">理论检查视角</span>
                     <p>{mod.dualTeacher.theoryPrompt}</p>
                   </div>
                 </article>
                 <article className="exp-ws3-teacher-card">
                   <span className="exp-ws3-teacher-avatar exp-ws3-teacher-avatar-practice">实</span>
                   <div>
-                    <span className="exp-ws3-teacher-label">实务导师视角</span>
+                    <span className="exp-ws3-teacher-label">实务检查视角</span>
                     <p>{mod.dualTeacher.practicePrompt}</p>
                   </div>
                 </article>
-              </div>
+              </div>}
 
-              {mod.feedbackStrategy && (
+              {!reviewRubric && mod.feedbackStrategy && (
                 <div className="exp-ws3-reference">
                   <div className="exp-ws3-reference-head">
                     <span className="exp-ws3-reference-type">
@@ -436,11 +415,22 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
                   </div>
                   {!isGuidedReading && caseItem.refLegal && (
                     <div className="exp-ws3-reference-body">
-                      <p>{caseItem.refLegal}</p>
+                      <p>教学整理（非裁判原文、非标准答案）</p><p>{caseItem.refLegal}</p>
                     </div>
                   )}
                 </div>
               )}
+
+              {initialDraft && <section className="exp-revision-panel" aria-label="初稿与修订">
+                <h4>初稿与修订</h4>
+                <p>首次进入对照时的产出已保留。可回到上方修改，当前产出作为修订稿；旧记录从本次进入对照开始留存，不还原此前作答。</p>
+                <details><summary>查看对照前初稿</summary><p className="exp-revision-output">{initialDraft.output}</p></details>
+                <details><summary>查看当前产出</summary><p className="exp-revision-output">{output}</p></details>
+                <label htmlFor="experiment-revision-note">修改说明与依据</label>
+                <textarea id="experiment-revision-note" className="exp-task-textarea" rows={3} value={revisionNote} onChange={(event) => handleRevisionNoteChange(event.target.value)} placeholder="修改了哪一点？依据哪段原文或规范？如保留原判断，也可以说明理由。" />
+                <button type="button" className="btn btn-outline" disabled={!revisionNote.trim()} onClick={() => handleRevisionNoteChange(revisionNote)}>确认说明适用于当前稿</button>
+                <p>修改产出后须补充说明再存档；继续改稿会保留旧说明，但需要更新或重新确认。</p>
+              </section>}
 
               {stage === "review" && (
                 <div className="exp-ws3-advance">
@@ -453,7 +443,7 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
           ) : (
             <div className="exp-ws3-stage-locked">
               <span className="exp-ws3-lock-num">02</span>
-              <span>双师点评 · 完成实验产出后解锁</span>
+              <span>对照指引 · 完成实验产出后解锁</span>
             </div>
           )}
 
@@ -463,7 +453,7 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
               <div className="exp-ws3-stage" ref={evalRef}>
                 <div className="exp-ws3-stage-head">
                   <h3>自我评价</h3>
-                  <p>{evalInstruction}</p>
+                  <p>{evalInstruction} 评分仅代表你的自我判断，不是客观能力评定。</p>
                 </div>
                 <SelfEvaluation
                   dimensions={evalDimensions}
@@ -481,13 +471,14 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
                   </div>
                   <button
                     className="exp-ws3-advance-btn"
-                    disabled={scoredCount < evalDimensions.length}
+                    disabled={!taskDone || !revisionCheck.complete}
                     onClick={handleSave}
                   >
                     {saved ? "✓ 已存档 · 可在选案页查看历史" : "存档铸能，完成本次实验"}
                   </button>
-                  {scoredCount < evalDimensions.length && (
-                    <p className="exp-ws3-advance-hint">给全部 {evalDimensions.length} 个维度打分后即可存档。</p>
+                  {!revisionCheck.complete && <p className="exp-ws3-advance-hint">请补充：{revisionCheck.missing.join("、")}。</p>}
+                  {!taskDone && (
+                    <p className="exp-ws3-advance-hint">请先完成实验产出；自评可按需要填写。</p>
                   )}
                 </div>
 
@@ -529,7 +520,7 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
           ) : (
             <div className="exp-ws3-stage-locked">
               <span className="exp-ws3-lock-num">03</span>
-              <span>自评存档 · 完成双师点评对照后解锁</span>
+              <span>自评存档 · 完成对照指引对照后解锁</span>
             </div>
           )}
         </section>
@@ -562,6 +553,7 @@ export default function ExperimentShell({ module: mod, modules, cases, tagLabels
   if (selectedCase) {
     return (
       <ExperimentWorkspace
+        key={`${mod.id}:${selectedCase.id}`}
         module={mod}
         modules={modules}
         caseItem={selectedCase}

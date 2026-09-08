@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { subscribeRecords } from "@/lib/local-record";
 import {
   deriveCaseLoopState,
   readAllStudyRecords,
@@ -12,6 +13,7 @@ export default function CaseLoopProgress({ caseId, userSid, copy }) {
   const [state, setState] = useState(null);
 
   useEffect(() => {
+    const refresh = () => {
     const studyRecords = readAllStudyRecords(userSid);
     const archive = readExperimentArchive();
     const experimentRecords = Object.fromEntries(
@@ -26,7 +28,10 @@ export default function CaseLoopProgress({ caseId, userSid, copy }) {
 
     if (nextState.studySteps > 0 || nextState.experimentsDone > 0) {
       setState(nextState);
-    }
+    } else setState(null);
+    };
+    refresh();
+    return subscribeRecords(refresh);
   }, [caseId, userSid]);
 
   if (!state) return null;

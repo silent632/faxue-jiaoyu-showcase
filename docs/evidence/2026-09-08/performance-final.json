@@ -1,0 +1,12 @@
+{
+  "baseline": {
+    "casesHtmlBytes": 825430,
+    "casesGzipBytes": 187755
+  },
+  "final": {
+    "casesHtmlBytes": 363409,
+    "casesGzipBytes": 77523
+  },
+  "htmlReductionPercent": 55.97,
+  "gzipReductionPercent": 58.71
+}

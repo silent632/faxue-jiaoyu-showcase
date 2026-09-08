@@ -44,18 +44,24 @@
     },
     "registeredUsers": {
       "label": "平台使用者",
-      "value": "800+",
-      "raw": 800
+      "value": "待核验",
+      "raw": null,
+      "status": "unverified",
+      "sourceNote": "未提供统计区间、原始日志和计算口径，暂不公开。"
     },
     "totalVideoPlays": {
       "label": "视频播放",
-      "value": "5万+",
-      "raw": 50000
+      "value": "待核验",
+      "raw": null,
+      "status": "unverified",
+      "sourceNote": "未提供统计区间、原始日志和计算口径，暂不公开。"
     },
     "workspaceReturnRate": {
       "label": "工作台回访率",
-      "value": "68%",
-      "raw": 0.68
+      "value": "待核验",
+      "raw": null,
+      "status": "unverified",
+      "sourceNote": "未提供统计区间、原始日志和计算口径，暂不公开。"
     }
   },
   "learningLoop": {
@@ -131,7 +137,7 @@
         "description": "记录只保存在当前浏览器。导出后可自行备份；清空操作无法撤销。",
         "exportLabel": "导出全部记录",
         "clearLabel": "清空本地记录",
-        "clearConfirm": "确定清空全部三步研习和实验存档吗？此操作无法撤销。",
+        "clearConfirm": "确定清空全部三步研习、实验存档及导入副本吗？此操作无法撤销，请先导出备份。",
         "exportedMessage": "全部记录已导出为 JSON 文件。",
         "clearedMessage": "当前浏览器中的研习记录已清空。"
       },
@@ -156,36 +162,41 @@
     "trendPanels": [
       {
         "title": "课程建设趋势",
-        "value": "8期课程持续迭代",
-        "detail": "课程主题从检索方法扩展到程序正义、数字治理与智能治理议题。",
+        "value": "统计资料待核验",
+        "detail": "待取得统计区间与原始记录后更新。",
         "metricLabel": "视频播放",
-        "metricValue": "5万+"
+        "metricValue": "待核验",
+        "status": "unverified"
       },
       {
         "title": "学习参与趋势",
-        "value": "800+ 平台使用者",
-        "detail": "案例检索、研习工作台与课程回看形成连续学习路径。",
+        "value": "统计资料待核验",
+        "detail": "待取得统计区间与原始记录后更新。",
         "metricLabel": "活跃用户",
-        "metricValue": "320+"
+        "metricValue": "待核验",
+        "status": "unverified"
       },
       {
         "title": "研习留存趋势",
-        "value": "工作台回访率持续稳定",
-        "detail": "工作台复访和检索联动使用保持较高水平。",
+        "value": "统计资料待核验",
+        "detail": "待取得统计区间与原始记录后更新。",
         "metricLabel": "工作台回访率",
-        "metricValue": "68%"
+        "metricValue": "待核验",
+        "status": "unverified"
       }
     ],
     "coverageCards": [
       {
         "title": "教学建设覆盖",
         "description": "课程、任务单与评价指标形成相互支撑的教学建设结构。",
-        "coverageValue": "100%"
+        "coverageValue": "待核验",
+        "status": "unverified"
       },
       {
         "title": "推广应用覆盖",
         "description": "案例、课程视频、课程档案与成效展示形成统一入口。",
-        "coverageValue": "85%"
+        "coverageValue": "待核验",
+        "status": "unverified"
       }
     ]
   },

@@ -58,7 +58,7 @@ export default function ExpArgumentation({ caseItem, onChange, initialData }) {
               className="exp-task-textarea"
               rows={6}
               placeholder={`站在${column.title.slice(0, 5)}立场，围绕争点展开论证：规范依据、事实支撑、论证理由…`}
-              value={column.value}
+              aria-label={column.title} value={column.value}
               onChange={(event) => column.setter(event.target.value)}
             />
             <p className="exp-char-hint">{column.value.trim().length} 字{column.value.trim().length < 30 ? ` · 还需 ${30 - column.value.trim().length} 字解锁判断` : ""}</p>
@@ -73,7 +73,7 @@ export default function ExpArgumentation({ caseItem, onChange, initialData }) {
             className="exp-task-textarea"
             rows={4}
             placeholder="综合双方论证，写出你自己的判断和理由…"
-            value={judgment}
+            aria-label="我的判断" value={judgment}
             onChange={(event) => { setJudgment(event.target.value); notify("judgment", event.target.value); }}
           />
         ) : (

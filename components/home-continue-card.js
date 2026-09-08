@@ -1,49 +1,43 @@
 "use client";
 
+import { deriveCourseTaskState } from "../lib/course-tasks.js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import {
   deriveCaseLoopState,
+  getLearningActivities,
   readAllStudyRecords,
   readExperimentArchive,
 } from "@/lib/learning-loop";
-import { getRecentStudyStorageKey } from "@/lib/study-workspace";
+import { subscribeRecords } from "@/lib/local-record";
 
-function findLatestExperimentCase(archive) {
-  let latest = null;
-
-  for (const records of Object.values(archive)) {
-    for (const [caseId, record] of Object.entries(records || {})) {
-      const time = Date.parse(record.updatedAt || record.completedAt || "") || 0;
-      if (!latest || time > latest.time) {
-        latest = { caseId, time, caseTitle: record.caseTitle };
-      }
-    }
-  }
-
-  return latest;
-}
-
-export default function HomeContinueCard({ caseIndex, copy, userSid }) {
+export default function HomeContinueCard({ caseIndex, copy, userSid, courseTasks = [] }) {
   const [recent, setRecent] = useState(null);
 
   useEffect(() => {
+    const refresh = () => {
     const studyRecords = readAllStudyRecords(userSid);
     const archive = readExperimentArchive();
-    let recentStudy = null;
-
-    try {
-      const raw = window.localStorage.getItem(getRecentStudyStorageKey(userSid));
-      recentStudy = raw ? JSON.parse(raw) : null;
-    } catch (_error) {
-      recentStudy = null;
+    const activities = getLearningActivities(studyRecords, archive).filter((task) => caseIndex.some((item) => item.id === task.caseId));
+    const latest = activities.find((task) => !task.complete) || activities[0];
+    if (latest?.complete) {
+      for (const activity of activities) {
+        const records = Object.fromEntries(Object.entries(archive).filter(([, values]) => values?.[activity.caseId]).map(([key, values]) => [key, values[activity.caseId]]));
+        const state = deriveCaseLoopState({ studyDraft: studyRecords[activity.caseId], experimentRecords: records });
+        if (!state.studyDone || !state.experimentsDone) {
+          const item = caseIndex.find(item => item.id === activity.caseId);
+          setRecent({ ...state, caseId: activity.caseId, title: item.title, href: !state.studyDone ? `/cases/${activity.caseId}/study/` : `/cases/${activity.caseId}/`, caseNumber: item.caseNumber });
+          return;
+        }
+      }
     }
-
-    const latestExperiment = findLatestExperimentCase(archive);
-    const caseId = recentStudy?.id || latestExperiment?.caseId;
-    if (!caseId) return;
-
+    if (!latest || latest.complete) {
+      const pending = courseTasks.map(task => ({ task, state: deriveCourseTaskState(task, studyRecords, archive) })).find(item => !item.state.complete);
+      if (pending) { setRecent({ caseId: pending.task.caseId, title: pending.task.title, href: `/courses/${pending.task.slug}/`, studySteps: pending.state.studyDone ? 3 : 0, experimentsDone: pending.state.experimentDone ? 1 : 0 }); return; }
+      if (!latest) { setRecent(null); return; }
+    }
+    const caseId = latest.caseId;
     const caseItem = caseIndex.find((item) => item.id === caseId);
     const experimentRecords = Object.fromEntries(
       Object.entries(archive)
@@ -57,11 +51,15 @@ export default function HomeContinueCard({ caseIndex, copy, userSid }) {
 
     setRecent({
       caseId,
-      title: caseItem?.title || latestExperiment?.caseTitle || caseId,
+      title: caseItem?.title || caseId,
+      href: latest.kind === "experiment" ? `/experiments/${latest.moduleId}?case=${caseId}` : `/cases/${caseId}/study`,
       caseNumber: caseItem?.caseNumber || "",
       ...loopState,
     });
-  }, [caseIndex, userSid]);
+    };
+    refresh();
+    return subscribeRecords(refresh);
+  }, [caseIndex, userSid, courseTasks]);
 
   if (!recent) return null;
 
@@ -82,7 +80,7 @@ export default function HomeContinueCard({ caseIndex, copy, userSid }) {
         <span>{copy.experimentProgressLabel} {recent.experimentsDone}</span>
       </div>
       <div className="home-continue-actions">
-        <Link className="btn btn-accent" href={`/cases/${recent.caseId}/study`}>
+        <Link className="btn btn-accent" href={recent.href}>
           {copy.continueLabel}
         </Link>
         <Link className="btn btn-outline" href="/archive">

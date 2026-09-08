@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PdfViewer from "@/components/pdf-viewer";
 
-export default function CasePdfDisclosure({ fileUrl, fileName }) {
+export default function CasePdfDisclosure({ fileUrl, fileName, caseNumber }) {
   const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    const showReference = () => { if (/^#page=\d+/.test(window.location.hash)) setExpanded(true); };
+    showReference();
+    window.addEventListener("hashchange", showReference);
+    return () => window.removeEventListener("hashchange", showReference);
+  }, []);
 
   return (
     <section className="glass-sm case-pdf-panel" id="case-preview">
@@ -34,7 +40,7 @@ export default function CasePdfDisclosure({ fileUrl, fileName }) {
             </div>
             <span>{fileName}</span>
           </div>
-          <PdfViewer fileUrl={fileUrl} fileName={fileName} minHeight={1180} downloadHref={fileUrl} defaultViewMode="page" />
+          <PdfViewer fileUrl={fileUrl} fileName={fileName} caseNumber={caseNumber} minHeight={1180} downloadHref={fileUrl} defaultViewMode="page" />
         </>
       ) : null}
     </section>

@@ -116,7 +116,7 @@ export default function CasesResultsColumn({
                 </div>
                 <div className="case-card-head-side">
                   {item.result ? <span className="tag tag-accent">{item.result}</span> : null}
-                  {item.judgmentDate ? <span className="case-card-date">{item.judgmentDate}</span> : null}
+                  <span className="case-card-date">{item.judgmentDate || "日期待核实"}</span>
                 </div>
               </div>
 

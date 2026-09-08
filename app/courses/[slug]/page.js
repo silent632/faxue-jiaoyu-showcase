@@ -1,3 +1,5 @@
+import CourseTaskCard from "@/components/course-task-card";
+import { loadCourseTasks } from "@/lib/content/course-tasks.js";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -39,6 +41,7 @@ export default async function CourseDetailPage({ params }) {
 
   return (
     <CoursePeriodShell period={period} title={period.title} summary={summary}>
+      <CourseTaskCard task={loadCourseTasks().find(task => task.slug === slug)} />
       {/* 本期简报：定位 + 线索 + 三个切入面板 + 阅读提示 */}
       <section className="showcase-card course-period-briefing" aria-label="本期简报">
         <div className="course-period-briefing-grid">
@@ -129,3 +132,5 @@ export default async function CourseDetailPage({ params }) {
     </CoursePeriodShell>
   );
 }
+
+export async function generateMetadata({ params }) { const { slug } = await params; const period = getCoursePackagePeriodBySlug(slug); return period ? { title: `${period.title} · 课程研习`, description: period.courseContentProfile.periodSummary.lead, alternates: { canonical: `/courses/${slug}/` } } : {}; }

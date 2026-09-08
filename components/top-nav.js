@@ -1,8 +1,10 @@
 "use client";
 
+import { getAllProgress } from "@/lib/experiment-archive";
+import { listLocalRecordKeys, subscribeRecords } from "@/lib/local-record";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { isShowcaseNavItemActive } from "@/lib/showcase-nav-match";
 
 const ICON_PATHS = {
@@ -74,26 +76,23 @@ function useStudyStats() {
   const [stats, setStats] = useState({ cases: 0, experiments: 0 });
 
   useEffect(() => {
+    const refresh = () => {
     try {
       let cases = 0;
-      for (let i = 0; i < window.localStorage.length; i += 1) {
-        const key = window.localStorage.key(i);
+      for (const key of listLocalRecordKeys()) {
         if (key && key.startsWith("study_") && !key.startsWith("study_recent_")) cases += 1;
       }
 
-      let experiments = 0;
-      const raw = window.localStorage.getItem("faxue-experiment-archive");
-      if (raw) {
-        const archive = JSON.parse(raw);
-        for (const moduleRecords of Object.values(archive)) {
-          experiments += Object.keys(moduleRecords || {}).length;
-        }
-      }
+      const experiments = Object.values(getAllProgress()).reduce((sum, value) => sum + value, 0);
 
       setStats({ cases, experiments });
     } catch (_error) {
       // localStorage 不可用时保持 0
     }
+
+    };
+    refresh();
+    return subscribeRecords(refresh);
   }, []);
 
   return stats;
@@ -104,6 +103,34 @@ export default function TopNav({ user, items }) {
   const navItems = items ?? [];
   const [open, setOpen] = useState(false);
   const stats = useStudyStats();
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 768px)");
+    const update = () => { setMobile(media.matches); if (!media.matches) setOpen(false); };
+    update(); media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  const menuRef = useRef(null);
+  const toggleRef = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.activeElement;
+    const menu = menuRef.current;
+    const links = () => [...menu.querySelectorAll('a, button')];
+    links()[0]?.focus();
+    const handleKey = (event) => {
+      if (event.key === 'Escape') { event.preventDefault(); setOpen(false); }
+      if (event.key === 'Tab') {
+        const items = [...links(), toggleRef.current].filter(Boolean);
+        const index = items.indexOf(document.activeElement);
+        event.preventDefault(); items[(index + (event.shiftKey ? -1 : 1) + items.length) % items.length]?.focus();
+      }
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => { document.removeEventListener('keydown', handleKey); if (previous?.isConnected) previous.focus(); };
+  }, [open]);
+  useEffect(() => setOpen(false), [pathname]);
 
   const toggle = useCallback(() => setOpen((v) => !v), []);
   const close = useCallback(() => setOpen(false), []);
@@ -112,6 +139,7 @@ export default function TopNav({ user, items }) {
     <>
       <header className="mobilebar">
         <button
+          ref={toggleRef}
           className={`mobilebar-burger${open ? " is-open" : ""}`}
           type="button"
           aria-label={open ? "关闭导航" : "打开导航"}
@@ -127,7 +155,7 @@ export default function TopNav({ user, items }) {
         </Link>
       </header>
 
-      <aside className={`sidenav${open ? " is-open" : ""}`}>
+      <aside inert={mobile && !open ? true : undefined} ref={menuRef} className={`sidenav${open ? " is-open" : ""}`}>
         <Link href="/" className="sidenav-brand" onClick={close}>
           <span className="sidenav-brand-mark" aria-hidden="true">
             <NavIcon name="scale" />

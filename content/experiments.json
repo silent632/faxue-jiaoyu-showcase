@@ -27,9 +27,9 @@
     },
     {
       "step": 4,
-      "name": "双师双评",
+      "name": "对照反思",
       "form": "人格形态",
-      "description": "理论点评问法理，实务点评问裁判"
+      "description": "结合理论与实务指引检查产出，记录修订依据"
     },
     {
       "step": 5,
@@ -165,7 +165,7 @@
       ],
       "interactionType": "chip-select-reveal",
       "interactionLabel": "芯片选择 + 揭示对照",
-      "description": "先依据案件事实独立选择适用规范、排列优先级并写明理由，再与法院实际援引的法条逐项对照。",
+      "description": "先独立选择规范、排列优先级并写明理由，再与已核对的原文援引段落对照；对照结果不等于法律适用评价。",
       "primaryTags": [
         "norm-competition",
         "cross-domain",
@@ -173,14 +173,14 @@
       ],
       "dualTeacher": {
         "theoryPrompt": "检查你的找法路径：法律渊源层级是否正确，有没有遗漏特别法或新法，优先级是否符合法律适用规则。",
-        "practicePrompt": "对照法院实际援引的法条，找出命中、遗漏和多选，并追问法院为什么采用了与你不同的规范路径。"
+        "practicePrompt": "查看原文页码与条号，解释自己的选择与该段援引的差异。段落未列明不代表不适用。"
       },
       "feedbackStrategy": {
         "type": "reveal-comparison",
         "fields": [
-          "laws_json"
+          "norm-evidence"
         ],
-        "instruction": "完成选择并写明理由后，点击「揭示法院选择」，逐条查看命中、遗漏与多选，再修正自己的找法路径。"
+        "instruction": "完成选择并写明理由后，点击「查看原文依据并对照」，核对该段列明的规范，再修正找法路径。尚未核查的案例不能完成对照。"
       },
       "selfEvaluation": {
         "instruction": "请对自己的规范检索结果进行自评，每个维度用 1–5 分评价。",
@@ -188,7 +188,7 @@
           {
             "id": "coverage",
             "label": "检索覆盖度",
-            "description": "是否找到了所有应当适用的法律，有无重大遗漏"
+            "description": "是否检查了本段列明的规范，并说明其他可能相关的依据"
           },
           {
             "id": "priority",
@@ -202,8 +202,8 @@
           },
           {
             "id": "court-match",
-            "label": "法院吻合度",
-            "description": "自己的选择与法院实际援引的重合程度"
+            "label": "原文对照反思",
+            "description": "能否解释选择与原文段落的差异，而非仅追求名称重合"
           }
         ]
       }
@@ -333,7 +333,7 @@
       ],
       "interactionType": "inline-annotation",
       "interactionLabel": "逐段标注 + 标签系统",
-      "description": "逐段识别裁判说理中的大前提、小前提、结论、解释方法和推理跳步，最后形成整体说理评价。",
+      "description": "在带页码的裁判原文精选摘录上标注论证功能，并结合上下文形成说理评价。",
       "primaryTags": [
         "reasoning-rich",
         "reasoning-contested",
@@ -375,7 +375,7 @@
         "fields": [
           "ref_legal"
         ],
-        "instruction": "完成批注与整体评价后，展开下方的结构参照，对照检查：法院说理中的大前提、小前提、结论与你标注的是否一致？你是否发现了法院省略但逻辑上必要的步骤？"
+        "instruction": "完成原文批注与评价后，结合页码链接复核上下文；教学整理仅供参考，不是法院原话或标准答案。"
       },
       "selfEvaluation": {
         "instruction": "请对自己的批注和评价进行自评，每个维度用 1–5 分评价。",

@@ -29,7 +29,7 @@ export default function ExpInterpretation({ caseItem, onChange, initialData }) {
             <textarea
               rows={6}
               placeholder={m.placeholder}
-              value={columns[m.id]}
+              aria-label={m.label} value={columns[m.id]}
               onChange={(e) => updateCol(m.id, e.target.value)}
             />
             <p className="exp-char-hint">{columns[m.id].trim().length} 字</p>
@@ -44,6 +44,7 @@ export default function ExpInterpretation({ caseItem, onChange, initialData }) {
           {METHODS.map((m) => (
             <button
               key={m.id}
+              aria-pressed={bestMethod === m.id}
               className={`tag${bestMethod === m.id ? " tag-accent" : ""}`}
               onClick={() => { setBestMethod(m.id); onChange?.(Object.values(columns).join("\n") + "\n" + m.id + "\n" + bestReason, { columns, bestMethod: m.id, bestReason }); }}
             >
@@ -54,7 +55,7 @@ export default function ExpInterpretation({ caseItem, onChange, initialData }) {
         <textarea
           rows={3}
           placeholder="为什么你认为这种解释方法最合理？其他方法有什么不足？"
-          value={bestReason}
+          aria-label="解释方法选择理由" value={bestReason}
           onChange={(e) => { setBestReason(e.target.value); onChange?.(Object.values(columns).join("\n") + "\n" + bestMethod + "\n" + e.target.value, { columns, bestMethod, bestReason: e.target.value }); }}
         />
       </div>

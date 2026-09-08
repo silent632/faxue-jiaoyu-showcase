@@ -142,7 +142,7 @@ export default function ExpReasoning({ caseItem, onChange, initialData }) {
                 {slot.note}
               </label>
               <textarea
-                className="exp-syllogism-input"
+                aria-label={slot.note} className="exp-syllogism-input"
                 rows={slot.rows}
                 placeholder={slot.placeholder}
                 value={values[slot.id]}
@@ -160,7 +160,7 @@ export default function ExpReasoning({ caseItem, onChange, initialData }) {
           className="exp-task-textarea"
           rows={3}
           placeholder="在涵摄过程中，哪些要件的对应最困难？是否存在推理跳步？"
-          value={values.subsumption}
+          aria-label="涵摄过程反思" value={values.subsumption}
           onChange={(event) => updateField("subsumption", event.target.value)}
         />
       </div>

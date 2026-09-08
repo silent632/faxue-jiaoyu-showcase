@@ -1,3 +1,4 @@
+import { normalizeCaseRows } from "@/lib/cases-workspace.js";
 import ShowcaseNav from "@/components/showcase-nav";
 import CasesWorkspace from "@/components/cases-workspace";
 import { loadShowcaseCases } from "@/lib/showcase-cases.js";
@@ -8,7 +9,7 @@ export default async function CasesPage() {
   return (
     <main className="showcase-page cases-page-shell">
       <ShowcaseNav />
-      <CasesWorkspace cases={allCases} initialFilters={{}} initialSort="date-desc" initialPage={1} />
+      <CasesWorkspace cases={normalizeCaseRows(allCases)} initialFilters={{}} initialSort="date-desc" initialPage={1} />
     </main>
   );
 }

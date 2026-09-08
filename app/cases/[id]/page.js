@@ -1,3 +1,4 @@
+import evidence from "@/content/case-evidence.json";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -67,7 +68,7 @@ function buildMetaRows(caseItem) {
   return [
     ["法院", caseItem.courtName],
     ["案由", caseItem.causePath || caseItem.causeFocus],
-    ["裁判日期", caseItem.judgmentDate],
+    ["裁判日期", caseItem.judgmentDate || "待核实完整日期"],
     ["文书类型", caseItem.docType],
     ["审理程序", caseItem.procedure],
     ["省份", caseItem.province],
@@ -140,6 +141,7 @@ export default async function CaseDetailPage({ params }) {
                 copy={loopCopy.caseProgress}
               />
               <p className="case-detail-lead">{leadText}</p>
+              {evidence.cases[id]?.judgmentDate.status === "conflict" && <p role="note">来源对应待核定：{evidence.cases[id].judgmentDate.note}请先核对材料对应案件，当前教学整理不作为已核定裁判结论。</p>}
 
               {/* Jump links — merged from roadmap */}
               <div className="case-detail-jump-links">
@@ -279,7 +281,7 @@ export default async function CaseDetailPage({ params }) {
         </div>
 
         {hasPdf ? (
-          <CasePdfDisclosure fileUrl={`/pdfs/${encodeURIComponent(pdfFileName)}`} fileName={pdfFileName} />
+          <CasePdfDisclosure fileUrl={`/pdfs/${encodeURIComponent(pdfFileName)}`} fileName={pdfFileName} caseNumber={caseItem.caseNumber} />
         ) : (
           <section className="showcase-card case-detail-empty-panel">
             <strong className="case-detail-empty-title">{fileEntryNote.title}</strong>
@@ -290,3 +292,5 @@ export default async function CaseDetailPage({ params }) {
     </main>
   );
 }
+
+export async function generateMetadata({ params }) { const { id } = await params; const item = await getShowcaseCaseById(id); return item ? { title: `${item.title} · 裁判文书研习`, description: `${item.caseNumber}，${item.courtName}。阅读案例原文，完成研习与实验。`, alternates: { canonical: `/cases/${id}/` } } : {}; }

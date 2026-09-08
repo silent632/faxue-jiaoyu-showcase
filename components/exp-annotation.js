@@ -1,130 +1,59 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useState } from 'react';
+import { annotationTasks, annotationTags, restoreAnnotationDraft, createAnnotation } from '../lib/annotation.js';
 
-const FALLBACK_PALETTE = [
-  { id: "major-premise", label: "大前提", color: "#3b5998" },
-  { id: "minor-premise", label: "小前提/涵摄", color: "#82542b" },
-  { id: "conclusion", label: "结论", color: "#2d8a50" },
-  { id: "interpretation", label: "解释方法", color: "#9b6a4a" },
-  { id: "reasoning-gap", label: "推理跳步/瑕疵", color: "#cc3333" },
-];
-
-export default function ExpAnnotation({ caseItem, onChange, initialData, tagPalette }) {
-  const palette = Array.isArray(tagPalette) && tagPalette.length ? tagPalette : FALLBACK_PALETTE;
-  const [annotations, setAnnotations] = useState(initialData?.annotations || []);
-  const [activeTag, setActiveTag] = useState(palette[0].id);
-  const [evaluation, setEvaluation] = useState(initialData?.evaluation || "");
-
-  // 只批注说理结构（refLegal），不回退到摘要——摘要不是说理文本
-  const refText = String(caseItem.refLegal || "").trim();
-  const paragraphs = useMemo(() => {
-    if (!refText) return [];
-    return refText.includes("\n")
-      ? refText.split(/\n+/).filter(Boolean)
-      : refText.split(/(?<=。)/).filter((sentence) => sentence.trim());
-  }, [refText]);
-
-  const buildSummary = useCallback(
-    (items) =>
-      items
-        .map((item) => {
-          const tag = palette.find((entry) => entry.id === item.tagId);
-          return `[${tag?.label}] ${paragraphs[item.paraIndex]?.slice(0, 30)}…`;
-        })
-        .join("\n"),
-    [palette, paragraphs]
-  );
-
-  const toggleAnnotation = useCallback(
-    (paraIndex) => {
-      const existing = annotations.find((item) => item.paraIndex === paraIndex);
-      let next;
-      if (existing && existing.tagId === activeTag) {
-        next = annotations.filter((item) => item.paraIndex !== paraIndex);
-      } else {
-        next = [...annotations.filter((item) => item.paraIndex !== paraIndex), { paraIndex, tagId: activeTag }];
-      }
-      setAnnotations(next);
-      onChange?.(`${buildSummary(next)}\n\n${evaluation}`, { annotations: next, evaluation });
-    },
-    [activeTag, annotations, evaluation, onChange, buildSummary]
-  );
-
-  const getAnnotation = (paraIndex) => annotations.find((item) => item.paraIndex === paraIndex);
-
-  if (!paragraphs.length) {
-    return (
-      <div className="exp-interaction exp-annotation-interaction">
-        <div className="exp-annotation-unavailable">
-          <strong>本案暂无说理结构文本</strong>
-          <p>该案例尚未整理出可供批注的说理结构，请返回选案页换一篇案例继续实验。</p>
-        </div>
-      </div>
-    );
+export default function ExpAnnotation({ caseItem, onChange, initialData }) {
+  const task = annotationTasks[caseItem.id];
+  const [draft, setDraft] = useState(() => restoreAnnotationDraft(initialData, caseItem.id));
+  const [activeTag, setActiveTag] = useState(annotationTags[0].id);
+  function emit(annotations, evaluation) {
+    const next = { ...draft, annotations, evaluation };
+    setDraft(next);
+    const summary = annotations.map((item) => `[${annotationTags.find((tag) => tag.id === item.tagId)?.label}] 第${item.page}页：${item.text}`).join('\n');
+    onChange?.(`${summary}\n\n${evaluation}`, { ...next, caseId: caseItem.id,
+      sourceVersion: task?.sourceVersion || '', sourceFile: task?.sourceFile || '',
+      sourceSha256: task?.sourceSha256 || '', caseNumber: task?.caseNumber || '' });
   }
-
-  return (
-    <div className="exp-interaction exp-annotation-interaction">
-      <div className="exp-annotation-toolbar">
-        <span className="exp-annotation-toolbar-label">选择标注类型：</span>
-        {palette.map((tag) => (
-          <button
-            key={tag.id}
-            type="button"
-            className={`exp-annotation-tag-btn${activeTag === tag.id ? " active" : ""}`}
-            style={{ "--tag-color": tag.color }}
-            onClick={() => setActiveTag(tag.id)}
-          >
-            {tag.label}
-          </button>
-        ))}
+  function toggle(paragraph) {
+    const previous = draft.annotations.find((item) => item.paragraphId === paragraph.id);
+    const next = draft.annotations.filter((item) => item.paragraphId !== paragraph.id);
+    if (previous?.tagId !== activeTag) next.push(createAnnotation(paragraph, activeTag));
+    emit(next, draft.evaluation);
+  }
+  return <div className="exp-interaction exp-annotation-interaction">
+    <p>训练材料为裁判原文精选连续句段，分段仅供训练，不代表原文自然段或完整说理。请结合链接中的上下文评价；引文中的法律状态表述属于裁判当时的原文。</p>
+    {draft.historicalAnnotations.length > 0 && <details className="exp-annotation-history" open>
+      <summary>旧批注待复核（{draft.historicalAnnotations.length} 组）</summary>
+      <p>旧版段落下标或旧材料版本不能直接对应当前原文，已保留历史内容。请重新标注当前摘录；历史内容会随实验记录一同导出。</p>
+      {draft.historicalAnnotations.map((history, index) => <details key={index}><summary>查看历史记录 {index + 1}</summary><ul>{(Array.isArray(history.annotations) ? history.annotations : []).map((item, itemIndex) => <li key={itemIndex}>
+        <strong>{annotationTags.find((tag) => tag.id === item?.tagId)?.label || "旧标记"}</strong>
+        <p>{typeof item?.text === "string" ? item.text : `旧版第 ${Number.isInteger(item?.paraIndex) ? item.paraIndex + 1 : "未知"} 段（当时未保存原文，不能据此定位当前摘录）`}</p>
+        {Number.isInteger(item?.page) && <p>当时记录的原文页码：{item.page}</p>}
+      </li>)}</ul><p>{typeof history.evaluation === "string" ? history.evaluation : ""}</p></details>)}
+    </details>}
+    {!task ? <div className="exp-annotation-unavailable" role="status"><strong>本案原文摘录待核查</strong><p>当前可在张保林案、富兴公司案、雅安市商业银行案、北京人艺案进行原文批注。本案可以保留评价草稿，尚不能完成实验。</p></div> : <>
+      <div className="exp-annotation-toolbar" role="group" aria-label="标注类型">
+        {annotationTags.map((tag) => <button key={tag.id} type="button" aria-pressed={activeTag === tag.id} className={`exp-annotation-tag-btn${activeTag === tag.id ? ' active' : ''}`} style={{ '--tag-color': tag.color }} onClick={() => setActiveTag(tag.id)}>{tag.label}</button>)}
       </div>
-
+      <p className="exp-annotation-hint">选择类型后，点击段落或用 Tab 定位并按 Enter/空格标注；再次使用同一类型可取消。</p>
       <div className="exp-annotation-text">
-        <p className="exp-annotation-hint">点击段落进行标注，再次点击同类型标注可取消。</p>
-        {paragraphs.map((paragraph, index) => {
-          const annotation = getAnnotation(index);
-          const tagInfo = annotation ? palette.find((entry) => entry.id === annotation.tagId) : null;
-          return (
-            <p
-              key={index}
-              className={`exp-annotation-para${annotation ? " annotated" : ""}`}
-              style={tagInfo ? { borderLeftColor: tagInfo.color, backgroundColor: `${tagInfo.color}11` } : undefined}
-              onClick={() => toggleAnnotation(index)}
-            >
-              {tagInfo && <span className="exp-annotation-mark" style={{ background: tagInfo.color }}>{tagInfo.label}</span>}
-              {paragraph}
-            </p>
-          );
+        {task.paragraphs.map((paragraph, index) => {
+          const annotation = draft.annotations.find((item) => item.paragraphId === paragraph.id);
+          const tag = annotationTags.find((item) => item.id === annotation?.tagId);
+          return <div key={paragraph.id}>
+            <p><a href={`/cases/${caseItem.id}/#page=${paragraph.page}`} target="_blank" rel="noreferrer">原文第 {paragraph.page} 页 · 摘录 {index + 1} · {task.caseNumber}</a></p>
+            <button type="button" aria-label={`标注摘录 ${index + 1}${tag ? `，已标为${tag.label}` : ''}`} aria-pressed={Boolean(annotation)} className={`exp-annotation-para${annotation ? ' annotated' : ''}`} style={tag ? { borderLeftColor: tag.color } : undefined} onClick={() => toggle(paragraph)}>
+              {tag && <span className="exp-annotation-mark" style={{ background: tag.color }}>{tag.label}</span>}{paragraph.text}
+            </button>
+          </div>;
         })}
       </div>
-
-      <div className="exp-annotation-stats">
-        已标注 {annotations.length} 段
-        {palette.map((tag) => {
-          const count = annotations.filter((item) => item.tagId === tag.id).length;
-          return count > 0 ? (
-            <span key={tag.id} className="exp-annotation-stat" style={{ color: tag.color }}>
-              {tag.label}: {count}
-            </span>
-          ) : null;
-        })}
-      </div>
-
-      <div className="exp-annotation-evaluation">
-        <h4>整体说理评价</h4>
-        <textarea
-          className="exp-task-textarea"
-          rows={4}
-          placeholder="综合你的标注，对本案裁判的说理质量进行整体评价：三段论是否完整？是否存在推理跳步？说理是否充分？"
-          value={evaluation}
-          onChange={(event) => {
-            setEvaluation(event.target.value);
-            onChange?.(`${buildSummary(annotations)}\n\n${event.target.value}`, { annotations, evaluation: event.target.value });
-          }}
-        />
-      </div>
+      <p className="exp-annotation-stats" role="status">已标注 {draft.annotations.length} 段</p>
+    </>}
+    <div className="exp-annotation-evaluation"><label htmlFor="annotation-evaluation">整体说理评价</label>
+      <textarea id="annotation-evaluation" className="exp-task-textarea" rows={4} placeholder="结合原文与上下文，说明推导是否完整、哪些地方存在疑点。" value={draft.evaluation} onChange={(event) => emit(draft.annotations, event.target.value)} />
     </div>
-  );
+    {caseItem.refLegal && <details><summary>教学整理（非裁判原文）</summary><p>{caseItem.refLegal}</p></details>}
+  </div>;
 }

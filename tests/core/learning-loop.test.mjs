@@ -1,3 +1,4 @@
+import { completedRecord } from "../fixtures/experiment-records.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 
@@ -34,7 +35,7 @@ test("deriveCaseLoopState covers empty, partial, and closed states", () => {
 
   assert.deepEqual(deriveCaseLoopState({
     studyDraft: completeDraft,
-    experimentRecords: { "exp-reasoning": { completedAt: "2026-07-26T10:00:00.000Z" } },
+    experimentRecords: { "exp-reasoning": completedRecord() },
   }), {
     studyDone: true,
     studySteps: 3,
@@ -58,19 +59,19 @@ test("recommendModulesForCase sorts by tag hits and removes zero-hit modules", (
 
 test("summarizeAbilities calculates self-score averages and keeps empty modules", () => {
   const modules = [
-    { id: "a", shortName: "甲", skill: "能力甲" },
+    { id: "exp-reasoning", shortName: "甲", skill: "能力甲" },
     { id: "b", shortName: "乙", skill: "能力乙" },
   ];
   const archive = {
-    a: {
-      "case-1": { selfScores: { one: 3, two: 5 } },
-      "case-2": { selfScores: { one: 4, two: 4 } },
+    "exp-reasoning": {
+      "case-1": completedRecord("exp-reasoning", { selfScores: { one: 3, two: 5 } }),
+      "case-2": completedRecord("exp-reasoning", { selfScores: { one: 4, two: 4 } }),
     },
   };
 
   assert.deepEqual(summarizeAbilities(archive, modules), [
     {
-      moduleId: "a",
+      moduleId: "exp-reasoning",
       shortName: "甲",
       skill: "能力甲",
       completedCount: 2,
