@@ -10,12 +10,12 @@ export async function getSession(request, db) {
   const token = request.headers.get('cookie')?.split(';').map(v => v.trim()).find(v => v.startsWith(`${COOKIE}=`))?.slice(COOKIE.length + 1);
   if (!token || !/^[a-f0-9]{64}$/.test(token)) return null;
   const tokenHash = await digest(token); const now = Date.now();
-  const row = await db.prepare(`SELECT s.*,u.login_id,u.display_name FROM sessions s JOIN users u ON s.user_id=u.id
+  const row = await db.prepare(`SELECT s.*,u.login_id,u.display_name,u.must_change_password FROM sessions s JOIN users u ON s.user_id=u.id
     WHERE s.token_hash=? AND s.revoked_at IS NULL AND s.expires_at>? AND s.active_at>? AND u.status='active'`).bind(tokenHash, now, now - IDLE).first();
   if (!row) return null;
   const roles = await db.prepare('SELECT role FROM user_roles WHERE user_id=?').bind(row.user_id).all();
   await db.prepare('UPDATE sessions SET active_at=? WHERE token_hash=? AND revoked_at IS NULL').bind(now, tokenHash).run();
-  return { tokenHash, csrfToken: row.csrf_token, user: { id: row.user_id, loginId: row.login_id, displayName: row.display_name, roles: roles.results.map(v => v.role) } };
+  return { tokenHash, csrfToken: row.csrf_token, user: { id: row.user_id, loginId: row.login_id, displayName: row.display_name, mustChangePassword: Boolean(row.must_change_password), roles: roles.results.map(v => v.role) } };
 }
 export async function createSession(db, userId) {
   const token = randomToken(); const csrfToken = randomToken(); const now = Date.now();

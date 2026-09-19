@@ -44,3 +44,27 @@
 
 .console-page input[type=checkbox],.console-page input[type=radio]{width:20px;height:20px;min-width:20px;flex:0 0 20px;margin:3px 0;accent-color:var(--accent)}
 .console-page label:has(input[type=checkbox]),.console-page label:has(input[type=radio]){display:flex;align-items:flex-start;gap:10px}
+
+/* 导航内容独立滚动，账号管理始终位于左下角。 */
+.sidenav-scroll{flex:1;min-height:0;overflow-y:auto}
+.sidenav-scroll .sidenav-links{flex:none;overflow:visible;padding-bottom:8px}
+.sidenav-community{border-top:1px solid rgba(255,255,255,.12);margin-top:6px}
+.sidenav-section-title{font-size:12px;letter-spacing:.12em;color:rgba(226,232,240,.55);margin:0;padding:4px 16px}
+.sidenav-learning-summary{padding:8px 16px 16px}
+.sidenav-foot{flex-shrink:0;padding:10px 16px 12px}
+.sidenav-foot .sidenav-user{margin:0;padding:0 0 6px}
+.sidenav-foot .account-links{padding:0;gap:4px;font-size:14px}
+.sidenav-foot .account-links a{padding:4px 0}
+:root[data-workspace="immersive"] .sidenav-section-title,:root[data-workspace="immersive"] .sidenav-learning-summary{display:none}
+@media(max-width:768px){:root[data-workspace="immersive"] .sidenav-section-title,:root[data-workspace="immersive"] .sidenav-learning-summary{display:block}}
+.sidenav-foot .account-links a{display:block;padding:7px 10px;border:1px solid rgba(231,177,72,.35);border-radius:6px;background:rgba(231,177,72,.09);color:#f1d49a;font-weight:600}
+.sidenav-foot .account-links a:hover{background:rgba(231,177,72,.18);color:#fff}
+.sidenav .help-feedback-link{color:rgba(226,232,240,.65)}
+@media(min-width:769px){
+ :root[data-workspace="immersive"] .sidenav-foot{display:block;padding:6px}
+ :root[data-workspace="immersive"] .sidenav-foot .sidenav-user{display:none}
+ :root[data-workspace="immersive"] .account-links a{font-size:0;text-align:center;padding:8px 2px}
+ :root[data-workspace="immersive"] .account-links a::before{content:'账号';font-size:12px}
+ :root[data-workspace="immersive"] .account-links a[href='/admin/']::before{content:'管理'}
+ :root[data-workspace="immersive"] .account-links a[href='/teacher/']::before{content:'教师'}
+}

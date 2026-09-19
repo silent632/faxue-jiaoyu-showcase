@@ -27,7 +27,7 @@ for(const colorScheme of ['light','dark'])test(`375px ${colorScheme} 欢迎、�
  for(const path of ['/help/','/help/guide/','/help/feedback/?from=%2Fcases%2Fcase-0012%2F']){await page.goto(origin+path);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);await page.screenshot({path:`output/playwright/help-${colorScheme}-${path.includes('guide')?'guide':path.includes('feedback')?'feedback':'index'}-375.png`,fullPage:true});}
 },{viewport:{width:375,height:812},colorScheme}));
 test('反馈带入当前页面、会话草稿可恢复，未接通时绝不显示送达成功',()=>pageWith(async(page)=>{
- await page.goto(origin+'/cases/case-0012/');await page.getByRole('dialog').waitFor();await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});await page.getByRole('link',{name:'反馈此页的使用问题 ↗'}).click();await page.waitForURL(/help\/feedback/);assert.equal(await page.getByLabel('问题所在页面（可修改）').inputValue(),'/cases/case-0012/');
+ await page.goto(origin+'/cases/case-0012/');await page.getByRole('dialog').waitFor();await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});await page.getByRole('link',{name:'反馈此页的使用问题 ↗'}).click();await page.waitForURL(/help\/feedback/);await page.waitForFunction(()=>document.querySelector('#feedback-source')&&!document.querySelector('#feedback-source').disabled);assert.equal(await page.getByLabel('问题所在页面（可修改）').inputValue(),'/cases/case-0012/');
  await page.getByLabel('具体描述').fill('我希望更容易找到法理学术语解释。');await page.reload();await page.waitForFunction(()=>document.querySelector('#feedback-description')?.value.includes('术语解释'));assert.doesNotMatch(await page.locator('.feedback-form').innerText(),/提交成功|已送达/);
 }));
 

@@ -7,6 +7,7 @@ import { build } from 'esbuild';
 import { createStaticServer } from '../../scripts/serve-static.mjs';
 import { chromium } from 'playwright';
 import { createSession } from '../../server/auth/session.js';
+import { studentStatements,validateRoster } from '../../lib/student-provisioning.js';
 import { hashPassword } from '../../server/auth/password.js';
 process.env.WRANGLER_SEND_METRICS='false';
 const root = process.cwd();
@@ -312,6 +313,21 @@ test('隔离数据库导出后在全新库恢复，逐表比对并验证外键',
  const triggers=(await database.prepare("SELECT name,sql FROM sqlite_schema WHERE type='trigger' ORDER BY name").all()).results;for(const trigger of triggers)await target.prepare(trigger.sql).run();assert.deepEqual((await target.prepare("SELECT name,sql FROM sqlite_schema WHERE type='trigger' ORDER BY name").all()).results,triggers);
  assert.deepEqual((await target.prepare('PRAGMA foreign_key_check').all()).results,[]);fs.writeFileSync('output/verification/restore-test.json',JSON.stringify({tables:Object.fromEntries(tableNames.map(table=>[table,tables[table].length])),foreignKeyErrors:0,scope:'隔离测试库导出与独立空库恢复；不操作生产库'},null,2));
  }finally{await restoreService.dispose();}
+});
+test('名单账号预设、重复导入保护及首次登录强制改密',{skip:process.env.FAXUE_BROWSER_TESTS!=='1'},async()=>{
+ const row={loginId:'209900000001',displayName:'名单流程核验学生',groupName:'隔离账号核验班'};
+ assert.throws(()=>validateRoster([row,row]),/重复/);assert.throws(()=>validateRoster([{...row,loginId:'abc'}]),/无效/);
+ for(const sql of await studentStatements(validateRoster([row])[0],adminId))await database.prepare(sql).run();
+ const initial=await call('/auth/login',{method:'POST',data:{loginId:row.loginId,password:row.loginId.slice(-6)}});assert.equal(initial.status,200);const auth={cookie:initial.response.headers.get('set-cookie').split(';')[0],csrfToken:initial.payload.data.csrfToken};
+ assert.equal((await call('/auth/me',{auth})).payload.data.user.mustChangePassword,true);assert.equal((await call('/tasks',{auth})).status,403);assert.equal((await call('/boards',{auth})).status,403);
+ const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHANNEL?{channel:process.env.PLAYWRIGHT_CHANNEL}:{})});const context=await browser.newContext({viewport:{width:1280,height:900}});
+ try{await context.addInitScript(()=>localStorage.setItem('faxue-welcome-dismissed','2026-welcome-1'));await context.addCookies([{name:'faxue_session',value:auth.cookie.split('=')[1],url:origin}]);const page=await context.newPage();await page.goto(origin+'/login/');await page.getByRole('heading',{name:'首次登录：设置新密码',exact:true}).waitFor();assert.equal(await page.getByRole('link',{name:'进入工作台',exact:true}).count(),0);await page.getByRole('textbox',{name:'当前密码',exact:true}).fill(row.loginId.slice(-6));await page.getByRole('textbox',{name:'新密码（至少12个字符）',exact:true}).fill('Changed-only!2026');await page.getByRole('textbox',{name:'再次输入新密码',exact:true}).fill('Changed-only!2026');await page.getByRole('button',{name:'保存新密码',exact:true}).click();await page.getByText('密码已更新，请使用新密码重新登录。',{exact:true}).waitFor();
+  const nav=page.getByRole('navigation',{name:'交流与资料',exact:true});await nav.getByRole('link',{name:'资料专区',exact:true}).waitFor();const foot=await page.locator('.sidenav-foot').boundingBox();assert.ok(foot.y+foot.height<=902&&foot.y+foot.height>=898);await page.screenshot({path:'output/verification/navigation-desktop.png',fullPage:true});
+  await page.setViewportSize({width:375,height:812});await page.getByRole('button',{name:'打开导航',exact:true}).click();await page.getByRole('link',{name:'资料专区',exact:true}).click();await page.getByRole('heading',{name:'资料专区',exact:true}).waitFor();assert.equal(await page.locator('.sidenav-community a[href="/resources/library/"]').getAttribute('aria-current'),'page');assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:'output/verification/resources-mobile.png',fullPage:true});
+ }finally{await context.close();await browser.close();}
+ assert.equal((await call('/auth/me',{auth})).status,401);assert.equal((await call('/auth/login',{method:'POST',data:{loginId:row.loginId,password:row.loginId.slice(-6)}})).status,401);
+ for(const sql of await studentStatements(row,adminId))await database.prepare(sql).run();
+ const changed=await call('/auth/login',{method:'POST',data:{loginId:row.loginId,password:'Changed-only!2026'}});assert.equal(changed.status,200);const session={cookie:changed.response.headers.get('set-cookie').split(';')[0],csrfToken:changed.payload.data.csrfToken};assert.equal((await call('/auth/me',{auth:session})).payload.data.user.mustChangePassword,false);assert.equal((await call('/tasks',{auth:session})).status,200);assert.equal((await database.prepare('SELECT count(*) AS n FROM users WHERE login_id=?').bind(row.loginId).first()).n,1);
 });
 test('同一账号登录频率限制可复现',async()=>{
   let last;

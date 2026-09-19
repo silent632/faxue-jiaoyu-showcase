@@ -16,11 +16,12 @@ export async function handleRequest(request, env) {
   try {
     if (!env.DB) fail(503, 'database_unavailable', '学习服务暂不可用，请稍后重试。');
     const path = new URL(request.url).pathname.replace(/^\/api/, '').replace(/\/$/, '') || '/';
-    if (path === '/health' && request.method === 'GET') { await env.DB.prepare(`SELECT u.id,s.token_hash,r.role,g.id,gm.kind,t.current_version_id,v.version,a.restart_key,d.revision,sub.snapshot,rev.summary,n.event_key,i.fingerprint,ip.user_id,b.id,bg.user_id,tp.status,rp.featured,hv.user_id,rep.reason,ma.action,sv.fingerprint,ae.action,rl.key FROM users u,sessions s,user_roles r,groups g,group_members gm,tasks t,task_versions v,learning_attempts a,drafts d,submissions sub,reviews rev,notifications n,import_receipts i,import_previews ip,boards b,board_guests bg,topics tp,replies rp,helpful_votes hv,reports rep,moderation_actions ma,scene_versions sv,audit_events ae,rate_limits rl WHERE 0`).first(); return json({ ready: true }); }
+    if (path === '/health' && request.method === 'GET') { await env.DB.prepare(`SELECT u.id,u.must_change_password,s.token_hash,r.role,g.id,gm.kind,t.current_version_id,v.version,a.restart_key,d.revision,sub.snapshot,rev.summary,n.event_key,i.fingerprint,ip.user_id,b.id,bg.user_id,tp.status,rp.featured,hv.user_id,rep.reason,ma.action,sv.fingerprint,ae.action,rl.key FROM users u,sessions s,user_roles r,groups g,group_members gm,tasks t,task_versions v,learning_attempts a,drafts d,submissions sub,reviews rev,notifications n,import_receipts i,import_previews ip,boards b,board_guests bg,topics tp,replies rp,helpful_votes hv,reports rep,moderation_actions ma,scene_versions sv,audit_events ae,rate_limits rl WHERE 0`).first(); return json({ ready: true }); }
     if(request.method==='GET'&&/^\/public\/scenes\/[^/]+$/.test(path))return await scenesRoute({request,db:env.DB,path});
     const session = await getSession(request, env.DB);
     if (path !== '/auth/login') {
       requireSession(session);
+      if(session.user.mustChangePassword&&!['/auth/me','/auth/password','/auth/logout'].includes(path))fail(403,'password_change_required','请先设置新的登录密码。');
       if (!['GET', 'HEAD'].includes(request.method)) verifyWrite(request, session);
     }
     const context = { request, db: env.DB, session, path };

@@ -170,7 +170,7 @@ export default function TopNav({ user, items }) {
           </span>
         </Link>
 
-        <nav className="sidenav-links" aria-label="主导航">
+        <div className="sidenav-scroll"><nav className="sidenav-links" aria-label="主导航">
           {navItems.map((item) => {
             const active = isShowcaseNavItemActive(pathname || "", item);
 
@@ -190,7 +190,8 @@ export default function TopNav({ user, items }) {
           })}
         </nav>
 
-        <div className="sidenav-foot"><AccountLinks/><FeedbackLink/>
+        <nav className="sidenav-links sidenav-community" aria-label="交流与资料"><h2 className="sidenav-section-title">交流与资料</h2>{[{href:'/community/',label:'交流专区'},{href:'/resources/library/',label:'资料专区'},{href:'/experiments/scenes/',label:'场景研习'},...(session.user&&!session.user.mustChangePassword?[{href:'/workspace/',label:'我的任务'}]:[])].map(item=><Link key={item.href} href={item.href} className={'sidenav-item'+(isShowcaseNavItemActive((pathname||'').replace(/\/$/,''),{...item,matchPrefix:item.href.replace(/\/$/,'')})?' active':'')} aria-current={isShowcaseNavItemActive((pathname||'').replace(/\/$/,''),{...item,matchPrefix:item.href.replace(/\/$/,'')})?'page':undefined} onClick={close}><NavIcon name={pickIcon(item.href)}/><span className="sidenav-item-label">{item.label}</span></Link>)}</nav>
+        <div className="sidenav-learning-summary"><FeedbackLink/>
           <div className="sidenav-stats">
             <div className="sidenav-stat">
               <strong>{stats.cases}</strong>
@@ -201,10 +202,10 @@ export default function TopNav({ user, items }) {
               <span>实验存档</span>
             </div>
           </div>
-          <div className="sidenav-user showcase-topbar-user-card">
+          </div></div><div className="sidenav-foot"><div className="sidenav-user showcase-topbar-user-card">
             <strong className="topbar-user-name">{session.user?.displayName || user?.name || "开放浏览"}</strong>
             <span className="topbar-user-meta">{session.user ? "已登录 · 法理学学习" : user?.roleLabel || "案例研习平台"}</span>
-          </div>
+          </div><AccountLinks/>
         </div>
       </aside>
 
