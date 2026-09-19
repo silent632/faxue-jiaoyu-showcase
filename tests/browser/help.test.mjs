@@ -15,7 +15,7 @@ test('首次深链访问欢迎所有使用者，Esc关闭、刷新不重复、�
 }));
 test('欢迎按钮通向使用指南，教程截图与第一期入口可用',()=>pageWith(async page=>{
  await page.goto(origin+'/');await page.getByRole('dialog').getByRole('link',{name:'查看使用指南'}).click();await page.waitForURL(/help\/guide/);
- assert.match(await page.locator('h1').innerText(),/案例/);assert.match(await page.locator('article').innerText(),/不会自动跨设备同步/);
+ assert.match(await page.locator('h1').innerText(),/案例/);const guide=await page.locator('article').innerText();assert.match(guide,/公开案例研习与自主实验保存在当前浏览器/);assert.match(guide,/保存到云端.*成功后可在其他设备继续/);assert.match(guide,/保存与提交是两个步骤/);
  await page.locator('article img').last().scrollIntoViewIfNeeded();await page.waitForFunction(()=>[...document.querySelectorAll('article img')].every(i=>i.complete&&i.naturalWidth>0));
  await page.getByRole('link',{name:'从第一期课程开始 →',exact:true}).click();await page.waitForURL(/course-period-01/);
 }));
@@ -27,7 +27,7 @@ for(const colorScheme of ['light','dark'])test(`375px ${colorScheme} 欢迎、�
  for(const path of ['/help/','/help/guide/','/help/feedback/?from=%2Fcases%2Fcase-0012%2F']){await page.goto(origin+path);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);await page.screenshot({path:`output/playwright/help-${colorScheme}-${path.includes('guide')?'guide':path.includes('feedback')?'feedback':'index'}-375.png`,fullPage:true});}
 },{viewport:{width:375,height:812},colorScheme}));
 test('反馈带入当前页面、会话草稿可恢复，未接通时绝不显示送达成功',()=>pageWith(async(page)=>{
- await page.goto(origin+'/cases/case-0012/');await page.keyboard.press('Escape');await page.getByRole('link',{name:'反馈此页的使用问题 ↗'}).click();await page.waitForURL(/help\/feedback/);assert.equal(await page.getByLabel('问题所在页面（可修改）').inputValue(),'/cases/case-0012/');
+ await page.goto(origin+'/cases/case-0012/');await page.getByRole('dialog').waitFor();await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});await page.getByRole('link',{name:'反馈此页的使用问题 ↗'}).click();await page.waitForURL(/help\/feedback/);assert.equal(await page.getByLabel('问题所在页面（可修改）').inputValue(),'/cases/case-0012/');
  await page.getByLabel('具体描述').fill('我希望更容易找到法理学术语解释。');await page.reload();await page.waitForFunction(()=>document.querySelector('#feedback-description')?.value.includes('术语解释'));assert.doesNotMatch(await page.locator('.feedback-form').innerText(),/提交成功|已送达/);
 }));
 

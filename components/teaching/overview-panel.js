@@ -1,0 +1,3 @@
+'use client';
+import { useResource,Status } from './use-resource';
+export default function OverviewPanel(){const resource=useResource('/teaching/overview');const data=resource.data;return <section className="console-card"><h2>教学概况</h2><Status resource={resource}/>{data&&<><p className="console-muted">统计仅包含你有权管理的小组；提交按每份学习实例的最新版本计数。</p><dl className="console-grid">{[['负责小组',data.groups],['小组学生（去重）',data.students],['教学任务',data.tasks],['待点评提交',data.latestSubmissions.submitted||0],['待修订提交',data.latestSubmissions.changes_requested||0],['已复核提交',data.latestSubmissions.reviewed||0],['小组未回答问题',data.unanswered]].map(([label,value])=><div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>{data.groups===0&&<p>尚无负责小组，可以先建立小组和任务草稿。</p>}</>}</section>;}

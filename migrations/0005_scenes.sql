@@ -1,0 +1,2 @@
+CREATE TABLE scene_versions(scene_id TEXT NOT NULL,version TEXT NOT NULL,script TEXT NOT NULL,fingerprint TEXT NOT NULL,published INTEGER NOT NULL DEFAULT 0 CHECK(published IN(0,1)),created_at INTEGER NOT NULL,PRIMARY KEY(scene_id,version));
+CREATE TRIGGER immutable_scene_script BEFORE UPDATE OF script,fingerprint,version,scene_id ON scene_versions BEGIN SELECT RAISE(ABORT,'immutable_scene'); END;

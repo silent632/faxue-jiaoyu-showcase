@@ -1,6 +1,8 @@
 import WelcomeAnnouncement from "@/components/welcome-announcement";
 import help from "@/content/help.json";
 import "./globals.css";
+import "./console.css";
+import { SessionProvider } from "@/components/auth/session-provider";
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://falixue-yanxi.pages.dev"),
@@ -11,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="zh-CN">
-      <body>{children}<WelcomeAnnouncement copy={help.welcome} email={help.feedback.email}/></body>
+      <body><SessionProvider>{children}<WelcomeAnnouncement copy={help.welcome} email={help.feedback.email}/></SessionProvider></body>
     </html>
   );
 }

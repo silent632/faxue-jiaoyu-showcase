@@ -14,15 +14,31 @@
     "check": "npm run validate:content && npm run audit:assets && npm run test:core && npm run build",
     "sync:pdfs": "node ./lib/showcase-pdf-sync.mjs",
     "test:browser": "node --test tests/browser/*.test.mjs",
-    "check:browser": "npm run build && npm run test:browser"
+    "check:browser": "npm run build && npm run test:browser",
+    "setup:local": "node scripts/setup-local-service.mjs",
+    "db:migrate:local": "npm run setup:local && wrangler d1 migrations apply DB --local --config wrangler.jsonc",
+    "preview:full": "wrangler pages dev out --port 3015",
+    "dev:full": "npm run db:migrate:local && npm run build && npm run preview:full",
+    "init:maintainer:local": "node scripts/init-maintainer.mjs",
+    "test:server": "node --test tests/server/*.test.mjs",
+    "check:full": "npm run check && npm run test:browser && FAXUE_BROWSER_TESTS=1 npm run test:server"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "next": "^15.5.10",
     "pdfjs-dist": "^5.4.149",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "playwright": "1.63.0"
+    "esbuild": "0.28.1",
+    "miniflare": "5.20260911.0-alpha",
+    "playwright": "1.63.0",
+    "wrangler": "^4.131.1"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.28"
+    }
   }
 }

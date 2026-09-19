@@ -1,0 +1,2 @@
+'use client';
+export default function Pagination({data,page,onChange}){return <div className="console-actions"><button className="btn btn-outline" disabled={page<=1} onClick={()=>onChange(page-1)}>上一页</button><span>第{page}页{Number.isInteger(data?.total)?` · 共${data.total}项`:''}</span><button className="btn btn-outline" disabled={!data||(Number.isInteger(data.total)?page*data.limit>=data.total:data.items.length<data.limit)} onClick={()=>onChange(page+1)}>下一页</button></div>;}

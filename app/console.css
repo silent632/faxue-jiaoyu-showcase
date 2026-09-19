@@ -1,0 +1,46 @@
+.console-page{max-width:1100px;margin:0 auto;padding:clamp(20px,4vw,56px);color:var(--ink)}
+.console-page header{margin-bottom:var(--sp-8)}
+.console-page h1{font-size:clamp(28px,4vw,40px);margin:12px 0}
+.console-page h2{font-size:24px;margin:0 0 20px}
+.console-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:clamp(20px,3vw,32px);margin-bottom:24px;overflow-wrap:anywhere}
+.login-card{max-width:560px}
+.console-page form{display:grid;gap:20px}
+.console-page label{display:grid;gap:8px;font-weight:600}
+.console-page input:not([type=checkbox]):not([type=radio]),.console-page select,.console-page textarea{width:100%;min-width:0;padding:12px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit}
+.console-page textarea{min-height:120px;resize:vertical}
+.console-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.console-muted{color:var(--muted);font-size:16px}
+.console-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px}
+.console-page fieldset{border:1px solid var(--border);padding:16px;display:flex;gap:16px;flex-wrap:wrap}
+.console-page fieldset label{display:flex;align-items:center;font-weight:400}
+.console-page button:disabled{opacity:.65;cursor:wait}
+.console-table-wrap{overflow-x:auto}
+.console-page table{width:100%;border-collapse:collapse}
+.console-page th,.console-page td{padding:12px;text-align:left;border-bottom:1px solid var(--border-light);vertical-align:top}
+.console-page td .btn{padding:6px 12px;font-size:16px}
+.account-links{display:flex;flex-direction:column;gap:8px;padding:12px 16px;color:inherit;font-size:16px}
+.account-links a{color:inherit}
+.console-page [role=alert]{color:var(--danger);border-left:3px solid currentColor;padding-left:12px}
+.console-page [role=status]{padding:12px 0}
+.hearing-room{margin:24px 0;padding:24px;border-radius:16px;background:linear-gradient(180deg,#182b3b 0%,#304759 58%,#8c7561 59%,#544c48 100%);color:#fff;box-shadow:inset 0 0 70px #071520;perspective:1000px;overflow:hidden}
+.hearing-wall{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:24px;color:#f0d5aa;letter-spacing:.12em}
+.hearing-wall strong{font-size:28px}
+.hearing-host{max-width:520px;margin:0 auto;text-align:center;border-bottom:12px solid #7d5740;background:#233a4bd9;padding:16px;border-radius:10px}
+.role-avatar{display:block;font-size:40px;line-height:1;color:#e5d5bf}
+.hearing-participants{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:24px 0}
+.hearing-seat{padding:18px;background:#152c3c;border-bottom:14px solid #976d4d;border-radius:12px;box-shadow:8px 10px 0 #0003;transform:rotateY(5deg)}
+.hearing-seat:nth-child(2){transform:rotateY(-5deg)}
+.hearing-seat.is-you{outline:3px solid #e7b76c;outline-offset:3px}
+.hearing-seat p,.hearing-host p{font-size:16px;line-height:1.7;color:#ecf0f2}
+.hearing-table{padding:20px;background:#74523c;box-shadow:0 14px 0 #382a24;display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-radius:8px;margin-bottom:18px}
+.material-card{background:#faf1df;color:#302517;border:1px solid #e4cfa9;border-radius:4px;padding:12px;cursor:pointer;font:inherit;font-size:16px;box-shadow:3px 5px 0 #0003}
+.scene-steps{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0;font-size:15px}
+.scene-steps span{padding:7px 10px;background:var(--surface-raised);border:1px solid var(--border);border-radius:5px}
+.scene-steps [aria-current=step]{border-color:var(--accent);background:var(--amber-wash);font-weight:bold}
+.scene-experience label{margin:16px 0}.scene-experience blockquote{border-left:3px solid var(--accent);padding:12px 20px;background:var(--surface-raised)}
+.scene-motion .hearing-seat{transition:transform .3s}.scene-motion .hearing-seat:hover{transform:translateY(-4px)}
+@media(max-width:600px){.hearing-room{padding:14px}.hearing-participants{grid-template-columns:1fr;gap:16px}.hearing-seat,.hearing-seat:nth-child(2){transform:none}.hearing-wall strong{font-size:22px}.hearing-table{padding:12px}.material-card{width:100%}}
+@media(prefers-reduced-motion:reduce){.scene-motion .hearing-seat{transition:none}.scene-motion .hearing-seat:hover{transform:none}}
+
+.console-page input[type=checkbox],.console-page input[type=radio]{width:20px;height:20px;min-width:20px;flex:0 0 20px;margin:3px 0;accent-color:var(--accent)}
+.console-page label:has(input[type=checkbox]),.console-page label:has(input[type=radio]){display:flex;align-items:flex-start;gap:10px}

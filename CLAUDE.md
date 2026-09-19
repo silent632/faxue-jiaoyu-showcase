@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概况
 
-裁判文书研习平台（faxue-jiaoyu-showcase）：面向法学教育的静态展示站。Next.js 15 App Router + React 19，纯 JavaScript（无 TypeScript），静态导出（`output: "export"`，581 个页面/元数据入口），部署在 Cloudflare Pages（push main 自动构建，线上地址 https://falixue-yanxi.pages.dev/）。路径别名 `@/*` 指向仓库根目录。
+裁判文书研习平台（faxue-jiaoyu-showcase）：面向法学教育的研习平台。Next.js 15 App Router + React 19，纯 JavaScript（无 TypeScript），前端静态导出（`output: "export"`，页面数量以本次构建为准），部署在 Cloudflare Pages（push main 自动构建，线上地址 https://falixue-yanxi.pages.dev/）。路径别名 `@/*` 指向仓库根目录。
 
 项目按系统性优化方案的工作包推进，进度与各阶段待办以 [PROGRESS.md](PROGRESS.md) 为总控，做整改类工作前先读它。
 
@@ -57,3 +57,11 @@ npm run check              # 完整验证链：validate + audit + test + build
 ## 可靠性与证据
 
 记录通过 lib/local-record.js 保存；保存成功、结构完成、学生自评、教师审阅分别处理。不要把待核验指标改回示例数字，也不要把引文核对标为教师审定。修改记录或学习动线后补跑浏览器回归；详见 PROGRESS.md 与最新交接文档。
+
+## 教学后台与交流服务（开发中）
+
+前端继续静态导出；`functions/api/[[path]].js` 将 `/api/*` 交给 `server/`，通过 `DB` 绑定访问 D1。认证和授权必须在服务端检查。数据库增量迁移放在 `migrations/`。用户数据不得写回内容 JSON。
+
+`npm start` 仅预览静态站点。完整服务使用 `npm run dev:full`（3015）；本地配置被 Git 忽略，不能用于部署。维护步骤和未完成项见 `docs/教学平台实施与验收-2026-09-18.md`。`npm run check:full` 覆盖原有验证、浏览器回归及实际 workerd/D1 服务测试；可通过 `PLAYWRIGHT_CHANNEL=chrome` 选择已安装的浏览器。
+
+脚本版本发布后不可原地修改；新增版本文件并保留旧版本。任务要求与提交快照同样不可覆盖。教师只读取授权范围内的已提交产出，学生未提交稿不可因后台角色而开放。生产部署尚未验收，不得将本地通过表述为线上可用。

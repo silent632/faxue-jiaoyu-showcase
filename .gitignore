@@ -7,3 +7,7 @@ node_modules
 .playwright-cli
 out
 output
+.wrangler
+.dev.vars
+.env.local
+wrangler.jsonc

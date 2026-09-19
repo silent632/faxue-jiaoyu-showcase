@@ -1,0 +1,10 @@
+CREATE TABLE boards(id TEXT PRIMARY KEY,name TEXT NOT NULL,group_id TEXT REFERENCES groups(id),created_at INTEGER NOT NULL);
+INSERT INTO boards(id,name,created_at) VALUES('0ab7e250-59a6-4ee9-907b-000000000001','法理学答疑',0),('0ab7e250-59a6-4ee9-907b-000000000002','案例与实验讨论',0),('0ab7e250-59a6-4ee9-907b-000000000003','学习交流',0);
+CREATE TABLE board_guests(board_id TEXT NOT NULL REFERENCES boards(id),user_id TEXT NOT NULL REFERENCES users(id),PRIMARY KEY(board_id,user_id));
+CREATE TABLE topics(id TEXT PRIMARY KEY,board_id TEXT NOT NULL REFERENCES boards(id),author_id TEXT NOT NULL REFERENCES users(id),title TEXT NOT NULL,body TEXT NOT NULL,resource_type TEXT,resource_id TEXT,status TEXT NOT NULL DEFAULT 'visible' CHECK(status IN('visible','hidden','deleted')),locked INTEGER NOT NULL DEFAULT 0 CHECK(locked IN(0,1)),pinned INTEGER NOT NULL DEFAULT 0,featured INTEGER NOT NULL DEFAULT 0,created_at INTEGER NOT NULL,edited_at INTEGER);
+CREATE INDEX topics_board ON topics(board_id,status,pinned DESC,created_at DESC,id);
+CREATE TABLE replies(id TEXT PRIMARY KEY,topic_id TEXT NOT NULL REFERENCES topics(id),parent_id TEXT REFERENCES replies(id),author_id TEXT NOT NULL REFERENCES users(id),body TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'visible' CHECK(status IN('visible','hidden','deleted')),created_at INTEGER NOT NULL,edited_at INTEGER);
+CREATE INDEX replies_topic ON replies(topic_id,created_at,id);
+CREATE TABLE helpful_votes(user_id TEXT NOT NULL REFERENCES users(id),reply_id TEXT NOT NULL REFERENCES replies(id),PRIMARY KEY(user_id,reply_id));
+CREATE TABLE reports(id TEXT PRIMARY KEY,author_id TEXT NOT NULL REFERENCES users(id),target_type TEXT NOT NULL CHECK(target_type IN('topic','reply')),target_id TEXT NOT NULL,reason TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'open' CHECK(status IN('open','resolved')),created_at INTEGER NOT NULL);
+CREATE TABLE moderation_actions(id TEXT PRIMARY KEY,actor_id TEXT NOT NULL REFERENCES users(id),target_type TEXT NOT NULL,target_id TEXT NOT NULL,action TEXT NOT NULL,reason TEXT NOT NULL,created_at INTEGER NOT NULL);

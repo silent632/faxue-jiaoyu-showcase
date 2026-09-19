@@ -4,6 +4,8 @@ import { getAllProgress } from "@/lib/experiment-archive";
 import { listLocalRecordKeys, subscribeRecords } from "@/lib/local-record";
 import Link from "next/link";
 import FeedbackLink from "./feedback-link";
+import AccountLinks from "./auth/account-links";
+import { useSession } from "./auth/session-provider";
 import { usePathname } from "next/navigation";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { isShowcaseNavItemActive } from "@/lib/showcase-nav-match";
@@ -104,6 +106,7 @@ export default function TopNav({ user, items }) {
   const navItems = items ?? [];
   const [open, setOpen] = useState(false);
   const stats = useStudyStats();
+  const session=useSession();
   const [mobile, setMobile] = useState(false);
   useEffect(() => {
     const media = window.matchMedia("(max-width: 768px)");
@@ -187,7 +190,7 @@ export default function TopNav({ user, items }) {
           })}
         </nav>
 
-        <div className="sidenav-foot"><FeedbackLink/>
+        <div className="sidenav-foot"><AccountLinks/><FeedbackLink/>
           <div className="sidenav-stats">
             <div className="sidenav-stat">
               <strong>{stats.cases}</strong>
@@ -199,8 +202,8 @@ export default function TopNav({ user, items }) {
             </div>
           </div>
           <div className="sidenav-user showcase-topbar-user-card">
-            <strong className="topbar-user-name">{user?.name || "开放浏览"}</strong>
-            <span className="topbar-user-meta">{user?.roleLabel || "案例研习平台"}</span>
+            <strong className="topbar-user-name">{session.user?.displayName || user?.name || "开放浏览"}</strong>
+            <span className="topbar-user-meta">{session.user ? "已登录 · 法理学学习" : user?.roleLabel || "案例研习平台"}</span>
           </div>
         </div>
       </aside>
