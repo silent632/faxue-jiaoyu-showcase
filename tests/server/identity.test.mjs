@@ -6,12 +6,14 @@ import { Miniflare,convertV4MiniflareOptions } from 'miniflare';
 import { build } from 'esbuild';
 import { createStaticServer } from '../../scripts/serve-static.mjs';
 import { chromium } from 'playwright';
-import { createSession } from '../../server/auth/session.js';
+import { createSession, cleanupAuthRecords, ACTIVITY_INTERVAL, IDLE } from '../../server/auth/session.js';
+import { digest } from '../../server/auth/password.js';
 import { studentStatements,validateRoster } from '../../lib/student-provisioning.js';
 import { hashPassword } from '../../server/auth/password.js';
+import { authRoute } from '../../server/auth/routes.js';
 process.env.WRANGLER_SEND_METRICS='false';
 const root = process.cwd();
-fs.mkdirSync('output',{recursive:true});
+fs.mkdirSync('output/verification',{recursive:true});
 const temp = fs.mkdtempSync(path.join(root, 'output', 'identity-test-'));
 const state = path.join(temp,'state');
 let origin;let service;let staticServer;let database;
@@ -26,8 +28,9 @@ async function call(route, { method='GET', data, auth, originHeader=origin, csrf
   const response = await fetch(origin+'/api'+route,{method,headers,body:data===undefined?undefined:JSON.stringify(data)});
   return { response, status:response.status, payload:await response.json() };
 }
+let testLoginSource = 0;
 async function login(loginId='test-admin') {
-  const result=await call('/auth/login',{method:'POST',data:{loginId,password}});
+  const result=await call('/auth/login',{method:'POST',data:{loginId,password},headers:{'cf-connecting-ip':`test-login-${++testLoginSource}`}});
   assert.equal(result.status,200,JSON.stringify(result.payload));
   return { cookie:result.response.headers.get('set-cookie').split(';')[0],csrfToken:result.payload.data.csrfToken };
 }
@@ -64,6 +67,8 @@ after(async()=>{
 });
 test('匿名请求被拒绝且私有响应不可缓存',async()=>{
   const result=await call('/admin/users');assert.equal(result.status,401);assert.equal(result.response.headers.get('cache-control'),'no-store');
+  assert.equal(result.response.headers.get('x-content-type-options'),'nosniff');assert.equal(result.response.headers.get('x-frame-options'),'SAMEORIGIN');
+  const health=await call('/health');assert.equal(health.status,200);assert.equal(health.response.headers.get('x-content-type-options'),'nosniff');
 });
 test('登录不接受伪造身份；错误凭据统一；跨站请求被拒绝',async()=>{
   const input={loginId:'test-student',password};
@@ -110,6 +115,7 @@ test('教学闭环、跨组隔离、云草稿冲突、幂等提交、点评与�
   const privateTopic=await call('/topics',{method:'POST',auth:student,data:{boardId,title:'只能组内查看的问题',body:'这个问题的标题与正文都不能被其他小组搜索到。'}});assert.equal(privateTopic.status,201);assert.equal((await call('/topics/'+privateTopic.payload.data.id,{auth:outsider})).status,404);assert.equal((await call('/topics?q='+encodeURIComponent('只能组内查看'),{auth:outsider})).payload.data.total,0);
   assert.equal((await call('/boards/'+boardId+'/guests',{method:'POST',auth:teacher,data:{mentorId}})).status,200);assert.equal((await call('/topics/'+privateTopic.payload.data.id,{auth:mentor})).status,200);assert.equal((await call('/boards/'+boardId+'/guests',{method:'DELETE',auth:teacher,data:{mentorId}})).status,200);assert.equal((await call('/topics/'+privateTopic.payload.data.id,{auth:mentor})).status,404);
   const taskData={groupId,title:'规范与事实的对应',objective:'练习解释理由',requirements:'完成规范前提、事实对应、结论和反思',checkpoints:['规范与事实的对应是否清楚'],caseId:'case-0001',moduleId:'exp-reasoning',deadline:Date.now()-10000};
+  const rejectedTopic=await call('/tasks',{method:'POST',auth:teacher,data:{...taskData,learningTopicId:'legal-interpretation'}});assert.equal(rejectedTopic.status,400);assert.equal(rejectedTopic.payload.error.code,'learning_topic');
   const task=await call('/tasks',{method:'POST',auth:teacher,data:taskData});assert.equal(task.status,201,JSON.stringify(task.payload));const taskId=task.payload.data.id;
   assert.equal((await call('/tasks/'+taskId,{auth:student})).status,404);
   assert.equal((await call('/tasks/'+taskId+'/publish',{method:'POST',auth:teacher})).status,200);
@@ -140,13 +146,15 @@ test('教学闭环、跨组隔离、云草稿冲突、幂等提交、点评与�
   assert.equal((await call('/tasks/'+taskId+'/mentors',{method:'DELETE',auth:teacher,data:{mentorId}})).status,200);
   assert.equal((await call('/submissions/'+submissionId,{auth:mentor})).status,404);
   const versioned=await call('/tasks/'+taskId,{method:'PATCH',auth:teacher,data:{...taskData,groupId:undefined,expectedVersionId:task.payload.data.current_version_id,title:'更新后的任务要求'}});assert.equal(versioned.status,200,JSON.stringify(versioned.payload));
-  const old=await call('/attempts/'+attemptId,{auth:student});assert.equal(old.payload.data.version.title,taskData.title);
+  const old=await call('/attempts/'+attemptId,{auth:student});assert.equal(old.payload.data.version.title,taskData.title);assert.equal(old.payload.data.version.learning_topic,null);
   assert.equal((await call('/tasks/'+taskId,{method:'PATCH',auth:teacher,data:{status:'archived',expectedVersionId:versioned.payload.data.current_version_id}})).status,200);
   assert.equal((await call('/attempts/'+attemptId+'/submissions',{method:'POST',auth:student,headers:{'Idempotency-Key':'archived-submit-1234'},data:{revision:2}})).status,409);
 });
 test('交流区回答追问、通知、投票与管理状态同步',async()=>{
  const author=await login('test-student');const responder=await login('other-student');const admin=await login();
  const boards=await call('/boards',{auth:author});assert.ok(boards.payload.data.items.length>=3);
+ assert.equal((await call('/topics',{method:'POST',auth:admin,data:{boardId:boards.payload.data.items[0].id,title:'关联案例的问题',body:'这是一段用于验证案例引用的问题内容。',resourceType:'case',resourceId:'case-9999'}})).status,400);
+ assert.equal((await call('/topics',{method:'POST',auth:admin,data:{boardId:boards.payload.data.items[0].id,title:'关联不存在的知识点',body:'这是一段用于验证权限的隔离测试正文。',resourceType:'knowledge',resourceId:'not-a-real-topic'}})).status,400);
  const created=await call('/topics',{method:'POST',auth:author,data:{boardId:boards.payload.data.items[0].id,title:'法律理由应当如何展开',body:'<script>alert(1)</script>这是一条用于验证纯文本展示的学习问题。'}});assert.equal(created.status,201,JSON.stringify(created.payload));const topicId=created.payload.data.id;
  const reply=await call('/topics/'+topicId+'/replies',{method:'POST',auth:responder,data:{body:'先区分事实判断与价值判断，再检验理由。'}});assert.equal(reply.status,201);const replyId=reply.payload.data.id;
  assert.equal((await call('/replies/'+replyId+'/helpful',{method:'POST',auth:responder})).status,400);
@@ -158,7 +166,12 @@ test('交流区回答追问、通知、投票与管理状态同步',async()=>{
  assert.equal((await call('/reports',{method:'POST',auth:author,data:{targetType:'reply',targetId:replyId,reason:'请管理员核对测试回答'}})).status,201);
  assert.equal((await call('/admin/moderation',{method:'POST',auth:admin,data:{targetType:'reply',targetId:replyId,action:'hide',reason:'隔离环境验证隐藏'}})).status,200);
  assert.equal((await call('/replies/'+replyId,{method:'PATCH',auth:responder,data:{body:'试图绕过隐藏'}})).status,404);
- const hidden=await call('/topics/'+topicId+'/replies',{auth:author});assert.equal(hidden.payload.data.items[0].body,'这条回答已不可见。');
+ const hidden=await call('/topics/'+topicId+'/replies',{auth:author});assert.equal(hidden.payload.data.items[0].body,'这条回答已不可见。');assert.equal(hidden.payload.data.items[0].author_id,null);assert.equal(hidden.payload.data.items[0].display_name,null);assert.deepEqual(hidden.payload.data.items[0].author_roles,[]);
+ const ownHidden=await call('/topics/'+topicId+'/replies',{auth:responder});assert.equal(ownHidden.payload.data.items[0].author_id,otherStudentId);
+ const adminHidden=await call('/topics/'+topicId+'/replies',{auth:admin});assert.equal(adminHidden.payload.data.items[0].author_id,otherStudentId);
+ const removable=await call('/topics/'+topicId+'/replies',{method:'POST',auth:responder,data:{body:'这条回答之后由作者删除。'}});assert.equal(removable.status,201);
+ assert.equal((await call('/replies/'+removable.payload.data.id,{method:'DELETE',auth:responder})).status,200);
+ const deletedList=await call('/topics/'+topicId+'/replies',{auth:author});const deleted=deletedList.payload.data.items.find(row=>row.id===removable.payload.data.id);assert.equal(deleted.status,'deleted');assert.equal(deleted.author_id,null);assert.equal(deleted.display_name,null);assert.deepEqual(deleted.author_roles,[]);
  assert.equal((await call('/admin/moderation',{method:'POST',auth:admin,data:{targetType:'topic',targetId:topicId,action:'hide',reason:'隔离环境验证可见性'}})).status,200);
  assert.equal((await call('/topics/'+topicId,{auth:author})).status,404);
  assert.ok(!(await call('/notifications',{auth:author})).payload.data.items.some(row=>row.target_id===topicId));
@@ -231,9 +244,10 @@ test('历史记录需确认归属，幂等导入且不能冒充课程提交',asy
 test('真实浏览器：登录后台、论坛纯文本与听证双模式完整体验',{skip:process.env.FAXUE_BROWSER_TESTS!=='1'},async()=>{
  const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHANNEL?{channel:process.env.PLAYWRIGHT_CHANNEL}:{})});const context=await browser.newContext({viewport:{width:1280,height:1000}});await context.addInitScript(()=>localStorage.setItem('faxue-welcome-dismissed','2026-welcome-1'));const page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
  try{
-  await page.goto(origin+'/login/');await page.getByRole('textbox',{name:'账号',exact:true}).fill('test-admin');await page.getByRole('textbox',{name:'密码',exact:true}).fill(password);await page.getByRole('button',{name:'登录',exact:true}).click();await page.getByRole('link',{name:'进入工作台',exact:true}).click();await page.getByRole('link',{name:'管理账号',exact:true}).click();await page.getByRole('heading',{name:'账号列表',exact:true}).waitFor();assert.ok(await page.getByText('隔离管理员',{exact:true}).count()>0);
+  await page.goto(origin+'/cases/case-0001/');await page.getByRole('link',{name:'围绕本案例提问',exact:true}).click();await page.getByRole('link',{name:'前往登录',exact:true}).click();await page.getByRole('textbox',{name:'账号',exact:true}).fill('test-admin');await page.getByRole('textbox',{name:'密码',exact:true}).fill(password);await page.getByRole('button',{name:'登录',exact:true}).click();await page.getByRole('link',{name:'返回案例讨论',exact:true}).click();await page.getByRole('heading',{name:'提出你的问题',exact:true}).waitFor();await page.waitForFunction(()=>document.querySelector('select[name=association]')?.disabled===false);assert.equal(await page.getByRole('combobox',{name:'关联学习材料（可选）',exact:true}).inputValue(),'case:case-0001');await page.goto(origin+'/admin/');await page.getByRole('link',{name:'管理账号',exact:true}).click();await page.getByRole('heading',{name:'账号列表',exact:true}).waitFor();assert.ok(await page.getByText('隔离管理员',{exact:true}).count()>0);
+  await page.goto(origin+'/cases/case-0001/');await page.getByRole('link',{name:'围绕本案例提问',exact:true}).click();await page.getByRole('heading',{name:'提出你的问题',exact:true}).waitFor();await page.waitForFunction(()=>document.querySelector('select[name=association]')?.disabled===false);assert.equal(await page.getByRole('combobox',{name:'关联学习材料（可选）',exact:true}).inputValue(),'case:case-0001');
   await page.goto(origin+'/community/');await page.getByRole('link',{name:'法律理由应当如何展开',exact:true}).click();await page.getByText('<script>alert(1)</script>这是一条用于验证纯文本展示的学习问题。',{exact:true}).waitFor();
-  await page.goto(origin+'/experiments/scenes/campus-hearing/');await page.getByRole('radio').last().focus();await page.keyboard.press('Space');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('heading',{name:'管理方案代表的工作备忘 · 你的角色材料',exact:true}).waitFor();assert.equal(await page.getByText('学生代表的访谈备忘',{exact:false}).count(),0);await page.getByRole('checkbox',{name:'将此材料纳入考虑'}).first().check();await page.getByRole('textbox',{name:'至少一处仍需确认的信息'}).fill('需要补充通行效率实测与退出程序。');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('textbox',{name:'一个可以讨论的争点'}).fill('是否需要保留门禁卡');await page.getByRole('textbox',{name:'考虑一及其理由'}).fill('效率改善');await page.getByRole('textbox',{name:'与之冲突的考虑及其理由'}).fill('不同学生的平等通行');await page.getByRole('button',{name:'标准模式',exact:true}).press('Enter');assert.equal(await page.getByRole('textbox',{name:'一个可以讨论的争点'}).inputValue(),'是否需要保留门禁卡');await page.reload();assert.equal(await page.getByRole('textbox',{name:'一个可以讨论的争点'}).inputValue(),'是否需要保留门禁卡');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('textbox',{name:'初步方案',exact:true}).fill('双轨试行');await page.getByRole('textbox',{name:'方案的理由',exact:true}).fill('先核对实际效果');await page.getByRole('combobox',{name:'关联材料',exact:true}).selectOption('draft');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('textbox',{name:'回应这项异议',exact:true}).fill('通过小范围试验核对维护成本');await page.getByRole('textbox',{name:'一个替代方案及考虑',exact:true}).fill('保留门禁卡通道');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('textbox',{name:'最终方案',exact:true}).fill('双轨试行并设公开评估');await page.getByRole('textbox',{name:'修改或保留观点的理由',exact:true}).fill('回应成本疑虑并保留选择');await page.getByRole('textbox',{name:'这次讨论改变或加深了什么理解？',exact:true}).fill('管理目标仍需要可检验的理由');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('heading',{name:'归档与提交',exact:true}).waitFor();
+  await page.goto(origin+'/experiments/scenes/campus-hearing/');await page.locator('.hearing-stage').waitFor();await page.getByRole('button',{name:'以管理方案代表身份参与'}).focus();await page.keyboard.press('Space');assert.equal(await page.locator('.hearing-stage-side.is-active').count(),1);assert.equal(await page.getByRole('radio').last().isChecked(),true);await page.locator('.hearing-stage').screenshot({path:'output/verification/hearing-depth-desktop.png'});await page.setViewportSize({width:375,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2));await page.locator('.hearing-stage').screenshot({path:'output/verification/hearing-depth-mobile.png'});await page.setViewportSize({width:1280,height:1000});await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('heading',{name:'管理方案代表的工作备忘 · 你的角色材料',exact:true}).waitFor();assert.equal(await page.getByText('学生代表的访谈备忘',{exact:false}).count(),0);await page.getByRole('checkbox',{name:'将此材料纳入考虑'}).first().check();await page.getByRole('textbox',{name:'至少一处仍需确认的信息'}).fill('需要补充通行效率实测与退出程序。');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('textbox',{name:'一个可以讨论的争点'}).fill('是否需要保留门禁卡');await page.getByRole('textbox',{name:'考虑一及其理由'}).fill('效率改善');await page.getByRole('textbox',{name:'与之冲突的考虑及其理由'}).fill('不同学生的平等通行');await page.getByRole('button',{name:'标准模式',exact:true}).press('Enter');assert.equal(await page.locator('.hearing-stage').count(),0);assert.equal(await page.getByRole('textbox',{name:'一个可以讨论的争点'}).inputValue(),'是否需要保留门禁卡');await page.reload();assert.equal(await page.getByRole('textbox',{name:'一个可以讨论的争点'}).inputValue(),'是否需要保留门禁卡');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('textbox',{name:'初步方案',exact:true}).fill('双轨试行');await page.getByRole('textbox',{name:'方案的理由',exact:true}).fill('先核对实际效果');await page.getByRole('combobox',{name:'关联材料',exact:true}).selectOption('draft');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('textbox',{name:'回应这项异议',exact:true}).fill('通过小范围试验核对维护成本');await page.getByRole('textbox',{name:'一个替代方案及考虑',exact:true}).fill('保留门禁卡通道');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('textbox',{name:'最终方案',exact:true}).fill('双轨试行并设公开评估');await page.getByRole('textbox',{name:'修改或保留观点的理由',exact:true}).fill('回应成本疑虑并保留选择');await page.getByRole('textbox',{name:'这次讨论改变或加深了什么理解？',exact:true}).fill('管理目标仍需要可检验的理由');await page.getByRole('button',{name:'继续听证',exact:true}).press('Enter');await page.getByRole('heading',{name:'归档与提交',exact:true}).waitFor();
   for(const width of [375,390,768,1280])for(const colorScheme of ['light','dark']){await page.setViewportSize({width,height:1000});await page.emulateMedia({colorScheme});await page.evaluate(()=>Promise.all(document.getAnimations().map(animation=>animation.finished.catch(()=>{}))));assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),`${width}/${colorScheme}场景越界`);}
   await page.setViewportSize({width:1280,height:1000});await page.evaluate(async()=>{scrollTo(0,0);await Promise.all(document.getAnimations().map(animation=>animation.finished.catch(()=>{})));});await page.screenshot({path:'output/verification/scene-desktop.png',fullPage:true});await page.setViewportSize({width:390,height:1000});await page.waitForFunction(()=>document.querySelector('.sidenav').getBoundingClientRect().right<=1);await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'output/verification/scene-mobile.png',fullPage:true});
   assert.deepEqual(errors,[]);
@@ -333,4 +347,109 @@ test('同一账号登录频率限制可复现',async()=>{
   let last;
   for(let i=0;i<9;i++) last=await call('/auth/login',{method:'POST',data:{loginId:'limit-target',password:'wrong'}});
   assert.equal(last.status,429);
+});
+test('隔离审阅样本可贯穿教师布置、学生学习与任务历史',{skip:process.env.FAXUE_REVIEW_FIXTURE!=='1'},async()=>{
+ const teacher=await login('test-teacher');const student=await login('test-student');const outsider=await login('other-student');
+ const group=(await call('/groups',{method:'POST',auth:teacher,data:{name:'知识点关联验证组'}})).payload.data.id;
+ assert.equal((await call('/groups/'+group+'/members',{method:'POST',auth:teacher,data:{userId:studentId,kind:'student'}})).status,200);
+ const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHANNEL?{channel:process.env.PLAYWRIGHT_CHANNEL}:{})});const teacherContext=await browser.newContext();const studentContext=await browser.newContext();const guestContext=await browser.newContext();
+ try{
+  await teacherContext.addInitScript(()=>localStorage.setItem('faxue-welcome-dismissed','2026-welcome-1'));await studentContext.addInitScript(()=>localStorage.setItem('faxue-welcome-dismissed','2026-welcome-1'));await guestContext.addInitScript(()=>localStorage.setItem('faxue-welcome-dismissed','2026-welcome-1'));
+  await teacherContext.addCookies([{name:'faxue_session',value:teacher.cookie.split('=')[1],url:origin}]);await studentContext.addCookies([{name:'faxue_session',value:student.cookie.split('=')[1],url:origin}]);
+  const page=await teacherContext.newPage();await page.goto(origin+'/teacher/tasks/');await page.getByRole('heading',{name:'准备新任务'}).waitFor();
+  await page.getByLabel('所属小组').selectOption(group);await page.getByLabel('标题',{exact:true}).fill('法律解释中的理由');await page.getByLabel('学习目标').fill('理解文义解释与其他理由的关系');await page.getByLabel('产出要求').fill('说明法院的解释理由');await page.getByLabel('评价检查点（每行一项）').fill('是否结合原文');
+  await page.getByLabel('案例或场景').selectOption('case-0093');await page.getByLabel('法理知识点（可选）').selectOption('legal-interpretation');await page.getByLabel('实验模块（选择场景时忽略）').selectOption('exp-reasoning');await page.getByRole('button',{name:'保存任务草稿 / 新版本'}).click();
+  await page.getByRole('heading',{name:'法律解释中的理由'}).waitFor();const taskId=new URL(page.url()).searchParams.get('id');const initial=await call('/tasks/'+taskId,{auth:teacher});assert.equal(JSON.parse(initial.payload.data.version.learning_topic).title,'法律解释方法');
+  assert.equal((await call('/tasks/'+taskId+'/publish',{method:'POST',auth:teacher})).status,200);const started=await call('/attempts',{method:'POST',auth:student,data:{taskId}});assert.equal(started.status,201);const attemptId=started.payload.data.id;
+  const studentPage=await studentContext.newPage();await studentPage.goto(origin+'/workspace/?id='+attemptId);await studentPage.getByRole('heading',{name:'法理知识点：法律解释方法'}).waitFor();await studentPage.getByText('法院如何依据文义讨论表演者权利？其后又提出了哪些限制这一理解的理由？').waitFor();
+  assert.equal((await call('/attempts/'+attemptId,{auth:outsider})).status,404);
+  const changed=await call('/tasks/'+taskId,{method:'PATCH',auth:teacher,data:{expectedVersionId:initial.payload.data.current_version_id,title:'新版任务',objective:'新版目标',requirements:'新版要求',checkpoints:['新版检查'],caseId:'case-0093',moduleId:'exp-reasoning'}});assert.equal(changed.status,200);
+  const old=await call('/attempts/'+attemptId,{auth:student});assert.equal(old.payload.data.version.title,'法律解释中的理由');assert.equal(JSON.parse(old.payload.data.version.learning_topic).title,'法律解释方法');
+  await page.goto(origin+'/knowledge/');await page.getByRole('link',{name:'围绕这个知识点提问'}).click();await page.getByRole('heading',{name:'提出你的问题'}).waitFor();await page.waitForFunction(()=>document.querySelector('select[name=association]')?.disabled===false);assert.equal(await page.getByLabel('关联学习材料（可选）').inputValue(),'knowledge:legal-interpretation');await page.getByLabel('问题标题').fill('文义解释为何需要结合上下文');await page.getByLabel('问题与已有思考').fill('在阅读案例时，我希望进一步理解解释理由之间如何衔接。');await page.getByRole('button',{name:'发布问题'}).click();await page.getByRole('heading',{name:'文义解释为何需要结合上下文'}).waitFor();assert.equal(await page.getByRole('link',{name:'查看关联学习材料'}).getAttribute('href'),'/knowledge/#legal-interpretation');
+  const guest=await guestContext.newPage();await guest.goto(origin+'/knowledge/');await guest.getByRole('link',{name:'围绕这个知识点提问'}).click();await guest.getByRole('link',{name:'前往登录'}).click();await guest.getByRole('textbox',{name:'账号',exact:true}).fill('other-student');await guest.getByRole('textbox',{name:'密码',exact:true}).fill(password);await guest.getByRole('button',{name:'登录',exact:true}).click();await guest.getByRole('link',{name:'返回知识点讨论'}).click();await guest.getByRole('heading',{name:'提出你的问题'}).waitFor();await guest.waitForFunction(()=>document.querySelector('select[name=association]')?.disabled===false);assert.equal(await guest.getByLabel('关联学习材料（可选）').inputValue(),'knowledge:legal-interpretation');
+ }finally{await teacherContext.close();await studentContext.close();await guestContext.close();await browser.close();}
+});
+test('单个来源触发限流不阻止其他来源，账号总量仍有限制',async()=>{
+ const attempt=(ip,secret)=>call('/auth/login',{method:'POST',data:{loginId:'test-student',password:secret},headers:{'cf-connecting-ip':ip}});
+ assert.equal((await attempt('198.51.100.1','wrong')).status,401);
+ const pairKey='login-account-ip:'+await digest('test-student')+':'+await digest('198.51.100.1');
+ await database.prepare('UPDATE rate_limits SET count=8,window_start=? WHERE key=?').bind(Math.floor(Date.now()/300000)*300000,pairKey).run();
+ assert.equal((await attempt('198.51.100.1',password)).status,429);
+ assert.equal((await attempt('198.51.100.2',password)).status,200);
+ const key='login-account-total:'+await digest('test-student');
+ await database.prepare('UPDATE rate_limits SET count=50 WHERE key=?').bind(key).run();
+ assert.equal((await attempt('198.51.100.3',password)).status,429);
+});
+test('活动记录节流、空闲过期与有界清理保留会话边界',async()=>{
+ const created=await createSession(database,studentId);const tokenHash=await digest(created.token);const auth={cookie:'faxue_session='+created.token,csrfToken:created.csrfToken};
+ const original=(await database.prepare('SELECT active_at FROM sessions WHERE token_hash=?').bind(tokenHash).first()).active_at;
+ assert.equal((await call('/auth/me',{auth})).status,200);
+ assert.equal((await database.prepare('SELECT active_at FROM sessions WHERE token_hash=?').bind(tokenHash).first()).active_at,original);
+ await database.prepare('UPDATE sessions SET active_at=? WHERE token_hash=?').bind(Date.now()-ACTIVITY_INTERVAL-1000,tokenHash).run();
+ assert.equal((await call('/auth/me',{auth})).status,200);
+ assert.ok((await database.prepare('SELECT active_at FROM sessions WHERE token_hash=?').bind(tokenHash).first()).active_at>original-ACTIVITY_INTERVAL);
+ await database.prepare('UPDATE sessions SET active_at=? WHERE token_hash=?').bind(Date.now()-IDLE-1000,tokenHash).run();
+ assert.equal((await call('/auth/me',{auth})).status,401);
+ const old=Date.now()-31*24*60*60*1000;
+ await database.prepare("INSERT INTO rate_limits(key,window_start,count) VALUES('cleanup-old',?,1),('cleanup-new',?,1)").bind(old,Date.now()).run();
+ await database.prepare('UPDATE sessions SET expires_at=? WHERE token_hash=?').bind(old,tokenHash).run();
+ await cleanupAuthRecords(database);
+ assert.equal(await database.prepare('SELECT token_hash FROM sessions WHERE token_hash=?').bind(tokenHash).first(),null);
+ assert.equal(await database.prepare("SELECT key FROM rate_limits WHERE key='cleanup-old'").first(),null);
+ assert.ok(await database.prepare("SELECT key FROM rate_limits WHERE key='cleanup-new'").first());
+});
+test('学生激活凭据重签、过期、并发消费及旧账号保护',async()=>{
+ const row={loginId:'209900008888',displayName:'激活测试学生',groupName:'激活测试组'};
+ for(const sql of await studentStatements(row,adminId))await database.prepare(sql).run();
+ const account=await database.prepare('SELECT id FROM users WHERE login_id=?').bind(row.loginId).first();const admin=await login();
+ const oldHash=(await database.prepare('SELECT password_hash FROM users WHERE id=?').bind(account.id).first()).password_hash;
+ const issue=()=>call('/admin/users/'+account.id+'/activation',{method:'POST',auth:admin,data:{expiresAt:Date.now()+60000}});
+ const oldLogin=await call('/auth/login',{method:'POST',data:{loginId:row.loginId,password:'008888'},headers:{'cf-connecting-ip':'192.0.2.20'}});assert.equal(oldLogin.status,200);const oldAuth={cookie:oldLogin.response.headers.get('set-cookie').split(';')[0],csrfToken:oldLogin.payload.data.csrfToken};
+ const first=await issue();assert.equal(first.status,200);assert.equal((await call('/auth/me',{auth:oldAuth})).status,401);
+ assert.equal(await createSession(database,account.id,oldHash),null);
+ const staleRequest=new Request(origin+'/api/auth/password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({currentPassword:'008888',newPassword:'Attempted-race-password-2026'})});
+ await assert.rejects(()=>authRoute({request:staleRequest,db:database,session:{user:{id:account.id}},path:'/auth/password'}),error=>error.code==='password_conflict');
+ assert.equal((await database.prepare('SELECT password_hash FROM users WHERE id=?').bind(account.id).first()).password_hash,oldHash);
+ assert.equal((await call('/auth/login',{method:'POST',data:{loginId:row.loginId,password:'008888'},headers:{'cf-connecting-ip':'192.0.2.21'}})).status,401);
+ const second=await issue();assert.equal(second.status,200);assert.notEqual(first.payload.data.activationCode,second.payload.data.activationCode);
+ assert.equal((await call('/auth/activate',{method:'POST',data:{loginId:row.loginId,activationCode:second.payload.data.activationCode,newPassword:row.loginId},headers:{'cf-connecting-ip':'192.0.2.28'}})).payload.error.code,'password_reused');
+ assert.equal((await call('/auth/activate',{method:'POST',data:{loginId:row.loginId,activationCode:second.payload.data.activationCode,newPassword:second.payload.data.activationCode},headers:{'cf-connecting-ip':'192.0.2.29'}})).payload.error.code,'password_reused');
+ const activate=(code,ip)=>call('/auth/activate',{method:'POST',data:{loginId:row.loginId,activationCode:code,newPassword:'A-new-password-for-test-2026'},headers:{'cf-connecting-ip':ip}});
+ assert.equal((await activate(first.payload.data.activationCode,'192.0.2.22')).status,400);
+ await database.prepare('UPDATE student_activations SET expires_at=? WHERE user_id=?').bind(Date.now()-1000,account.id).run();
+ assert.equal((await activate(second.payload.data.activationCode,'192.0.2.23')).status,400);
+ const third=await issue();const concurrent=await Promise.all([activate(third.payload.data.activationCode,'192.0.2.24'),activate(third.payload.data.activationCode,'192.0.2.25')]);assert.deepEqual(concurrent.map(x=>x.status).sort(),[200,400]);
+ assert.equal(await createSession(database,account.id,oldHash),null);
+ assert.equal((await activate(third.payload.data.activationCode,'192.0.2.26')).status,400);
+ const activatedLogin=await call('/auth/login',{method:'POST',data:{loginId:row.loginId,password:'A-new-password-for-test-2026'},headers:{'cf-connecting-ip':'192.0.2.27'}});assert.equal(activatedLogin.status,200);
+ assert.equal((await issue()).status,409);
+ for(const sql of await studentStatements(row,adminId))await database.prepare(sql).run();
+ const unchanged=await database.prepare('SELECT id,must_change_password FROM users WHERE login_id=?').bind(row.loginId).first();assert.equal(unchanged.id,account.id);assert.equal(unchanged.must_change_password,0);
+ const historicalAttempt=crypto.randomUUID();const historicalSubmission=crypto.randomUUID();const historySnapshot=JSON.stringify({record:'恢复前保留的隔离测试产出'});
+ await database.batch([database.prepare("INSERT INTO learning_attempts(id,user_id,case_id,module_id,provenance,created_at) VALUES(?,?,?,?,'imported',?)").bind(historicalAttempt,account.id,'case-0001','exp-reasoning',Date.now()),database.prepare('INSERT INTO submissions(id,attempt_id,sequence,draft_revision,snapshot,late,idempotency_key,created_at) VALUES(?,?,1,0,?,0,?,?)').bind(historicalSubmission,historicalAttempt,historySnapshot,crypto.randomUUID(),Date.now())]);
+ const activeAuth={cookie:activatedLogin.response.headers.get('set-cookie').split(';')[0],csrfToken:activatedLogin.payload.data.csrfToken};
+ const recoveryData={identityVerified:true,reason:'lost_access',expiresAt:Date.now()+60000};
+ assert.equal((await call('/admin/users/'+account.id+'/recovery',{method:'POST',auth:activeAuth,data:recoveryData})).status,403);
+ assert.equal((await call('/admin/users/'+account.id+'/recovery',{method:'POST',auth:admin,data:{...recoveryData,identityVerified:false}})).status,400);
+ const recovered=await call('/admin/users/'+account.id+'/recovery',{method:'POST',auth:admin,data:recoveryData});assert.equal(recovered.status,200,JSON.stringify(recovered.payload));
+ assert.equal((await call('/auth/me',{auth:activeAuth})).status,401);
+ assert.equal((await call('/auth/login',{method:'POST',data:{loginId:row.loginId,password:'A-new-password-for-test-2026'},headers:{'cf-connecting-ip':'192.0.2.30'}})).status,401);
+ const reactivated=await call('/auth/activate',{method:'POST',data:{loginId:row.loginId,activationCode:recovered.payload.data.activationCode,newPassword:'Recovery-password-for-test-2026'},headers:{'cf-connecting-ip':'192.0.2.31'}});assert.equal(reactivated.status,200);
+ const restored=await database.prepare("SELECT u.id,u.must_change_password, (SELECT count(*) FROM group_members WHERE user_id=u.id AND kind='student') AS groups_count FROM users u WHERE id=?").bind(account.id).first();assert.equal(restored.id,account.id);assert.equal(restored.must_change_password,0);assert.equal(restored.groups_count,1);
+ const preserved=await database.prepare('SELECT a.user_id,s.snapshot FROM learning_attempts a JOIN submissions s ON s.attempt_id=a.id WHERE s.id=?').bind(historicalSubmission).first();assert.equal(preserved.user_id,account.id);assert.equal(preserved.snapshot,historySnapshot);
+});
+test('浏览器中管理员签发并由学生激活账号',{skip:process.env.FAXUE_BROWSER_TESTS!=='1'},async()=>{
+ const row={loginId:'209900009999',displayName:'浏览器激活学生',groupName:'浏览器激活组'};
+ for(const sql of await studentStatements(row,adminId))await database.prepare(sql).run();
+ const adminSession=await createSession(database,adminId);const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHANNEL?{channel:process.env.PLAYWRIGHT_CHANNEL}:{})});const adminContext=await browser.newContext({extraHTTPHeaders:{'cf-connecting-ip':'test-admin-browser'}});const studentContext=await browser.newContext({extraHTTPHeaders:{'cf-connecting-ip':'test-activation-browser'}});
+ try{
+  await adminContext.addInitScript(()=>localStorage.setItem('faxue-welcome-dismissed','2026-welcome-1'));await studentContext.addInitScript(()=>localStorage.setItem('faxue-welcome-dismissed','2026-welcome-1'));
+  await adminContext.addCookies([{name:'faxue_session',value:adminSession.token,url:origin}]);const adminPage=await adminContext.newPage();await adminPage.goto(origin+'/admin/users/');
+  await adminPage.getByRole('textbox',{name:'查找账号'}).fill(row.loginId);const rowView=adminPage.getByRole('row').filter({hasText:row.loginId});await rowView.getByRole('button',{name:'签发激活凭据'}).click();await adminPage.getByRole('button',{name:'确认签发'}).click();
+  const card=adminPage.locator('section').filter({has:adminPage.getByRole('heading',{name:'请私下交给学生'})});const code=await card.locator('code').innerText();assert.match(code,/^[a-f0-9]{64}$/);
+  const page=await studentContext.newPage();await page.goto(origin+'/login/');await page.getByRole('button',{name:'使用激活凭据'}).click();await page.getByRole('textbox',{name:'学号',exact:true}).fill(row.loginId);await page.getByRole('textbox',{name:'激活凭据',exact:true}).fill(code);await page.getByLabel('设置密码（至少12个字符）').fill('User-test-activation-2026');await page.getByLabel('再次输入密码').fill('User-test-activation-2026');await page.getByRole('button',{name:'激活账号'}).click();await page.getByText('账号已激活，请使用新密码登录。').waitFor();
+  await page.getByRole('textbox',{name:'账号',exact:true}).fill(row.loginId);await page.getByRole('textbox',{name:'密码',exact:true}).fill('User-test-activation-2026');await page.getByRole('button',{name:'登录',exact:true}).click();await page.getByRole('heading',{name:'浏览器激活学生，欢迎回来'}).waitFor();
+  await rowView.getByRole('button',{name:'恢复账号'}).click();await adminPage.getByRole('checkbox',{name:'我已在线下核实学生本人身份'}).check();await adminPage.getByRole('button',{name:'确认恢复并签发'}).click();const recoveryCard=adminPage.locator('section').filter({has:adminPage.getByRole('heading',{name:'请私下交给学生'})});const recoveryCode=await recoveryCard.locator('code').innerText();assert.notEqual(recoveryCode,code);
+  await page.reload();await page.getByRole('button',{name:'使用激活凭据'}).click();await page.getByRole('textbox',{name:'学号',exact:true}).fill(row.loginId);await page.getByRole('textbox',{name:'激活凭据',exact:true}).fill(recoveryCode);await page.getByLabel('设置密码（至少12个字符）').fill('User-test-recovered-2026');await page.getByLabel('再次输入密码').fill('User-test-recovered-2026');await page.getByRole('button',{name:'激活账号'}).click();await page.getByText('账号已激活，请使用新密码登录。').waitFor();
+ }finally{await adminContext.close();await studentContext.close();await browser.close();}
 });

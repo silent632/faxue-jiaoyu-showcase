@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LearningContextLink from "@/components/learning-context-link";
 
 const DEFAULT_FEEDBACK = Object.freeze({
   ok: true,
@@ -35,6 +36,7 @@ export default function StudyWorkspaceActions({
   mode,
   doneCount,
   recommendedModules,
+  allowedTopics,
   copy,
   exporting,
   exportFeedback,
@@ -73,9 +75,9 @@ export default function StudyWorkspaceActions({
         {doneCount === 3 ? (
           <div className="study-next-links">
             {(recommendedModules || []).map((item) => (
-              <Link key={item.id} href={`/experiments/${item.id}?case=${caseId}`} className="btn btn-outline">
+              <LearningContextLink key={item.id} allowedTopics={allowedTopics} href={`/experiments/${item.id}?case=${caseId}`} className="btn btn-outline">
                 {item.shortName}
-              </Link>
+              </LearningContextLink>
             ))}
             <Link href="/archive" className="btn btn-ghost">{copy?.archiveLabel}</Link>
           </div>

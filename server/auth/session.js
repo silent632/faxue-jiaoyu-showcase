@@ -3,6 +3,7 @@ import { fail, sameOrigin } from '../http.js';
 export const COOKIE = 'faxue_session';
 export const IDLE = 2 * 60 * 60 * 1000;
 export const LIFETIME = 24 * 60 * 60 * 1000;
+export const ACTIVITY_INTERVAL = 5 * 60 * 1000;
 export function sessionCookie(request, token, maxAge = LIFETIME / 1000) {
   return `${COOKIE}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAge}${new URL(request.url).protocol === 'https:' ? '; Secure' : ''}`;
 }
@@ -11,15 +12,30 @@ export async function getSession(request, db) {
   if (!token || !/^[a-f0-9]{64}$/.test(token)) return null;
   const tokenHash = await digest(token); const now = Date.now();
   const row = await db.prepare(`SELECT s.*,u.login_id,u.display_name,u.must_change_password FROM sessions s JOIN users u ON s.user_id=u.id
-    WHERE s.token_hash=? AND s.revoked_at IS NULL AND s.expires_at>? AND s.active_at>? AND u.status='active'`).bind(tokenHash, now, now - IDLE).first();
+    WHERE s.token_hash=? AND s.revoked_at IS NULL AND s.expires_at>? AND s.active_at>? AND u.status='active'
+      AND NOT EXISTS(SELECT 1 FROM student_activations a WHERE a.user_id=u.id AND a.consumed_at IS NULL)`).bind(tokenHash, now, now - IDLE).first();
   if (!row) return null;
   const roles = await db.prepare('SELECT role FROM user_roles WHERE user_id=?').bind(row.user_id).all();
-  await db.prepare('UPDATE sessions SET active_at=? WHERE token_hash=? AND revoked_at IS NULL').bind(now, tokenHash).run();
+  // 节流更新时间最多使空闲过期提前五分钟；原子条件避免并发请求重复写入。
+  await db.prepare('UPDATE sessions SET active_at=? WHERE token_hash=? AND revoked_at IS NULL AND active_at<=?').bind(now, tokenHash, now - ACTIVITY_INTERVAL).run();
   return { tokenHash, csrfToken: row.csrf_token, user: { id: row.user_id, loginId: row.login_id, displayName: row.display_name, mustChangePassword: Boolean(row.must_change_password), roles: roles.results.map(v => v.role) } };
 }
-export async function createSession(db, userId) {
+export async function cleanupAuthRecords(db, now = Date.now()) {
+  const cutoff = now - 30 * 24 * 60 * 60 * 1000;
+  await db.batch([
+    db.prepare('DELETE FROM sessions WHERE token_hash IN (SELECT token_hash FROM sessions WHERE expires_at<? LIMIT 100)').bind(cutoff),
+    db.prepare('DELETE FROM sessions WHERE token_hash IN (SELECT token_hash FROM sessions WHERE revoked_at IS NOT NULL AND revoked_at<? LIMIT 100)').bind(cutoff),
+    db.prepare('DELETE FROM rate_limits WHERE key IN (SELECT key FROM rate_limits WHERE window_start<? LIMIT 100)').bind(now - 24 * 60 * 60 * 1000),
+  ]);
+}
+export async function createSession(db, userId, expectedPasswordHash = null) {
   const token = randomToken(); const csrfToken = randomToken(); const now = Date.now();
-  await db.prepare('INSERT INTO sessions(token_hash,user_id,csrf_token,created_at,active_at,expires_at) VALUES(?,?,?,?,?,?)').bind(await digest(token), userId, csrfToken, now, now, now + LIFETIME).run();
+  const inserted = await db.prepare(`INSERT INTO sessions(token_hash,user_id,csrf_token,created_at,active_at,expires_at)
+    SELECT ?,id,?,?,?,? FROM users WHERE id=? AND status='active'
+      AND (? IS NULL OR password_hash=?)
+      AND NOT EXISTS(SELECT 1 FROM student_activations WHERE user_id=users.id AND consumed_at IS NULL)`)
+    .bind(await digest(token),csrfToken,now,now,now+LIFETIME,userId,expectedPasswordHash,expectedPasswordHash).run();
+  if (!inserted.meta.changes) return null;
   return { token, csrfToken };
 }
 export function requireSession(session) { if (!session) fail(401, 'login_required', '请先登录。'); return session.user; }

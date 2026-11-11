@@ -37,6 +37,7 @@ export default function CasesResultsColumn({
   pageEnd,
   currentPage,
   totalPages,
+  returnQuery,
   onToggleMobileFilter,
   onSortModeChange,
   onResetFilters,
@@ -105,7 +106,7 @@ export default function CasesResultsColumn({
         </section>
       ) : (
         pageRows.map((item, index) => (
-          <Link key={item.id} href={`/cases/${item.id}`} className="case-card-shell">
+          <Link key={item.id} href={`/cases/${item.id}/${returnQuery ? `?returnTo=${encodeURIComponent(`/cases/?${returnQuery}`)}` : ''}`} className="case-card-shell">
             <div className="case-card-accent" />
             <div className="case-card-content">
               <div className="case-card-head">

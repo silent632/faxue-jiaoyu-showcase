@@ -3,7 +3,7 @@ export class HttpError extends Error {
 }
 export function fail(status, code, message) { throw new HttpError(status, code, message); }
 export function json(data, status = 200, headers = {}) {
-  return new Response(JSON.stringify({ data }), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...headers } });
+  return new Response(JSON.stringify({ data }), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'SAMEORIGIN', ...headers } });
 }
 export async function body(request) {
   if (!request.headers.get('content-type')?.startsWith('application/json')) fail(400, 'invalid_body', '请使用有效的表单数据。');

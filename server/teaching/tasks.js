@@ -6,6 +6,8 @@ import { annotationTasks } from '../../lib/annotation.js';
 import { normTasks } from '../../lib/norm-comparison.js';
 import cases from '../../data/generated/cases-extracted.json';
 import experiments from '../../content/experiments.json';
+import { getPublicJurisprudenceLearning } from '../../lib/content/jurisprudence-learning.js';
+import { resolveTaskLearningTopic } from '../../lib/task-learning-topic.js';
 const caseIds=new Set(cases.map(item=>item.case_id));const moduleIds=new Set(experiments.modules.map(item=>item.id));
 export function validateTask(input) {
  const value={title:textField(input.title,'任务标题',1,100),objective:textField(input.objective,'学习目标',1,3000),requirements:textField(input.requirements,'产出要求',1,5000)};
@@ -16,17 +18,19 @@ export function validateTask(input) {
  if(value.deadline!==null&&(!Number.isSafeInteger(value.deadline)||value.deadline<=0))fail(400,'deadline','截止时间无效。');
  if(input.sceneId){value.sceneId=textField(input.sceneId,'场景ID',1,100);value.sceneVersion=textField(input.sceneVersion,'场景版本',1,100);value.caseId=null;value.moduleId=null;}
  else {if(!caseIds.has(input.caseId)||!moduleIds.has(input.moduleId))fail(400,'target','请选择现有案例及实验模块。');if(input.moduleId==='exp-annotation'&&!annotationTasks[input.caseId])fail(400,'evidence_unavailable','此案例尚无已核对标注，请选择其他案例或模块。');if(input.moduleId==='exp-norm-retrieval'&&!normTasks[input.caseId])fail(400,'evidence_unavailable','此案例尚无规范对照，请选择其他案例或模块。');value.caseId=input.caseId;value.moduleId=input.moduleId;value.sceneId=null;value.sceneVersion=null;}
+ value.learningTopic=null;
+ if(input.learningTopicId){value.learningTopic=resolveTaskLearningTopic(input.learningTopicId,value.caseId,getPublicJurisprudenceLearning());if(!value.learningTopic)fail(400,'learning_topic','请选择该案例关联的法理知识点。');}
  return value;
 }
 export function versionInsert(db,taskId,versionId,number,value) {
- return db.prepare('INSERT INTO task_versions(id,task_id,version,title,objective,requirements,checkpoints,course_slug,case_id,module_id,scene_id,scene_version,deadline,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(versionId,taskId,number,value.title,value.objective,value.requirements,JSON.stringify(value.checkpoints),value.courseSlug,value.caseId,value.moduleId,value.sceneId,value.sceneVersion,value.deadline,Date.now());
+ return db.prepare('INSERT INTO task_versions(id,task_id,version,title,objective,requirements,checkpoints,course_slug,case_id,module_id,scene_id,scene_version,deadline,created_at,learning_topic) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(versionId,taskId,number,value.title,value.objective,value.requirements,JSON.stringify(value.checkpoints),value.courseSlug,value.caseId,value.moduleId,value.sceneId,value.sceneVersion,value.deadline,Date.now(),value.learningTopic?JSON.stringify(value.learningTopic):null);
 }
 function auditChangedTask(db,userId,action,id){
  return db.prepare('INSERT INTO audit_events(id,actor_id,action,target_id,detail,created_at) SELECT ?,?,?,?,?,? WHERE changes()>0').bind(crypto.randomUUID(),userId,action,id,'{}',Date.now());
 }
 export async function tasksRoute({request,db,session,path}) {
  const user=session.user;const url=new URL(request.url);const method=request.method;
- if(path==='/teaching/catalogue'&&method==='GET')return json({cases:cases.map(row=>({id:row.case_id,title:row.title})),modules:experiments.modules.map(row=>({id:row.id,name:row.name}))});
+ if(path==='/teaching/catalogue'&&method==='GET'){const learning=getPublicJurisprudenceLearning();return json({cases:cases.map(row=>({id:row.case_id,title:row.title})),modules:experiments.modules.map(row=>({id:row.id,name:row.name})),learningTopics:learning.topics,learningCaseLinks:learning.caseLinks.map(link=>({caseId:link.caseId,topicId:link.topicId}))});}
  if(path==='/tasks'&&method==='GET') {
   const {page,limit,offset}=pagination(url);const args=[];
   let where='1=1';
@@ -36,7 +40,7 @@ export async function tasksRoute({request,db,session,path}) {
   const total=await db.prepare(`SELECT count(*) AS n FROM tasks t WHERE ${where}`).bind(...args).first();return json({items:items.results,page,limit,total:total.n});
  }
  if(path==='/tasks'&&method==='POST') {
-  const input=await body(request);onlyFields(input,['groupId','title','objective','requirements','checkpoints','courseSlug','deadline','caseId','moduleId','sceneId','sceneVersion']);await groupAccess(db,user,input.groupId,{manage:true});const value=validateTask(input);
+  const input=await body(request);onlyFields(input,['groupId','title','objective','requirements','checkpoints','courseSlug','deadline','caseId','moduleId','sceneId','sceneVersion','learningTopicId']);await groupAccess(db,user,input.groupId,{manage:true});const value=validateTask(input);
   if(value.sceneId)await getScene(db,value.sceneId,value.sceneVersion,{published:true});
   const id=crypto.randomUUID();const versionId=crypto.randomUUID();await db.batch([db.prepare('INSERT INTO tasks(id,group_id,created_by,current_version_id,created_at) VALUES(?,?,?,?,?)').bind(id,input.groupId,user.id,versionId,Date.now()),versionInsert(db,id,versionId,1,value),audit(db,user.id,'task_created',id)]);return json({id,current_version_id:versionId,status:'draft'},201);
  }
@@ -44,7 +48,7 @@ export async function tasksRoute({request,db,session,path}) {
  const [,id,operation]=match;const task=await taskAccess(db,user,id,{manage:method!=='GET'||operation==='mentors'});
  if(!operation&&method==='GET'){const version=await db.prepare('SELECT * FROM task_versions WHERE id=?').bind(task.current_version_id).first();return json({...task,version:{...version,checkpoints:JSON.parse(version.checkpoints)}});}
  if(!operation&&method==='PATCH') {
-  const input=await body(request);onlyFields(input,['expectedVersionId','status','title','objective','requirements','checkpoints','courseSlug','deadline','caseId','moduleId','sceneId','sceneVersion']);
+  const input=await body(request);onlyFields(input,['expectedVersionId','status','title','objective','requirements','checkpoints','courseSlug','deadline','caseId','moduleId','sceneId','sceneVersion','learningTopicId']);
   if(task.current_version_id!==input.expectedVersionId)fail(409,'version_conflict','任务已更新，请重新读取。');
   if(input.status==='archived'){const results=await db.batch([db.prepare("UPDATE tasks SET status='archived' WHERE id=? AND current_version_id=?").bind(id,input.expectedVersionId),auditChangedTask(db,user.id,'task_archived',id)]);if(!results[0].meta.changes)fail(409,'version_conflict','任务已更新，请重新读取。');return json({id,status:'archived'});}
   if(task.status==='archived')fail(409,'archived','归档任务不能修改。');

@@ -88,6 +88,11 @@ test("分页深链刷新保持页码，主动搜索才回到第一页", () => wi
   await page.reload();
   await page.waitForTimeout(400);
   assert.match(page.url(), /page=3/);
+  await page.locator('a.case-card-shell').first().click();
+  await page.waitForFunction(() => document.querySelector('.case-detail-back-btn')?.getAttribute('href')?.includes('page=3'));
+  await page.getByRole('link', { name: '← 返回案例检索' }).click();
+  await page.waitForTimeout(400);
+  assert.match(page.url(), /page=3/);
   await page.getByRole("searchbox").fill("张保林");
   await page.waitForTimeout(400);
   assert.doesNotMatch(page.url(), /page=3/);

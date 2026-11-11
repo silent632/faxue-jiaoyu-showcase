@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import ShowcaseNav from "@/components/showcase-nav";
@@ -9,6 +8,9 @@ import { getExperimentModules } from "@/lib/experiments.js";
 import { recommendModulesForCase } from "@/lib/learning-loop.js";
 import { buildShowcaseContent } from "@/lib/showcase-content.js";
 import { getShowcaseCaseById, getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
+import { getPublicJurisprudenceLearning } from "@/lib/content/jurisprudence-learning.js";
+import LearningContextLink from "@/components/learning-context-link";
+import LearningContextPanel from "@/components/learning-context-panel";
 
 function joinMetaParts(parts = [], fallback = "案例信息以原文为准") {
   const values = parts.map((item) => String(item || "").trim()).filter(Boolean);
@@ -29,6 +31,9 @@ export default async function StudyPage({ params }) {
   const studyMetaLine = joinMetaParts([caseItem.caseNumber, caseItem.courtName, caseItem.judgmentDate]);
   const userSid = "public-showcase";
   const recommendedModules = recommendModulesForCase(caseItem.jurisprudenceTags, getExperimentModules());
+  const learning = getPublicJurisprudenceLearning();
+  const contextLinks = learning.caseLinks.filter(link => link.caseId === id).map(link => ({ ...link, topicTitle: learning.topics.find(topic => topic.id === link.topicId)?.title })).filter(link => link.topicTitle);
+  const allowedTopics = contextLinks.map(link => link.topicId);
   const loopCopy = buildShowcaseContent().learningLoop;
   const shell = hasPdf ? (
     <StudySplitShell
@@ -38,6 +43,7 @@ export default async function StudyPage({ params }) {
       hasPdf={hasPdf}
       recommendedModules={recommendedModules}
       loopCopy={loopCopy}
+      allowedTopics={allowedTopics}
     />
   ) : (
     <StudyGuideShell
@@ -45,6 +51,7 @@ export default async function StudyPage({ params }) {
       userSid={userSid}
       recommendedModules={recommendedModules}
       loopCopy={loopCopy}
+      allowedTopics={allowedTopics}
     />
   );
 
@@ -54,7 +61,7 @@ export default async function StudyPage({ params }) {
 
       <div className="exp-ws3-topbar study-topbar">
         <div className="exp-ws3-topbar-left">
-          <Link className="exp-ws3-back" href={`/cases/${id}`}>← 返回详情</Link>
+          <LearningContextLink allowedTopics={allowedTopics} className="exp-ws3-back" href={`/cases/${id}`}>← 返回详情</LearningContextLink>
           <span className="exp-ws3-module-badge">研习工作台</span>
           <div className="exp-ws3-case">
             <strong>{caseItem.title}</strong>
@@ -63,6 +70,7 @@ export default async function StudyPage({ params }) {
         </div>
       </div>
 
+      <LearningContextPanel links={contextLinks}/>
       {shell}
     </main>
   );

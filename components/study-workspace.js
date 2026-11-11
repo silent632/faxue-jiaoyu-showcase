@@ -21,6 +21,7 @@ export default function StudyWorkspace({
   mode = "split",
   recommendedModules = [],
   loopCopy,
+  allowedTopics,
 }) {
   const { draft, saveInfo, updateDraftField } = useStudyWorkspaceDraft({ caseId: caseItem.id, userSid });
   const [exportFeedback, setExportFeedback] = useState(null);
@@ -105,6 +106,7 @@ export default function StudyWorkspace({
         mode={mode}
         doneCount={metrics.doneCount}
         recommendedModules={recommendedModules}
+        allowedTopics={allowedTopics}
         copy={loopCopy?.studyNext}
         exporting={exporting}
         exportFeedback={exportFeedback}

@@ -1,0 +1,268 @@
+{
+  "version": 1,
+  "chapters": [
+    {
+      "id": "introduction",
+      "title": "绪论章节",
+      "order": 1,
+      "source": "我的知识图谱 (1).jpg",
+      "status": "published"
+    },
+    {
+      "id": "concept",
+      "title": "法的概念与本质",
+      "order": 2,
+      "source": "我的知识图谱 (2).jpg",
+      "status": "published"
+    },
+    {
+      "id": "history",
+      "title": "法的产生、发展与历史类型",
+      "order": 3,
+      "source": "我的知识图谱 (3).jpg",
+      "status": "published"
+    },
+    {
+      "id": "values",
+      "title": "法的价值",
+      "order": 4,
+      "source": "我的知识图谱 (4).jpg",
+      "status": "published"
+    },
+    {
+      "id": "sources",
+      "title": "法的渊源与效力",
+      "order": 5,
+      "source": "我的知识图谱 (5).jpg",
+      "status": "published"
+    },
+    {
+      "id": "relations",
+      "title": "法律关系",
+      "order": 6,
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published"
+    },
+    {
+      "id": "conduct",
+      "title": "法律行为",
+      "order": 7,
+      "source": "我的知识图谱 (7).jpg",
+      "status": "published"
+    },
+    {
+      "id": "liability",
+      "title": "法律责任",
+      "order": 8,
+      "source": "我的知识图谱 (9).jpg",
+      "status": "published"
+    },
+    {
+      "id": "methods",
+      "title": "法律方法",
+      "order": 9,
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published"
+    }
+  ],
+  "topics": [
+    {
+      "id": "rights-obligations",
+      "chapterId": "relations",
+      "title": "权利与义务",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "在具体法律关系中，如何识别各方的权利、义务及其依据？"
+    },
+    {
+      "id": "legal-facts",
+      "chapterId": "relations",
+      "title": "法律事实",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "哪些事实可能引起法律关系的产生、变更或消灭？"
+    },
+    {
+      "id": "freedom",
+      "chapterId": "values",
+      "title": "自由",
+      "source": "我的知识图谱 (4).jpg",
+      "status": "published",
+      "description": "法律如何保障自由，又如何处理自由行使中的限制问题？"
+    },
+    {
+      "id": "equality",
+      "chapterId": "values",
+      "title": "平等",
+      "source": "我的知识图谱 (4).jpg",
+      "status": "published",
+      "description": "法律中的平等应如何理解，面对不同情况时又该怎样判断？"
+    },
+    {
+      "id": "justice",
+      "chapterId": "values",
+      "title": "正义",
+      "source": "我的知识图谱 (4).jpg",
+      "status": "published",
+      "description": "法律判断中的正义可以从哪些角度讨论？"
+    },
+    {
+      "id": "legal-sources",
+      "chapterId": "sources",
+      "title": "法的渊源",
+      "source": "我的知识图谱 (5).jpg",
+      "status": "published",
+      "description": "法律判断可能涉及哪些法律材料，它们分别发挥什么作用？"
+    },
+    {
+      "id": "legal-effect",
+      "chapterId": "sources",
+      "title": "法的效力",
+      "source": "我的知识图谱 (5).jpg",
+      "status": "published",
+      "description": "法律规范在时间、空间和对人的适用上有哪些问题值得辨析？"
+    },
+    {
+      "id": "legal-liability",
+      "chapterId": "liability",
+      "title": "法律责任基本理论",
+      "source": "我的知识图谱 (9).jpg",
+      "status": "published",
+      "description": "法律责任的构成、形式和承担依据如何分析？"
+    },
+    {
+      "id": "legal-interpretation",
+      "chapterId": "methods",
+      "title": "法律解释方法",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "面对有争议的规范含义，可以运用哪些解释方法并说明理由？"
+    },
+    {
+      "id": "legal-reasoning",
+      "chapterId": "methods",
+      "title": "法律推理类型",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "如何从规范与事实出发展开推理，并检验判断理由？"
+    },
+    {
+      "id": "ancient-greek-jurisprudence",
+      "chapterId": "introduction",
+      "title": "古希腊法理学",
+      "source": "我的知识图谱 (1).jpg",
+      "status": "published",
+      "description": "古希腊思想中的法律问题和代表人物有哪些？"
+    },
+    {
+      "id": "modern-jurisprudence",
+      "chapterId": "introduction",
+      "title": "近代法理学",
+      "source": "我的知识图谱 (1).jpg",
+      "status": "published",
+      "description": "近代不同法学流派如何认识法律？"
+    },
+    {
+      "id": "legal-rules",
+      "chapterId": "concept",
+      "title": "法律规则分类",
+      "source": "我的知识图谱 (2).jpg",
+      "status": "published",
+      "description": "法律规则可以从哪些角度分类，各类规则如何发挥作用？"
+    },
+    {
+      "id": "legal-principles",
+      "chapterId": "concept",
+      "title": "法律原则",
+      "source": "我的知识图谱 (2).jpg",
+      "status": "published",
+      "description": "法律原则在法律判断中发挥什么作用？"
+    },
+    {
+      "id": "origin-of-law",
+      "chapterId": "history",
+      "title": "法的产生",
+      "source": "我的知识图谱 (3).jpg",
+      "status": "published",
+      "description": "如何理解法的产生及其社会背景？"
+    },
+    {
+      "id": "legal-historical-types",
+      "chapterId": "history",
+      "title": "法的历史类型",
+      "source": "我的知识图谱 (3).jpg",
+      "status": "published",
+      "description": "法的历史类型可以从哪些方面理解？"
+    },
+    {
+      "id": "legal-systems-comparison",
+      "chapterId": "history",
+      "title": "两大法系比较",
+      "source": "我的知识图谱 (3).jpg",
+      "status": "published",
+      "description": "大陆法系与英美法系在法律渊源和法律运行方面有哪些区别？"
+    },
+    {
+      "id": "legal-act-concept",
+      "chapterId": "conduct",
+      "title": "法律行为概念",
+      "source": "我的知识图谱 (7).jpg",
+      "status": "published",
+      "description": "如何理解法律行为的概念和特征？"
+    },
+    {
+      "id": "legal-act-elements",
+      "chapterId": "conduct",
+      "title": "法律行为的构成要件",
+      "source": "我的知识图谱 (7).jpg",
+      "status": "published",
+      "description": "分析法律行为时需要关注主体、内在方面与外在方面哪些要素？"
+    }
+  ],
+  "caseLinks": [
+    {
+      "caseId": "case-0093",
+      "topicId": "legal-interpretation",
+      "type": "observation",
+      "status": "published",
+      "reason": "判决讨论法律条文的文义及表演者权利归属，可作为辨识解释理由的阅读材料。",
+      "question": "法院如何依据文义讨论表演者权利？其后又提出了哪些限制这一理解的理由？",
+      "evidence": "裁判文书第11至12页，本院关于表演者权利范围的分析。",
+      "sourceFile": "北京人民艺术剧院与上海聚力传媒技术有限公司著作权权属、侵权纠纷上诉案(FBM-CLI.C.408998671).pdf",
+      "sourceSha256": "b7f65f4d44bde0f717d971fca6cee1d9f26c5019cd59432bef595c5b4427b95b",
+      "pages": [
+        11,
+        12
+      ]
+    },
+    {
+      "caseId": "case-0020",
+      "topicId": "legal-sources",
+      "type": "observation",
+      "status": "published",
+      "reason": "判决讨论指导案例的裁判规则以及其与司法解释的关系，可作为认识不同法律材料作用的阅读线索。",
+      "question": "法院如何说明指导案例的参照价值，以及它与司法解释之间的关系？",
+      "evidence": "裁判文书第12页，本院讨论指导案例及司法解释的段落。",
+      "sourceFile": "雅安市商业银行股份有限公司汉源支行与四川省川建勘察设计院有限公司执行异议之诉二审民事判决书(FBM-CLI.C.550414662).pdf",
+      "sourceSha256": "96c0380fe1870c2cb334608a77cb81fa3144c29d864ce9c557b4017794758c5f",
+      "pages": [
+        12
+      ]
+    },
+    {
+      "caseId": "case-0012",
+      "topicId": "rights-obligations",
+      "type": "observation",
+      "status": "published",
+      "reason": "房屋买卖合同纠纷中，法院结合合同内容讨论双方对面积差异的处理及房价款返还。",
+      "question": "双方因面积差异各提出什么主张？法院如何根据合同确定返还范围？",
+      "evidence": "裁判文书第7至8页，本院关于合同约定和房价款返还的分析。",
+      "sourceFile": "湖南富兴置业发展有限公司与周蓉蓉诉房屋买卖合同纠纷上诉案(FBM-CLI.C.419656188).pdf",
+      "sourceSha256": "48a5682415da00385032bceb1de2a22bbf742fc29cce0439a88a30809f6f97b9",
+      "pages": [
+        7,
+        8
+      ]
+    }
+  ]
+}

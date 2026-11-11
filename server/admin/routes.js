@@ -1,6 +1,6 @@
 import { body, fail, json, onlyFields, pagination, textField } from '../http.js';
 import { requireRole } from '../auth/session.js';
-import { hashPassword } from '../auth/password.js';
+import { digest, hashPassword, randomToken } from '../auth/password.js';
 export function audit(db, actor, action, target, detail = {}) {
   return db.prepare('INSERT INTO audit_events(id,actor_id,action,target_id,detail,created_at) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(), actor, action, target, JSON.stringify(detail), Date.now());
 }
@@ -11,6 +11,35 @@ function rolesField(roles) {
 export async function adminRoute({ request, db, session, path }) {
   if (!path.startsWith('/admin/')) return null;
   const user = requireRole(session, 'admin'); const url = new URL(request.url);
+  const recovery = path.match(/^\/admin\/users\/([^/]+)\/recovery$/);
+  if (recovery && request.method === 'POST') {
+    const id=recovery[1];const input=await body(request);onlyFields(input,['identityVerified','reason','expiresAt']);
+    if(input.identityVerified!==true)fail(400,'identity_unverified','请先线下核验学生身份。');
+    if(!['lost_access','identity_dispute'].includes(input.reason))fail(400,'recovery_reason','请选择恢复原因。');const reason=input.reason;const now=Date.now();
+    if(!Number.isSafeInteger(input.expiresAt)||input.expiresAt<=now||input.expiresAt>now+30*24*60*60*1000)fail(400,'expiry','有效期须在未来30天以内。');
+    const token=randomToken();const hash=await digest(token);
+    const results=await db.batch([
+      db.prepare("UPDATE users SET must_change_password=1 WHERE id=? AND status='active' AND EXISTS(SELECT 1 FROM user_roles WHERE user_id=users.id AND role='student') AND NOT EXISTS(SELECT 1 FROM user_roles WHERE user_id=users.id AND role IN ('teacher','admin','mentor'))").bind(id),
+      db.prepare("INSERT INTO student_activations(user_id,token_hash,expires_at,issued_at,issued_by,consumed_at) SELECT id,?,?,?,?,NULL FROM users WHERE id=? AND changes()>0 ON CONFLICT(user_id) DO UPDATE SET token_hash=excluded.token_hash,expires_at=excluded.expires_at,issued_at=excluded.issued_at,issued_by=excluded.issued_by,consumed_at=NULL").bind(hash,input.expiresAt,now,user.id,id),
+      db.prepare('UPDATE sessions SET revoked_at=? WHERE user_id=? AND revoked_at IS NULL AND EXISTS(SELECT 1 FROM student_activations WHERE user_id=? AND token_hash=?)').bind(now,id,id,hash),
+      db.prepare("INSERT INTO audit_events(id,actor_id,action,target_id,detail,created_at) SELECT ?,?,'student_recovery_issued',?,?,? WHERE EXISTS(SELECT 1 FROM student_activations WHERE user_id=? AND token_hash=?)").bind(crypto.randomUUID(),user.id,id,JSON.stringify({reason}),now,id,hash),
+    ]);
+    if(!results[1].meta.changes)fail(409,'recovery_unavailable','该账号不符合恢复条件。');
+    return json({activationCode:token,expiresAt:input.expiresAt});
+  }
+  const activation = path.match(/^\/admin\/users\/([^/]+)\/activation$/);
+  if (activation && request.method === 'POST') {
+    const id=activation[1];const input=await body(request);onlyFields(input,['expiresAt']);const now=Date.now();
+    if(!Number.isSafeInteger(input.expiresAt)||input.expiresAt<=now||input.expiresAt>now+30*24*60*60*1000)fail(400,'expiry','有效期须在未来30天以内。');
+    const token=randomToken();const hash=await digest(token);
+    const results=await db.batch([
+      db.prepare("INSERT INTO student_activations(user_id,token_hash,expires_at,issued_at,issued_by,consumed_at) SELECT id,?,?,?,?,NULL FROM users WHERE id=? AND status='active' AND must_change_password=1 AND EXISTS(SELECT 1 FROM user_roles WHERE user_id=users.id AND role='student') ON CONFLICT(user_id) DO UPDATE SET token_hash=excluded.token_hash,expires_at=excluded.expires_at,issued_at=excluded.issued_at,issued_by=excluded.issued_by,consumed_at=NULL").bind(hash,input.expiresAt,now,user.id,id),
+      db.prepare('UPDATE sessions SET revoked_at=? WHERE user_id=? AND revoked_at IS NULL AND EXISTS(SELECT 1 FROM student_activations WHERE user_id=? AND token_hash=?)').bind(now,id,id,hash),
+      db.prepare("INSERT INTO audit_events(id,actor_id,action,target_id,created_at) SELECT ?,?,'student_activation_issued',?,? WHERE EXISTS(SELECT 1 FROM student_activations WHERE user_id=? AND token_hash=?)").bind(crypto.randomUUID(),user.id,id,now,id,hash),
+    ]);
+    if(!results[0].meta.changes)fail(409,'activation_unavailable','该账号不符合待激活条件。');
+    return json({activationCode:token,expiresAt:input.expiresAt});
+  }
   if (path === '/admin/users' && request.method === 'GET') {
     const { page, limit, offset } = pagination(url); const search = (url.searchParams.get('q') || '').slice(0,100);
     const filter = `%${search.replaceAll('\\','\\\\').replaceAll('%','\\%').replaceAll('_','\\_')}%`;

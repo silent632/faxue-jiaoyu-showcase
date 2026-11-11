@@ -8,6 +8,7 @@ import ExperimentShell from "@/components/experiment-shell";
 import ShowcaseNav from "@/components/showcase-nav";
 import { buildShowcaseContent } from "@/lib/showcase-content.js";
 import { loadShowcaseCases } from "@/lib/showcase-cases.js";
+import { getPublicJurisprudenceLearning } from "@/lib/content/jurisprudence-learning.js";
 import {
   getExperimentModules,
   getExperimentModuleById,
@@ -32,6 +33,7 @@ export default async function ExperimentModulePage({ params }) {
   const modules = getExperimentModules();
   const microLoop = getExperimentMicroLoop();
   const loopCopy = buildShowcaseContent().learningLoop;
+  const learning = getPublicJurisprudenceLearning();
 
   const tagsData = loadJurisprudenceTags();
   const tagLabels = {};
@@ -112,7 +114,7 @@ export default async function ExperimentModulePage({ params }) {
           <ExperimentShell
             module={{ ...mod, courseTasks: Object.fromEntries(loadCourseTasks().filter(task => task.moduleId === mod.id).map(task => [task.caseId, { slug: task.slug, version: task.version }])) }}
             modules={modules}
-            cases={eligible.map(item => ({ ...item, normUnavailableReason: availability.cases[item.id]?.status === "excluded" ? availability.cases[item.id].reason : "" }))}
+            cases={eligible.map(item => ({ ...item, learningLinks: learning.caseLinks.filter(link => link.caseId === item.id).map(link => ({ ...link, topicTitle: learning.topics.find(topic => topic.id === link.topicId)?.title })).filter(link => link.topicTitle), learningTopicIds: learning.caseLinks.filter(link => link.caseId === item.id).map(link => link.topicId), normUnavailableReason: availability.cases[item.id]?.status === "excluded" ? availability.cases[item.id].reason : "" }))}
             tagLabels={tagLabels}
             loopCopy={loopCopy}
           />

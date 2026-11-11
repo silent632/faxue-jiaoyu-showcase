@@ -1,7 +1,7 @@
 import StudyGuideBriefing from "@/components/study-guide-briefing";
 import StudyWorkspace from "@/components/study-workspace";
 
-export default function StudyGuideShell({ caseItem, userSid, recommendedModules, loopCopy }) {
+export default function StudyGuideShell({ caseItem, userSid, recommendedModules, loopCopy, allowedTopics }) {
   return (
     <div className="study-guide-shell fade-in">
       <StudyGuideBriefing caseItem={caseItem} />
@@ -13,6 +13,7 @@ export default function StudyGuideShell({ caseItem, userSid, recommendedModules,
           mode="guide"
           recommendedModules={recommendedModules}
           loopCopy={loopCopy}
+          allowedTopics={allowedTopics}
         />
       </div>
     </div>

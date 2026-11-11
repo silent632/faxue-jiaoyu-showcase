@@ -7,6 +7,8 @@ import { normTasks } from "../lib/norm-comparison.js";
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
+import LearningContextLink from "@/components/learning-context-link";
+import LearningContextPanel from "@/components/learning-context-panel";
 import { useSearchParams } from "next/navigation";
 
 import useExperimentDraft from "@/components/use-experiment-draft";
@@ -271,6 +273,7 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
       </div>
 
       {mod.courseTasks?.[caseItem.id] && <Link className="btn btn-outline" href={`/courses/${mod.courseTasks[caseItem.id].slug}/`}>返回本期课程查看进度</Link>}
+      <LearningContextPanel links={caseItem.learningLinks}/>
       <div className="exp-save-notice" role="status">
         <span>{saveInfo}</span>
         <button type="button" className="btn btn-outline" onClick={exportCurrent}>导出当前实验</button>
@@ -285,8 +288,8 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
               <h2 className="exp-ws3-reader-title">{caseItem.title}</h2>
               <p className="exp-ws3-reader-meta">{caseItem.caseNumber} · {caseItem.courtName} · {caseItem.judgmentDate}</p>
               <div className="exp-ws3-reader-links">
-                <Link href={`/cases/${caseItem.id}`}>案例详情</Link>
-                <Link href={`/cases/${caseItem.id}/study`}>研习工作台</Link>
+                <LearningContextLink allowedTopics={caseItem.learningTopicIds} href={`/cases/${caseItem.id}`}>案例详情</LearningContextLink>
+                <LearningContextLink allowedTopics={caseItem.learningTopicIds} href={`/cases/${caseItem.id}/study`}>研习工作台</LearningContextLink>
               </div>
             </div>
 

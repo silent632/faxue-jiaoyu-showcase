@@ -23,8 +23,25 @@
 .console-page [role=alert]{color:var(--danger);border-left:3px solid currentColor;padding-left:12px}
 .console-page [role=status]{padding:12px 0}
 .hearing-room{margin:24px 0;padding:24px;border-radius:16px;background:linear-gradient(180deg,#182b3b 0%,#304759 58%,#8c7561 59%,#544c48 100%);color:#fff;box-shadow:inset 0 0 70px #071520;perspective:1000px;overflow:hidden}
+.hearing-3d{margin:16px 0 28px}.hearing-3d-canvas{height:clamp(240px,42vw,400px);overflow:hidden;border-radius:10px;background:#172b3b;touch-action:none}.hearing-3d-canvas canvas{display:block;width:100%;height:100%}.hearing-3d .console-muted{color:#e5e9eb}.hearing-3d .btn{color:#fff;border-color:#c5d2d9}
 .hearing-wall{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:24px;color:#f0d5aa;letter-spacing:.12em}
 .hearing-wall strong{font-size:28px}
+.hearing-stage{position:relative;height:290px;max-width:760px;margin:0 auto 28px;overflow:hidden;border:1px solid #d6bc8f66;border-radius:12px;background:linear-gradient(#132737 0 50%,#253e4b 50% 100%);perspective:650px;isolation:isolate}
+.hearing-stage-back{position:absolute;inset:12% 12% 36%;display:flex;justify-content:center;align-items:flex-start;padding-top:15px;border:8px solid #506271;background:linear-gradient(135deg,#263c4c,#182a39);box-shadow:inset 0 0 35px #07101b}
+.hearing-stage-back span{color:#efd6a7;letter-spacing:.16em;font-size:14px}
+.hearing-stage-floor{position:absolute;left:-25%;right:-25%;bottom:-43%;height:90%;transform:rotateX(62deg);transform-origin:top center;background:repeating-linear-gradient(90deg,#6c5343 0 54px,#80654f 55px 57px),#6c5343;box-shadow:0 -12px 35px #0c1a21}
+.hearing-stage-person{position:absolute;display:flex;flex-direction:column;align-items:center;gap:2px;z-index:2}
+.hearing-stage-person i{display:block;width:28px;height:28px;border-radius:50%;background:#dbbd9c;box-shadow:0 0 0 3px #193346}
+.hearing-stage-person b{display:block;width:58px;height:43px;border-radius:24px 24px 6px 6px;background:linear-gradient(90deg,#2e596d,#527985,#2e596d)}
+.hearing-stage-person span{max-width:110px;padding:3px 8px;border-radius:4px;background:#102333;color:#f3e6d0;font-size:12px;line-height:1.35;text-align:center;overflow-wrap:anywhere}
+.hearing-stage-chair{left:50%;top:29%;transform:translateX(-50%)}
+.hearing-stage-side{top:47%}.hearing-stage-side-0{left:18%}.hearing-stage-side-1{right:18%}
+button.hearing-stage-side{padding:2px;border:0;background:transparent;cursor:pointer;color:inherit;font:inherit}
+button.hearing-stage-side:focus-visible{outline:3px solid #ffcf83;outline-offset:4px;border-radius:6px}
+button.hearing-stage-side:disabled{cursor:not-allowed;opacity:.75}
+.hearing-stage-side.is-active i{box-shadow:0 0 0 4px #f3c379,0 0 20px #f3c37999}
+.hearing-stage-desk{position:absolute;left:25%;right:25%;bottom:21%;height:42px;z-index:3;display:grid;place-items:center;border:2px solid #d2aa7c;border-radius:50%;background:linear-gradient(#a67a54,#6f4d39);box-shadow:0 12px 0 #4b3025,0 18px 18px #0008;transform:rotateX(22deg);color:#fff0d9;font-size:12px}
+.hearing-stage-step{position:absolute;right:8px;top:8px;z-index:4;padding:3px 6px;border-radius:4px;background:#102333dd;color:#fff4df;font-size:12px}
 .hearing-host{max-width:520px;margin:0 auto;text-align:center;border-bottom:12px solid #7d5740;background:#233a4bd9;padding:16px;border-radius:10px}
 .role-avatar{display:block;font-size:40px;line-height:1;color:#e5d5bf}
 .hearing-participants{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:24px 0}
@@ -39,7 +56,7 @@
 .scene-steps [aria-current=step]{border-color:var(--accent);background:var(--amber-wash);font-weight:bold}
 .scene-experience label{margin:16px 0}.scene-experience blockquote{border-left:3px solid var(--accent);padding:12px 20px;background:var(--surface-raised)}
 .scene-motion .hearing-seat{transition:transform .3s}.scene-motion .hearing-seat:hover{transform:translateY(-4px)}
-@media(max-width:600px){.hearing-room{padding:14px}.hearing-participants{grid-template-columns:1fr;gap:16px}.hearing-seat,.hearing-seat:nth-child(2){transform:none}.hearing-wall strong{font-size:22px}.hearing-table{padding:12px}.material-card{width:100%}}
+@media(max-width:600px){.hearing-room{padding:14px}.hearing-stage{height:220px}.hearing-stage-person span{max-width:80px;font-size:11px}.hearing-stage-side-0{left:5%}.hearing-stage-side-1{right:5%}.hearing-stage-desk{left:21%;right:21%}.hearing-participants{grid-template-columns:1fr;gap:16px}.hearing-seat,.hearing-seat:nth-child(2){transform:none}.hearing-wall strong{font-size:22px}.hearing-table{padding:12px}.material-card{width:100%}}
 @media(prefers-reduced-motion:reduce){.scene-motion .hearing-seat{transition:none}.scene-motion .hearing-seat:hover{transform:none}}
 
 .console-page input[type=checkbox],.console-page input[type=radio]{width:20px;height:20px;min-width:20px;flex:0 0 20px;margin:3px 0;accent-color:var(--accent)}

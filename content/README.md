@@ -5,8 +5,9 @@
 - `experiments.json`、`videos.json`、`jurisprudence-tags.json`：模块、媒体与教学标签。
 - `case-evidence.json`：210 篇日期核查。`case-field-corrections.json`：其他字段修正的旧值与原文证据。`case-field-audit.json`：首页显式元数据的核查范围与结果。
 - `norm-availability.json`：75 个候选的启用或排除依据；不是全文法条已审核的证明。
+- `library.json`：资料专区的目录。资料需明确来源、原始日期、使用授权与审阅人后才能设为 `published`；本地文件放入 `public/library/`，待审核和撤下资料不进入公开列表。公开链接对应的文件本身也是公开资源，不得放入未授权或含隐私的材料。
 - `copy-policy.json`：公开文案规则。必要的来源限制、存储失败提示应如实表达。
 
-案例展示源为 `data/generated/cases-extracted.json`。规范、批注、量规的单一结构入口分别为 `lib/norm-evidence-data.js`、`lib/annotation-evidence-data.js`、`lib/case-rubric-data.js`，对应校验器在 `lib/content/`。
+案例展示源为 `data/generated/cases-extracted.json`。规范、批注、量规的数据分别存于 `norm-evidence.json`、`annotation-evidence.json`、`case-rubric.json`，经 `lib/content/teaching-evidence-source.js` 加载；对应校验器在 `lib/content/`。原数据模块保留兼容导出。
 
 保留 ID、slug 和旧记录；PDF 改动须重新核对指纹、物理页、引文与版本。教学提炼不得冒充裁判原话或教师已审定意见。具体核验命令和剩余证据事项见根目录 PROGRESS.md。

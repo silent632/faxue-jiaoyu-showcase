@@ -16,10 +16,10 @@ export async function handleRequest(request, env) {
   try {
     if (!env.DB) fail(503, 'database_unavailable', '学习服务暂不可用，请稍后重试。');
     const path = new URL(request.url).pathname.replace(/^\/api/, '').replace(/\/$/, '') || '/';
-    if (path === '/health' && request.method === 'GET') { await env.DB.prepare(`SELECT u.id,u.must_change_password,s.token_hash,r.role,g.id,gm.kind,t.current_version_id,v.version,a.restart_key,d.revision,sub.snapshot,rev.summary,n.event_key,i.fingerprint,ip.user_id,b.id,bg.user_id,tp.status,rp.featured,hv.user_id,rep.reason,ma.action,sv.fingerprint,ae.action,rl.key FROM users u,sessions s,user_roles r,groups g,group_members gm,tasks t,task_versions v,learning_attempts a,drafts d,submissions sub,reviews rev,notifications n,import_receipts i,import_previews ip,boards b,board_guests bg,topics tp,replies rp,helpful_votes hv,reports rep,moderation_actions ma,scene_versions sv,audit_events ae,rate_limits rl WHERE 0`).first(); return json({ ready: true }); }
+    if (path === '/health' && request.method === 'GET') { await env.DB.prepare(`SELECT u.id,u.must_change_password,s.token_hash,r.role,g.id,gm.kind,t.current_version_id,v.version,v.learning_topic,a.restart_key,d.revision,sub.snapshot,rev.summary,n.event_key,i.fingerprint,ip.user_id,b.id,bg.user_id,tp.status,rp.featured,hv.user_id,rep.reason,ma.action,sv.fingerprint,ae.action,rl.key,sa.token_hash FROM student_activations sa,users u,sessions s,user_roles r,groups g,group_members gm,tasks t,task_versions v,learning_attempts a,drafts d,submissions sub,reviews rev,notifications n,import_receipts i,import_previews ip,boards b,board_guests bg,topics tp,replies rp,helpful_votes hv,reports rep,moderation_actions ma,scene_versions sv,audit_events ae,rate_limits rl WHERE 0`).first(); return json({ ready: true }); }
     if(request.method==='GET'&&/^\/public\/scenes\/[^/]+$/.test(path))return await scenesRoute({request,db:env.DB,path});
     const session = await getSession(request, env.DB);
-    if (path !== '/auth/login') {
+    if (!['/auth/login','/auth/activate'].includes(path)) {
       requireSession(session);
       if(session.user.mustChangePassword&&!['/auth/me','/auth/password','/auth/logout'].includes(path))fail(403,'password_change_required','请先设置新的登录密码。');
       if (!['GET', 'HEAD'].includes(request.method)) verifyWrite(request, session);
@@ -32,6 +32,6 @@ export async function handleRequest(request, env) {
     const known = error instanceof HttpError;
     // 只记录请求标识和错误类别，不输出输入、数据库语句或凭据。
     if (!known) console.error(JSON.stringify({ requestId, event: 'api_error', type: error.name }));
-    return new Response(JSON.stringify({ error: { code: known ? error.code : 'service_unavailable', message: known ? error.message : '服务暂不可用，请稍后重试。', requestId, ...(error.fields ? { fields: error.fields } : {}) } }), { status: known ? error.status : 503, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' } });
+    return new Response(JSON.stringify({ error: { code: known ? error.code : 'service_unavailable', message: known ? error.message : '服务暂不可用，请稍后重试。', requestId, ...(error.fields ? { fields: error.fields } : {}) } }), { status: known ? error.status : 503, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'strict-origin-when-cross-origin', 'X-Frame-Options': 'SAMEORIGIN' } });
   }
 }

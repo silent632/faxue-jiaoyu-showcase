@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 
 import CasePdfDisclosure from "@/components/case-pdf-disclosure";
 import CaseLoopProgress from "@/components/case-loop-progress";
+import CaseReturnLink from "@/components/case-return-link";
+import LearningContextLink from "@/components/learning-context-link";
 import ShowcaseNav from "@/components/showcase-nav";
 import {
   buildCaseReadingJudgment,
@@ -19,6 +21,7 @@ import { getExperimentModules } from "@/lib/experiments.js";
 import { recommendModulesForCase } from "@/lib/learning-loop.js";
 import { buildShowcaseContent } from "@/lib/showcase-content.js";
 import { getShowcaseCaseById, getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
+import { getPublicJurisprudenceLearning } from "@/lib/content/jurisprudence-learning.js";
 
 function compactText(value) {
   return String(value || "")
@@ -84,6 +87,8 @@ export default async function CaseDetailPage({ params }) {
   const { id } = await params;
   const caseItem = await getShowcaseCaseById(id);
   if (!caseItem) notFound();
+  const learning = getPublicJurisprudenceLearning();
+  const learningLinks = learning.caseLinks.filter(link => link.caseId === id).map(link => ({ ...link, topic: learning.topics.find(topic => topic.id === link.topicId) })).filter(link => link.topic);
 
   const pdfFileName = normalizePublicFileName(caseItem.pdfFile);
   const wordFileName = normalizePublicFileName(caseItem.wordFile);
@@ -114,12 +119,16 @@ export default async function CaseDetailPage({ params }) {
   return (
     <main className="showcase-page case-detail-page">
       <ShowcaseNav />
+      {learningLinks.length ? <section className="page-wrap card" aria-labelledby="learning-reading-heading">
+        <h2 id="learning-reading-heading">关联法理知识与阅读问题</h2>
+        <p>这些问题帮助理解案例，也欢迎结合原文提出自己的判断。</p>
+        {learningLinks.map(link => <article key={link.topicId}><h3>{link.topic.title}</h3><p>{link.reason}</p><p>{link.question}</p><p>阅读依据：{link.evidence}</p><Link href={`/knowledge/#${encodeURIComponent(link.topicId)}`}>回顾知识点</Link> · <Link href={`/cases/?topic=${encodeURIComponent(link.topicId)}`}>查找相关案例</Link></article>)}
+      </section> : null}
 
       <div className={`page-wrap fade-in case-detail-shell${hasPdf ? " has-pdf" : " is-compact"}`}>
         <div className="case-detail-back-row">
-          <Link className="btn btn-ghost case-detail-back-btn" href="/cases">
-            ← 返回案例检索
-          </Link>
+          <CaseReturnLink />
+          <Link className="btn btn-outline" href={`/community/?case=${encodeURIComponent(caseItem.id)}`}>围绕本案例提问</Link>
         </div>
 
         <section className="showcase-card case-detail-hero">
@@ -183,9 +192,9 @@ export default async function CaseDetailPage({ params }) {
             </div>
 
             <div className="case-detail-action-row">
-              <Link className="btn btn-accent case-detail-primary-action" href={primaryContinuation.href}>
+              <LearningContextLink allowedTopics={learningLinks.map(link => link.topicId)} className="btn btn-accent case-detail-primary-action" href={primaryContinuation.href}>
                 {primaryContinuation.label}
-              </Link>
+              </LearningContextLink>
 
               {hasPdf ? (
                 <a className="btn btn-primary case-detail-secondary-action" href={`/pdfs/${encodeURIComponent(pdfFileName)}`} target="_blank" rel="noreferrer">
@@ -211,8 +220,9 @@ export default async function CaseDetailPage({ params }) {
             </div>
             <div className="case-training-grid">
               {recommendedModules.map((item) => (
-                <Link
+                <LearningContextLink
                   key={item.id}
+                  allowedTopics={learningLinks.map(link => link.topicId)}
                   className="case-training-card"
                   href={`/experiments/${item.id}?case=${caseItem.id}`}
                 >
@@ -220,7 +230,7 @@ export default async function CaseDetailPage({ params }) {
                   <strong>{item.name}</strong>
                   <small>{item.skill}</small>
                   <em>{loopCopy.caseDetail.actionLabel} →</em>
-                </Link>
+                </LearningContextLink>
               ))}
             </div>
           </section>

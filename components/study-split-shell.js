@@ -64,6 +64,7 @@ export default function StudySplitShell({
   hasPdf,
   recommendedModules,
   loopCopy,
+  allowedTopics,
 }) {
   const shellRef = useRef(null);
   const [leftPaneWidth, setLeftPaneWidth] = useState(DEFAULT_LEFT_PANE);
@@ -231,6 +232,7 @@ export default function StudySplitShell({
               mode="split"
               recommendedModules={recommendedModules}
               loopCopy={loopCopy}
+              allowedTopics={allowedTopics}
             />
           </div>
         </div>

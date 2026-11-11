@@ -1,0 +1,927 @@
+{
+  "normRegistry": [
+    {
+      "id": "norm-4446b1d9b77d8e6e",
+      "name": "墨西哥合众国关于铁路服务的实施法"
+    },
+    {
+      "id": "norm-986c7a33a7218202",
+      "name": "中华人民共和国电子商务法"
+    },
+    {
+      "id": "norm-1c2d28abd893e4ae",
+      "name": "中华人民共和国反不正当竞争法"
+    },
+    {
+      "id": "norm-1bf989e44dadb604",
+      "name": "中华人民共和国公司法"
+    },
+    {
+      "id": "norm-3cde15988230081f",
+      "name": "中华人民共和国国家赔偿法"
+    },
+    {
+      "id": "norm-643d1edaecea57c5",
+      "name": "中华人民共和国海商法"
+    },
+    {
+      "id": "norm-96ea4bd169c3f84d",
+      "name": "中华人民共和国合同法"
+    },
+    {
+      "id": "norm-aeb77c81e0723582",
+      "name": "中华人民共和国环境保护法"
+    },
+    {
+      "id": "norm-491fc0d935f4e7b9",
+      "name": "中华人民共和国民法典"
+    },
+    {
+      "id": "norm-ef5053042deba982",
+      "name": "中华人民共和国民法通则"
+    },
+    {
+      "id": "norm-5c82a4eee93fda55",
+      "name": "中华人民共和国民法总则"
+    },
+    {
+      "id": "norm-3e7c0bc8844cd047",
+      "name": "中华人民共和国民事诉讼法"
+    },
+    {
+      "id": "norm-641200fe76ef4911",
+      "name": "中华人民共和国侵权责任法"
+    },
+    {
+      "id": "norm-542bf5d9b5cd1136",
+      "name": "中华人民共和国商标法"
+    },
+    {
+      "id": "norm-eb99803fa0f4e37c",
+      "name": "中华人民共和国涉外民事关系法律适用法"
+    },
+    {
+      "id": "norm-eaea52819140873e",
+      "name": "中华人民共和国水污染防治法"
+    },
+    {
+      "id": "norm-66a11fc1e1d089d7",
+      "name": "中华人民共和国土壤污染防治法"
+    },
+    {
+      "id": "norm-49be7518052d6e97",
+      "name": "中华人民共和国刑法"
+    },
+    {
+      "id": "norm-68e7b7208ca24ec5",
+      "name": "中华人民共和国刑事诉讼法"
+    },
+    {
+      "id": "norm-d6a0e13c5d1d68de",
+      "name": "中华人民共和国行政诉讼法"
+    },
+    {
+      "id": "norm-44a2639b06d52d22",
+      "name": "中华人民共和国野生动物保护法"
+    },
+    {
+      "id": "norm-d3125a84cd047b42",
+      "name": "中华人民共和国邮政法"
+    },
+    {
+      "id": "norm-d9ee97eef75f92ac",
+      "name": "中华人民共和国渔业法"
+    },
+    {
+      "id": "norm-1c8190cff0bd261e",
+      "name": "中华人民共和国长江保护法"
+    },
+    {
+      "id": "norm-474cadbca2c21e90",
+      "name": "中华人民共和国种子法"
+    },
+    {
+      "id": "norm-bbac7c7bb55e9307",
+      "name": "中华人民共和国专利法"
+    },
+    {
+      "id": "norm-aa12db688eb53c81",
+      "name": "中华人民共和国自然保护区条例"
+    },
+    {
+      "id": "norm-d7d1cb43a519aada",
+      "name": "最高人民法院、最高人民检察院关于检察公益诉讼案件适用法律若干问题的解释"
+    },
+    {
+      "id": "norm-c099809fa5c869b3",
+      "name": "最高人民法院关于处理自首和立功具体应用法律若干问题的解释"
+    },
+    {
+      "id": "norm-43c6e533ee3f4869",
+      "name": "最高人民法院关于确定民事侵权精神损害赔偿责任若干问题的解释"
+    },
+    {
+      "id": "norm-37dd9d9e1956f90f",
+      "name": "最高人民法院关于人民法院办理执行异议和复议案件若干问题的规定"
+    },
+    {
+      "id": "norm-3272ebad1b5ba3dc",
+      "name": "最高人民法院关于人民法院赔偿委员会审理国家赔偿案件程序的规定"
+    },
+    {
+      "id": "norm-b2750fa48882419e",
+      "name": "最高人民法院关于人民法院执行工作若干问题的规定(试行)"
+    },
+    {
+      "id": "norm-252fddcc40f27321",
+      "name": "最高人民法院关于商标法修改决定施行后商标案件管辖和法律适用问题的解释"
+    },
+    {
+      "id": "norm-c4ae99d146faf4c6",
+      "name": "最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释"
+    },
+    {
+      "id": "norm-da1ac78c1c427054",
+      "name": "最高人民法院关于审理环境侵权责任纠纷案件适用法律若干问题的解释"
+    },
+    {
+      "id": "norm-0109afb505643782",
+      "name": "最高人民法院关于审理民事、行政诉讼中司法赔偿案件适用法律若干问题的解释"
+    },
+    {
+      "id": "norm-fd6419d6bc2010e8",
+      "name": "最高人民法院关于审理民事案件适用诉讼时效制度若干问题的规定"
+    },
+    {
+      "id": "norm-fd5dd2cdac7e3b66",
+      "name": "最高人民法院关于审理侵犯专利权纠纷案件应用法律若干问题的解释"
+    },
+    {
+      "id": "norm-42189e472d0468b8",
+      "name": "最高人民法院关于审理侵害植物新品种权纠纷案件具体应用法律问题的若干规定"
+    },
+    {
+      "id": "norm-8fbfa1144f47e181",
+      "name": "最高人民法院关于审理侵害植物新品种权纠纷案件具体应用法律问题的若干规定（二）"
+    },
+    {
+      "id": "norm-81e0c60ee16a1901",
+      "name": "最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释"
+    },
+    {
+      "id": "norm-a6c8ce8cc67a8841",
+      "name": "最高人民法院关于审理商标民事纠纷案件适用法律若干问题的解释"
+    },
+    {
+      "id": "norm-0493d0c35d1973d6",
+      "name": "最高人民法院关于审理商品房买卖合同纠纷案件适用法律若干问题的解释"
+    },
+    {
+      "id": "norm-d20f5bec0f9a25b5",
+      "name": "最高人民法院关于审理生态环境侵权纠纷案件适用惩罚性赔偿的解释"
+    },
+    {
+      "id": "norm-26daafd5f0b61704",
+      "name": "最高人民法院关于审理医疗损害责任纠纷案件适用法律若干问题的解释"
+    },
+    {
+      "id": "norm-66a28c6ad99d7b8b",
+      "name": "最高人民法院关于审理专利纠纷案件适用法律问题的若干规定"
+    },
+    {
+      "id": "norm-16ab3bb70694e82b",
+      "name": "最高人民法院关于适用〈中华人民共和国反不正当竞争法〉若干问题的解释"
+    },
+    {
+      "id": "norm-234501ee89a842b2",
+      "name": "最高人民法院关于适用〈中华人民共和国民法典〉时间效力的若干规定"
+    },
+    {
+      "id": "norm-eac05fe543099d76",
+      "name": "最高人民法院关于适用〈中华人民共和国民法典〉有关担保制度的解释"
+    },
+    {
+      "id": "norm-7787652903e83906",
+      "name": "最高人民法院关于适用〈中华人民共和国民事诉讼法〉的解释"
+    },
+    {
+      "id": "norm-cd5921f5a60db07e",
+      "name": "最高人民法院关于适用〈中华人民共和国刑事诉讼法〉的解释"
+    },
+    {
+      "id": "norm-d956cc9e90cb9c41",
+      "name": "最高人民法院关于适用〈中华人民共和国行政诉讼法〉的解释"
+    }
+  ],
+  "normTasks": {
+    "case-0001": {
+      "page": 13,
+      "quote": "依照《中华人民共和国刑法》第一百五十一条第三款，第二十五条第一款，第二十六条第一款、第四款，第六十七条第一款，第六十八条，第七十二条，第七十三条，第六十四条和《中华人民共和国刑事诉讼法》第十五条及《最高人民法院关于处理自首和立功具体应用法律若干问题的解释》第五条，《最高人民法院关于适用<中华人民共和国刑事诉讼法>的解释》第三百六十五条第二款之规定，判决如下",
+      "sourceFile": "张保林走私国家禁止进出口的货物、物品案(FBM-CLI.C.307393809).pdf",
+      "sourceSha256": "01a58c2c4e4b2c2d834f9af32f49c51db6e713d5693d39a3b769cf349a8afe6c",
+      "caseNumber": "(2020)湘04刑初60号",
+      "referenceIds": [
+        "norm-49be7518052d6e97",
+        "norm-68e7b7208ca24ec5",
+        "norm-c099809fa5c869b3",
+        "norm-cd5921f5a60db07e"
+      ],
+      "sourceVersion": "57b08376493bb42b598cc47ffceb200734d27670a8dc3bd718c9cf9318858a67"
+    },
+    "case-0003": {
+      "page": 7,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十七条第一款第一项规定，判决如下",
+      "sourceFile": "中国平安财产保险股份有限公司北京分公司与殷建红等机动车交通事故责任纠纷二审民事判决书(FBM-CLI.C.544741303).pdf",
+      "sourceSha256": "5fc08f41378fcdbfd8cb675b67b685410d6946e73c92ee3b37a5d21577df9155",
+      "caseNumber": "(2023)京03民终7992号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "83c9e53a77e9f844ca75c24a5e5b8f5f7918a650ab2ce7a16157577e773ce6bc"
+    },
+    "case-0005": {
+      "page": 15,
+      "quote": "依照《最高人民法院关于审理民事案件适用诉讼时效制度若干问题的规定》第一条及第八条、《中华人民共和国民事诉讼法》第二百一十四条第一款、第一百七十七条第一款第二项规定，判决如下",
+      "sourceFile": "吉林银行股份有限公司通化分行与吉林省祥和国际房地产开发有限公司不当得利纠纷再审案(FBM-CLI.C.545292240).pdf",
+      "sourceSha256": "c45a8ace57ce577941fc04f15d7d5eaf1ebedc031410efee59aaab4d3d69633a",
+      "caseNumber": "(2022)吉民再106号",
+      "referenceIds": [
+        "norm-fd6419d6bc2010e8",
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "9280dbf37833ead7e974ca1e304582d8712d93d8a57268d2ef5127d055fcfe45"
+    },
+    "case-0006": {
+      "page": 11,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十七条第一款第二项规定，判决如下",
+      "sourceFile": "孙某甲、孙某乙等机动车交通事故责任纠纷民事二审民事判决书(FBM-CLI.C.562935725).pdf",
+      "sourceSha256": "3fd54ab45acb0fca0526b6c77a1856486176dd9eeae5f638bcdc7d7d37e04fbe",
+      "caseNumber": "(2024)辽06民终1643号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "3b48f360e10653b24925cbe5a9041629a494f9087f255906585ceac38217e158"
+    },
+    "case-0012": {
+      "page": 8,
+      "quote": "依照《中华人民共和国合同法》第八条，《最高人民法院关于审理商品房买卖合同纠纷案件适用法律若干问题的解释》第十四条，《最高人民法院关于适用<中华人民共和国民法典>时间效力的若干规定》第一条、《中华人民共和国民事诉讼法》第一百七十七条第一款第二项之规定，判决如下",
+      "sourceFile": "湖南富兴置业发展有限公司与周蓉蓉诉房屋买卖合同纠纷上诉案(FBM-CLI.C.419656188).pdf",
+      "sourceSha256": "48a5682415da00385032bceb1de2a22bbf742fc29cce0439a88a30809f6f97b9",
+      "caseNumber": "(2022)湘01民终4912号",
+      "referenceIds": [
+        "norm-96ea4bd169c3f84d",
+        "norm-0493d0c35d1973d6",
+        "norm-234501ee89a842b2",
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "e34c389e95329d415cffbaa343a58f304b63ca9b1ed027931735ba7d7dc033b9"
+    },
+    "case-0016": {
+      "page": 12,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十条第一款第一项、《最高人民法院关于适用<中华人民共和国民事诉讼法>的解释》第三百三十四条规定，判决如下",
+      "sourceFile": "赵海与李明磊网络购物合同纠纷上诉案(FBM-CLI.C.310151408).pdf",
+      "sourceSha256": "448950bfc9521aff953f3cff024558336c61c3033aa19c0820c0c4f097484a5c",
+      "caseNumber": "（2020）沪03民终133号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047",
+        "norm-7787652903e83906"
+      ],
+      "sourceVersion": "eead18f03cc105bcc66dd4cbcecc9a819304df2eed18de654f110413fce1e468"
+    },
+    "case-0017": {
+      "page": 7,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十七条第一款第一项规定，判决如下",
+      "sourceFile": "郑某香、江某永等与中XXXXXXXXXXXXXXXXXX司意外伤害保险合同纠纷二审民事判决书(FBM-CLI.C.553551394).pdf",
+      "sourceSha256": "2647ca0073cd6a295faf38469605f6f85890aa416831f8d68a5222c8b60a3c16",
+      "caseNumber": "(2023)赣10民终422号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "9d9fb13db803218017ff3d5b84ac44b9c0aef12e73dbf6c296998640c65c6f1e"
+    },
+    "case-0020": {
+      "page": 12,
+      "quote": "依照《中华人民共和国民法典》第四百二十九条，《最高人民法院关于适用<中华人民共和国民法典>有关担保制度的解释》第七十条，《中华人民共和国民事诉讼法》第二百三十四条，《最高人民法院关于适用<中华人民共和国民事诉讼法>的解释》第三百一十二条第一款第一项、第一百七十七条第一款第二项的规定，判决如下",
+      "sourceFile": "雅安市商业银行股份有限公司汉源支行与四川省川建勘察设计院有限公司执行异议之诉二审民事判决书(FBM-CLI.C.550414662).pdf",
+      "sourceSha256": "96c0380fe1870c2cb334608a77cb81fa3144c29d864ce9c557b4017794758c5f",
+      "caseNumber": "(2023)川18民终1140号",
+      "referenceIds": [
+        "norm-491fc0d935f4e7b9",
+        "norm-eac05fe543099d76",
+        "norm-3e7c0bc8844cd047",
+        "norm-7787652903e83906"
+      ],
+      "sourceVersion": "8896f71a0ef519e75681ae216062daa5e0a81691b53947d10bf3a29dfe9ef614"
+    },
+    "case-0021": {
+      "page": 16,
+      "quote": "依照《最高人民法院关于适用<中华人民共和国民事诉讼法>的解释》第三百三十二条、《中华人民共和国民事诉讼法》第一百七十七条第一款第一项之规定，判决如下",
+      "sourceFile": "鞍山银行股份有限公司等与鞍山中大房地产开发有限公司申请执行人执行异议之诉二审民事判决书(FBM-CLI.C.563771501).pdf",
+      "sourceSha256": "6bbd40a6de5d26e44ed4789833053ab7b313459acf475693736e087054d58c2f",
+      "caseNumber": "(2025)辽03民终998号",
+      "referenceIds": [
+        "norm-7787652903e83906",
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "9a8fcf32ee4c27772ae4d16986d9e60c7e3b07f1a8fe2e46c1ab3a4936d46db6"
+    },
+    "case-0024": {
+      "page": 18,
+      "quote": "依照《中华人民共和国行政诉讼法》第八十九条第一款第二项、第三项及《最高人民法院关于适用<中华人民共和国行政诉讼法>的解释》第一百一十九条第一款、第一百二十三条第三项之规定，裁定如下",
+      "sourceFile": "重庆市涪陵洪源房地产开发有限公司、重庆市涪陵区人民政府行政再审行政裁定书(FBM-CLI.C.546218593).pdf",
+      "sourceSha256": "00aec171bfb6c950b6fe1b47751bb9c9414c23b376daf4867aada367b680e1af",
+      "caseNumber": "(2023)最高法行再7号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de",
+        "norm-d956cc9e90cb9c41"
+      ],
+      "sourceVersion": "0e870ba9774683627d838989e7c928f18de22f7f739c2e52a6564be5a591068f"
+    },
+    "case-0027": {
+      "page": 31,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十七条第一款第一项、《最高人民法院关于适用〈中华人民共和国民事诉讼法〉的解释》第三百三十二条规定，判决如下",
+      "sourceFile": "中国建设银行股份有限公司怀化市分行与中国华融资产管理股份有限公司湖南省分公司等案外人执行异议之诉案(FBM-CLI.C.520471069).pdf",
+      "sourceSha256": "c469b99ab6bc7eaa19b54c56f9aab25dd296ba8f4c651ff9ee2b719779fc3f9e",
+      "caseNumber": "(2022)最高法民终34号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047",
+        "norm-7787652903e83906"
+      ],
+      "sourceVersion": "cd7880a3c7efae7eef80af30d0ffea5dc3351a495114760f7dc378a9db5f9a34"
+    },
+    "case-0030": {
+      "page": 18,
+      "quote": "依照《中华人民共和国民事诉讼法》第二百一十四条第一款、第一百七十七条第一款第二项规定，判决如下",
+      "sourceFile": "伟富国际有限公司与黄建荣、上海海成资源(集团)有限公司等服务合同纠纷案(FBM-CLI.C.545848321).pdf",
+      "sourceSha256": "23a6831cbbb64a5ef83f95e8bb302e9af22fcb89bef158d7d22c99cb569abab8",
+      "caseNumber": "(2022)最高法民再91号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "6e99880835f8ed916c7ff91ccd1a5c25fc890447b2f0998e0c933330324c5882"
+    },
+    "case-0034": {
+      "page": 23,
+      "quote": "依照《中华人民共和国涉外民事关系法律适用法》第三条、《中华人民共和国合同法》第八条的规定，判决如下",
+      "sourceFile": "张雨方与谢钰珉、深圳澳鑫隆投资有限公司等其他合同纠纷案(FBM-CLI.C.553680818).pdf",
+      "sourceSha256": "21a1156e783e569485b012cccd5ab238fffb22cac39037c0424a7f455af01574",
+      "caseNumber": "(2020)最高法商初5号",
+      "referenceIds": [
+        "norm-eb99803fa0f4e37c",
+        "norm-96ea4bd169c3f84d"
+      ],
+      "sourceVersion": "d54cec9caffc15ad0bc5622bdd33d7e43582545e1db6ebc45ef6efbaf597ff98"
+    },
+    "case-0051": {
+      "page": 6,
+      "quote": "依照《中华人民共和国刑法》第二百五十三条之一第一款、第三款，第六十七条第三款，第七十二条第一、三款，第七十三条第二、三款，第五十二条，第五十三条，第六十四条，《中华人民共和国民法典》第一百一十条，第一百七十九条，第一百八十七条，第一千零三十四条，《中华人民共和国刑事诉讼法》第十五条，《中华人民共和国民事诉讼法》第五十五条第二款及《最高人民法院、最高人民检察院关于检察公益诉讼案件适用法律若干问题的解释》第十三条、第二十条之规定，判决如下",
+      "sourceFile": "某某院与李某等侵犯公民个人信息罪一审刑事附带民事判决书.pdf",
+      "sourceSha256": "d4859352426a66a25f019424cfe4f7f5f02e0a4d3224955175fc31044bfef09c",
+      "caseNumber": "（2021）沪0120刑初828号",
+      "referenceIds": [
+        "norm-49be7518052d6e97",
+        "norm-491fc0d935f4e7b9",
+        "norm-68e7b7208ca24ec5",
+        "norm-3e7c0bc8844cd047",
+        "norm-d7d1cb43a519aada"
+      ],
+      "sourceVersion": "4e37fe799eed3ad897ec84ef2c45d6ae5ef47931bd3b9193851d7423a645a092"
+    },
+    "case-0065": {
+      "page": 13,
+      "quote": "依照《中华人民共和国刑法》第二十条第一款《中华人民共和国刑事诉讼法》第二百三十六条第一款第(二)项及《最高人民法院关于适用<中华人民共和国民法典>时间效力的若干规定》第一条第二款，《中华人民共和国民法总则》第一百八十一条第一款之规定，判决如下",
+      "sourceFile": "尚殿钢故意伤害案(FBM-CLI.C.317104171).pdf",
+      "sourceSha256": "5ff865adf41960943ffecef97e0738c63af8586e15bc97589b49cdafb37ac8a7",
+      "caseNumber": "(2021)津01刑终120号",
+      "referenceIds": [
+        "norm-49be7518052d6e97",
+        "norm-68e7b7208ca24ec5",
+        "norm-234501ee89a842b2",
+        "norm-5c82a4eee93fda55"
+      ],
+      "sourceVersion": "3c6fa1574395a33202752b0ff8f425d01932ec38a3430385434e573eccb375bb"
+    },
+    "case-0068": {
+      "page": 21,
+      "quote": "依照《中华人民共和国刑事诉讼法》第一百九十五条第三项、第二百三十六条第一款第三项之规定，判决如下",
+      "sourceFile": "朱某非法获取计算机信息系统数据、非法控制计算机信息系统、内幕交易案(FBM-CLI.C.430790016).pdf",
+      "sourceSha256": "8447fe06f928370c0a966482f79b01fc15f0c001d03ea7f73fe97a147c712052",
+      "caseNumber": "(2020)辽刑终242号",
+      "referenceIds": [
+        "norm-68e7b7208ca24ec5"
+      ],
+      "sourceVersion": "18e29f305cd5a47ad134f99ce140014dac2ac5275cab876705fbc413bb1bcf4f"
+    },
+    "case-0073": {
+      "page": 20,
+      "quote": "依照《中华人民共和国刑事诉讼法》第二百三十六条第一款第(一)项之规定，裁定如下",
+      "sourceFile": "王红剑故意伤害案(FBM-CLI.C.430551075).pdf",
+      "sourceSha256": "48fd967b34444a8fc3bdf3e1f0e568ca6ab2b4fc633df91e0a0e740fcbb2dcea",
+      "caseNumber": "(2021)赣01刑终21号",
+      "referenceIds": [
+        "norm-68e7b7208ca24ec5"
+      ],
+      "sourceVersion": "75c0b033d123cb1a1ce5d0475fa83d4dc930e79003b00ca28bbed1e11082be00"
+    },
+    "case-0080": {
+      "page": 12,
+      "quote": "依照《最高人民法院关于人民法院执行工作若干问题的规定(试行)》第71条规定，裁定如下",
+      "sourceFile": "韩×与邓×受贿、挪用公款执行监督裁定书(FBM-CLI.C.431488993).pdf",
+      "sourceSha256": "2caa3ed1e7042b2915a263b9b70c785b967d7ea6bf3437ca1fe7cb1f4adf0642",
+      "caseNumber": "(2022)最高法执监48号",
+      "referenceIds": [
+        "norm-b2750fa48882419e"
+      ],
+      "sourceVersion": "8b77ef84cce2dabba25755b6059dcdd6f813b75a63a5b15e25ebc7333db1dd0c"
+    },
+    "case-0086": {
+      "page": 32,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十条第一款第一项规定，判决如下",
+      "sourceFile": "中国生物多样性保护与绿色发展基金会与合浦县白沙镇独山泰盛石场生态环境保护民事公益诉讼上诉案(FBM-CLI.C.430542429).pdf",
+      "sourceSha256": "c5d7c1babc50cd6f0c705a0fbbcc26c070e88c8c70b90386f7939753b0b9c352",
+      "caseNumber": "(2020)桂民终14号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "ca964303ec691f2c476df92b11a64b3e06c558d792c674f3930090fcbb66eedb"
+    },
+    "case-0090": {
+      "page": 34,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十条第一款第一项、第一百七十五条之规定，判决如下",
+      "sourceFile": "刘跃武与上海飞乐音响股份有限公司等证券虚假陈述责任纠纷上诉案(FBM-CLI.C.504418492).pdf",
+      "sourceSha256": "5aa4ef9088a149c2e7ba57941c9bb0078cf4df143bed135b3fb0d23da5c088c0",
+      "caseNumber": "（2021）沪民终384号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "832a3196a528e271984968e0f44e307dd05ce65966e3149a31227083c4dd9929"
+    },
+    "case-0094": {
+      "page": 17,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十七条第一款第一项之规定，判决如下",
+      "sourceFile": "华泰财产保险有限公司北京分公司与广西防城港中外运东湾仓储物流有限公司港口货物保管合同纠纷上诉案(FBM-CLI.C.431515405).pdf",
+      "sourceSha256": "329b3db5948022d7a142d4ea7dd338031c83b8ebfa83259ae6e3fd696a933a97",
+      "caseNumber": "(2022)津民终327号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "482846349fbd116b7f3d547396fd01a9b9608747fa6c4f2ff2649b19a5aa0d38"
+    },
+    "case-0105": {
+      "page": 26,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十条第一款第一项、第二项的规定，判决如下",
+      "sourceFile": "延川县永坪石油货运车队与中华环保联合会等环境污染责任纠纷上诉案(FBM-CLI.C.431102589).pdf",
+      "sourceSha256": "38a6ce3cadcb15131a8b6b5e95e2164acc8fdf2687b6825121a75572a08e10f1",
+      "caseNumber": "(2021)陕民终193号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "1cc26c7b031462d1756f463e0f4d9bfb1d770ce81fe2c9bb5f94d02eb38f6c90"
+    },
+    "case-0106": {
+      "page": 27,
+      "quote": "依照《中华人民共和国环境保护法》第六十四条、《中华人民共和国侵权责任法》第六条第一款、第八条、第十五条、《最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释》第十八条、第二十二条、第二十三条规定，经本院审判委员会讨论决定，判决如下",
+      "sourceFile": "张永明等生态破坏民事公益诉讼案(FBM-CLI.C.115595413).pdf",
+      "sourceSha256": "489f1301fa15902a7a06801dd89c76ce3db8638bea13c6234844f02aa2acb9e9",
+      "caseNumber": "(2018)赣11民初303号",
+      "referenceIds": [
+        "norm-aeb77c81e0723582",
+        "norm-641200fe76ef4911",
+        "norm-c4ae99d146faf4c6"
+      ],
+      "sourceVersion": "84f1c994cd6d57723e2c55cd6332942d65b88edb08227ea21244fd7e701462fc"
+    },
+    "case-0109": {
+      "page": 13,
+      "quote": "依照《中华人民共和国民事诉讼法》第二百一十四条第一款、第一百七十七条第一款第二项规定，判决如下",
+      "sourceFile": "成都金创盟科技有限公司、成都爱华康复医院有限公司拍卖合同纠纷民事再审判决书(FBM-CLI.C.411071737).pdf",
+      "sourceSha256": "925b20e593369088f030987f6277f17a443df13bc97b867b8b54d189bbc1ef68",
+      "caseNumber": "(2022)最高法民再59号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "98636694387110e81756fbd743a7934f8cd4a34330ea4e086917785ccc5d7683"
+    },
+    "case-0119": {
+      "page": 18,
+      "quote": "依照《中华人民共和国涉外民事关系法律适用法》第四十一条，《中华人民共和国海商法》第五十五条、第一百零三条、第一百零四条、第一百零五条，《墨西哥合众国关于铁路服务的实施法》第五十一条、第五十二条，《中华人民共和国民事诉讼法》第六十四条、第一百四十二条的规定，判决如下",
+      "sourceFile": "江苏秀强玻璃工艺股份有限公司诉青岛万嘉集运物流有限公司连云港分公司多式联运合同纠纷案(FBM-CLI.C.419156395).pdf",
+      "sourceSha256": "49d9ffcd1b1a754d6b03e0714c6ba0e1778c3c837aaa98dede1cbe57ae0f30c8",
+      "caseNumber": "（2020）苏72民初1061号",
+      "referenceIds": [
+        "norm-eb99803fa0f4e37c",
+        "norm-643d1edaecea57c5",
+        "norm-4446b1d9b77d8e6e",
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "4e8d87c27a7807826bd3d195a647bcdcbc9c1fec86e02fd9b13dce8b7d8f7462"
+    },
+    "case-0125": {
+      "page": 26,
+      "quote": "依照《中华人民共和国民法典》第一千一百六十五条、第一千一百七十九条、第一千一百八十三条、第一千二百一十八条、第一千二百一十九条、第一千二百二十一条、第一千二百二十二条第(一)项、《最高人民法院关于审理医疗损害责任纠纷案件适用法律若干问题的解释》第二条、第十五条、《最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释》第六条、第八条、第九条、第十条、第十一条、第十二条、《最高人民法院关于确定民事侵权精神损害赔偿责任若干问题的解释》第一条、第五条、《最高人民法院关于适用〈中华人民共和国民事诉讼法〉的解释》第九十条之规定，判决如下",
+      "sourceFile": "窦某1诉西宁市湟中区第二人民医院等医疗损害责任纠纷案(FBM-CLI.C.430643773).pdf",
+      "sourceSha256": "bb2b2c51f8262f82c7633d5657a4d64b2c3f6487358f1b79142b2c296cdb7d7d",
+      "caseNumber": "(2020)青0122民初4538号",
+      "referenceIds": [
+        "norm-491fc0d935f4e7b9",
+        "norm-26daafd5f0b61704",
+        "norm-81e0c60ee16a1901",
+        "norm-43c6e533ee3f4869",
+        "norm-7787652903e83906"
+      ],
+      "sourceVersion": "af23a147fb3faf7ae5034beee7d0ac8a189b7e2cf6a6154bf987b4512d5a7f1a"
+    },
+    "case-0127": {
+      "page": 14,
+      "quote": "依照《中华人民共和国民法通则》第四条、《中华人民共和国合同法》第六条、第七条、《中华人民共和国民事诉讼法》第一百七十条第一款第二项，《最高人民法院关于适用<中华人民共和国民事诉讼法>的解释》第三百一十二条第一款第一项以及《最高人民法院关于人民法院办理执行异议和复议案件若干问题的规定》第二十八条之规定，判决如下",
+      "sourceFile": "董玉容、中国华融资产管理股份有限公司湖南省分公司等案外人执行异议之诉民事二审民事判决书(FBM-CLI.C.410282926).pdf",
+      "sourceSha256": "3dc026a36978656398d3a7dfc5b7abcbc50611b318fa308a7487d471c81dc700",
+      "caseNumber": "(2021)最高法民终534号",
+      "referenceIds": [
+        "norm-ef5053042deba982",
+        "norm-96ea4bd169c3f84d",
+        "norm-3e7c0bc8844cd047",
+        "norm-7787652903e83906",
+        "norm-37dd9d9e1956f90f"
+      ],
+      "sourceVersion": "77880a6080e57fd576dabc475b6e3db6f0fe5d308b4e173f9df386063403167a"
+    },
+    "case-0132": {
+      "page": 8,
+      "quote": "依照《中华人民共和国专利法》第十一条第一款、第二十二条第五款、第五十九条第一款、第六十二条、第六十九条第二项、《最高人民法院关于审理侵犯专利权纠纷案件应用法律若干问题的解释》第二条、第七条、第十五条第二款、第三款、《最高人民法院关于审理专利纠纷案件适用法律问题的若干规定》第十七条规定，判决如下",
+      "sourceFile": "闫凯文、吉林省桦甸市红石镇小红石村誉兴播种器厂侵害实用新型专利权纠纷案(FBM-CLI.C.430697645).pdf",
+      "sourceSha256": "92ee4005625c79684b8ea40c05f6edc508c193f39987aeb8477eb481962732f1",
+      "caseNumber": "(2020)吉01知民初33号",
+      "referenceIds": [
+        "norm-bbac7c7bb55e9307",
+        "norm-fd5dd2cdac7e3b66",
+        "norm-66a28c6ad99d7b8b"
+      ],
+      "sourceVersion": "569f9f81885d18301a1216e212714fb6c6b85feaad1623b98d0148b11b081a6a"
+    },
+    "case-0137": {
+      "page": 33,
+      "quote": "依照《中华人民共和国侵权责任法》第四条第一款、第六条第一款、第八条、第十条、第十二条、第十五条、第十六条、第十八条第一款、第二十六条，《中华人民共和国野生动物保护法》第二十七条、第三十二条，《中华人民共和国邮政法》第二十四条、二十五条、第七十五条，《中华人民共和国电子商务法》第十三条，《最高人民法院关于审理人身损害赔偿案件适用法律若干问题的解释》(法释[2003]20号)第三条第二款之规定，判决如下",
+      "sourceFile": "齐某等诉邵某等生命权、健康权、身体权纠纷案(FBM-CLI.C.430896653).pdf",
+      "sourceSha256": "00c1488147b8823853f4ac2192dbaa8f95acf13ef90133cad2ba2f3be0705f60",
+      "caseNumber": "(2018)京0108民初61705号",
+      "referenceIds": [
+        "norm-641200fe76ef4911",
+        "norm-44a2639b06d52d22",
+        "norm-d3125a84cd047b42",
+        "norm-986c7a33a7218202",
+        "norm-81e0c60ee16a1901"
+      ],
+      "sourceVersion": "f4b263d6697ec1e55b2fae4f110f8109eb5a4213cf5915210a96e983116be462"
+    },
+    "case-0139": {
+      "page": 27,
+      "quote": "依照《中华人民共和国行政诉讼法》第四十九条、《最高人民法院关于适用〈中华人民共和国行政诉讼法〉的解释》第六十九条第一款第一项、第八项的规定,裁定如下",
+      "sourceFile": "峰石某幼儿园诉宜昌市生态环境局其他行政纠纷案(FBM-CLI.C.430770331).pdf",
+      "sourceSha256": "ed1aba06fef3cc6066504724ed4b24bd54d40125a0e6ddc0fad8226e0422b3d6",
+      "caseNumber": "(2020)鄂0502行初75号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de",
+        "norm-d956cc9e90cb9c41"
+      ],
+      "sourceVersion": "4654bd8c7353e498ca420fb213d1a6d1d2f1afb6c8a699a39fccc58dc9f7cf72"
+    },
+    "case-0142": {
+      "page": 22,
+      "quote": "依照《中华人民共和国行政诉讼法》第八十九条第一款第二项、第七十四条第一款第一项、第七十六条的规定，判决如下",
+      "sourceFile": "朱炳生与西安市碑林区人民政府房屋拆迁行政征收纠纷上诉案(FBM-CLI.C.431067500).pdf",
+      "sourceSha256": "e6122c19a1ecb5fe866bce42b1a17791733033c661db1c139f5cfed49f527cfd",
+      "caseNumber": "(2021)陕行终593号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de"
+      ],
+      "sourceVersion": "75647612894a123d452059eaf93ef566bc7f45c470933a5fbd20fbfbb8875c34"
+    },
+    "case-0143": {
+      "page": 14,
+      "quote": "依照《中华人民共和国行政诉讼法》第八十六条、第八十九条第一款第(一)项之规定，判决如下",
+      "sourceFile": "杨书哲等与中国国家铁路集团有限公司行政处理及规范性文件审查纠纷上诉案(FBM-CLI.C.431845863).pdf",
+      "sourceSha256": "dc4c1c5b79c29f42bd8be3aef1f46e0783ff56a6ae68cd795b370a0aef952b6a",
+      "caseNumber": "(2021)鲁01行终1050号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de"
+      ],
+      "sourceVersion": "85a763f9eebe1feff062d85223e5e508f33086696632777da9cc4a93441eb0de"
+    },
+    "case-0150": {
+      "page": 23,
+      "quote": "依照《中华人民共和国行政诉讼法》第八十九条第一款(二)项之规定，判决如下",
+      "sourceFile": "白水县杜康镇人民政府、白水县烽源煤业有限责任公司等××（行政协议）行政补偿行政二审行政判决书(FBM-CLI.C.431090470).pdf",
+      "sourceSha256": "af53b911215fc5659318eeb1a669cbd18f9e81c030fc159a64a04b18220b5e12",
+      "caseNumber": "(2021)陕行终877号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de"
+      ],
+      "sourceVersion": "928a9d27df5eb5a08651d9668b3cecfbf0e869807e7bf498e980b13efaabb7da"
+    },
+    "case-0151": {
+      "page": 19,
+      "quote": "依照《中华人民共和国行政诉讼法》第八十九条第一款第一项之规定，判决如下",
+      "sourceFile": "酉阳土家族苗族自治县人力资源和社会保障局与贺恩会其他行政纠纷上诉案(FBM-CLI.C.317602081).pdf",
+      "sourceSha256": "003bb517e20aad5e28d1b98b5bbc35c1cec2b33dcd625dfa5b2846fc64d4fcd8",
+      "caseNumber": "(2021)渝04行终56号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de"
+      ],
+      "sourceVersion": "65435586338aae7bfe089105756dab0ffe3a6bb2daa30ed4d1de56079ff6184d"
+    },
+    "case-0152": {
+      "page": 9,
+      "quote": "依照《最高人民法院关于适用〈中华人民共和国民事诉讼法〉的解释》第五百一十八条、参照《最高人民法院关于人民法院办理执行异议和复议案件若干问题的规定》第二十三条第一款第二项的规定，裁定如下",
+      "sourceFile": "李某甲与北京某投资公司北京某担保公司轩某某执行复议执行裁定书.pdf",
+      "sourceSha256": "292bb3b7d0a9a478ac1c1fb8b14b468899b028a9d00684aaed11c578a9b46df2",
+      "caseNumber": "（2022）京执复104号",
+      "referenceIds": [
+        "norm-7787652903e83906",
+        "norm-37dd9d9e1956f90f"
+      ],
+      "sourceVersion": "c46dc09f6ac5db0d659683a15c667cd829fb64ed5ec4f48db7e90b8bb1a5dcb1"
+    },
+    "case-0156": {
+      "page": 31,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百四十七条、第一百七十七条第一款第一项规定，判决如下",
+      "sourceFile": "中国某公司与湖南某公司中国某丙公司二审民事判决书.pdf",
+      "sourceSha256": "d4ff44f9484fb23122e532bf9fd4392b606ff1dff3279e2d3711f117a055d9d8",
+      "caseNumber": "(2021)湘民终176号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "03a6ac43d37f013f928d2e357bcb66250e7cb80981669d91fbf462868baaf9c8"
+    },
+    "case-0157": {
+      "page": 10,
+      "quote": "依照《中华人民共和国民事诉讼法》第二百一十四条第一款、第一百七十七条第一款第一项、第二项规定，判决如下",
+      "sourceFile": "乌海某公司宝某等民事再审民事判决书.pdf",
+      "sourceSha256": "53a4619de5feef66c6ed6f0baf71bfefb2e135669c20a132267efb586df6097e",
+      "caseNumber": "（2022）内民再44号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "cc0e52c055af3de0443405c80fbdb80616084e1ad0ed4fbbdfeb915d1031b48e"
+    },
+    "case-0161": {
+      "page": 14,
+      "quote": "依照《最高人民法院关于审理民事案件适用诉讼时效制度若干问题的规定》第一条及第八条、《中华人民共和国民事诉讼法》第二百一十四条第一款、第一百七十七条第一款第二项规定，判决如下",
+      "sourceFile": "吉林某银行股份有限公司某分行吉林省某房地产开发有限公司不当得利纠纷民事再审民事判决书.pdf",
+      "sourceSha256": "0f0ef63c7b9873194b6f3592698db996b73350997d105241e88338f5e442de53",
+      "caseNumber": "（2022）吉民再106号",
+      "referenceIds": [
+        "norm-fd6419d6bc2010e8",
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "17b9e132713be59d05316e50f8d495afb7cd8158b51044771f79e4505c62489b"
+    },
+    "case-0162": {
+      "page": 28,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十条第一款第一项规定，判决如下",
+      "sourceFile": "奥某福建省大田县吴山乡阳春村民委员会等物权保护纠纷民事二审民事判决书.pdf",
+      "sourceSha256": "226d41af27e76761b91720e8c9285f82dfa3780c75f6e649c423e2950eb54b1b",
+      "caseNumber": "(2021)闽民终302号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "c4bd27fd64c5f4afa43e26aa116b56813e212a61e4e93de1eda88fd4da3bdb95"
+    },
+    "case-0165": {
+      "page": 19,
+      "quote": "依据《最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释》第一条、第二条、第十八条、第十九条、第二十条、第二十一条、第二十二条、《中华人民共和国公司法》第十四条规定，判决如下",
+      "sourceFile": "山某北某等环境污染民事公益诉讼民事一审民事判决书.pdf",
+      "sourceSha256": "227106d294ff42851049656c58bf68e41009a1814f5a87c30a61bd043e2972f0",
+      "caseNumber": "（2022）晋03民初44号",
+      "referenceIds": [
+        "norm-c4ae99d146faf4c6",
+        "norm-1bf989e44dadb604"
+      ],
+      "sourceVersion": "10448305be6021dcaf546e3fe02c389c16d9cd1bfb37f6da56982429e493a81e"
+    },
+    "case-0166": {
+      "page": 20,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十七条第一款第二项的规定，判决如下",
+      "sourceFile": "张某代某英等民间借贷纠纷民事二审民事判决书.pdf",
+      "sourceSha256": "53ebf2d042e7095432c0de0da7171c3cd7e633bdeaa824ccad6c73ed209dfa72",
+      "caseNumber": "（2022）冀11民终679号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "e8415d0b3337487e6e52b70e7c0d30b272b1e3e508804d463a60dbcebf99c7ab"
+    },
+    "case-0175": {
+      "page": 23,
+      "quote": "依照《中华人民共和国民法典》第一百七十九条、第一千一百六十八条，《中华人民共和国商标法》（2019年修订）第四十八条、第五十七条第二项、第七项、第六十三条第一款、第三款，《中华人民共和国反不正当竞争法》（2019年修订）第六条第四项，《最高人民法院关于商标法修改决定施行后商标案件管辖和法律适用问题的解释》第九条，《最高人民法院关于审理商标民事纠纷案件适用法律若干问题的解释》第一条第三项、第二十一条，《最高人民法院关于适用<中华人民共和国反不正当竞争法>若干问题的解释》第十三条、第二十五条、第二十八条和《中华人民共和国民事诉讼法》第一百四十五条的规定，判决如下",
+      "sourceFile": "民事一审民事.pdf",
+      "sourceSha256": "221246c27a9baefe467773b2aba39d2b948df703c5ef776d07ca774e96965115",
+      "caseNumber": "（2021）鄂01知民初1765号",
+      "referenceIds": [
+        "norm-491fc0d935f4e7b9",
+        "norm-542bf5d9b5cd1136",
+        "norm-1c2d28abd893e4ae",
+        "norm-252fddcc40f27321",
+        "norm-a6c8ce8cc67a8841",
+        "norm-16ab3bb70694e82b",
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "c4d756386a980f050b2e8d1564eec805e989102779e617e88d737d6100334658"
+    },
+    "case-0177": {
+      "page": 24,
+      "quote": "依照《最高人民法院关于适用〈中华人民共和国民法典〉时间效力的若干规定》第一条、《中华人民共和国侵权责任法》第四条、第八条，《中华人民共和国自然保护区条例》第二十六条，《最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释》第十八条、第二十二条、《中华人民共和国环境保护法》第六十四条以及《中华人民共和国民事诉讼法》第一百五十五条之规定，判决如下",
+      "sourceFile": "海南省人民检察院第一分院曾某等生态破坏民事公益诉讼民事一审民事判决书.pdf",
+      "sourceSha256": "d4cbfee439adf099a5936d9e19ecdb97b64a21dd6a5a168550e3db454a5290e7",
+      "caseNumber": "（2021）琼96民初1053号",
+      "referenceIds": [
+        "norm-234501ee89a842b2",
+        "norm-641200fe76ef4911",
+        "norm-aa12db688eb53c81",
+        "norm-c4ae99d146faf4c6",
+        "norm-aeb77c81e0723582",
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "9c65bf3aab3a330e2fbbe33441bd4432dd20f38fd777fc98769d10d7e53d5ee5"
+    },
+    "case-0181": {
+      "page": 14,
+      "quote": "依照《中华人民共和国种子法》第二十八条，《中华人民共和国民事诉讼法》第六十七条第一款，《最高人民法院关于审理侵害植物新品种权纠纷案件具体应用法律问题的若干规定》第四条第一款，《最高人民法院关于审理侵害植物新品种权纠纷案件具体应用法律问题的若干规定（二）》第二十一条，《最高人民法院关于适用〈中华人民共和国民事诉讼法〉的解释》第九十条、第九十一条第一项的规定，判决如下",
+      "sourceFile": "荷兰某公司昆明某公司等侵害植物新品种权纠纷民事一审民事判决书.pdf",
+      "sourceSha256": "9f49cdde40728e667665030d7e6a74d707694c4ad472432b297e572342a51981",
+      "caseNumber": "(2020)粤73知民初607号",
+      "referenceIds": [
+        "norm-474cadbca2c21e90",
+        "norm-3e7c0bc8844cd047",
+        "norm-42189e472d0468b8",
+        "norm-8fbfa1144f47e181",
+        "norm-7787652903e83906"
+      ],
+      "sourceVersion": "dcb9fa5a3c3a775c702bf61e6c9e1f57a0c92f1b346589b0fda9de160b9739b9"
+    },
+    "case-0186": {
+      "page": 26,
+      "quote": "依据《中华人民共和国民事诉讼法》第一百七十七条第一款第二项之规定，判决如下",
+      "sourceFile": "贵州某某公司贵州某某集团有限公司物权保护纠纷二审民事判决书.pdf",
+      "sourceSha256": "049d1470da1e45d9734ffd138a99291cbcbfb6df9e5350893bff6d0ef95d74ad",
+      "caseNumber": "（2022）黔民终169号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "e65a8f063abcae68e3618b3ed8be9e71c7dc6e2648599af9b3193e6e4896e4ea"
+    },
+    "case-0189": {
+      "page": 20,
+      "quote": "依照《中华人民共和国民法典》第一千二百三十二条、第一千二百三十五条第一项和第三项，《中华人民共和国长江保护法》第五十三条、第九十三条，《中华人民共和国野生动物保护法》第二十一条第一款，《中华人民共和国渔业法》第三十条第一款，《最高人民法院、最高人民检察院关于检察公益诉讼案件适用法律若干问题的解释》第十三条，《最高人民法院关于审理环境侵权责任纠纷案件适用法律若干问题的解释》第一条、第八条，《最高人民法院关于审理生态环境侵权纠纷案件适用惩罚性赔偿的解释》第四条、第五条、第七条第一项和第八项、第八条、第十条第一款、第十二条，《中华人民共和国民事诉讼法》第五十八条第二款，《最高人民法院关于适用<中华人民共和国民事诉讼法>的解释》第一百零八条第一款之规定，经本院审判委员会研究，判决如下",
+      "sourceFile": "重庆市人民检察院第五分院吴成刚生态破坏民事公益诉讼民事一审民事判决书.pdf",
+      "sourceSha256": "7063664b0ab65a4c00b2713f8c0b3f7f270a8462108298968dde4098ae852b84",
+      "caseNumber": "（2022）渝05民初39号",
+      "referenceIds": [
+        "norm-491fc0d935f4e7b9",
+        "norm-1c8190cff0bd261e",
+        "norm-44a2639b06d52d22",
+        "norm-d9ee97eef75f92ac",
+        "norm-d7d1cb43a519aada",
+        "norm-da1ac78c1c427054",
+        "norm-d20f5bec0f9a25b5",
+        "norm-3e7c0bc8844cd047",
+        "norm-7787652903e83906"
+      ],
+      "sourceVersion": "f2b28c7940731395dd98834fc0f15000a021ec892a0e14b0d96108d02d399228"
+    },
+    "case-0191": {
+      "page": 14,
+      "quote": "依照《中华人民共和国民事诉讼法》第一百七十七条第一款第一项之规定，判决如下",
+      "sourceFile": "重庆某某公司江苏某某公司等定作合同纠纷民事二审民事判决书.pdf",
+      "sourceSha256": "ff6c0d3b2530290d619c45f88c5adbb521097c962ee9f7fce892984eeb5434dc",
+      "caseNumber": "（2022）苏02民终2447号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047"
+      ],
+      "sourceVersion": "a459c7300c6bdd54028d34f6b9dfe76e61608c92bb0f86ca55dac4ae984a54cd"
+    },
+    "case-0193": {
+      "page": 23,
+      "quote": "依照《中华人民共和国民法总则》第九条,《中华人民共和国侵权责任法》第十五条、第六十五条、第六十六条，《中华人民共和国环境保护法》第六条、第五十八条，《中华人民共和国水污染防治法》第十条,《中华人民共和国土壤污染防治法》第四条、第五条、第七条,《中华人民共和国民事诉讼法》第五十八条、第六十七条,《最高人民法院关于审理环境侵权责任纠纷案件适用法律若干问题的解释》第六条,《最高人民法院关于审理环境民事公益诉讼案件适用法律若干问题的解释》第二条、第四条、第十八条、第二十条、第二十二条之规定，经合议庭评议，判决如下",
+      "sourceFile": "金华市某生态文化服务中心与宜都某钒业公司环境污染民事公益诉讼一审民事判决书.pdf",
+      "sourceSha256": "2afd41287bc85b3538a2fbdaaffdcd22b8c5f9c01cd7b77cb53625a36d4e48f8",
+      "caseNumber": "（2020）鄂05民初45号",
+      "referenceIds": [
+        "norm-5c82a4eee93fda55",
+        "norm-641200fe76ef4911",
+        "norm-aeb77c81e0723582",
+        "norm-eaea52819140873e",
+        "norm-66a11fc1e1d089d7",
+        "norm-3e7c0bc8844cd047",
+        "norm-da1ac78c1c427054",
+        "norm-c4ae99d146faf4c6"
+      ],
+      "sourceVersion": "602418161fca84e0d5eb93c6df3459d11b848275ce132fd094dbff314f3c8ab1"
+    },
+    "case-0196": {
+      "page": 11,
+      "quote": "依照《中华人民共和国行政诉讼法》第七十四条第一款第二项之规定，判决如下",
+      "sourceFile": "中某投资公司海南省市场监督管理局等行政复议行政一审行政判决书.pdf",
+      "sourceSha256": "d9cdfaa0b557b5d346a2e9635050c3cc9e78917d210e01fbabe58d670d943753",
+      "caseNumber": "（2022）琼73行初1号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de"
+      ],
+      "sourceVersion": "a9d27f9979231faabfecc1db926db4e75d17be993d050744bb0b64aae8034225"
+    },
+    "case-0197": {
+      "page": 15,
+      "quote": "依照《中华人民共和国行政诉讼法》第七十四条第二款第一项、第八十九条第一款第二项，《最高人民法院关于适用〈中华人民共和国行政诉讼法〉的解释》第一百一十九条的规定，判决如下",
+      "sourceFile": "兴宁某公司广东省兴宁市自然资源局行政处罚行政再审行政判决书.pdf",
+      "sourceSha256": "0dbbac3f96aebc01c72ac284f45b527bfe8bd8278e5bba1c4e331da7e79d48a5",
+      "caseNumber": "（2021）最高法行再249号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de",
+        "norm-d956cc9e90cb9c41"
+      ],
+      "sourceVersion": "6b0f5a947d22a87adb46106c583f2547711f934b4b8022662049f638d382686f"
+    },
+    "case-0201": {
+      "page": 14,
+      "quote": "依照《中华人民共和国行政诉讼法》第八十九条第一款第（一）项之规定，判决如下",
+      "sourceFile": "张某与文山市人民政府二审行政判决书.pdf",
+      "sourceSha256": "3df1326007a74d1ca74c289fdf2ddf3e840fe0e61eaebdb4a4798dab9325fdd9",
+      "caseNumber": "（2022）云行终20号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de"
+      ],
+      "sourceVersion": "377aa65fb946eede308dae92fa3cf89c4dcccdb4e752bd25cc673425b69d5e10"
+    },
+    "case-0202": {
+      "page": 19,
+      "quote": "依照2017年修正的《中华人民共和国行政诉讼法》第六十九条、第八十九条第一款第二项、《最高人民法院关于适用<中华人民共和国行政诉讼法>的解释》第一百一十九条第一款、第一百二十二条之规定，判决如下",
+      "sourceFile": "某建材公司等与某集团公司及国家知识产权局商标争议行政纠纷再审行政判决书.pdf",
+      "sourceSha256": "7abfb2cb948589b1239c3a7d75a1271423616a5bf7059b0f5fdc9c8da3450676",
+      "caseNumber": "（2022）京行再1号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de",
+        "norm-d956cc9e90cb9c41"
+      ],
+      "sourceVersion": "4fd532649b597d15ee7a0490df2c6caf938e8499b21c449d41ab52f65a1a8aa5"
+    },
+    "case-0204": {
+      "page": 13,
+      "quote": "依照《中华人民共和国行政诉讼法》第八十九条第一款第一项之规定，判决如下",
+      "sourceFile": "河南某新能源开发有限公司与罗山县人民政府继续履行××行政协议二审行政判决书.pdf",
+      "sourceSha256": "62adf43682f1d03133299e6b32c875a5f52b748ed58b71ece8a3bb82dcc26048",
+      "caseNumber": "（2022）豫行终848号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de"
+      ],
+      "sourceVersion": "eab792aa45fc394487b17d323adea65fe63d61c2bb0de0c8023b96aada84e6c1"
+    },
+    "case-0205": {
+      "page": 11,
+      "quote": "依照《中华人民共和国行政诉讼法》第八十九条第一款第（一）项的规定，判决如下",
+      "sourceFile": "王某北海市银海区人民政府错误执行赔偿行政赔偿二审国家赔偿与司法救助判决书.pdf",
+      "sourceSha256": "b17754eb52906bcc949a95c1dae6cfddc879b87c1c495a4123ab21b1b6c6e320",
+      "caseNumber": "（2022）桂行赔终124号",
+      "referenceIds": [
+        "norm-d6a0e13c5d1d68de"
+      ],
+      "sourceVersion": "6bfa1c8194ec45bbc80b7ea9837fa8d982d4ad2ccb9393387f88d2165147e17a"
+    },
+    "case-0206": {
+      "page": 17,
+      "quote": "依照《中华人民共和国国家赔偿法》第三十六条、第三十八条、《最高人民法院关于审理民事、行政诉讼中司法赔偿案件适用法律若干问题的解释》第十二条、第十五条以及《最高人民法院关于人民法院赔偿委员会审理国家赔偿案件程序的规定》第十九条、第二十条、第二十一条之规定，本院赔偿委员会决定如下",
+      "sourceFile": "赵某某三河市某某艺术发展有限公司等错误执行赔偿赔偿委员会审理赔偿国家赔偿与司法救助决定书.pdf",
+      "sourceSha256": "bcbed7761d475c11686a7f24da4b1891b46d9ad57f382fa77976630a764a0925",
+      "caseNumber": "（2021）冀委赔21号",
+      "referenceIds": [
+        "norm-3cde15988230081f",
+        "norm-0109afb505643782",
+        "norm-3272ebad1b5ba3dc"
+      ],
+      "sourceVersion": "f4ba8ffd736e919f506e48e5bb45252f423632aa3dc2935aa8efd2d869939bf3"
+    },
+    "case-0209": {
+      "page": 20,
+      "quote": "依照《中华人民共和国合同法》第七条、《中华人民共和国民事诉讼法》第二百零七条第一款、第一百七十条第一款第一项和《最高人民法院关于适用<中华人民共和国民事诉讼法>的解释》第三百三十四条之规定，判决如下",
+      "sourceFile": "辽宁中集哈深冷气体液化设备有限公司与徐沛欣案外人执行异议之诉再审案(FBM-CLI.C.311654889).pdf",
+      "sourceSha256": "7e0bea7130d2f739498961c736f7c0179cd23bae5bfa196a9f46a5544638f7db",
+      "caseNumber": "(2020)最高法民再328号",
+      "referenceIds": [
+        "norm-96ea4bd169c3f84d",
+        "norm-3e7c0bc8844cd047",
+        "norm-7787652903e83906"
+      ],
+      "sourceVersion": "099708a92a585816c993d894ce359808b5b02ec8568ecb68361f2bbc2b46be03"
+    },
+    "case-0210": {
+      "page": 7,
+      "quote": "依照《中华人民共和国民事诉讼法》第二百零四条第一款、《最高人民法院关于适用〈中华人民共和国民事诉讼法〉的解释》第三百九十五条第二款的规定，裁定如下",
+      "sourceFile": "邬志斌、新华信托股份有限公司等再审审查与审判监督民事裁定书(FBM-CLI.C.312559646).pdf",
+      "sourceSha256": "343043ac65c4136955037d3e4ba587ab6655139ea2c6db84afd57b0d2a06fd9e",
+      "caseNumber": "(2020)最高法民申4797号",
+      "referenceIds": [
+        "norm-3e7c0bc8844cd047",
+        "norm-7787652903e83906"
+      ],
+      "sourceVersion": "5afbca51f1178d575238acf1614e3af6ebb192165270573c9510cff1d9e2888f"
+    }
+  }
+}

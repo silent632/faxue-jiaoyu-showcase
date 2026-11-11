@@ -1,10 +1,11 @@
 import script from '../../content/scenes/versions/campus-hearing-v1.json';
 import scriptV2 from '../../content/scenes/versions/campus-hearing-v2.json';
+import scriptV3 from '../../content/scenes/versions/campus-hearing-v3.json';
 import { digest } from '../auth/password.js';
 import { fail,json,body,onlyFields } from '../http.js';
 import { requireRole } from '../auth/session.js';
 import { audit } from '../admin/routes.js';
-export const sceneScripts=[script,scriptV2];
+export const sceneScripts=[script,scriptV2,scriptV3];
 export async function getScene(db,id,version,{published=false}={}){
  const row=await db.prepare('SELECT * FROM scene_versions WHERE scene_id=? AND version=?').bind(id,version).first();if(!row||(published&&!row.published))fail(404,'scene_unavailable','场景版本当前不可用。');return {...row,content:JSON.parse(row.script)};
 }

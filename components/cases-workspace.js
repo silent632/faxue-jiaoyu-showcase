@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import CasesFilterChipGroup from "@/components/cases-filter-chip-group";
 import CasesIntelligencePanels from "@/components/cases-intelligence-panels";
@@ -22,7 +23,7 @@ import {
   resolveSortMode,
 } from "@/lib/cases-workspace";
 
-export default function CasesWorkspace({ cases = [], initialFilters = {}, initialSort = "date-desc", initialPage = 1 }) {
+export default function CasesWorkspace({ cases = [], learning = { chapters: [], topics: [], caseLinks: [] }, initialFilters = {}, initialSort = "date-desc", initialPage = 1 }) {
   const pathname = usePathname();
   const [hydrated, setHydrated] = useState(false);
   const keywordEdited = useRef(false);
@@ -118,9 +119,10 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
     () =>
       buildActiveFilterDescriptors(filters).map((item) => ({
         ...item,
+        label: item.field === 'topic' ? `法理知识：${learning.topics.find(topic => topic.id === filters.topic)?.title || filters.topic}` : item.label,
         onClear: () => clearOne(item.field, item.value),
       })),
-    [filters]
+    [filters, learning]
   );
 
   const selectedFilterCount = activeFilters.length;
@@ -170,6 +172,20 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
         onSuggestionsClose={() => setTimeout(() => setShowSuggestions(false), 120)}
         onSuggestionSelect={handleSuggestionSelect}
       />
+
+      <section className="glass-sm" style={{ padding: "1.5rem" }} aria-labelledby="learning-topics-heading">
+        <h2 id="learning-topics-heading">按法理知识找案例</h2>
+        <p>从课堂知识出发，结合案例阅读和思考。</p>
+        <p><Link href="/knowledge/">浏览法理知识章节</Link></p>
+        {learning.topics.length ? (
+          <label>选择知识点
+            <select className="input" value={filters.topic} onChange={(event) => { setFilters(prev => ({ ...prev, topic: event.target.value })); setCurrentPage(1); }}>
+              <option value="">全部知识点</option>
+              {learning.chapters.map(chapter => <optgroup key={chapter.id} label={chapter.title}>{learning.topics.filter(topic => topic.chapterId === chapter.id).map(topic => <option key={topic.id} value={topic.id}>{topic.title}</option>)}</optgroup>)}
+            </select>
+          </label>
+        ) : <p>目前没有可供浏览的知识点关联，可先使用下方条件检索案例。</p>}
+      </section>
 
       <CasesIntelligencePanels
         filteredCount={filtered.length}
@@ -370,6 +386,7 @@ export default function CasesWorkspace({ cases = [], initialFilters = {}, initia
           pageEnd={pageEnd}
           currentPage={currentPage}
           totalPages={totalPages}
+          returnQuery={buildCasesQueryString({ filters, sortMode, currentPage })}
           onToggleMobileFilter={() => setShowMobileFilter((prev) => !prev)}
           onSortModeChange={(value) => {
             setSortMode(value);
