@@ -57,26 +57,25 @@ export default async function HomePage() {
     },
     {
       stage: "第二阶",
-      title: "案例研习",
-      desc: "210+ 典型裁判文书，按案由、年份、法院层级与法条检索，在研习工作台完成事实梳理、争点提炼与法理分析。",
-      href: "/cases",
-      action: "进入案例检索",
-      metric: metrics.caseCount,
+      title: "法理知识",
+      desc: "从知识图谱选择章节，复习法的价值、法律关系、法律方法等概念，并查找对应的案例。",
+      href: "/knowledge",
+      action: "打开知识图谱",
     },
     {
       stage: "第三阶",
-      title: "仿真实验",
-      desc: "六大实验模块覆盖法律推理、争点论证、规范检索、法律解释、价值衡量与裁判标注，从案例出发动手产出。",
-      href: "/experiments",
-      action: "进入仿真实验",
-      metric: { label: "实验模块", value: "6项" },
+      title: "案例研习",
+      desc: "按案由、年份、法院层级和法理知识检索裁判文书，完成事实梳理、争点识别与法理分析。",
+      href: "/cases",
+      action: "进入案例检索",
+      metric: metrics.caseCount,
     },
   ];
 
   const quickLinks = [
     { href: "/cases", label: "案例检索", desc: "按案由、年份、法院层级检索 210+ 典型裁判文书" },
     { href: studyHref, label: "研习工作台", desc: "分屏阅读原文，完成事实梳理与法理分析" },
-    { href: "/experiments", label: "仿真实验", desc: "六大模块覆盖法律推理全流程，动手产出" },
+    { href: "/resources/learning/", label: "资料与问答", desc: "找学习资料、提出问题或查看使用指南" },
   ];
 
   return (
@@ -92,8 +91,7 @@ export default async function HomePage() {
               <p className="showcase-hero-kicker">一核 · 两翼 · 三阶 · 六能 · 双环</p>
               <h1>裁判文书研习平台</h1>
               <p className="showcase-hero-subtitle">
-                将课程认知、案例研习与仿真实验组织为一条递进式学习路径，
-                在同一平台内完成从阅读理解到动手产出的全过程。
+                按期学习，复习法理知识，结合真实裁判文书练习分析和说理。
               </p>
             </div>
 
@@ -125,10 +123,10 @@ export default async function HomePage() {
                 <span className="showcase-card-eyebrow">{p.stage}</span>
               </div>
               <strong>{p.title}</strong>
-              <div className="homepage-pillar-stat">
-                <span className="homepage-pillar-metric">{p.metric?.value ?? ""}</span>
-                <span className="homepage-pillar-metric-label">{p.metric?.label ?? ""}</span>
-              </div>
+              {p.metric && <div className="homepage-pillar-stat">
+                <span className="homepage-pillar-metric">{p.metric.value}</span>
+                <span className="homepage-pillar-metric-label">{p.metric.label}</span>
+              </div>}
               <p>{p.desc}</p>
               <span className="homepage-video-link">{p.action}</span>
             </Link>
@@ -169,7 +167,6 @@ export default async function HomePage() {
           <div className="homepage-band-head">
             <span className="showcase-section-eyebrow">研习路径</span>
             <h2>快速开始</h2>
-            <p>三个入口覆盖从检索到研习到实验的完整路径。</p>
           </div>
 
           <div className="homepage-start-grid">

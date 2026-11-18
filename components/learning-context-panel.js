@@ -11,6 +11,9 @@ export default function LearningContextPanel({ links = [] }) {
     <h2>当前法理知识：{link.topicTitle}</h2>
     <p>{link.question}</p>
     <p>阅读依据：{link.evidence}</p>
-    <Link href={`/knowledge/#${encodeURIComponent(link.topicId)}`}>回顾知识点</Link>
+    <div className="knowledge-topic-links">
+      {link.sourceFile && link.pages?.length > 0 && <a href={`/pdfs/${encodeURIComponent(link.sourceFile)}#page=${link.pages[0]}`}>打开原文第 {link.pages[0]} 页</a>}
+      <Link href={`/knowledge/#${encodeURIComponent(link.topicId)}`}>回顾知识点</Link>
+    </div>
   </section>;
 }

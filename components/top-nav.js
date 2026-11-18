@@ -1,9 +1,6 @@
 "use client";
 
-import { getAllProgress } from "@/lib/experiment-archive";
-import { listLocalRecordKeys, subscribeRecords } from "@/lib/local-record";
 import Link from "next/link";
-import FeedbackLink from "./feedback-link";
 import AccountLinks from "./auth/account-links";
 import { useSession } from "./auth/session-provider";
 import { usePathname } from "next/navigation";
@@ -75,39 +72,20 @@ function NavIcon({ name }) {
   );
 }
 
-function useStudyStats() {
-  const [stats, setStats] = useState({ cases: 0, experiments: 0 });
-
-  useEffect(() => {
-    const refresh = () => {
-    try {
-      let cases = 0;
-      for (const key of listLocalRecordKeys()) {
-        if (key && key.startsWith("study_") && !key.startsWith("study_recent_")) cases += 1;
-      }
-
-      const experiments = Object.values(getAllProgress()).reduce((sum, value) => sum + value, 0);
-
-      setStats({ cases, experiments });
-    } catch (_error) {
-      // localStorage 不可用时保持 0
-    }
-
-    };
-    refresh();
-    return subscribeRecords(refresh);
-  }, []);
-
-  return stats;
-}
-
 export default function TopNav({ user, items }) {
   const pathname = usePathname();
   const navItems = items ?? [];
   const [open, setOpen] = useState(false);
-  const stats = useStudyStats();
+  const [collapsed, setCollapsed] = useState(false);
   const session=useSession();
   const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    try { setCollapsed(localStorage.getItem('faxue-nav-collapsed') === '1'); } catch {}
+  }, []);
+  useEffect(() => {
+    document.documentElement.dataset.navCollapsed = collapsed && !mobile ? 'true' : 'false';
+    return () => { delete document.documentElement.dataset.navCollapsed; };
+  }, [collapsed, mobile]);
   useEffect(() => {
     const media = window.matchMedia("(max-width: 768px)");
     const update = () => { setMobile(media.matches); if (!media.matches) setOpen(false); };
@@ -160,6 +138,7 @@ export default function TopNav({ user, items }) {
       </header>
 
       <aside inert={mobile && !open ? true : undefined} ref={menuRef} className={`sidenav${open ? " is-open" : ""}`}>
+        <button className="sidenav-mobile-close" type="button" aria-label="收起导航菜单" onClick={close}>×</button>
         <Link href="/" className="sidenav-brand" onClick={close}>
           <span className="sidenav-brand-mark" aria-hidden="true">
             <NavIcon name="scale" />
@@ -169,6 +148,10 @@ export default function TopNav({ user, items }) {
             <span className="topbar-brand-subtitle">法理学教学改革专题平台</span>
           </span>
         </Link>
+        <button className="sidenav-collapse" type="button" aria-label={collapsed ? '展开侧栏' : '收起侧栏'} aria-expanded={!collapsed} onClick={() => {
+          const next = !collapsed; setCollapsed(next);
+          try { localStorage.setItem('faxue-nav-collapsed', next ? '1' : '0'); } catch {}
+        }}>{collapsed ? '›' : '‹'}</button>
 
         <div className="sidenav-scroll"><nav className="sidenav-links" aria-label="主导航">
           {navItems.map((item) => {
@@ -190,19 +173,8 @@ export default function TopNav({ user, items }) {
           })}
         </nav>
 
-        <nav className="sidenav-links sidenav-community" aria-label="交流与资料"><h2 className="sidenav-section-title">交流与资料</h2>{[{href:'/community/',label:'交流专区'},{href:'/resources/library/',label:'资料专区'},{href:'/experiments/scenes/',label:'场景研习'},...(session.user&&!session.user.mustChangePassword?[{href:'/workspace/',label:'我的任务'}]:[])].map(item=><Link key={item.href} href={item.href} className={'sidenav-item'+(isShowcaseNavItemActive((pathname||'').replace(/\/$/,''),{...item,matchPrefix:item.href.replace(/\/$/,'')})?' active':'')} aria-current={isShowcaseNavItemActive((pathname||'').replace(/\/$/,''),{...item,matchPrefix:item.href.replace(/\/$/,'')})?'page':undefined} onClick={close}><NavIcon name={pickIcon(item.href)}/><span className="sidenav-item-label">{item.label}</span></Link>)}</nav>
-        <div className="sidenav-learning-summary"><FeedbackLink/>
-          <div className="sidenav-stats">
-            <div className="sidenav-stat">
-              <strong>{stats.cases}</strong>
-              <span>研习案例</span>
-            </div>
-            <div className="sidenav-stat">
-              <strong>{stats.experiments}</strong>
-              <span>实验存档</span>
-            </div>
-          </div>
-          </div></div><div className="sidenav-foot"><div className="sidenav-user showcase-topbar-user-card">
+        {session.user && !session.user.mustChangePassword && <nav className="sidenav-links" aria-label="个人学习"><Link href="/workspace/" className="sidenav-item" title="我的任务"><NavIcon name="book"/><span className="sidenav-item-label">我的任务</span></Link></nav>}
+        </div><div className="sidenav-foot"><div className="sidenav-user showcase-topbar-user-card">
             <strong className="topbar-user-name">{session.user?.displayName || user?.name || "开放浏览"}</strong>
             <span className="topbar-user-meta">{session.user ? "已登录 · 法理学学习" : user?.roleLabel || "案例研习平台"}</span>
           </div><AccountLinks/>

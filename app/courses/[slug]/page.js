@@ -1,4 +1,5 @@
 import CourseTaskCard from "@/components/course-task-card";
+import { getPublicJurisprudenceLearning } from "@/lib/content/jurisprudence-learning.js";
 import { loadCourseTasks } from "@/lib/content/course-tasks.js";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -37,11 +38,22 @@ export default async function CourseDetailPage({ params }) {
       caseItem: caseMap.get(item.caseId),
     }))
     .filter((item) => item.caseItem);
+  const task = loadCourseTasks().find(item => item.slug === slug);
+  const { topics, caseLinks } = getPublicJurisprudenceLearning();
+  const caseTopics = topics.filter(topic => caseLinks.some(link => link.caseId === task?.caseId && link.topicId === topic.id));
   const recommendationCopy = buildShowcaseContent().learningLoop.courseRecommendation;
 
   return (
     <CoursePeriodShell period={period} title={period.title} summary={summary}>
-      <CourseTaskCard task={loadCourseTasks().find(task => task.slug === slug)} />
+      {task && <CourseTaskCard task={task} />}
+      {caseTopics.length > 0 && (
+        <section className="showcase-card" aria-label="本期法理知识">
+          <h2>本期法理知识</h2>
+          <div className="console-actions">
+            {caseTopics.map(topic => <Link key={topic.id} className="btn btn-outline" href={`/knowledge/#${topic.id}`}>{topic.title}</Link>)}
+          </div>
+        </section>
+      )}
       {/* 本期简报：定位 + 线索 + 三个切入面板 + 阅读提示 */}
       <section className="showcase-card course-period-briefing" aria-label="本期简报">
         <div className="course-period-briefing-grid">

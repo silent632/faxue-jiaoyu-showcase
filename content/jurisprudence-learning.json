@@ -67,12 +67,47 @@
   ],
   "topics": [
     {
+      "id": "legal-relation-elements",
+      "chapterId": "relations",
+      "title": "法律关系构成要素",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "法律关系可以从主体、客体和内容三个方面分析。先辨认谁参与关系，再说明权利义务指向什么，以及各方能够主张或需要履行什么。",
+      "summary": "法律关系可以从主体、客体和内容三个方面分析。先辨认谁参与关系，再说明权利义务指向什么，以及各方能够主张或需要履行什么。",
+      "summarySource": "法理学系列第八讲《法律关系》，第18页"
+    },
+    {
+      "id": "legal-relation-subject",
+      "chapterId": "relations",
+      "title": "法律关系主体",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "谁参与法律关系并享有权利或承担义务？",
+      "summary": "法律关系主体是法律关系的参加者，分析时需要辨认具体由谁享有权利或承担义务。",
+      "summarySource": "法理学系列第八讲《法律关系》，第18—19页",
+      "parentId": "legal-relation-elements"
+    },
+    {
+      "id": "legal-relation-object",
+      "chapterId": "relations",
+      "title": "法律关系客体",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "法律关系中的权利和义务指向什么？",
+      "summary": "法律关系客体是权利义务所指向的对象。理解具体关系时，应结合关系的内容辨认其指向。",
+      "summarySource": "法理学系列第八讲《法律关系》，第18、30页",
+      "parentId": "legal-relation-elements"
+    },
+    {
       "id": "rights-obligations",
       "chapterId": "relations",
       "title": "权利与义务",
       "source": "我的知识图谱 (6).jpg",
       "status": "published",
-      "description": "在具体法律关系中，如何识别各方的权利、义务及其依据？"
+      "description": "在具体法律关系中，如何识别各方的权利、义务及其依据？",
+      "summary": "权利与义务是法律关系的内容。分析时，可先辨认各方能够主张什么，再查明相应主体需要作为或不作为的事项及其依据。",
+      "summarySource": "法理学系列第八讲《法律关系》，第18、31页",
+      "parentId": "legal-relation-elements"
     },
     {
       "id": "legal-facts",
@@ -80,7 +115,10 @@
       "title": "法律事实",
       "source": "我的知识图谱 (6).jpg",
       "status": "published",
-      "description": "哪些事实可能引起法律关系的产生、变更或消灭？"
+      "description": "哪些事实可能引起法律关系的产生、变更或消灭？",
+      "summary": "法律事实是可能引起法律关系产生、变更或消灭的具体事实。复习时可以区分与人的意志无关的事件，以及与人的意志有关的行为。",
+      "summarySource": "法理学系列第八讲《法律关系》，第38—40页",
+      "parentId": "legal-relation-change"
     },
     {
       "id": "freedom",
@@ -88,7 +126,9 @@
       "title": "自由",
       "source": "我的知识图谱 (4).jpg",
       "status": "published",
-      "description": "法律如何保障自由，又如何处理自由行使中的限制问题？"
+      "description": "法律如何保障自由，又如何处理自由行使中的限制问题？",
+      "summary": "自由可以从免受干涉和能够自主行动两方面理解。讨论限制自由时，应说明限制保护何种利益，以及限制的理由和范围。",
+      "summarySource": "法理学系列第五讲《法的价值》，第20、23页"
     },
     {
       "id": "equality",
@@ -96,7 +136,9 @@
       "title": "平等",
       "source": "我的知识图谱 (4).jpg",
       "status": "published",
-      "description": "法律中的平等应如何理解，面对不同情况时又该怎样判断？"
+      "description": "法律中的平等应如何理解，面对不同情况时又该怎样判断？",
+      "summary": "形式平等强调同样情况同样对待。讨论实质平等时，还要问统一规则是否会使处境不同的人承担不同的实际负担。",
+      "summarySource": "法的价值章节图“平等”分支；法理学系列第二讲《法的概念和本质》第23页、第五讲《法的价值》第18页"
     },
     {
       "id": "justice",
@@ -104,7 +146,9 @@
       "title": "正义",
       "source": "我的知识图谱 (4).jpg",
       "status": "published",
-      "description": "法律判断中的正义可以从哪些角度讨论？"
+      "description": "法律判断中的正义可以从哪些角度讨论？",
+      "summary": "法的价值讨论可以区分分配正义与矫正正义等不同视角，并进一步思考正义与其他法律价值之间的关系。",
+      "summarySource": "法理学系列第五讲《法的价值》，第18页"
     },
     {
       "id": "legal-sources",
@@ -112,7 +156,9 @@
       "title": "法的渊源",
       "source": "我的知识图谱 (5).jpg",
       "status": "published",
-      "description": "法律判断可能涉及哪些法律材料，它们分别发挥什么作用？"
+      "description": "法律判断可能涉及哪些法律材料，它们分别发挥什么作用？",
+      "summary": "法的渊源关注法律规范的来源和效力依据，法的形式关注规范如何表现。比较不同法系时，可以观察制定法、习惯和判例等材料各自发挥什么作用。",
+      "summarySource": "法理学系列第七讲《法的渊源、分类与效力》，第5—6页"
     },
     {
       "id": "legal-effect",
@@ -120,7 +166,9 @@
       "title": "法的效力",
       "source": "我的知识图谱 (5).jpg",
       "status": "published",
-      "description": "法律规范在时间、空间和对人的适用上有哪些问题值得辨析？"
+      "description": "法律规范在时间、空间和对人的适用上有哪些问题值得辨析？",
+      "summary": "广义上的法的效力强调约束力。考察具体规范性文件的效力时，需要区分效力层级与适用范围，分别辨认它在何时、何地、对何人有效。",
+      "summarySource": "法理学系列第七讲《法的渊源、分类与效力》，第27、29、34页"
     },
     {
       "id": "legal-liability",
@@ -128,7 +176,9 @@
       "title": "法律责任基本理论",
       "source": "我的知识图谱 (9).jpg",
       "status": "published",
-      "description": "法律责任的构成、形式和承担依据如何分析？"
+      "description": "法律责任的构成、形式和承担依据如何分析？",
+      "summary": "法律责任讨论相关主体在法律义务关系受损后应承担的不利后果。分析具体责任时，要依据相应规范判断主体、行为、损害、因果关系和过错等因素。",
+      "summarySource": "法理学系列第十讲《法律责任》，第6、9—10页"
     },
     {
       "id": "legal-interpretation",
@@ -136,7 +186,9 @@
       "title": "法律解释方法",
       "source": "我的知识图谱 (8).jpg",
       "status": "published",
-      "description": "面对有争议的规范含义，可以运用哪些解释方法并说明理由？"
+      "description": "面对有争议的规范含义，可以运用哪些解释方法并说明理由？",
+      "summary": "法律解释可以从不同角度展开。文义解释关注条文用语与语法，体系解释结合条文在法律整体中的位置及其他相关规定。",
+      "summarySource": "法理学系列第十一讲《法律解释》，第19—20页"
     },
     {
       "id": "legal-reasoning",
@@ -144,7 +196,9 @@
       "title": "法律推理类型",
       "source": "我的知识图谱 (8).jpg",
       "status": "published",
-      "description": "如何从规范与事实出发展开推理，并检验判断理由？"
+      "description": "如何从规范与事实出发展开推理，并检验判断理由？",
+      "summary": "演绎推理把一般前提用于具体情形。归纳推理从若干事例概括一般判断。类比推理根据相关相似点讨论另一情形能否得到相近处理。三种推理都需要说明前提与结论如何相连。",
+      "summarySource": "法律方法章节图“法律推理类型”分支"
     },
     {
       "id": "ancient-greek-jurisprudence",
@@ -152,7 +206,9 @@
       "title": "古希腊法理学",
       "source": "我的知识图谱 (1).jpg",
       "status": "published",
-      "description": "古希腊思想中的法律问题和代表人物有哪些？"
+      "description": "古希腊思想中的法律问题和代表人物有哪些？",
+      "summary": "苏格拉底的审判可以用来讨论守法与正义之间的张力。课件也通过柏拉图早晚期作品的对照，展示他如何重新思考统治者的智慧与法律的约束。",
+      "summarySource": "法理学系列第三讲《西方法学的历史》，第8—10页"
     },
     {
       "id": "modern-jurisprudence",
@@ -160,7 +216,9 @@
       "title": "近代法理学",
       "source": "我的知识图谱 (1).jpg",
       "status": "published",
-      "description": "近代不同法学流派如何认识法律？"
+      "description": "近代不同法学流派如何认识法律？",
+      "summary": "近代法学围绕自由与权利形成不同研究路径。古典自然法学讨论自然权利和社会契约，历史法学从历史与社会传统解释法律的形成。",
+      "summarySource": "法理学系列第三讲《西方法学的历史》，第22—26页"
     },
     {
       "id": "legal-rules",
@@ -168,7 +226,9 @@
       "title": "法律规则分类",
       "source": "我的知识图谱 (2).jpg",
       "status": "published",
-      "description": "法律规则可以从哪些角度分类，各类规则如何发挥作用？"
+      "description": "法律规则可以从哪些角度分类，各类规则如何发挥作用？",
+      "summary": "法律规则可以依行为模式、效力的强制程度、功能和内容确定性等标准分类。同一规则可以同时属于不同分类。",
+      "summarySource": "法理学系列第二讲《法的概念和本质》，第34—35页"
     },
     {
       "id": "legal-principles",
@@ -176,7 +236,9 @@
       "title": "法律原则",
       "source": "我的知识图谱 (2).jpg",
       "status": "published",
-      "description": "法律原则在法律判断中发挥什么作用？"
+      "description": "法律原则在法律判断中发挥什么作用？",
+      "summary": "法律原则是具有综合性、指导性的原理或价值准则，具有较高的概括程度。复习时可比较原则与规则的表达和适用方式。",
+      "summarySource": "法理学系列第二讲《法的概念和本质》，第38页"
     },
     {
       "id": "origin-of-law",
@@ -184,7 +246,9 @@
       "title": "法的产生",
       "source": "我的知识图谱 (3).jpg",
       "status": "published",
-      "description": "如何理解法的产生及其社会背景？"
+      "description": "如何理解法的产生及其社会背景？",
+      "summary": "课件把法律的产生放在分工、私有制、纠纷与公共权力变化中考察。习惯、习惯法和成文法的演变是理解规范如何逐步分化的一条线索。",
+      "summarySource": "法理学系列第四讲《法的起源与演进》，第5、7—9页"
     },
     {
       "id": "legal-historical-types",
@@ -192,7 +256,9 @@
       "title": "法的历史类型",
       "source": "我的知识图谱 (3).jpg",
       "status": "published",
-      "description": "法的历史类型可以从哪些方面理解？"
+      "description": "法的历史类型可以从哪些方面理解？",
+      "summary": "课程从不同历史时期的社会制度出发，介绍奴隶制法、封建制法、资本主义法和社会主义法等历史类型。",
+      "summarySource": "法理学系列第四讲《法的起源与演进》，第12—19页"
     },
     {
       "id": "legal-systems-comparison",
@@ -200,7 +266,9 @@
       "title": "两大法系比较",
       "source": "我的知识图谱 (3).jpg",
       "status": "published",
-      "description": "大陆法系与英美法系在法律渊源和法律运行方面有哪些区别？"
+      "description": "大陆法系与英美法系在法律渊源和法律运行方面有哪些区别？",
+      "summary": "法系是具有共同法律传统的若干国家和地区的法律的总称。比较大陆法系与普通法系时，可以关注其历史传统和法律材料的作用。",
+      "summarySource": "法理学系列第四讲《法的起源与演进》，第21页"
     },
     {
       "id": "legal-act-concept",
@@ -208,7 +276,9 @@
       "title": "法律行为概念",
       "source": "我的知识图谱 (7).jpg",
       "status": "published",
-      "description": "如何理解法律行为的概念和特征？"
+      "description": "如何理解法律行为的概念和特征？",
+      "summary": "法理学课件从能否产生法律效果理解法律行为，并提示这一广义用法与民法上以意思表示为核心的法律行为概念有所区别。",
+      "summarySource": "法理学系列第九讲《法律行为》，第5页"
     },
     {
       "id": "legal-act-elements",
@@ -216,7 +286,368 @@
       "title": "法律行为的构成要件",
       "source": "我的知识图谱 (7).jpg",
       "status": "published",
-      "description": "分析法律行为时需要关注主体、内在方面与外在方面哪些要素？"
+      "description": "分析法律行为时需要关注主体、内在方面与外在方面哪些要素？",
+      "summary": "课件从内在与外在两个方面分析法律行为的结构：前者关注动机、目的和认识，后者关注行动、手段和结果。",
+      "summarySource": "法理学系列第九讲《法律行为》，第24—25页"
+    },
+    {
+      "id": "roman-law",
+      "chapterId": "introduction",
+      "title": "古罗马法理学",
+      "source": "我的知识图谱 (1).jpg",
+      "status": "published",
+      "description": "罗马法从早期成文法发展到法学家的解释活动与查士丁尼法典编纂。复习时可以分别辨认罗马法的历史阶段、法律技术和后世影响。",
+      "summary": "罗马法从早期成文法发展到法学家的解释活动与查士丁尼法典编纂。复习时可以分别辨认罗马法的历史阶段、法律技术和后世影响。",
+      "summarySource": "法理学系列第三讲《西方法学的历史》第14、16—18页"
+    },
+    {
+      "id": "medieval-jurisprudence",
+      "chapterId": "introduction",
+      "title": "中世纪法理学",
+      "source": "我的知识图谱 (1).jpg",
+      "status": "published",
+      "description": "课件以奥古斯丁和阿奎那为例，讨论永恒法、自然法和人定法之间的关系，以及如何评价一项人定法。",
+      "summary": "课件以奥古斯丁和阿奎那为例，讨论永恒法、自然法和人定法之间的关系，以及如何评价一项人定法。",
+      "summarySource": "法理学系列第三讲《西方法学的历史》第21页"
+    },
+    {
+      "id": "contemporary-jurisprudence",
+      "chapterId": "introduction",
+      "title": "当代法理学",
+      "source": "我的知识图谱 (1).jpg",
+      "status": "published",
+      "description": "现代西方法学延续了对法律与道德、规则效力及法律社会作用的争论。比较新自然法学、新分析法学和社会学法学时，可以从所提问题和所用研究方法入手。",
+      "summary": "现代西方法学延续了对法律与道德、规则效力及法律社会作用的争论。比较新自然法学、新分析法学和社会学法学时，可以从所提问题和所用研究方法入手。",
+      "summarySource": "法理学系列第三讲《西方法学的历史》第31、33—38页"
+    },
+    {
+      "id": "legal-characteristics",
+      "chapterId": "concept",
+      "title": "法的特征",
+      "source": "我的知识图谱 (2).jpg",
+      "status": "published",
+      "description": "可以从国家制定或认可、规范适用和国家保障等角度区分法律与其他社会规范。现代法律还强调公开、可预期和依程序制定与适用。",
+      "summary": "可以从国家制定或认可、规范适用和国家保障等角度区分法律与其他社会规范。现代法律还强调公开、可预期和依程序制定与适用。",
+      "summarySource": "法理学系列第二讲《法的概念和本质》第19—20、23页"
+    },
+    {
+      "id": "nature-of-law",
+      "chapterId": "concept",
+      "title": "法的本质",
+      "source": "我的知识图谱 (2).jpg",
+      "status": "published",
+      "description": "课件从意志、社会统治与管理、利益调整和社会物质生活条件四个角度讨论法。复习时可区分谁形成规则、规则解决什么问题，以及规则产生的社会条件。",
+      "summary": "课件从意志、社会统治与管理、利益调整和社会物质生活条件四个角度讨论法。复习时可区分谁形成规则、规则解决什么问题，以及规则产生的社会条件。",
+      "summarySource": "法理学系列第二讲《法的概念和本质》第13、15—17页"
+    },
+    {
+      "id": "rule-structure",
+      "chapterId": "concept",
+      "title": "法律规则结构",
+      "source": "我的知识图谱 (2).jpg",
+      "status": "published",
+      "description": "分析法律规则时，可以分辨适用条件、行为模式和法律后果。一个完整规则可能要结合多个条文才能读出来。",
+      "summary": "分析法律规则时，可以分辨适用条件、行为模式和法律后果。一个完整规则可能要结合多个条文才能读出来。",
+      "summarySource": "法理学系列第二讲《法的概念和本质》第34、36—37页",
+      "parentId": "legal-rules"
+    },
+    {
+      "id": "rules-and-principles",
+      "chapterId": "concept",
+      "title": "原则与规则的适用",
+      "source": "我的知识图谱 (2).jpg",
+      "status": "published",
+      "description": "规则通常给出较具体的条件和后果。原则具有更高概括性，适用时通常需要解释它与相关规则及其他原则的关系。",
+      "summary": "规则通常给出较具体的条件和后果。原则具有更高概括性，适用时通常需要解释它与相关规则及其他原则的关系。",
+      "summarySource": "法理学系列第二讲《法的概念和本质》第38—41页",
+      "parentId": "legal-principles"
+    },
+    {
+      "id": "law-origins-theories",
+      "chapterId": "history",
+      "title": "法的起源理论",
+      "source": "我的知识图谱 (3).jpg",
+      "status": "published",
+      "description": "解释法律起源时，可以关注社会分工、利益分化及公共权力形成等因素，并区分经济、社会与政治方面的解释。",
+      "summary": "解释法律起源时，可以关注社会分工、利益分化及公共权力形成等因素，并区分经济、社会与政治方面的解释。",
+      "summarySource": "法理学系列第四讲《法的起源与演进》第7—9页",
+      "parentId": "origin-of-law"
+    },
+    {
+      "id": "law-origins-signs",
+      "chapterId": "history",
+      "title": "法产生的基本标志",
+      "source": "我的知识图谱 (3).jpg",
+      "status": "published",
+      "description": "课件从专门公共权力、权利义务观念和诉讼审判等变化观察早期法律的出现。复习时可对照原始习惯与法律在形成和实施上的差异。",
+      "summary": "课件从专门公共权力、权利义务观念和诉讼审判等变化观察早期法律的出现。复习时可对照原始习惯与法律在形成和实施上的差异。",
+      "summarySource": "法理学系列第四讲《法的起源与演进》第8、11页",
+      "parentId": "origin-of-law"
+    },
+    {
+      "id": "legal-order",
+      "chapterId": "values",
+      "title": "秩序",
+      "source": "我的知识图谱 (4).jpg",
+      "status": "published",
+      "description": "秩序使行为后果更可预期，也让利益冲突有稳定的协调渠道。讨论具体制度时，可以追问它保护了什么秩序，以及维持这种秩序需要付出什么代价。",
+      "summary": "秩序使行为后果更可预期，也让利益冲突有稳定的协调渠道。讨论具体制度时，可以追问它保护了什么秩序，以及维持这种秩序需要付出什么代价。",
+      "summarySource": "法理学系列第五讲《法的价值》第17、21页"
+    },
+    {
+      "id": "legal-security",
+      "chapterId": "values",
+      "title": "安全",
+      "source": "我的知识图谱 (4).jpg",
+      "status": "published",
+      "description": "安全可以作为法律调整的一项目标。遇到安全与自由发生冲突的情形，应说明所防范的风险与保护的利益，再讨论限制范围。",
+      "summary": "安全可以作为法律调整的一项目标。遇到安全与自由发生冲突的情形，应说明所防范的风险与保护的利益，再讨论限制范围。",
+      "summarySource": "法理学系列第五讲《法的价值》第22—24页"
+    },
+    {
+      "id": "human-rights",
+      "chapterId": "values",
+      "title": "人权",
+      "source": "我的知识图谱 (4).jpg",
+      "status": "published",
+      "description": "人权可以从应有权利、法定权利与实有权利三个层次理解。复习时要分别考虑权利主张、制度确认和实际实现。",
+      "summary": "人权可以从应有权利、法定权利与实有权利三个层次理解。复习时要分别考虑权利主张、制度确认和实际实现。",
+      "summarySource": "法理学系列第六讲《法与人权》第7—9页"
+    },
+    {
+      "id": "human-rights-protection",
+      "chapterId": "values",
+      "title": "人权的法律保护",
+      "source": "我的知识图谱 (4).jpg",
+      "status": "published",
+      "description": "立法确认权利内容与保障机制，执法将规范落实到公共事务，司法提供处理争议与救济的路径。可分别考察权利在三个环节如何得到落实。",
+      "summary": "立法确认权利内容与保障机制，执法将规范落实到公共事务，司法提供处理争议与救济的路径。可分别考察权利在三个环节如何得到落实。",
+      "summarySource": "法理学系列第六讲《法与人权》第24、28、30页",
+      "parentId": "human-rights"
+    },
+    {
+      "id": "law-classification",
+      "chapterId": "sources",
+      "title": "法的分类",
+      "source": "我的知识图谱 (5).jpg",
+      "status": "published",
+      "description": "成文法与不成文法关注表现形式，实体法与程序法关注权利义务和实现程序，一般法与特别法关注调整范围。同一份法律材料可以按不同标准分类。",
+      "summary": "成文法与不成文法关注表现形式，实体法与程序法关注权利义务和实现程序，一般法与特别法关注调整范围。同一份法律材料可以按不同标准分类。",
+      "summarySource": "法理学系列第七讲《法的渊源、分类与效力》第15—25页"
+    },
+    {
+      "id": "formal-sources",
+      "chapterId": "sources",
+      "title": "当代中国法的正式渊源",
+      "source": "我的知识图谱 (5).jpg",
+      "status": "published",
+      "description": "识别裁判依据时，可以先确认文件名称、制定机关和文件类型，再判断其规范效力和适用条件。",
+      "summary": "识别裁判依据时，可以先确认文件名称、制定机关和文件类型，再判断其规范效力和适用条件。",
+      "summarySource": "法理学系列第七讲《法的渊源、分类与效力》第9—10页",
+      "parentId": "legal-sources"
+    },
+    {
+      "id": "legal-conflicts",
+      "chapterId": "sources",
+      "title": "效力层级与规范冲突",
+      "source": "我的知识图谱 (5).jpg",
+      "status": "published",
+      "description": "发现规范之间可能冲突时，先辨明制定机关、效力层级与适用范围，再核对相应的冲突处理规则。时间先后和一般、特别关系需要结合具体前提判断。",
+      "summary": "发现规范之间可能冲突时，先辨明制定机关、效力层级与适用范围，再核对相应的冲突处理规则。时间先后和一般、特别关系需要结合具体前提判断。",
+      "summarySource": "法理学系列第七讲《法的渊源、分类与效力》第29—31页",
+      "parentId": "legal-effect"
+    },
+    {
+      "id": "legal-effect-scope",
+      "chapterId": "sources",
+      "title": "法的效力范围",
+      "source": "我的知识图谱 (5).jpg",
+      "status": "published",
+      "description": "效力范围包括时间、空间和对人的效力。读旧案时，先辨认事实发生时间和裁判引用的版本，再核对规范的施行及适用范围。",
+      "summary": "效力范围包括时间、空间和对人的效力。读旧案时，先辨认事实发生时间和裁判引用的版本，再核对规范的施行及适用范围。",
+      "summarySource": "法理学系列第七讲《法的渊源、分类与效力》第33—36页",
+      "parentId": "legal-effect"
+    },
+    {
+      "id": "legal-relation-concept",
+      "chapterId": "relations",
+      "title": "法律关系的含义与判断",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "法律关系是法律调整社会交往时形成的权利义务关系。可以依次查找相关规范、实际参加者以及主体之间的权利和义务。",
+      "summary": "法律关系是法律调整社会交往时形成的权利义务关系。可以依次查找相关规范、实际参加者以及主体之间的权利和义务。",
+      "summarySource": "法理学系列第八讲《法律关系》第5、8页"
+    },
+    {
+      "id": "legal-relation-types",
+      "chapterId": "relations",
+      "title": "法律关系分类",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "分类前先明确标准。依义务人是否特定，可区分绝对和相对法律关系。依主体间法律地位，可区分平权型和隶属型。",
+      "summary": "分类前先明确标准。依义务人是否特定，可区分绝对和相对法律关系。依主体间法律地位，可区分平权型和隶属型。",
+      "summarySource": "法理学系列第八讲《法律关系》第11—16页"
+    },
+    {
+      "id": "capacity",
+      "chapterId": "relations",
+      "title": "权利能力与行为能力",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "权利能力关注能否享有权利和承担义务。行为能力关注能否通过自己的行为产生相应的法律效果。分析具体关系时，应分别判断。",
+      "summary": "权利能力关注能否享有权利和承担义务。行为能力关注能否通过自己的行为产生相应的法律效果。分析具体关系时，应分别判断。",
+      "summarySource": "法理学系列第八讲《法律关系》第19、23—26页",
+      "parentId": "legal-relation-subject"
+    },
+    {
+      "id": "legal-relation-change",
+      "chapterId": "relations",
+      "title": "法律关系的变动",
+      "source": "我的知识图谱 (6).jpg",
+      "status": "published",
+      "description": "法律关系的变动包括产生、变更和消灭。判断变动时，应把规范规定的条件与具体法律事实逐项对应。",
+      "summary": "法律关系的变动包括产生、变更和消灭。判断变动时，应把规范规定的条件与具体法律事实逐项对应。",
+      "summarySource": "法理学系列第八讲《法律关系》第38—40页"
+    },
+    {
+      "id": "legal-act-features",
+      "chapterId": "conduct",
+      "title": "法律行为的特征",
+      "source": "我的知识图谱 (7).jpg",
+      "status": "published",
+      "description": "法律行为发生在社会关系之中，具有法律上的意义，并与行为人的意志和控制有关。复习时可对照自然事件为什么也可能产生法律后果。",
+      "summary": "法律行为发生在社会关系之中，具有法律上的意义，并与行为人的意志和控制有关。复习时可对照自然事件为什么也可能产生法律后果。",
+      "summarySource": "法理学系列第九讲《法律行为》第5—6页、第八讲《法律关系》第40页",
+      "parentId": "legal-act-concept"
+    },
+    {
+      "id": "legal-act-types",
+      "chapterId": "conduct",
+      "title": "法律行为分类",
+      "source": "我的知识图谱 (7).jpg",
+      "status": "published",
+      "description": "可以根据是否符合法律、是否以意思表示为要素、作为或不作为等标准对行为分类。选用分类标准前，先明确自己要分析的法律问题。",
+      "summary": "可以根据是否符合法律、是否以意思表示为要素、作为或不作为等标准对行为分类。选用分类标准前，先明确自己要分析的法律问题。",
+      "summarySource": "法理学系列第九讲《法律行为》第9、12、14、16、18—20页"
+    },
+    {
+      "id": "liability-types",
+      "chapterId": "liability",
+      "title": "法律责任的类型",
+      "source": "我的知识图谱 (9).jpg",
+      "status": "published",
+      "description": "民事、刑事和行政责任按性质区分。独立、连带和替代责任关注由谁承担。分析案件时，应指出采用了哪一个分类标准。",
+      "summary": "民事、刑事和行政责任按性质区分。独立、连带和替代责任关注由谁承担。分析案件时，应指出采用了哪一个分类标准。",
+      "summarySource": "法理学系列第十讲《法律责任》第19—20页"
+    },
+    {
+      "id": "liability-attribution",
+      "chapterId": "liability",
+      "title": "法律责任的归责原则",
+      "source": "我的知识图谱 (9).jpg",
+      "status": "published",
+      "description": "归责要查明责任依据、行为与损害之间的联系、责任主体及责任轻重。不同类型责任的具体归责条件应结合相应规范判断。",
+      "summary": "归责要查明责任依据、行为与损害之间的联系、责任主体及责任轻重。不同类型责任的具体归责条件应结合相应规范判断。",
+      "summarySource": "法理学系列第十讲《法律责任》第23—27页",
+      "parentId": "legal-liability"
+    },
+    {
+      "id": "liability-exemption",
+      "chapterId": "liability",
+      "title": "免责与减责",
+      "source": "我的知识图谱 (9).jpg",
+      "status": "published",
+      "description": "在分析责任构成后，还要检查有无法定或依法可约定的减责、免责事由，并说明 该事由适用的条件及后果。",
+      "summary": "在分析责任构成后，还要检查有无法定或依法可约定的减责、免责事由，并说明 该事由适用的条件及后果。",
+      "summarySource": "法理学系列第十讲《法律责任》第28页",
+      "parentId": "legal-liability"
+    },
+    {
+      "id": "textual-interpretation",
+      "chapterId": "methods",
+      "title": "文义解释",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "从词语的通常或专业用法、语法结构与语境辨认条文可能表达的含义。",
+      "summary": "从词语的通常或专业用法、语法结构与语境辨认条文可能表达的含义。",
+      "summarySource": "法理学系列第十一讲《法律解释》第19页",
+      "parentId": "legal-interpretation"
+    },
+    {
+      "id": "systemic-interpretation",
+      "chapterId": "methods",
+      "title": "体系解释",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "把条文放回同一法律的结构和上下文中，并考察它与其他相关规范如何衔接。",
+      "summary": "把条文放回同一法律的结构和上下文中，并考察它与其他相关规范如何衔接。",
+      "summarySource": "法理学系列第十一讲《法律解释》第20页",
+      "parentId": "legal-interpretation"
+    },
+    {
+      "id": "historical-interpretation",
+      "chapterId": "methods",
+      "title": "历史解释",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "通过立法背景、草案说明和修改沿革等材料了解条文形成时所要解决的问题。",
+      "summary": "通过立法背景、草案说明和修改沿革等材料了解条文形成时所要解决的问题。",
+      "summarySource": "法理学系列第十一讲《法律解释》第21页",
+      "parentId": "legal-interpretation"
+    },
+    {
+      "id": "purposive-interpretation",
+      "chapterId": "methods",
+      "title": "目的解释",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "围绕规范追求的目标理解条文，并区分立法时所追求的目标与条文在当下制度中的功能。",
+      "summary": "围绕规范追求的目标理解条文，并区分立法时所追求的目标与条文在当下制度中的功能。",
+      "summarySource": "法理学系列第十一讲《法律解释》第22页",
+      "parentId": "legal-interpretation"
+    },
+    {
+      "id": "deductive-reasoning",
+      "chapterId": "methods",
+      "title": "演绎推理",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "从一般规则和具体事实推出结论。核查时需分别检验规则能否适用、事实是否达到证明要求，以及推导本身是否有效。",
+      "summary": "从一般规则和具体事实推出结论。核查时需分别检验规则能否适用、事实是否达到证明要求，以及推导本身是否有效。",
+      "summarySource": "法律方法章节图“演绎推理”节点",
+      "parentId": "legal-reasoning"
+    },
+    {
+      "id": "inductive-reasoning",
+      "chapterId": "methods",
+      "title": "归纳推理",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "从若干具体事例概括共同特点。类案阅读中需留意样本范围、反例及结论适用于何种情形。",
+      "summary": "从若干具体事例概括共同特点。类案阅读中需留意样本范围、反例及结论适用于何种情形。",
+      "summarySource": "法律方法章节图“归纳推理”节点",
+      "parentId": "legal-reasoning"
+    },
+    {
+      "id": "analogical-reasoning",
+      "chapterId": "methods",
+      "title": "类比推理",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "以与争点相关的相似性为基础比较不同情形，同时说明哪些差异可能改变处理结果。",
+      "summary": "以与争点相关的相似性为基础比较不同情形，同时说明哪些差异可能改变处理结果。",
+      "summarySource": "法律方法章节图“类比推理”节点",
+      "parentId": "legal-reasoning"
+    },
+    {
+      "id": "substantive-reasoning",
+      "chapterId": "methods",
+      "title": "实质推理",
+      "source": "我的知识图谱 (8).jpg",
+      "status": "published",
+      "description": "当事实认定后仍有多个可能的解释或处理方向，可以结合规范目的、价值冲突和可能后果说明选择的理由。",
+      "summary": "当事实认定后仍有多个可能的解释或处理方向，可以结合规范目的、价值冲突和可能后果说明选择的理由。",
+      "summarySource": "法律方法章节图“实质推理”分支；法理学系列第五讲《法的价值》第14—16、24—25页"
     }
   ],
   "caseLinks": [
@@ -260,6 +691,97 @@
       "sourceFile": "湖南富兴置业发展有限公司与周蓉蓉诉房屋买卖合同纠纷上诉案(FBM-CLI.C.419656188).pdf",
       "sourceSha256": "48a5682415da00385032bceb1de2a22bbf742fc29cce0439a88a30809f6f97b9",
       "pages": [
+        7,
+        8
+      ]
+    },
+    {
+      "caseId": "case-0005",
+      "topicId": "legal-facts",
+      "type": "observation",
+      "status": "published",
+      "reason": "再审法院将以物抵债裁定送达与所有权转移、义务主体确定和诉讼时效起算联系起来。",
+      "question": "法院如何区分请求权成立的事实与推定权利人知悉有关事实的时间？",
+      "evidence": "再审裁判说理关于诉讼时效及送达时间的分析。涉及裁判适用的历史规范。",
+      "sourceFile": "吉林银行股份有限公司通化分行与吉林省祥和国际房地产开发有限公司不当得利纠纷再审案(FBM-CLI.C.545292240).pdf",
+      "sourceSha256": "c45a8ace57ce577941fc04f15d7d5eaf1ebedc031410efee59aaab4d3d69633a",
+      "pages": [
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "caseId": "case-0026",
+      "topicId": "legal-relation-subject",
+      "type": "observation",
+      "status": "published",
+      "reason": "再审法院分别审查两家当事人的提单、签发经过及其主张提货的依据。",
+      "question": "仅在单证上记载为托运人，是否足以支持提货请求？法院还考察了哪些事实？",
+      "evidence": "再审裁判说理关于先锋公司、美匡公司请求提货的分析。",
+      "sourceFile": "上海美匡供应链管理有限公司、先锋出口公司与奥迪塞斯航运贸易公司、海王航运有限公司等海上货物运输合同纠纷案(FBM-CLI.C.551978016).pdf",
+      "sourceSha256": "4a93c61d71b3d6f68e76d79c6e168391dc9b97e392c53202085c7c2e811f38bd",
+      "pages": [
+        23,
+        24
+      ]
+    },
+    {
+      "caseId": "case-0030",
+      "topicId": "rules-and-principles",
+      "type": "observation",
+      "status": "published",
+      "reason": "再审法院核查连带责任的法定与约定依据，并评析原审直接援引公平原则的做法。",
+      "question": "为什么实际受益与应承担连带责任需要分别论证？公平原则在本案能否单独作为裁判依据？",
+      "evidence": "再审裁判说理关于海成公司是否承担连带责任的段落。",
+      "sourceFile": "伟富国际有限公司与黄建荣、上海海成资源(集团)有限公司等服务合同纠纷案(FBM-CLI.C.545848321).pdf",
+      "sourceSha256": "23a6831cbbb64a5ef83f95e8bb302e9af22fcb89bef158d7d22c99cb569abab8",
+      "pages": [
+        17,
+        18
+      ]
+    },
+    {
+      "caseId": "case-0067",
+      "topicId": "legal-reasoning",
+      "type": "observation",
+      "status": "published",
+      "reason": "二审法院分别讨论取证瑕疵对鉴定效力的影响，以及在案材料能否支撑对生物痕迹来源的解释。",
+      "question": "法院先后处理了哪些证据问题？对痕迹形成原因的判断如何与证据效力判断相区分？",
+      "evidence": "二审裁判说理关于 DNA 检材提取及生物痕迹来源的分析。",
+      "sourceFile": "方某运输毒品案(FBM-CLI.C.430637667).pdf",
+      "sourceSha256": "9898166494d1a152ea22b37e3a515140f4188c0ad15f341a638aaffd63a9470c",
+      "pages": [
+        16,
+        17
+      ]
+    },
+    {
+      "caseId": "case-0097",
+      "topicId": "liability-types",
+      "type": "observation",
+      "status": "published",
+      "reason": "一审法院区分同一信息侵害行为可能涉及的刑事与民事责任，并说明刑事处理对民事责任认定的影响。",
+      "question": "裁判如何区分已经承担刑事责任、不起诉与是否仍应承担民事责任？",
+      "evidence": "一审裁判文书第9页关于刑事处理与民事侵权责任的段落，涉及裁判适用的历史规范。",
+      "sourceFile": "四川省自贡市人民检察院、李博伦等个人信息保护纠纷民事一审民事判决书(FBM-CLI.C.430609498).pdf",
+      "sourceSha256": "0f2462ff0ab6fc44ec02ce7d0a069c0f8e89b8dd388994acea6e19a20ed11fb0",
+      "pages": [
+        9
+      ]
+    },
+    {
+      "caseId": "case-0056",
+      "topicId": "legal-relation-concept",
+      "type": "observation",
+      "status": "published",
+      "reason": "一审法院结合订单调配、站点监管、报酬结算及协议实际履行判断劳动关系是否存在。",
+      "question": "派单、管理、结算分别涉及哪些主体？法院为何认为合作协议不足以说明实际关系？",
+      "evidence": "一审裁判文书第6至8页关于劳动关系成立和协议性质的说理。",
+      "sourceFile": "圣欢欢江苏物美同城网络科技有限公司等确认劳动关系纠纷民事一审民事判决书.pdf",
+      "sourceSha256": "fa2b585d1874978ba149eba822ea8478130729c0e5348f548b9a99a94cbf9873",
+      "pages": [
+        6,
         7,
         8
       ]

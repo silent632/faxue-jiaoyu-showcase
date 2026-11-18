@@ -26,18 +26,18 @@ test("showcase content exposes approved title, nav, metrics, and page sections",
   assert.deepEqual(content.nav.map((item) => item.label), [
     "首页",
     "课程认知",
+    "法理知识",
     "案例研习",
-    "仿真实验",
     "研习档案",
-    "帮助与反馈",
+    "资料与问答",
   ]);
   assert.deepEqual(content.nav.map((item) => item.href), [
     "/",
     "/courses",
+    "/knowledge",
     "/cases",
-    "/experiments",
     "/archive",
-    "/help",
+    "/resources/learning",
   ]);
 
   // 平台指标：标签唯一、无重复数值口径

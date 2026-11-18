@@ -8,9 +8,10 @@ import { learningContextHref } from '../../lib/learning-context.js';
 test('公开知识点和案例具备数据与原文依据', () => {
   const data = getJurisprudenceLearningData();
   assert.equal(data.chapters.length, 9);
-  assert.deepEqual(validateJurisprudenceLearning(data, ['case-0093', 'case-0020', 'case-0012']), []);
+  assert.deepEqual(validateJurisprudenceLearning(data, ['case-0093', 'case-0020', 'case-0012', 'case-0005', 'case-0026', 'case-0030', 'case-0067', 'case-0097', 'case-0056']), []);
   const published = getPublicJurisprudenceLearning();
-  assert.equal(published.chapters.length, 9); assert.equal(published.topics.length, 19); assert.equal(published.caseLinks.length, 3);
+  assert.equal(published.chapters.length, 9); assert.equal(published.topics.length, 56); assert.equal(published.caseLinks.length, 9);
+  assert.ok(published.topics.every(topic => topic.summary && topic.summarySource));
 });
 
 test('案例关联必须指向真实案例且已复核关联必须有依据和审阅记录', () => {

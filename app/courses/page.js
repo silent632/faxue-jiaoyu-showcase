@@ -1,11 +1,8 @@
 import ShowcaseNav from "@/components/showcase-nav";
-import ShowcaseVideoHub from "@/components/showcase-video-hub";
 import CourseStageTabs from "@/components/course-stage-tabs";
 import { getCoursePackagePeriods } from "@/lib/course-package";
-import { buildShowcaseContent } from "@/lib/showcase-content";
 
 export default function CoursesPage() {
-  const content = buildShowcaseContent();
   const periods = getCoursePackagePeriods();
   const standardMaterialCount = periods[0]?.materialPages?.length ?? 10;
 
@@ -27,7 +24,6 @@ export default function CoursesPage() {
           <CourseStageTabs periods={periods} />
         </section>
 
-        <ShowcaseVideoHub hub={content.videoHub} />
       </div>
     </main>
   );

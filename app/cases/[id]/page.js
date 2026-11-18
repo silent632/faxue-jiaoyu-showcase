@@ -122,7 +122,19 @@ export default async function CaseDetailPage({ params }) {
       {learningLinks.length ? <section className="page-wrap card" aria-labelledby="learning-reading-heading">
         <h2 id="learning-reading-heading">关联法理知识与阅读问题</h2>
         <p>这些问题帮助理解案例，也欢迎结合原文提出自己的判断。</p>
-        {learningLinks.map(link => <article key={link.topicId}><h3>{link.topic.title}</h3><p>{link.reason}</p><p>{link.question}</p><p>阅读依据：{link.evidence}</p><Link href={`/knowledge/#${encodeURIComponent(link.topicId)}`}>回顾知识点</Link> · <Link href={`/cases/?topic=${encodeURIComponent(link.topicId)}`}>查找相关案例</Link></article>)}
+        {learningLinks.map(link => (
+          <article key={link.topicId}>
+            <h3>{link.topic.title}</h3>
+            <p>{link.reason}</p>
+            <p>{link.question}</p>
+            <p>阅读依据 · {link.evidence}</p>
+            <div className="knowledge-topic-links">
+              <a href={`/pdfs/${encodeURIComponent(link.sourceFile)}#page=${link.pages[0]}`}>打开原文第 {link.pages[0]} 页</a>
+              <Link href={`/knowledge/#${encodeURIComponent(link.topicId)}`}>回顾知识点</Link>
+              <Link href={`/cases/?topic=${encodeURIComponent(link.topicId)}`}>查找相关案例</Link>
+            </div>
+          </article>
+        ))}
       </section> : null}
 
       <div className={`page-wrap fade-in case-detail-shell${hasPdf ? " has-pdf" : " is-compact"}`}>

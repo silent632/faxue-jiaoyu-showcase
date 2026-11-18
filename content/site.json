@@ -16,14 +16,14 @@
       "matchPrefix": "/courses"
     },
     {
+      "label": "法理知识",
+      "href": "/knowledge",
+      "matchPrefix": "/knowledge"
+    },
+    {
       "label": "案例研习",
       "href": "/cases",
       "matchKind": "cases"
-    },
-    {
-      "label": "仿真实验",
-      "href": "/experiments",
-      "matchPrefix": "/experiments"
     },
     {
       "label": "研习档案",
@@ -31,9 +31,9 @@
       "matchPrefix": "/archive"
     },
     {
-      "label": "帮助与反馈",
-      "href": "/help",
-      "matchPrefix": "/help"
+      "label": "资料与问答",
+      "href": "/resources/learning",
+      "matchPrefix": "/resources/learning"
     }
   ],
   "metrics": {
