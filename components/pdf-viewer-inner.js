@@ -62,6 +62,7 @@ export default function PdfViewerInner({
   defaultViewMode = "page",
   hideFooter = false,
   fallbackContent = null,
+  readingPositionKey = "",
 }) {
   const normalizedDefaultViewMode = defaultViewMode === "page" ? "page" : "width";
   const normalizedSource = useMemo(() => normalizePdfAssetUrl(downloadHref || fileUrl), [downloadHref, fileUrl]);
@@ -79,6 +80,7 @@ export default function PdfViewerInner({
   const [textNotice, setTextNotice] = useState("");
   const [status, setStatus] = useState(fileUrl ? "loading" : "empty");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [pdfDocument, setPdfDocument] = useState(null);
   const [pageCount, setPageCount] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
@@ -153,16 +155,19 @@ export default function PdfViewerInner({
         loadingTask = pdfjs.getDocument({
           url: normalizedSource,
           isEvalSupported: false,
+          disableStream: true,
+          disableAutoFetch: true,
         });
         nextDocument = await loadingTask.promise;
-        if (disposed) {
-          await nextDocument.destroy();
-          return;
-        }
+        if (disposed) return;
 
         setPdfDocument(nextDocument);
         setPageCount(nextDocument.numPages || 1);
-        setPageNumber(clampPdfPage(getPdfPageFromHash(window.location.hash, getPdfPageFromHash(fileUrl.split("#")[1])), nextDocument.numPages));
+        let lastPage = 1;
+        if (readingPositionKey) {
+          try { lastPage = Number(window.localStorage.getItem(readingPositionKey)) || 1; } catch { /* 原文仍可阅读 */ }
+        }
+        setPageNumber(clampPdfPage(getPdfPageFromHash(window.location.hash, getPdfPageFromHash(fileUrl.split("#")[1], lastPage)), nextDocument.numPages));
         setStatus("ready");
       } catch (error) {
         if (disposed || isExpectedPdfAbort(error)) return;
@@ -176,14 +181,27 @@ export default function PdfViewerInner({
     return () => {
       disposed = true;
       searchJob.current += 1;
-      if (loadingTask && typeof loadingTask.destroy === "function") {
-        loadingTask.destroy();
+      if (!loadingTask) return;
+      const destroy = () => { void loadingTask.destroy().catch(() => { /* 阅读器可能已关闭 */ }); };
+      if (nextDocument) {
+        destroy();
+        return;
       }
-      if (nextDocument && typeof nextDocument.destroy === "function") {
-        Promise.resolve(nextDocument.destroy()).catch(() => {});
-      }
+      // 解析尚未完成时立即发送 Terminate 会触发 PDF.js worker 内部未处理的拒绝。
+      // 等初始化收尾后释放资源。加载一直没有结束时仍回收 worker。
+      const disposeTimeout = window.setTimeout(destroy, 30000);
+      const finish = () => {
+        window.clearTimeout(disposeTimeout);
+        if (!loadingTask.destroyed) destroy();
+      };
+      void loadingTask.promise.then(finish, finish);
     };
-  }, [fileUrl, normalizedSource]);
+  }, [fileUrl, normalizedSource, readingPositionKey, loadAttempt]);
+
+  useEffect(() => {
+    if (status !== "ready" || !readingPositionKey) return;
+    try { window.localStorage.setItem(readingPositionKey, String(pageNumber)); } catch { /* 原文仍可阅读 */ }
+  }, [pageNumber, readingPositionKey, status]);
 
   useEffect(() => {
     setPageInput(String(pageNumber));
@@ -449,7 +467,8 @@ export default function PdfViewerInner({
             <div className="pdf-error-wrap">
               <div className="pdf-status-card pdf-status-card-warning">
                 <p className="status-inline">{errorMessage}</p>
-                <p className="status-inline status-inline-muted">你仍可使用“新窗口打开”或“下载 PDF”继续查看完整原文。</p>
+                <p className="status-inline status-inline-muted">可以重试，或从右上方下载完整原文。</p>
+                <button className="btn btn-outline" type="button" onClick={() => setLoadAttempt(attempt => attempt + 1)}>重新加载原文</button>
               </div>
               {fallbackContent}
             </div>

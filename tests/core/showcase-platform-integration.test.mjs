@@ -81,8 +81,8 @@ test("detail and study pages avoid incomplete public placeholders in core action
 });
 
 test("detail page opens public pdf files with plain anchors instead of next/link navigation", () => {
-  const detailSource = readFileSync(new URL("../../app/cases/[id]/page.js", import.meta.url), "utf8");
+  const detailSource = readFileSync(new URL("../../components/case-reading-detail.js", import.meta.url), "utf8");
 
-  assert.match(detailSource, /<a className="btn btn-primary case-detail-secondary-action" href=\{`\/pdfs\/\$\{encodeURIComponent\(pdfFileName\)\}`\}/u);
-  assert.equal(/<Link className="btn btn-primary case-detail-secondary-action" href=\{`\/pdfs\//u.test(detailSource), false);
+  assert.match(detailSource, /<a [^>]*href=\{pdfUrl\} target="_blank"/u);
+  assert.doesNotMatch(detailSource, /<Link[^>]*href=\{pdfUrl\}/u);
 });

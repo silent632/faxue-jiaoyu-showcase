@@ -2,44 +2,20 @@ import { loadCourseTasks } from "@/lib/content/course-tasks.js";
 import Link from "next/link";
 import HomeContinueCard from "@/components/home-continue-card";
 import ShowcaseNav from "@/components/showcase-nav";
-import { getShowcaseCanonicalStudyHref, loadShowcaseCases } from "@/lib/showcase-cases";
+import { loadShowcaseCases } from "@/lib/showcase-cases";
 import { buildShowcaseContent } from "@/lib/showcase-content";
-
-/** 按标签稀缺度精选案例：指导性案例 > 自由裁量 > 公共利益 > 价值冲突 */
-function pickFeaturedCases(cases, limit = 3) {
-  const priority = ["guiding-case", "discretion-explicit", "public-interest", "value-tension"];
-  const picked = [];
-  const pickedIds = new Set();
-
-  for (const tag of priority) {
-    for (const item of cases) {
-      if (picked.length >= limit) return picked;
-      if (pickedIds.has(item.id)) continue;
-      if ((item.jurisprudenceTags || []).includes(tag)) {
-        picked.push(item);
-        pickedIds.add(item.id);
-      }
-    }
-  }
-
-  for (const item of cases) {
-    if (picked.length >= limit) break;
-    if (!pickedIds.has(item.id)) {
-      picked.push(item);
-      pickedIds.add(item.id);
-    }
-  }
-  return picked;
-}
 
 export default async function HomePage() {
   const content = buildShowcaseContent();
-  const studyHref = getShowcaseCanonicalStudyHref();
   const cases = await loadShowcaseCases();
   const metrics = content.metrics ?? {};
-  const featuredCases = pickFeaturedCases(cases);
-  const homeVideoBlock = content.homeVideoBlock;
   const impactSections = content.impact?.sections ?? [];
+  const impactLinks = [
+    { href: "/courses/", label: "查看课程安排" },
+    { href: "/cases/case-0012/study/", label: "体验案例研习" },
+    { href: "/cases/", label: "浏览案例库" },
+    { href: "/courses/course-period-01/#course-materials", label: "查看课内材料" },
+  ];
   const homeCaseIndex = cases.map((item) => ({
     id: item.id,
     title: item.title,
@@ -48,34 +24,30 @@ export default async function HomePage() {
 
   const pillars = [
     {
-      stage: "第一阶",
       title: "课程认知",
       desc: "八期递进式课程，从案例检索到程序正义、数字治理与智能治理，配套双师视频与四类课程材料。",
       href: "/courses",
       action: "进入课程体系",
-      metric: metrics.coursePeriods,
     },
     {
-      stage: "第二阶",
       title: "法理知识",
       desc: "从知识图谱选择章节，复习法的价值、法律关系、法律方法等概念，并查找对应的案例。",
       href: "/knowledge",
       action: "打开知识图谱",
     },
     {
-      stage: "第三阶",
       title: "案例研习",
       desc: "按案由、年份、法院层级和法理知识检索裁判文书，完成事实梳理、争点识别与法理分析。",
       href: "/cases",
       action: "进入案例检索",
-      metric: metrics.caseCount,
     },
   ];
 
   const quickLinks = [
-    { href: "/cases", label: "案例检索", desc: "按案由、年份、法院层级检索 210+ 典型裁判文书" },
-    { href: studyHref, label: "研习工作台", desc: "分屏阅读原文，完成事实梳理与法理分析" },
-    { href: "/resources/learning/", label: "资料与问答", desc: "找学习资料、提出问题或查看使用指南" },
+    { href: "/courses/", label: "选一期课程", desc: "打开课程视频，跟着本期问题阅读主案例和配套材料。" },
+    { href: "/knowledge/", label: "复习相关法理", desc: "在知识图谱里找概念，沿关联问题进入裁判文书。" },
+    { href: "/cases/", label: "阅读裁判文书", desc: "在研习页一边读原文、一边写分析。" },
+    { href: "/archive/", label: "继续未完成的研习", desc: "从个人中心找回笔记、继续写作或导出备份。" },
   ];
 
   return (
@@ -83,16 +55,16 @@ export default async function HomePage() {
       <ShowcaseNav items={content.nav} />
 
       <div className="showcase-page-body">
-        <section className="home-newcomer" aria-label="使用指南入口"><div><strong>从这里，开始法理学探索</strong><p>从一个真实案例出发，开始你的法理学探索。</p></div><Link className="btn btn-outline" href="/help/guide/">查看使用指南 →</Link></section>
         {/* Hero */}
-        <section className="showcase-card" aria-label="平台概览">
+        <section className="showcase-card homepage-hero" aria-label="平台概览">
           <div className="homepage-console-main">
             <div className="homepage-console-status">
               <p className="showcase-hero-kicker">一核 · 两翼 · 三阶 · 六能 · 双环</p>
               <h1>裁判文书研习平台</h1>
               <p className="showcase-hero-subtitle">
-                按期学习，复习法理知识，结合真实裁判文书练习分析和说理。
+                从一节课或一件案例开始。读裁判原文、查法条，写下自己的判断。
               </p>
+              <Link className="home-guide-link" href="/help/guide/">查看使用指南 →</Link>
             </div>
 
             <div className="homepage-console-kpis" aria-label="平台规模">
@@ -120,86 +92,26 @@ export default async function HomePage() {
             <Link key={p.title} href={p.href} className="homepage-result-card showcase-card">
               <div className="homepage-pillar-top">
                 <span className="homepage-pillar-ordinal">{String(i + 1).padStart(2, '0')}</span>
-                <span className="showcase-card-eyebrow">{p.stage}</span>
               </div>
               <strong>{p.title}</strong>
-              {p.metric && <div className="homepage-pillar-stat">
-                <span className="homepage-pillar-metric">{p.metric.value}</span>
-                <span className="homepage-pillar-metric-label">{p.metric.label}</span>
-              </div>}
               <p>{p.desc}</p>
               <span className="homepage-video-link">{p.action}</span>
             </Link>
           ))}
         </section>
 
-        {/* 课程纵览 */}
-        <section className="homepage-video-block showcase-card" aria-label="课程纵览">
-          <div className="homepage-band-head">
-            <span className="showcase-section-eyebrow">课程视频</span>
-            <h2>{homeVideoBlock.title}</h2>
-            <p>{homeVideoBlock.description}</p>
-          </div>
-
-          <div className="homepage-video-stage-grid">
-            {homeVideoBlock.phaseGuide.map((item, i) => (
-              <article key={item.slug} className="homepage-video-stage-card">
-                <div className="homepage-video-stage-head">
-                  <span className="homepage-video-stage-badge">阶段 {i + 1}</span>
-                </div>
-                <strong>{item.title}</strong>
-                <p>{item.description}</p>
-              </article>
+        <section className="showcase-card home-path" aria-labelledby="home-path-title">
+          <h2 id="home-path-title">怎样使用平台</h2>
+          <div className="homepage-quick-links">
+            {quickLinks.map((item, i) => (
+              <Link key={item.href} href={item.href} className="homepage-quick-link">
+                <span className="homepage-quick-step" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <strong>{item.label}</strong>
+                <p>{item.desc}</p>
+              </Link>
             ))}
           </div>
-
-          <div className="homepage-course-cta">
-            <div className="homepage-course-cta-copy">
-              <strong>{homeVideoBlock.periods.length} 期课程</strong>
-              <span>课程正文与配套阅读入口</span>
-            </div>
-            <Link href="/courses" className="btn btn-primary">查看全部课程</Link>
-          </div>
-        </section>
-
-        {/* 快速开始 + 精选案例 */}
-        <section className="showcase-card" aria-label="快速开始">
-          <div className="homepage-band-head">
-            <span className="showcase-section-eyebrow">研习路径</span>
-            <h2>快速开始</h2>
-          </div>
-
-          <div className="homepage-start-grid">
-            <div className="homepage-quick-links">
-              {quickLinks.map((item, i) => (
-                <Link key={item.href} href={item.href} className="homepage-quick-link">
-                  <span className="homepage-quick-step">{String(i + 1).padStart(2, '0')}</span>
-                  <div className="homepage-quick-body">
-                    <strong>{item.label}</strong>
-                    <p>{item.desc}</p>
-                  </div>
-                  <span className="homepage-quick-arrow">→</span>
-                </Link>
-              ))}
-            </div>
-
-            {featuredCases.length > 0 && (
-              <div className="homepage-featured-cases">
-                <div className="homepage-featured-head">
-                  <span className="showcase-card-eyebrow">精选案例</span>
-                </div>
-                {featuredCases.map((item) => (
-                  <Link key={item.id} href={`/cases/${item.id}`} className="homepage-featured-case">
-                    <span className="tag">{item.causeFocus || "典型案例"}</span>
-                    <strong>{item.title}</strong>
-                    <span className="homepage-featured-case-meta">
-                      {item.courtName} · {item.caseNumber}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+          <div className="console-actions home-guide-actions"><Link className="btn btn-outline" href="/resources/laws/">查找法条</Link><Link className="btn btn-outline" href="/help/guide/">阅读完整使用指南</Link></div>
         </section>
 
         {/* 教学成果 */}
@@ -218,6 +130,7 @@ export default async function HomePage() {
                 </div>
                 <strong className="impact-proof-item-intro">{item.intro}</strong>
                 <p className="impact-proof-item-point">{item.points[0]}</p>
+                {impactLinks[i] && <Link className="impact-proof-link" href={impactLinks[i].href}>{impactLinks[i].label} →</Link>}
               </article>
             ))}
           </div>

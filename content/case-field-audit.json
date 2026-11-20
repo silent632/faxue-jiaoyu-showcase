@@ -1,5 +1,5 @@
 {
-  "scope": "仅核对首页显式案号、法院、文书类型、程序。未定位不表示错误；原文未标明时不推定。",
+  "scope": "核对首页显式案号、法院、文书类型、程序，以及已登记并核对的正文更正。未定位不表示错误；原文未标明时不推定。",
   "cases": {
     "case-0001": {
       "sourceFile": "张保林走私国家禁止进出口的货物、物品案(FBM-CLI.C.307393809).pdf",
@@ -1923,7 +1923,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "不服北京市海淀区人民法院",
+          "currentValue": "北京知识产权法院",
           "sourceValue": "",
           "page": null
         },
@@ -1966,7 +1966,7 @@
         "doc_type": {
           "note": "",
           "status": "not-located",
-          "currentValue": "裁定书",
+          "currentValue": "判决书",
           "sourceValue": "",
           "page": null
         },
@@ -2175,7 +2175,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "最高人民法院",
+          "currentValue": "宁波海事法院",
           "sourceValue": "",
           "page": null
         },
@@ -2713,18 +2713,18 @@
           "page": null
         },
         "court_name": {
-          "note": "",
-          "status": "not-located",
-          "currentValue": "最高人民法院",
-          "sourceValue": "",
-          "page": null
+          "note": "以案号对应的裁判文书抬头或案例汇编所载审理法院为准。",
+          "status": "matched",
+          "currentValue": "浙江省宁波市中级人民法院",
+          "sourceValue": "浙江省宁波市中级人民法院",
+          "page": 3
         },
         "doc_type": {
-          "note": "",
-          "status": "not-located",
-          "currentValue": "",
-          "sourceValue": "",
-          "page": null
+          "note": "以案例汇编载明的一审刑事判决为准。",
+          "status": "matched",
+          "currentValue": "判决书",
+          "sourceValue": "判决书",
+          "page": 6
         },
         "procedure": {
           "note": "",
@@ -2886,18 +2886,18 @@
       "sourceSha256": "077df4abffd44941b22b73f09fc3b487e35dff4b12f4b487703c005b9cccf1d6",
       "fields": {
         "case_number": {
-          "note": "",
-          "status": "not-located",
-          "currentValue": "（2019）沪7101刑初541号",
-          "sourceValue": "",
-          "page": null
+          "note": "首页的参考性案例编号和案情中的刑事判决均另有所指，采用第4页生态环境损害赔偿民事一审裁判信息。",
+          "status": "matched",
+          "currentValue": "（2021）沪03民初31号",
+          "sourceValue": "（2021）沪03民初31号",
+          "page": 4
         },
         "court_name": {
-          "note": "",
-          "status": "not-located",
-          "currentValue": "最高人民法院",
-          "sourceValue": "",
-          "page": null
+          "note": "首页的参考性案例编号和案情中的刑事判决均另有所指，采用第4页生态环境损害赔偿民事一审裁判信息。",
+          "status": "matched",
+          "currentValue": "上海市第三中级人民法院",
+          "sourceValue": "上海市第三中级人民法院",
+          "page": 4
         },
         "doc_type": {
           "note": "",
@@ -3327,7 +3327,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "撤销北京互联网法院",
+          "currentValue": "北京知识产权法院",
           "sourceValue": "",
           "page": null
         },
@@ -3442,7 +3442,7 @@
         "doc_type": {
           "note": "",
           "status": "not-located",
-          "currentValue": "裁定书",
+          "currentValue": "判决书",
           "sourceValue": "",
           "page": null
         },
@@ -3570,18 +3570,18 @@
       "sourceSha256": "7aad6b22a3f0d1904782c68604db1640bb066e5658b31d852e84e022df9395a9",
       "fields": {
         "case_number": {
-          "note": "",
-          "status": "not-located",
-          "currentValue": "(2021)参阅案例2号",
-          "sourceValue": "",
-          "page": null
+          "note": "首页为参阅案例编号，采用第11页未成年人文身民事公益诉讼的一审裁判信息。",
+          "status": "matched",
+          "currentValue": "（2021）苏13民初303号",
+          "sourceValue": "（2021）苏13民初303号",
+          "page": 11
         },
         "court_name": {
-          "note": "",
-          "status": "not-located",
-          "currentValue": "最高人民法院",
-          "sourceValue": "",
-          "page": null
+          "note": "首页为参阅案例编号，采用第11页未成年人文身民事公益诉讼的一审裁判信息。",
+          "status": "matched",
+          "currentValue": "江苏省宿迁市中级人民法院",
+          "sourceValue": "江苏省宿迁市中级人民法院",
+          "page": 11
         },
         "doc_type": {
           "note": "",
@@ -3591,15 +3591,15 @@
           "page": null
         },
         "procedure": {
-          "note": "",
-          "status": "not-located",
-          "currentValue": "",
-          "sourceValue": "",
-          "page": null
+          "note": "首页为参阅案例编号，采用第11页未成年人文身民事公益诉讼的一审裁判信息。",
+          "status": "matched",
+          "currentValue": "一审",
+          "sourceValue": "一审",
+          "page": 11
         }
       },
       "teachingContentStatus": "教学提炼，未经逐段教师审阅；不作为裁判原话",
-      "originalNormCount": 6
+      "originalNormCount": 13
     },
     "case-0101": {
       "sourceFile": "广东省高级人民法院发布2021年度知识产权司法保护十大案件之一：腾讯公司诉畅游云端公司、英雄互娱公司等侵害著作权及不正当...(FBM-CLI.C.411388310).pdf",
@@ -3615,7 +3615,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "广东省高级人民法院",
+          "currentValue": "广东省深圳市中级人民法院",
           "sourceValue": "",
           "page": null
         },
@@ -4119,7 +4119,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "最高人民法院",
+          "currentValue": "杭州铁路运输法院",
           "sourceValue": "",
           "page": null
         },
@@ -4227,7 +4227,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "江苏省高级人民法院",
+          "currentValue": "江苏省张家港市人民法院",
           "sourceValue": "",
           "page": null
         },
@@ -4263,7 +4263,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "上诉于江苏省高级人民法院",
+          "currentValue": "南京海事法院",
           "sourceValue": "",
           "page": null
         },
@@ -5559,7 +5559,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "最高人民法院",
+          "currentValue": "上海金融法院",
           "sourceValue": "",
           "page": null
         },
@@ -6459,7 +6459,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "最高人民法院",
+          "currentValue": "北京互联网法院",
           "sourceValue": "",
           "page": null
         },
@@ -6495,7 +6495,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "最高人民法院",
+          "currentValue": "广州知识产权法院",
           "sourceValue": "",
           "page": null
         },
@@ -6531,7 +6531,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "上诉于浙江省杭州市中级人民法院",
+          "currentValue": "杭州互联网法院",
           "sourceValue": "",
           "page": null
         },
@@ -6646,7 +6646,7 @@
         "doc_type": {
           "note": "",
           "status": "not-located",
-          "currentValue": "裁定书",
+          "currentValue": "判决书",
           "sourceValue": "",
           "page": null
         },
@@ -7179,7 +7179,7 @@
         "court_name": {
           "note": "",
           "status": "not-located",
-          "currentValue": "紫阳县自然资源局向紫阳县人民法院",
+          "currentValue": "安康铁路运输法院",
           "sourceValue": "",
           "page": null
         },

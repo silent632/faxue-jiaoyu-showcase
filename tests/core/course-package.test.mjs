@@ -191,26 +191,13 @@ test("course detail route is exported as a static period home with a unified mat
   assert.doesNotMatch(source, /本期导读|重点问题|内容展开|材料与案例|学习成果|教学安排/u);
 });
 
-test("course detail route adopts the dense briefing layout instead of the bridge scaffold", () => {
+test("course detail presents the learning task, related knowledge and materials", () => {
   const source = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
-
-  assert.doesNotMatch(source, /课程推进/u);
-  assert.doesNotMatch(source, /course-period-card-grid/u);
-  assert.doesNotMatch(source, /course-period-bridge/u);
-  assert.doesNotMatch(source, /course-period-outline-list/u);
-  assert.match(source, /course-period-briefing-grid/u);
-  assert.match(source, /course-period-panel/u);
+  assert.match(source, /CourseTaskCard/u);
+  assert.match(source, /course-learning-focus/u);
+  assert.match(source, /相关法理知识/u);
   assert.match(source, /course-period-materials/u);
-  assert.match(source, /period\.periodHome\.entryPanels/u);
-  assert.match(source, /period\.periodHome\.materialNotes/u);
-});
-
-test("course detail route does not repeat the hero summary inside the first content block", () => {
-  const source = readFileSync(new URL("../../app/courses/[slug]/page.js", import.meta.url), "utf8");
-
-  assert.doesNotMatch(source, /period\.periodHome\.summary/u);
-  assert.match(source, /profile\.periodSummary\.position/u);
-  assert.match(source, /profile\.periodSummary\.bridge/u);
+  assert.doesNotMatch(source, /periodHome\.entryPanels|periodSummary\.bridge/u);
 });
 
 test("courses page presents each period as a guide card instead of a metadata-only archive card", () => {

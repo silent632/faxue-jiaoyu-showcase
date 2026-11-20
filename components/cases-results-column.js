@@ -60,7 +60,7 @@ export default function CasesResultsColumn({
 
           <div className="cases-results-actions">
             <div className="cases-mobile-toggle">
-              <button className="btn btn-outline" type="button" onClick={onToggleMobileFilter}>
+              <button className="btn btn-outline" type="button" aria-expanded={showMobileFilter} onClick={onToggleMobileFilter}>
                 {showMobileFilter ? "收起筛选" : "展开筛选"}
               </button>
             </div>
@@ -86,7 +86,7 @@ export default function CasesResultsColumn({
               {activeFilters.map((item) => (
                 <span key={item.key} className="active-chip">
                   {item.label}
-                  <button type="button" onClick={item.onClear}>
+                  <button type="button" aria-label={`移除${item.label}`} onClick={item.onClear}>
                     ×
                   </button>
                 </span>

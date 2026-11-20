@@ -139,22 +139,23 @@ export default function TopNav({ user, items }) {
 
       <aside inert={mobile && !open ? true : undefined} ref={menuRef} className={`sidenav${open ? " is-open" : ""}`}>
         <button className="sidenav-mobile-close" type="button" aria-label="收起导航菜单" onClick={close}>×</button>
-        <Link href="/" className="sidenav-brand" onClick={close}>
-          <span className="sidenav-brand-mark" aria-hidden="true">
-            <NavIcon name="scale" />
-          </span>
-          <span className="sidenav-brand-text">
-            <strong className="topbar-brand">裁判文书研习平台</strong>
-            <span className="topbar-brand-subtitle">法理学教学改革专题平台</span>
-          </span>
-        </Link>
-        <button className="sidenav-collapse" type="button" aria-label={collapsed ? '展开侧栏' : '收起侧栏'} aria-expanded={!collapsed} onClick={() => {
-          const next = !collapsed; setCollapsed(next);
-          try { localStorage.setItem('faxue-nav-collapsed', next ? '1' : '0'); } catch {}
-        }}>{collapsed ? '›' : '‹'}</button>
+        <div className="sidenav-brand-row">
+          <Link href="/" className="sidenav-brand" onClick={close} aria-label="裁判文书研习平台首页">
+            <span className="sidenav-brand-mark" aria-hidden="true"><i /><i /><i /></span>
+            <span className="sidenav-brand-text">
+              <strong className="topbar-brand">裁判文书研习平台</strong>
+              <span className="topbar-brand-subtitle">法理学教学改革专题平台</span>
+            </span>
+          </Link>
+          <button className="sidenav-collapse" type="button" aria-label={collapsed ? '展开侧栏' : '收起侧栏'} aria-expanded={!collapsed} onClick={() => {
+            const next = !collapsed;
+            setCollapsed(next);
+            try { localStorage.setItem('faxue-nav-collapsed', next ? '1' : '0'); } catch {}
+          }}>{collapsed ? '›' : '‹'}</button>
+        </div>
 
         <div className="sidenav-scroll"><nav className="sidenav-links" aria-label="主导航">
-          {navItems.map((item) => {
+          {navItems.filter((item) => item.href !== "/archive").map((item) => {
             const active = isShowcaseNavItemActive(pathname || "", item);
 
             return (
@@ -174,10 +175,14 @@ export default function TopNav({ user, items }) {
         </nav>
 
         {session.user && !session.user.mustChangePassword && <nav className="sidenav-links" aria-label="个人学习"><Link href="/workspace/" className="sidenav-item" title="我的任务"><NavIcon name="book"/><span className="sidenav-item-label">我的任务</span></Link></nav>}
-        </div><div className="sidenav-foot"><div className="sidenav-user showcase-topbar-user-card">
-            <strong className="topbar-user-name">{session.user?.displayName || user?.name || "开放浏览"}</strong>
-            <span className="topbar-user-meta">{session.user ? "已登录 · 法理学学习" : user?.roleLabel || "案例研习平台"}</span>
-          </div><AccountLinks/>
+        </div><div className="sidenav-foot"><div className="sidenav-account-panel"><div className="sidenav-user showcase-topbar-user-card">
+            {session.user?.displayName && <strong className="topbar-user-name">{session.user.displayName}</strong>}
+          </div>
+          <Link href="/archive/" className="sidenav-item" aria-current={pathname?.startsWith("/archive") ? "page" : undefined} title="个人中心" onClick={close}>
+            <NavIcon name={pickIcon("/archive")} /><span className="sidenav-item-label">个人中心</span>
+          </Link>
+          <AccountLinks/>
+          </div>
         </div>
       </aside>
 

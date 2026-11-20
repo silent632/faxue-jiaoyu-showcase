@@ -1,12 +1,17 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { caseOrigin, studyContextHref } from '@/lib/study-law-context.js';
 
-export default function CaseReturnLink() {
-  const [href, setHref] = useState('/cases/');
+export default function CaseReturnLink({ studyUrl }) {
+  const router = useRouter();
+  const [target, setTarget] = useState(() => caseOrigin(""));
   useEffect(() => {
-    const previous = new URLSearchParams(window.location.search).get('returnTo') || '';
-    if (previous.startsWith('/cases/?') && previous.length <= 2000 && !/[\u0000-\u001f\\]/.test(previous)) setHref(previous);
-  }, []);
-  return <Link className="btn btn-ghost case-detail-back-btn" href={href}>← 返回案例检索</Link>;
+    setTarget(caseOrigin(window.location.search));
+    if (studyUrl && /^#page=\d+$/u.test(window.location.hash)) {
+      router.replace(studyContextHref(studyUrl + window.location.hash, window.location.search));
+    }
+  }, [router, studyUrl]);
+  return <Link className="btn btn-ghost case-detail-back-btn" href={target.href}>{target.label}</Link>;
 }

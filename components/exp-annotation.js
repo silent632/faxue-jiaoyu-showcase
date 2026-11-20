@@ -42,7 +42,7 @@ export default function ExpAnnotation({ caseItem, onChange, initialData }) {
           const annotation = draft.annotations.find((item) => item.paragraphId === paragraph.id);
           const tag = annotationTags.find((item) => item.id === annotation?.tagId);
           return <div key={paragraph.id}>
-            <p><a href={`/cases/${caseItem.id}/#page=${paragraph.page}`} target="_blank" rel="noreferrer">原文第 {paragraph.page} 页 · 摘录 {index + 1} · {task.caseNumber}</a></p>
+            <p><a href={`/cases/${caseItem.id}/study/#page=${paragraph.page}`} target="_blank" rel="noreferrer">原文第 {paragraph.page} 页 · 摘录 {index + 1} · {task.caseNumber}</a></p>
             <button type="button" aria-label={`标注摘录 ${index + 1}${tag ? `，已标为${tag.label}` : ''}`} aria-pressed={Boolean(annotation)} className={`exp-annotation-para${annotation ? ' annotated' : ''}`} style={tag ? { borderLeftColor: tag.color } : undefined} onClick={() => toggle(paragraph)}>
               {tag && <span className="exp-annotation-mark" style={{ background: tag.color }}>{tag.label}</span>}{paragraph.text}
             </button>

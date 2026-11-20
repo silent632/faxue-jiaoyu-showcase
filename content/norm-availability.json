@@ -637,7 +637,7 @@
     },
     "case-0081": {
       "status": "excluded",
-      "reason": "案例案号与来源内容存在冲突，不作为规范答案",
+      "reason": "民事裁判元数据已校正，规范练习的对照依据尚未逐项核定",
       "sourceSha256": "077df4abffd44941b22b73f09fc3b487e35dff4b12f4b487703c005b9cccf1d6",
       "originalLaws": [
         {

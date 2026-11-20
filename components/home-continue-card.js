@@ -32,10 +32,10 @@ export default function HomeContinueCard({ caseIndex, copy, userSid, courseTasks
         }
       }
     }
-    if (!latest || latest.complete) {
+    if (!latest) { setRecent(null); return; }
+    if (latest.complete) {
       const pending = courseTasks.map(task => ({ task, state: deriveCourseTaskState(task, studyRecords, archive) })).find(item => !item.state.complete);
-      if (pending) { setRecent({ caseId: pending.task.caseId, title: pending.task.title, href: `/courses/${pending.task.slug}/`, studySteps: pending.state.studyDone ? 3 : 0, experimentsDone: pending.state.experimentDone ? 1 : 0 }); return; }
-      if (!latest) { setRecent(null); return; }
+      if (pending) { setRecent({ caseId: pending.task.caseId, title: pending.task.title, href: `/courses/${pending.task.slug}/`, studySteps: pending.state.studyDone ? 3 : 0, experimentsDone: pending.state.experimentDone ? 1 : 0, fromCourse: true }); return; }
     }
     const caseId = latest.caseId;
     const caseItem = caseIndex.find((item) => item.id === caseId);
@@ -61,27 +61,34 @@ export default function HomeContinueCard({ caseIndex, copy, userSid, courseTasks
     return subscribeRecords(refresh);
   }, [caseIndex, userSid, courseTasks]);
 
-  if (!recent) return null;
+  if (!recent) return (
+    <section className="home-continue-card" aria-label="开始学习">
+      <div className="home-continue-copy">
+        <h2>开始研习</h2>
+        <p>跟着一期课程做练习，或挑一件感兴趣的案例。</p>
+      </div>
+      <div className="home-continue-actions">
+        <Link className="btn btn-accent" href="/courses/">选择课程</Link>
+        <Link className="btn btn-outline" href="/cases/">查找案例</Link>
+      </div>
+    </section>
+  );
 
   return (
     <section className="home-continue-card" aria-label={copy.eyebrow}>
-      <div className="home-continue-marker" aria-hidden="true">
-        <span>{recent.studySteps}</span>
-        <small>/3</small>
-      </div>
       <div className="home-continue-copy">
-        <span className="section-eyebrow">{copy.eyebrow}</span>
-        <h2>{copy.title}</h2>
+
+        <h2>{recent.fromCourse && !recent.studySteps && !recent.experimentsDone ? "从课程开始" : "继续研习"}</h2>
         <strong>{recent.title}</strong>
         {recent.caseNumber ? <small>{recent.caseNumber}</small> : null}
-      </div>
-      <div className="home-continue-progress">
-        <span>{copy.studyProgressLabel} {recent.studySteps}/3</span>
-        <span>{copy.experimentProgressLabel} {recent.experimentsDone}</span>
+        <div className="home-continue-progress">
+          <span>{copy.studyProgressLabel} {recent.studySteps}/3</span>
+          <span>{copy.experimentProgressLabel} {recent.experimentsDone}</span>
+        </div>
       </div>
       <div className="home-continue-actions">
         <Link className="btn btn-accent" href={recent.href}>
-          {copy.continueLabel}
+          {recent.fromCourse ? "进入本期课程" : copy.continueLabel}
         </Link>
         <Link className="btn btn-outline" href="/archive">
           {copy.archiveLabel}

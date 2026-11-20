@@ -2,6 +2,7 @@ import WelcomeAnnouncement from "@/components/welcome-announcement";
 import help from "@/content/help.json";
 import "./globals.css";
 import "./console.css";
+import "./editorial.css";
 import { SessionProvider } from "@/components/auth/session-provider";
 
 export const metadata = {

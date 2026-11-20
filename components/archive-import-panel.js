@@ -55,9 +55,7 @@ export default function ArchiveImportPanel({ caseIndex, userSid, downloadJson })
 
   return (
     <section className="showcase-card archive-import" aria-label="导入备份">
-      <h2>导入备份</h2>
-      <p>选择从本平台导出的 JSON 文件（最多 2 MB）。先预览再导入；已有记录保留，内容冲突另存副本。未知案例按历史记录保留。</p>
-      <label className="archive-import-file">备份文件<input type="file" accept=".json,application/json" onChange={chooseFile} disabled={busy} /></label>
+      <div className="archive-import-header"><div><h2>导入备份</h2><p>导入本平台导出的备份（不超过 2 MB）。先查看将恢复哪些笔记和练习，再确认导入。</p></div><label className="archive-import-file">备份文件<input type="file" accept=".json,application/json" onChange={chooseFile} disabled={busy} /></label></div>
       {notice ? <p role="status">{notice}</p> : null}
       {error ? <p role="alert">{error}</p> : null}
       {preview ? <div className="archive-import-preview">

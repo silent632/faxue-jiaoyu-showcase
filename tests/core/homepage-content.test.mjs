@@ -42,13 +42,12 @@ test("homepage page layout keeps the hero board and start grid structure", () =>
   assert.match(source, /homepage-console-main/u);
   assert.match(source, /homepage-console-kpis/u);
   assert.match(source, /homepage-results-grid/u);
-  assert.match(source, /homepage-video-block/u);
-  assert.match(source, /homepage-video-stage-grid/u);
-  assert.match(source, /homepage-start-grid/u);
+  assert.doesNotMatch(source, /homepage-video-block/u);
+  assert.doesNotMatch(source, /homepage-video-stage-grid/u);
   assert.match(source, /homepage-quick-links/u);
-  assert.match(source, /homepage-featured-cases/u);
+  assert.doesNotMatch(source, /homepage-featured-cases/u);
   assert.match(source, /HomeContinueCard/u);
-  assert.match(source, /精选案例/u);
+  assert.doesNotMatch(source, /精选案例/u);
   // 旧的运营台结构不应回归
   assert.equal(source.includes("homepage-review-console"), false);
   assert.equal(source.includes("homepage-audit-entry-grid"), false);

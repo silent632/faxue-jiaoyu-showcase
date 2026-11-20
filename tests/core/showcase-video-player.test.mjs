@@ -102,8 +102,11 @@ test("video player page is exported as a static route with an html5 video elemen
   assert.match(source, /getShowcaseVideoBySlug/u);
   assert.match(source, /playerMode/u);
   assert.match(source, /segments/u);
-  assert.match(source, /课程体系/u);
-  assert.match(source, /本期课程档案/u);
+  assert.match(source, /全部课程/u);
+  assert.match(source, /返回本期课程/u);
+  assert.match(source, /CourseVideoPlayer/u);
+  const player = readFileSync(new URL("../../components/course-video-player.js", import.meta.url), "utf8");
+  assert.match(player, /<video .*controls/u);
   assert.match(source, /video-period-nav/u);
 });
 

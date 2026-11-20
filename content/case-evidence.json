@@ -2299,18 +2299,25 @@
       "sourceFile": "上海市奉贤区生态环境局诉张某等生态环境损害赔偿诉讼案(FBM-CLI.C.410250166).pdf",
       "sourceSha256": "077df4abffd44941b22b73f09fc3b487e35dff4b12f4b487703c005b9cccf1d6",
       "caseNumber": {
-        "value": "（2019）沪7101刑初541号",
-        "status": "pending",
-        "note": "仅定位材料内案号；法院、程序及其他字段仍须独立审核。"
+        "value": "（2021）沪03民初31号",
+        "status": "located",
+        "note": "材料第4页“裁判结果”所载民事判决案号。"
       },
       "judgmentDate": {
-        "status": "conflict",
+        "status": "verified",
         "previousValue": "2021-07-14",
-        "value": "",
-        "reviewedAt": "2026-09-06",
-        "reviewMethod": "PDF 文本及裁判程序上下文核对",
-        "note": "当前案号为（2019）沪7101刑初541号，材料裁判结果对应（2021）沪03民初31号民事判决；需核定案例元数据所指程序。",
-        "evidence": []
+        "value": "2021-07-14",
+        "reviewedAt": "2026-11-18",
+        "reviewMethod": "对照案例材料裁判结果及法院公开材料",
+        "note": "首页的参考性案例编号和案情中的刑事判决均另有所指，采用第4页生态环境损害赔偿民事一审裁判信息。",
+        "evidence": [
+          {
+            "value": "2021-07-14",
+            "page": 4,
+            "kind": "decision",
+            "quote": "上海市第三中级人民法院于 2021 年 7 月 14 日作出（2021）沪 03 民初 31 号 民事判决"
+          }
+        ]
       }
     },
     "case-0082": {
@@ -2791,18 +2798,25 @@
       "sourceFile": "宿迁市人民检察院诉章雨民事公益诉讼案(FBM-CLI.C.408067335).pdf",
       "sourceSha256": "7aad6b22a3f0d1904782c68604db1640bb066e5658b31d852e84e022df9395a9",
       "caseNumber": {
-        "value": "(2021)参阅案例2号",
-        "status": "pending",
-        "note": "仅定位材料内案号；法院、程序及其他字段仍须独立审核。"
+        "value": "（2021）苏13民初303号",
+        "status": "located",
+        "note": "材料第11页“裁判结果”所载民事判决案号。"
       },
       "judgmentDate": {
-        "status": "conflict",
+        "status": "verified",
         "previousValue": "2021-06-01",
-        "value": "",
-        "reviewedAt": "2026-09-06",
-        "reviewMethod": "PDF 文本及裁判程序上下文核对",
-        "note": "当前 case_number 记录为参阅案例编号 (2021)参阅案例2号，材料中的实际裁判案号为(2021)苏13民初303号；待核定编号字段。",
-        "evidence": []
+        "value": "2021-06-01",
+        "reviewedAt": "2026-11-18",
+        "reviewMethod": "对照案例材料裁判结果及法院公开材料",
+        "note": "首页为参阅案例编号，采用第11页未成年人文身民事公益诉讼的一审裁判信息。",
+        "evidence": [
+          {
+            "value": "2021-06-01",
+            "page": 11,
+            "kind": "decision",
+            "quote": "宿迁市中级人民法院于 2021 年 6 月 1 日作出(2021)苏 13 民初 303 号民事判决"
+          }
+        ]
       }
     },
     "case-0101": {

@@ -8,6 +8,7 @@ import { normTasks } from "../lib/norm-comparison.js";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import LearningContextLink from "@/components/learning-context-link";
+import { caseOrigin, studyContextHref } from "@/lib/study-law-context.js";
 import LearningContextPanel from "@/components/learning-context-panel";
 import { useSearchParams } from "next/navigation";
 
@@ -251,13 +252,16 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
   const otherModules = recommendModulesForCase(caseItem.jurisprudenceTags, modules)
     .filter((item) => item.id !== mod.id && !completedModuleIds.includes(item.id));
   const nextCopy = loopCopy?.experimentNext || {};
+  const search = useSearchParams();
+  const origin = caseOrigin(search);
+  const studyHref = studyContextHref(`/cases/${caseItem.id}/study/`, search);
 
   return (
     <div className="exp-ws3">
       {/* 顶部工作条 */}
       <div className="exp-ws3-topbar">
         <div className="exp-ws3-topbar-left">
-          <button className="exp-ws3-back" onClick={handleBack}>← 返回选案</button>
+          <button className="exp-ws3-back" onClick={handleBack}>换一个案例</button>
           <span className="exp-ws3-module-badge">{mod.shortName}</span>
           <div className="exp-ws3-case">
             <strong>{caseItem.title}</strong>
@@ -273,6 +277,10 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
       </div>
 
       {mod.courseTasks?.[caseItem.id] && <Link className="btn btn-outline" href={`/courses/${mod.courseTasks[caseItem.id].slug}/`}>返回本期课程查看进度</Link>}
+      <div className="console-actions">
+        <Link className="btn btn-outline" href={studyHref}>返回本案研习</Link>
+        {search.get("origin") && <Link className="btn btn-outline" href={origin.href}>{origin.label}</Link>}
+      </div>
       <LearningContextPanel links={caseItem.learningLinks}/>
       <div className="exp-save-notice" role="status">
         <span>{saveInfo}</span>
@@ -290,28 +298,29 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
               <div className="exp-ws3-reader-links">
                 <LearningContextLink allowedTopics={caseItem.learningTopicIds} href={`/cases/${caseItem.id}`}>案例详情</LearningContextLink>
                 <LearningContextLink allowedTopics={caseItem.learningTopicIds} href={`/cases/${caseItem.id}/study`}>研习工作台</LearningContextLink>
+                {caseItem.pdfFile && <a href={`/pdfs/${encodeURIComponent(caseItem.pdfFile)}`} target="_blank" rel="noreferrer">完整裁判文书 ↗</a>}
               </div>
             </div>
 
             {caseItem.refFact && (
               <section className="exp-ws3-reader-section">
                 <h3>案件事实</h3>
-                <p>{caseItem.refFact}</p>
+                {caseItem.refFact.split(/\n{2,}/).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
               </section>
             )}
             {caseItem.refIssue && (
               <section className="exp-ws3-reader-section">
                 <h3>争议焦点</h3>
-                <p>{caseItem.refIssue}</p>
+                {caseItem.refIssue.split(/\n{2,}/).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
               </section>
             )}
             {(caseItem.laws || []).length > 0 && (
               <section className="exp-ws3-reader-section">
-                <h3>涉及法条</h3>
+                <div className="section-with-link"><h3>涉及法条</h3><Link href="/resources/laws/">检索法条 →</Link></div>
                 <ul className="exp-ws3-reader-laws">
                   {caseItem.laws.map((law, i) => (
                     <li key={`${law.law}-${law.article}-${i}`}>
-                      {(law.displayLaw || law.law)}{law.article ? ` ${law.article}` : ""}
+                      <Link href={`/resources/laws/?q=${encodeURIComponent([law.displayLaw || law.law, law.article].filter(Boolean).join(' '))}`}>{(law.displayLaw || law.law)}{law.article ? ` ${law.article}` : ""}</Link>
                     </li>
                   ))}
                 </ul>
@@ -350,7 +359,7 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
           {/* 阶段一：实验产出 */}
           <div className="exp-ws3-stage">
             <div className="exp-ws3-stage-head">
-              <h3>实验任务 · {mod.interactionLabel}</h3>
+              <h3>{mod.shortName}练习</h3>
               <p>{mod.description}</p>
             </div>
             <div className="exp-ws3-stage-body">
@@ -534,22 +543,13 @@ function ExperimentWorkspace({ module: mod, modules, caseItem, tagLabels, loopCo
 
 export default function ExperimentShell({ module: mod, modules, cases, tagLabels, loopCopy }) {
   const searchParams = useSearchParams();
-  const [selectedCase, setSelectedCase] = useState(null);
-  const requestedCaseId = searchParams.get("case");
+  const selectedCase = cases.find((item) => item.id === searchParams.get("case"));
 
-  useEffect(() => {
-    if (!requestedCaseId) return;
-    const matchedCase = cases.find((item) => item.id === requestedCaseId);
-    if (matchedCase) setSelectedCase(matchedCase);
-  }, [cases, requestedCaseId]);
-
-  const handleSelect = useCallback((caseItem) => {
-    setSelectedCase(caseItem);
-    window.scrollTo(0, 0);
-  }, []);
-
-  const handleBack = useCallback(() => {
-    setSelectedCase(null);
+  const selectCase = useCallback((caseId) => {
+    const url = new URL(window.location.href);
+    if (caseId) url.searchParams.set("case", caseId);
+    else url.searchParams.delete("case");
+    window.history.pushState(null, "", url.pathname + url.search + url.hash);
     window.scrollTo(0, 0);
   }, []);
 
@@ -562,10 +562,10 @@ export default function ExperimentShell({ module: mod, modules, cases, tagLabels
         caseItem={selectedCase}
         tagLabels={tagLabels}
         loopCopy={loopCopy}
-        onBack={handleBack}
+        onBack={() => selectCase(null)}
       />
     );
   }
 
-  return <CaseSelector cases={cases} onSelect={handleSelect} tagLabels={tagLabels} moduleId={mod.id} />;
+  return <CaseSelector cases={cases} onSelect={(item) => selectCase(item.id)} tagLabels={tagLabels} moduleId={mod.id} />;
 }

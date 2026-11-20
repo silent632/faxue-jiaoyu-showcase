@@ -3,6 +3,7 @@ export default function CasesSearchHero({
   filteredCount,
   selectedFilterCount,
   keywordInput,
+  ready,
   showSuggestions,
   suggestions,
   onKeywordInputChange,
@@ -11,8 +12,8 @@ export default function CasesSearchHero({
   onSuggestionSelect,
 }) {
   const guideText = selectedFilterCount
-    ? "当前检索范围已经形成，可继续输入关键词或浏览结果。"
-    : "可先从年份和案由开始，再补充法院层级或法条。";
+    ? "可继续输入关键词或调整筛选。"
+    : "可按年份、案由或法院层级筛选。";
 
   return (
     <section className="cases-hero">
@@ -47,6 +48,7 @@ export default function CasesSearchHero({
             className="input cases-search-input"
             placeholder="输入案号、案名、法院或关键词"
             value={keywordInput}
+            disabled={!ready}
             onChange={(event) => onKeywordInputChange(event.target.value)}
             onFocus={onSuggestionsOpen}
             onBlur={onSuggestionsClose}

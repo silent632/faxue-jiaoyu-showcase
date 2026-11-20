@@ -164,7 +164,7 @@
         "法律体系"
       ],
       "interactionType": "chip-select-reveal",
-      "interactionLabel": "芯片选择 + 揭示对照",
+      "interactionLabel": "选择规范并说明理由",
       "description": "先独立选择规范、排列优先级并写明理由，再与已核对的原文援引段落对照；对照结果不等于法律适用评价。",
       "primaryTags": [
         "norm-competition",

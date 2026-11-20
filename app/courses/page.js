@@ -4,7 +4,6 @@ import { getCoursePackagePeriods } from "@/lib/course-package";
 
 export default function CoursesPage() {
   const periods = getCoursePackagePeriods();
-  const standardMaterialCount = periods[0]?.materialPages?.length ?? 10;
 
   return (
     <main className="showcase-page" data-page-role="courses-support">
@@ -12,12 +11,11 @@ export default function CoursesPage() {
 
       <div className="showcase-page-body courses-page-body">
         {/* Hero */}
-        <section className="showcase-card" aria-label="课程体系">
-          <div className="showcase-page-head">
-            <p className="showcase-page-kicker">课程体系</p>
-            <h1>八期课程档案</h1>
+        <section className="course-catalogue" aria-label="课程体系">
+          <div className="editorial-heading">
+            <h1>课程研习</h1>
             <p>
-              八期课程沿两个阶段推进，四类材料对齐主题脉络，{standardMaterialCount}份档案保持统一入口。
+              跟着每期的案例学会找法条、读判决、写分析。
             </p>
           </div>
 

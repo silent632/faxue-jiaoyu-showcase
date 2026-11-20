@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { createStaticServer } from '../../scripts/serve-static.mjs';
-const routes = ['/', '/cases/', '/cases/case-0113/', '/cases/case-0001/study/', '/courses/', '/courses/course-period-01/', '/courses/course-period-08/', '/experiments/', '/archive/', '/resources/', '/resources/videos/course-period-01/', '/experiments/exp-reasoning/?case=case-0030', '/experiments/exp-argumentation/?case=case-0067', '/experiments/exp-norm-retrieval/?case=case-0012', '/experiments/exp-interpretation/?case=case-0056', '/experiments/exp-value-balancing/?case=case-0097', '/experiments/exp-annotation/?case=case-0093'];
+const routes = ['/', '/cases/', '/cases/case-0113/', '/cases/case-0001/study/', '/courses/', '/courses/course-period-01/', '/courses/course-period-08/', '/experiments/', '/archive/', '/knowledge/#chapter-relations', '/resources/laws/?q=143&scope=article', '/resources/library/', '/resources/learning/', '/resources/', '/resources/videos/course-period-01/', '/experiments/exp-reasoning/?case=case-0030', '/experiments/exp-argumentation/?case=case-0067', '/experiments/exp-norm-retrieval/?case=case-0012', '/experiments/exp-interpretation/?case=case-0056', '/experiments/exp-value-balancing/?case=case-0097', '/experiments/exp-annotation/?case=case-0093'];
 test('页面类型矩阵：四种宽度、明暗模式、真实操作区边界与导航键盘', async () => {
  const server=createStaticServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));
  const origin=`http://127.0.0.1:${server.address().port}`;

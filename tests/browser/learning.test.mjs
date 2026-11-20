@@ -36,14 +36,15 @@ test("研习输入后立即站内离开、刷新并恢复三步内容", () => wi
   const fact = "关键事实与时间关系。".repeat(8);
   const issue = "双方争议及其证据关系。".repeat(8);
   await page.getByRole("textbox").first().fill(fact);
-  await page.getByRole("textbox").nth(1).fill(issue);
+  await page.getByRole("button", { name: "2. 争议焦点" }).click();
+  await page.getByRole("textbox", { name: "争议焦点" }).fill(issue);
   await page.getByRole("link", { name: "← 返回详情" }).click();
   assert.equal((await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), studyKey)).issue, issue);
   await page.goto(`${origin}/cases/case-0001/study/`);
   await page.reload();
-  await page.getByRole("textbox").nth(1).waitFor();
-  assert.equal(await page.getByRole("textbox").first().inputValue(), fact);
-  assert.equal(await page.getByRole("textbox").nth(1).inputValue(), issue);
+  assert.equal(await page.getByRole("textbox", { name: "争议焦点" }).inputValue(), issue);
+  await page.getByRole("button", { name: "1. 事实梳理" }).click();
+  assert.equal(await page.getByRole("textbox", { name: "事实梳理" }).inputValue(), fact);
 }));
 
 test("实验空草稿不计完成，完整产出可完成，自评非强制", () => withPage(async (page) => {
@@ -93,8 +94,8 @@ test("分页深链刷新保持页码，主动搜索才回到第一页", () => wi
   await page.getByRole('link', { name: '← 返回案例检索' }).click();
   await page.waitForTimeout(400);
   assert.match(page.url(), /page=3/);
-  await page.getByRole("searchbox").fill("张保林");
-  await page.waitForTimeout(400);
+  await page.getByRole("searchbox", { name: "检索案例" }).fill("张保林");
+  await page.waitForURL(url => url.searchParams.get("q") === "张保林" && !url.searchParams.has("page"));
   assert.doesNotMatch(page.url(), /page=3/);
   assert.match(await page.locator("body").innerText(), /第 1 \/ 1 页/);
 }));
@@ -132,8 +133,10 @@ test("真实导出后在空浏览器导入，研习和实验可恢复续写，�
   await page.goto(`${origin}/cases/case-0001/study/`);
   const fact = "从原浏览器导出的事实".repeat(6);
   await page.getByRole("textbox").first().fill(fact);
-  await page.getByRole("textbox").nth(1).fill("需要恢复的争点".repeat(9));
-  await page.getByRole("textbox").nth(2).fill("需要恢复的分析");
+  await page.getByRole("button", { name: "2. 争议焦点" }).click();
+  await page.getByRole("textbox", { name: "争议焦点" }).fill("需要恢复的争点".repeat(9));
+  await page.getByRole("button", { name: "3. 法理分析" }).click();
+  await page.getByRole("textbox", { name: "法理分析" }).fill("需要恢复的分析");
   await page.evaluate(({ key, record }) => localStorage.setItem(key, JSON.stringify(record)), { key: experimentKey, record: completedRecord("exp-reasoning") });
   await page.goto(`${origin}/archive/`);
   const file = await readDownload(page, page.getByRole("button", { name: "导出全部记录" }));
@@ -149,7 +152,9 @@ test("真实导出后在空浏览器导入，研习和实验可恢复续写，�
     await fresh.getByRole("button", { name: "取消导入" }).click();
     await fresh.goto(`${origin}/cases/case-0001/study/`);
     await fresh.waitForFunction((expected) => document.querySelector("textarea")?.value === expected, fact);
-    assert.equal(await fresh.getByRole("textbox").nth(2).inputValue(), "需要恢复的分析");
+    await fresh.getByRole("button", { name: "3. 法理分析" }).click();
+    assert.equal(await fresh.getByRole("textbox", { name: "法理分析" }).inputValue(), "需要恢复的分析");
+    await fresh.getByRole("button", { name: "1. 事实梳理" }).click();
     await fresh.getByRole("textbox").first().fill("恢复后继续写作");
     await fresh.reload();
     await fresh.waitForFunction(() => document.querySelector("textarea")?.value === "恢复后继续写作");
@@ -201,7 +206,8 @@ test("导入容量不足和非法版本不会破坏已有记录", () => withPage
 }));
 
 test("PDF 引用页深链、文字选择复制、全文查找和缩放使用真实文书", () => withPage(async (page) => {
-  await page.goto(`${origin}/cases/case-0001/#page=14`);
+  await page.goto(`${origin}/cases/case-0001/study/#page=14`);
+  await page.getByRole("button", { name: "核对 PDF 原件" }).click();
   await page.waitForFunction(() => document.querySelector(".pdf-text-layer")?.textContent.replace(/\s+/g, "").includes("二〇二〇年十二月十七日"));
   assert.equal(await page.getByLabel("跳转页码").inputValue(), "14");
   const copy = await page.evaluate(() => {
@@ -251,7 +257,8 @@ test("PDF 没有文字层时明确提示，全文查找不伪造识别结果", (
   const xref = Buffer.byteLength(pdf);
   pdf += `xref\n0 5\n0000000000 65535 f \n${offsets.slice(1).map((offset) => `${String(offset).padStart(10, "0")} 00000 n \n`).join("")}trailer\n<< /Size 5 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
   await page.route("**/pdfs/**", (route) => route.fulfill({ contentType: "application/pdf", body: Buffer.from(pdf) }));
-  await page.goto(`${origin}/cases/case-0001/#page=1`);
+  await page.goto(`${origin}/cases/case-0001/study/#page=1`);
+  await page.getByRole("button", { name: "核对 PDF 原件" }).click();
   await page.getByText(/本页没有可选择文字/).waitFor();
   await page.getByLabel("查找 PDF 原文").fill("法院");
   await page.getByRole("button", { name: "查找全文", exact: true }).click();
@@ -318,7 +325,7 @@ test('原文批注支持键盘、取消、刷新恢复、页码引用与完成�
   assert.equal(saved.interactionData.annotations[0].paraIndex, undefined);
   await page.reload();
   await page.getByRole('button', { name: '标注摘录 1，已标为结论', exact: true }).waitFor();
-  assert.equal(await page.getByRole('link', { name: /原文第 12 页 · 摘录 1/ }).getAttribute('href'), '/cases/case-0001/#page=12');
+  assert.equal(await page.getByRole('link', { name: /原文第 12 页 · 摘录 1/ }).getAttribute('href'), '/cases/case-0001/study/#page=12');
   assert.equal(await page.locator('.exp-annotation-para').evaluateAll((nodes) => nodes.every((node) => node.getBoundingClientRect().right <= innerWidth)), true);
   await page.screenshot({ path: 'output/playwright/annotation-375.png', fullPage: true });
   await next.click();
@@ -427,7 +434,7 @@ test('案例量规要求反思并保留版本、依据和历史副本', () => wi
   await page.getByRole('button', { name: '完成产出，进入对照指引 →' }).click();
   await page.getByRole('region', { name: '案例专属量规' }).waitFor();
   await page.getByText('查看原文依据与页码', { exact: true }).click();
-  assert.equal(await page.locator('.exp-case-rubric').getByRole('link', { name: /原文第 7 页/ }).getAttribute('href'), '/cases/case-0012/#page=7');
+  assert.equal(await page.locator('.exp-case-rubric').getByRole('link', { name: /原文第 7 页/ }).getAttribute('href'), '/cases/case-0012/study/#page=7');
   await page.getByText('查看原文依据与页码', { exact: true }).click();
   await page.locator('.exp-case-rubric').screenshot({ path: 'output/playwright/case-rubric-390.png' });
   await page.getByRole('button', { name: '对照完成，进入自我评价 →' }).click();
@@ -470,7 +477,10 @@ test('课程完成从学习产出衔接返回课程与档案，浏览页面不�
  await page.goto(`${origin}/courses/course-period-02/`);
  assert.doesNotMatch(await page.locator('.course-task-card').innerText(),/本期任务已完成/);
  await page.goto(`${origin}/cases/case-0030/study/`);
- for(let i=0;i<3;i++) await page.getByRole('textbox').nth(i).fill('根据原文梳理规范事实和争点之间的对应关系。'.repeat(10));
+ for (const [index, name] of ['事实梳理', '争议焦点', '法理分析'].entries()) {
+   await page.getByRole('button', { name: `${index + 1}. ${name}` }).click();
+   await page.getByRole('textbox', { name }).fill('根据原文梳理规范事实和争点之间的对应关系。'.repeat(10));
+ }
  await page.goto(`${origin}/experiments/exp-reasoning/?case=case-0030`);
  for(let i=0;i<4;i++)await page.getByRole('textbox').nth(i).fill(['规范条件','事实对应','个人结论','推导反思'][i]);
  await page.getByRole('button',{name:'完成产出，进入对照指引 →'}).click();
@@ -482,4 +492,234 @@ test('课程完成从学习产出衔接返回课程与档案，浏览页面不�
  await page.getByRole('link',{name:'查看学习档案',exact:true}).click();
  await page.waitForURL(/archive/);
  assert.match(page.url(),/archive/);
+}));
+
+test("case-0012 可从完整判决书查法条并恢复同一步笔记和页码", () => withPage(async (page) => {
+  const filtered = "/cases/?page=2";
+  await page.goto(`${origin}/cases/case-0012/?returnTo=${encodeURIComponent(filtered)}`);
+  assert.equal(await page.locator(".pdf-toolbar").count(), 0);
+  assert.equal(await page.getByRole("link", { name: "打开原件 PDF" }).count(), 1);
+  assert.equal(await page.getByRole("heading", { name: "案例摘要" }).count(), 0);
+  await page.getByRole("link", { name: "开始案例研习" }).click();
+  await page.getByLabel("定位原件页").selectOption("2");
+  await page.waitForFunction(() => document.querySelector(".case-transcript-page-select select")?.value === "2");
+  await page.getByRole("button", { name: "2. 争议焦点" }).click();
+  const note = "买受人主张按合同正文结算，开发商主张适用附件约定。";
+  await page.getByRole("textbox", { name: "争议焦点" }).fill(note);
+  await page.getByText(/已本地保存/).waitFor();
+  await page.getByRole("link", { name: "查法条", exact: true }).click();
+  await page.locator("#law-index-search").fill("民事诉讼法第１７７条");
+  await page.getByRole("link", { name: "阅读条文" }).click();
+  await page.waitForURL((url) => url.hash === "#article-177");
+  await page.getByRole("link", { name: "← 返回法条检索" }).click();
+  assert.equal(await page.locator("#law-index-search").inputValue(), "民事诉讼法第１７７条");
+  await page.reload();
+  assert.equal(await page.locator("#law-index-search").inputValue(), "民事诉讼法第１７７条");
+  await page.getByRole("link", { name: "返回案例研习" }).click();
+  await page.waitForFunction(() => document.querySelector(".case-transcript-page-select select")?.value === "2");
+  assert.equal(await page.getByRole("textbox", { name: "争议焦点" }).inputValue(), note);
+  await page.getByRole("link", { name: "← 返回详情" }).click();
+  await page.waitForFunction((href) => document.querySelector(".case-detail-back-btn")?.getAttribute("href") === href, filtered);
+  await page.getByRole("link", { name: "开始案例研习" }).click();
+  await page.getByRole("link", { name: "查看研习档案" }).click();
+  await page.locator(".archive-record").getByRole("link", { name: /湖南富兴置业/ }).click();
+  await page.waitForFunction(() => document.querySelector(".case-transcript-page-select select")?.value === "2");
+  assert.equal(await page.getByRole("textbox", { name: "争议焦点" }).inputValue(), note);
+}));
+
+
+test("case-0010 的原文和课程回程可直达，旧练习换案后刷新仍保持选案", () => withPage(async (page) => {
+  const fromCourse = "course=course-period-01&origin=course";
+  await page.goto(`${origin}/cases/case-0010/?${fromCourse}`);
+  await page.getByRole("link", { name: "开始案例研习" }).click();
+  await page.getByLabel("定位原件页").waitFor();
+  await page.getByRole("link", { name: "← 返回详情" }).click();
+  await page.getByRole("link", { name: "← 返回本期课程" }).click();
+  await page.waitForURL("**/courses/course-period-01/");
+  await page.goto(`${origin}/experiments/exp-annotation/?case=case-0010&${fromCourse}`);
+  await page.getByRole("button", { name: "换一个案例" }).click();
+  await page.waitForURL((url) => !url.searchParams.has("case"));
+  await page.reload();
+  assert.equal(await page.getByRole("button", { name: "换一个案例" }).count(), 0);
+  await page.goBack();
+  await page.getByRole("button", { name: "换一个案例" }).waitFor();
+}));
+
+test("法条检索显示命中正文，可展开全文和切换目录", () => withPage(async (page) => {
+  await page.goto(`${origin}/resources/laws/`);
+  await page.getByRole("button", { name: "浏览法规目录" }).click();
+  await page.getByRole("heading", { name: "法规目录" }).waitFor();
+  await page.getByRole("button", { name: "搜索条文" }).click();
+  await page.getByRole("searchbox").fill("《民法典》第１４３条");
+  await page.getByRole("button", { name: "搜索", exact: true }).click();
+  await page.locator(".law-index .law-results li").first().waitFor();
+  assert.equal(await page.locator(".law-index .law-results li").count(), 1);
+  await page.getByText("展开本条全文", { exact: true }).click();
+  await page.locator(".law-result-fulltext[open]").getByText("（二）意思表示真实；", { exact: true }).waitFor();
+}));
+
+test("法律行为图保留章节深链，在窄屏及减少动画时可完整阅读", () => withPage(async (page) => {
+  await page.goto(`${origin}/knowledge/#chapter-conduct`);
+  await page.getByRole("link", { name: "法律行为分类", exact: true }).click();
+  await page.getByRole("heading", { name: "表意行为与事实行为", exact: true }).waitFor();
+  assert.match(await page.locator(".knowledge-focus").innerText(), /拾得遗失物/);
+  assert.equal(await page.locator(".knowledge-focus").evaluate(node => getComputedStyle(node).animationName), "none");
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+  await page.goBack();
+  await page.getByRole("heading", { name: "基本含义", exact: true }).waitFor();
+}, { viewport: { width: 390, height: 844 }, reducedMotion: "reduce" }));
+
+test("手机在全文和笔记之间切换，刷新后恢复原页和已写内容", () => withPage(async (page) => {
+  await page.goto(`${origin}/cases/case-0012/study/`);
+  await page.getByLabel("定位原件页").selectOption("2");
+  await page.waitForFunction(() => document.querySelector(".case-transcript-page-select select")?.value === "2");
+  await page.getByRole("button", { name: "写研习笔记" }).click();
+  const work = page.getByRole("textbox", { name: "事实梳理" });
+  await work.fill("合同正文和附件分别规定了面积不足时的处理办法。");
+  await page.reload();
+  assert.match(await work.inputValue(), /面积不足/);
+  await page.getByRole("button", { name: "读原文", exact: true }).click();
+  await page.waitForFunction(() => document.querySelector(".case-transcript-page-select select")?.value === "2");
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
+}, { viewport: { width: 390, height: 844 } }));
+
+test("可以从案例筛选进入法条并原样返回，法源全名优先", () => withPage(async (page) => {
+  const query = "year=2024&sort=date-asc";
+  await page.goto(`${origin}/cases/?${query}`);
+  await page.getByRole("link", { name: "检索法条" }).click();
+  await page.locator("#law-index-search").fill("行政诉讼法 第１２条");
+  const first = page.locator(".law-index .law-results li").first();
+  await first.getByText("中华人民共和国行政诉讼法 · 第十二条", { exact: true }).waitFor();
+  await first.getByRole("link", { name: "阅读条文" }).click();
+  await page.waitForURL((url) => url.pathname.includes("administrative-procedure") && url.hash === "#article-12");
+  await page.getByRole("link", { name: "← 返回法条检索" }).click();
+  await page.getByRole("link", { name: "← 返回案例检索" }).click();
+  await page.waitForURL((url) => url.pathname === "/cases/" && url.searchParams.get("year") === "2024" && url.searchParams.get("sort") === "date-asc");
+}));
+
+test("法条搜索按需载入，可重试并复制带版本的引文", () => withPage(async (page, context) => {
+  let requests = 0;
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.route("**/resources/laws/search-index.json", route => {
+    requests += 1;
+    return requests === 1 ? route.abort() : route.continue();
+  });
+  await page.goto(`${origin}/resources/laws/`);
+  await page.getByRole("button", { name: "浏览法规目录" }).click();
+  await page.getByRole("heading", { name: "法规目录" }).waitFor();
+  assert.equal(requests, 0);
+  await page.getByRole("button", { name: "搜索条文" }).click();
+  await page.locator("#law-index-search").fill("民法典 第１４３条");
+  await page.getByRole("button", { name: "重试", exact: true }).click();
+  const match = page.locator(".law-results").getByRole("listitem").filter({ hasText: "中华人民共和国民法典 · 第一百四十三条" });
+  await match.getByRole("button", { name: "复制引文", exact: true }).click();
+  await match.getByText("已复制法条引文", { exact: true }).waitFor();
+  assert.match(await page.evaluate(() => navigator.clipboard.readText()), /^中华人民共和国民法典（.+）第一百四十三条$/);
+  assert.equal(requests, 2);
+}));
+
+test("研习原件抽测民事判决、行政裁定、发布稿、论文和百页长文书", () => withPage(async (page) => {
+  const documents = [
+    ["case-0012", "裁判文书全文", 12],
+    ["case-0024", "裁判文书全文", 19],
+    ["case-0101", "法院发布材料全文", 3],
+    ["case-0104", "研究文章全文", 32],
+    ["case-0064", "裁判文书全文", 110],
+  ];
+  let longDocumentRanges = 0;
+  page.on("response", response => {
+    if (response.url().includes("431088109") && response.status() === 206) longDocumentRanges += 1;
+  });
+  for (const width of [390, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const [id, title, count] of documents) {
+      await page.goto(`${origin}/cases/${id}/study/`);
+      await page.getByText(title, { exact: true }).waitFor();
+      await page.getByRole("button", { name: "核对 PDF 原件" }).click();
+      await page.getByText(`第 1 / ${count} 页`, { exact: true }).waitFor();
+      const jump = page.getByLabel("跳转页码");
+      await jump.fill(String(count));
+      await page.getByRole("button", { name: "跳转", exact: true }).click();
+      await page.getByText(`第 ${count} / ${count} 页`, { exact: true }).waitFor();
+      await page.waitForFunction(() => {
+        const canvas = document.querySelector(".pdf-canvas");
+        return canvas?.width > 1 && !document.querySelector(".pdf-rendering-badge");
+      });
+      assert.equal(await page.getByRole("link", { name: "下载 PDF", exact: true }).count(), 1);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      await jump.fill("1");
+      await page.getByRole("button", { name: "跳转", exact: true }).click();
+      await page.getByText(`第 1 / ${count} 页`, { exact: true }).waitFor();
+    }
+  }
+  assert.ok(longDocumentRanges > 0, "百页级文书应通过分段请求读取");
+}));
+
+test("PDF 加载失败保留下载入口，恢复后可重新载入原件", () => withPage(async (page) => {
+  let shouldFail = true;
+  await page.route("**/pdfs/*.pdf", route => shouldFail ? route.abort() : route.continue());
+  await page.goto(`${origin}/cases/case-0012/study/`);
+  await page.getByRole("button", { name: "核对 PDF 原件" }).click();
+  const retry = page.getByRole("button", { name: "重新加载原文" });
+  await retry.waitFor();
+  assert.match(await page.getByRole("link", { name: "下载 PDF", exact: true }).getAttribute("href"), /\.pdf$/);
+  shouldFail = false;
+  await retry.click();
+  await page.getByText("第 1 / 12 页", { exact: true }).waitFor();
+  await page.waitForFunction(() => document.querySelectorAll(".pdf-text-layer span").length > 0);
+}));
+
+test("历史法规显示施行与废止时间并可核对废止依据", () => withPage(async (page) => {
+  await page.goto(`${origin}/resources/laws/?q=${encodeURIComponent("侵权责任法：第 ６ 条")}&fromCase=case-0012`);
+  const result = page.locator(".law-results li").filter({ hasText: "中华人民共和国侵权责任法 · 第六条" });
+  await result.getByText(/2010-07-01 施行.*2021-01-01 废止/).waitFor();
+  await result.getByRole("link", { name: "阅读条文" }).click();
+  await page.waitForURL(url => url.pathname.includes("tort-liability-historical") && url.hash === "#article-6");
+  await page.getByRole("link", { name: "查看民法典废止依据" }).click();
+  await page.waitForURL(url => url.pathname.endsWith("/civil/") && url.hash === "#article-1260");
+  assert.equal(new URL(page.url()).searchParams.get("fromCase"), "case-0012");
+  await page.getByRole("link", { name: "返回案例研习" }).click();
+  await page.waitForURL("**/cases/case-0012/study/");
+}));
+
+test("研习页逐字呈现 case-0021 各页，略图仅在查阅 PDF 时载入", () => withPage(async (page) => {
+  const transcript = JSON.parse(await readFile("public/case-text/case-0021.json", "utf8"));
+  await page.goto(`${origin}/cases/case-0021/study/#page=8`);
+  await page.locator("#transcript-page-18").waitFor({ state: "attached" });
+  assert.deepEqual(await page.locator(".case-transcript-text").allTextContents(), transcript.pages);
+  assert.equal(await page.getByLabel("定位原件页").inputValue(), "8");
+  assert.equal(await page.locator(".pdf-canvas").count(), 0);
+  await page.getByRole("button", { name: "核对 PDF 原件" }).click();
+  await page.getByText("第 8 / 18 页", { exact: true }).waitFor();
+}));
+
+test("法条检索的名称、条号和正文范围各自生效", () => withPage(async (page) => {
+  await page.goto(`${origin}/resources/laws/`);
+  await page.getByRole("radio", { name: "法规名称" }).check();
+  await page.getByRole("searchbox").fill("民法典");
+  await page.getByRole("heading", { name: "匹配的法规" }).waitFor();
+  await page.getByRole("listitem").filter({ has: page.getByText("中华人民共和国民法典", { exact: true }) }).getByRole("link", { name: "阅读全文" }).waitFor();
+  await page.getByRole("radio", { name: "条号" }).check();
+  await page.getByRole("searchbox").fill("民法典 １４３");
+  await page.getByText("中华人民共和国民法典 · 第一百四十三条", { exact: true }).waitFor();
+  await page.getByRole("link", { name: "阅读条文" }).click();
+  await page.getByRole("link", { name: "← 返回法条检索" }).click();
+  assert.equal(await page.getByRole("radio", { name: "条号" }).isChecked(), true);
+  await page.getByRole("radio", { name: "正文关键词" }).check();
+  await page.getByRole("searchbox").fill("意思表示真实");
+  await page.locator(".law-result-fulltext").first().waitFor();
+  assert.ok(await page.locator(".law-results mark").count() > 0);
+}));
+
+test("案例筛选收起后仍显示已选状态，清空后状态同步", () => withPage(async (page) => {
+  await page.goto(`${origin}/cases/?year=2024`);
+  const year = page.locator(".filter-fold").filter({ has: page.locator("summary", { hasText: "裁判年份" }) });
+  const summary = year.locator("summary");
+  await summary.getByText("已选").waitFor();
+  assert.equal(await year.locator("select").isVisible(), false);
+  await summary.click();
+  assert.equal(await year.locator("select").inputValue(), "2024");
+  await page.getByRole("button", { name: "重置筛选" }).click();
+  assert.equal(await year.locator("select").inputValue(), "");
+  assert.equal(await summary.getByText("已选").count(), 0);
 }));

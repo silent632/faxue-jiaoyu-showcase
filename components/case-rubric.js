@@ -27,7 +27,7 @@ export default function CaseRubric({ rubric, caseId }) {
     </details>
     <details><summary>查看原文依据与页码</summary>
       {rubric.evidence.map((evidence) => <figure key={evidence.id}>
-        <figcaption>{samePdf ? <a href={`/cases/${caseId}/#page=${evidence.page}`} target="_blank" rel="noreferrer">原文第 {evidence.page} 页 · {rubric.caseNumber}</a> : `留存原文第 ${evidence.page} 页`}</figcaption>
+        <figcaption>{samePdf ? <a href={`/cases/${caseId}/study/#page=${evidence.page}`} target="_blank" rel="noreferrer">原文第 {evidence.page} 页 · {rubric.caseNumber}</a> : `留存原文第 ${evidence.page} 页`}</figcaption>
         <blockquote>{evidence.text}</blockquote>
       </figure>)}
     </details>

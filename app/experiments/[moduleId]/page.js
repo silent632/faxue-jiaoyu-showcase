@@ -50,7 +50,7 @@ export default async function ExperimentModulePage({ params }) {
           <div className="exp-detail-hero-nav">
             <Link className="exp-detail-back" href="/experiments">
               <span className="exp-detail-back-arrow">←</span>
-              <span>实验中心</span>
+              <span>历次练习</span>
             </Link>
             <span className="exp-detail-hero-divider">/</span>
             <span className="exp-detail-hero-current">{mod.shortName}</span>

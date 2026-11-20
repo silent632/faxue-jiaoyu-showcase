@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import LearningContextLink from "@/components/learning-context-link";
 
 import StudyWorkspaceActions from "@/components/study-workspace-actions";
 import StudyWorkspaceOverview from "@/components/study-workspace-overview";
@@ -22,6 +24,7 @@ export default function StudyWorkspace({
   recommendedModules = [],
   loopCopy,
   allowedTopics,
+  fullText = false,
 }) {
   const { draft, saveInfo, updateDraftField } = useStudyWorkspaceDraft({ caseId: caseItem.id, userSid });
   const [exportFeedback, setExportFeedback] = useState(null);
@@ -31,6 +34,16 @@ export default function StudyWorkspace({
     issue: false,
     analysis: false,
   });
+  const stepKey = `study-step:${userSid}:${caseItem.id}`;
+  const [stepIndex, setStepIndex] = useState(0);
+  useEffect(() => {
+    if (!fullText) return;
+    try {
+      const remembered = Number(window.localStorage.getItem(stepKey));
+      if (Number.isInteger(remembered) && STUDY_STEP_DEFINITIONS[remembered]) setStepIndex(remembered);
+    } catch { /* 草稿仍可使用 */ }
+  }, [fullText, stepKey]);
+
   const metrics = getStudyWorkspaceMetrics({ caseItem, draft, hasPdf });
 
   useEffect(() => {
@@ -55,6 +68,57 @@ export default function StudyWorkspace({
 
   function toggleRef(field) {
     setVisibleRefs((current) => ({ ...current, [field]: !current[field] }));
+  }
+
+  if (fullText) {
+    const step = STUDY_STEP_DEFINITIONS[stepIndex];
+    const labels = ["事实梳理", "争议焦点", "法理分析"];
+    const prompts = caseItem.id === "case-0012" ? [
+      "从文书里找出签约、付款和产权登记的经过，记下约定面积、登记面积与差额。",
+      "分别写出买受人和开发商主张的结算办法，并指出各自依据的合同条款。",
+      "结合合同条款和相关规范说明你会如何结算，并用裁判原文核对自己的理由。",
+    ] : STUDY_STEP_DEFINITIONS.map(item => item.prompt);
+    return (
+      <div className="pilot-writing">
+        <header className="pilot-section-heading">
+          <h2>研习笔记</h2>
+          <span role="status">{saveInfo}</span>
+        </header>
+        <div className="pilot-steps" role="group" aria-label="研习步骤">
+          {labels.map((label, index) => (
+            <button type="button" key={label} aria-pressed={index === stepIndex} onClick={() => {
+              setStepIndex(index);
+              try { window.localStorage.setItem(stepKey, String(index)); } catch { /* 仍可切换步骤 */ }
+            }}>{index + 1}. {label}</button>
+          ))}
+        </div>
+        <section className="pilot-write-step" aria-labelledby="pilot-step-label">
+          <label id="pilot-step-label" htmlFor="pilot-step-input">{labels[stepIndex]}</label>
+          <p id="pilot-step-prompt">{prompts[stepIndex]}</p>
+          <textarea id="pilot-step-input" className="input" value={draft[step.field]} aria-describedby="pilot-step-prompt"
+            onChange={(event) => updateDraftField(step.field, event.target.value)} />
+          {caseItem[step.refKey] && charLen(draft[step.field]) >= STUDY_STEP_MIN_CHARS &&
+            <button className="btn btn-outline" type="button" aria-expanded={visibleRefs[step.field]}
+              onClick={() => toggleRef(step.field)}>{visibleRefs[step.field] ? "收起参考要点" : "查看参考要点"}</button>}
+          {visibleRefs[step.field] && charLen(draft[step.field]) >= STUDY_STEP_MIN_CHARS &&
+            <p className="pilot-reference">{caseItem[step.refKey]}</p>}
+        </section>
+        <footer className="pilot-actions">
+          <Link href="/archive/">查看研习档案 →</Link>
+          <button className="btn btn-outline" type="button" disabled={exporting || !metrics.totalChars}
+            onClick={handleExport}>导出研习笔记</button>
+          {exportFeedback?.message && <p role="status">{exportFeedback.message}</p>}
+        </footer>
+        {metrics.doneCount === 3 && recommendedModules.length > 0 && (
+          <details className="pilot-practice">
+            <summary>继续练习</summary>
+            <ul>{recommendedModules.map(item => <li key={item.id}>
+              <LearningContextLink carrySource href={`/experiments/${item.id}/?case=${caseItem.id}`}>{item.shortName}</LearningContextLink>
+            </li>)}</ul>
+          </details>
+        )}
+      </div>
+    );
   }
 
   return (

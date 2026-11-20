@@ -40,7 +40,7 @@ test("resources index redirects into courses and courses page keeps role markers
   assert.match(resourcesSource, /redirect\("\/courses"\)/u);
 
   assert.match(coursesSource, /data-page-role="courses-support"/u);
-  assert.match(coursesSource, /课程档案/u);
+  assert.match(coursesSource, /课程研习/u);
   assert.match(stageTabsSource, /archiveCard\.lead/u);
   assert.match(stageTabsSource, /进入课程/u);
   assert.match(stageTabsSource, /观看视频/u);
@@ -88,7 +88,7 @@ test("public pages avoid exposed reviewer-facing guidance and analyst narration"
     readFileSync(new URL("../../components/cases-intelligence-panels.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/cases-results-column.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/pdf-viewer-inner.js", import.meta.url), "utf8"),
-    readFileSync(new URL("../../components/case-pdf-disclosure.js", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/case-transcript.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/study-workspace-overview.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/study-workspace-step-card.js", import.meta.url), "utf8"),
     readFileSync(new URL("../../components/study-workspace-actions.js", import.meta.url), "utf8"),

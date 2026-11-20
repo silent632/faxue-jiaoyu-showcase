@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import CasesFilterChipGroup from "@/components/cases-filter-chip-group";
-import CasesIntelligencePanels from "@/components/cases-intelligence-panels";
 import CasesResultsColumn from "@/components/cases-results-column";
 import CasesSearchHero from "@/components/cases-search-hero";
 import {
@@ -12,9 +11,7 @@ import {
   buildActiveFilterDescriptors,
   buildCasesQueryString,
   buildFilterOptions,
-  buildNarrowingSuggestions,
   resolveCasesStateFromSearchParams,
-  buildStarterActions,
   getFilteredRows,
   getKeywordSuggestions,
   normalizeCaseRows,
@@ -128,24 +125,12 @@ export default function CasesWorkspace({ cases = [], learning = { chapters: [], 
   );
 
   const selectedFilterCount = activeFilters.length;
+  const casesQuery = buildCasesQueryString({ filters, sortMode, currentPage });
+  const lawSearchHref = casesQuery
+    ? `/resources/laws/?${new URLSearchParams({ returnTo: `/cases/?${casesQuery}` })}`
+    : "/resources/laws/";
   const pageStart = filtered.length ? (currentPage - 1) * PAGE_SIZE + 1 : 0;
   const pageEnd = filtered.length ? pageStart + pageRows.length - 1 : 0;
-  const starterActions = useMemo(() => buildStarterActions({ filtered, rows, filters }), [filtered, rows, filters]);
-  const narrowingSuggestions = useMemo(() => buildNarrowingSuggestions({ filtered, filters }), [filtered, filters]);
-
-  function applyFilterAction(action) {
-    setFilters((prev) => {
-      if (action.field === "year") return { ...prev, year: action.value };
-      if (action.field === "causeL1") return { ...prev, causeL1: action.value, causeL2: "", causeL3: "" };
-      if (action.field === "causeL2") return { ...prev, causeL2: action.value, causeL3: "" };
-      if (action.field === "causeL3") return { ...prev, causeL3: action.value };
-      if (action.field === "lawName") return { ...prev, lawName: [action.value], lawArticle: [] };
-      return { ...prev, [action.field]: [action.value] };
-    });
-    setCurrentPage(1);
-    setShowMobileFilter(false);
-  }
-
   function handleResetFilters() {
     setFilters(normalizeInitialCaseFilters({}));
     setKeywordInput("");
@@ -167,6 +152,7 @@ export default function CasesWorkspace({ cases = [], learning = { chapters: [], 
         filteredCount={filtered.length}
         selectedFilterCount={selectedFilterCount}
         keywordInput={keywordInput}
+        ready={hydrated}
         showSuggestions={showSuggestions}
         suggestions={suggestions}
         onKeywordInputChange={(value) => { keywordEdited.current = true; setKeywordInput(value); }}
@@ -178,7 +164,7 @@ export default function CasesWorkspace({ cases = [], learning = { chapters: [], 
       <section className="glass-sm cases-knowledge-filter" aria-labelledby="learning-topics-heading">
         <div>
           <h2 id="learning-topics-heading">按法理知识找案例</h2>
-          <Link href="/knowledge/">浏览法理学知识图谱</Link>
+          <div className="cases-learning-links"><Link href="/knowledge/">浏览法理学知识图谱</Link><Link href={lawSearchHref}>检索法条 →</Link></div>
         </div>
         {selectableTopics.length ? (
           <label>选择知识点
@@ -197,13 +183,6 @@ export default function CasesWorkspace({ cases = [], learning = { chapters: [], 
         ) : <p>目前没有可供浏览的知识点关联，可先使用下方条件检索案例。</p>}
       </section>
 
-      <CasesIntelligencePanels
-        filteredCount={filtered.length}
-        starterActions={starterActions}
-        narrowingSuggestions={narrowingSuggestions}
-        onApplyFilterAction={applyFilterAction}
-      />
-
       <div className="cases-grid">
         <aside className={`glass-sm cases-sidebar${showMobileFilter ? " open" : ""}`}>
           <div className="cases-sidebar-head">
@@ -217,13 +196,8 @@ export default function CasesWorkspace({ cases = [], learning = { chapters: [], 
           </div>
 
           <div className="cases-sidebar-scroll">
-            <section className="filter-section">
-              <div className="filter-heading-row">
-                <div>
-                  <div className="filter-heading">案由</div>
-                  <p className="filter-hint">按“案件类型 → 案由门类 → 具体案由”逐级收窄，更适合教学检索。</p>
-                </div>
-              </div>
+            <details className="filter-section filter-fold">
+              <summary><span>案由</span>{filters.causeL1 && <span className="filter-selected">已选</span>}</summary>
               <select
                 className="input cases-filter-select"
                 value={filters.causeL1}
@@ -273,15 +247,10 @@ export default function CasesWorkspace({ cases = [], learning = { chapters: [], 
                   ))}
                 </select>
               ) : null}
-            </section>
+            </details>
 
-            <section className="filter-section">
-              <div className="filter-heading-row">
-                <div>
-                  <div className="filter-heading">裁判年份</div>
-                  <p className="filter-hint">可先选择年份，再继续收窄范围。</p>
-                </div>
-              </div>
+            <details className="filter-section filter-fold">
+              <summary><span>裁判年份</span>{filters.year && <span className="filter-selected">已选</span>}</summary>
               <select
                 className="input cases-filter-select"
                 value={filters.year}
@@ -297,7 +266,7 @@ export default function CasesWorkspace({ cases = [], learning = { chapters: [], 
                   </option>
                 ))}
               </select>
-            </section>
+            </details>
 
             <CasesFilterChipGroup
               field="courtLevel"
@@ -396,7 +365,7 @@ export default function CasesWorkspace({ cases = [], learning = { chapters: [], 
           pageEnd={pageEnd}
           currentPage={currentPage}
           totalPages={totalPages}
-          returnQuery={buildCasesQueryString({ filters, sortMode, currentPage })}
+          returnQuery={casesQuery}
           onToggleMobileFilter={() => setShowMobileFilter((prev) => !prev)}
           onSortModeChange={(value) => {
             setSortMode(value);

@@ -2,51 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import LearningContextLink from "@/components/learning-context-link";
+import CaseTranscript from "@/components/case-transcript";
 import PdfViewer from "@/components/pdf-viewer";
 import StudyWorkspace from "@/components/study-workspace";
-
-/** 左栏主体：纸面版式的案例整理材料（裁判说理不在此展示，留给第三步对照揭示） */
-function StudyMaterialReader({ caseItem }) {
-  const sections = [
-    { label: "案例摘要", text: caseItem.summary },
-    { label: "事实梳理", text: caseItem.refFact },
-    { label: "争议焦点", text: caseItem.refIssue },
-  ].filter((block) => String(block.text || "").trim());
-
-  return (
-    <div className="exp-ws3-reader-inner study-reader-inner">
-      <div className="exp-ws3-reader-head">
-        <span className="exp-ws3-reader-doctag">案例材料</span>
-        <h2 className="exp-ws3-reader-title">{caseItem.title}</h2>
-        <p className="exp-ws3-reader-meta">
-          {[caseItem.caseNumber, caseItem.courtName, caseItem.judgmentDate].filter(Boolean).join(" · ")}
-        </p>
-      </div>
-
-      {sections.map((block) => (
-        <section key={block.label} className="exp-ws3-reader-section">
-          <h3>{block.label}</h3>
-          <p>{block.text}</p>
-        </section>
-      ))}
-
-      {(caseItem.laws || []).length > 0 && (
-        <section className="exp-ws3-reader-section">
-          <h3>涉及法条</h3>
-          <ul className="exp-ws3-reader-laws">
-            {caseItem.laws.map((law, i) => (
-              <li key={`${law.law}-${law.article}-${i}`}>
-                {(law.displayLaw || law.law)}{law.article ? ` ${law.article}` : ""}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      <p className="study-reader-footnote">裁判说理与法院结论会在完成第三步写作后开放对照。</p>
-    </div>
-  );
-}
 
 const STORAGE_KEY = "study-shell-left-pane-width";
 const DEFAULT_LEFT_PANE = 48;
@@ -60,23 +19,37 @@ function clampPaneWidth(value) {
 export default function StudySplitShell({
   caseItem,
   userSid,
-  pdfFileName,
-  hasPdf,
+  source,
   recommendedModules,
-  loopCopy,
   allowedTopics,
 }) {
   const shellRef = useRef(null);
   const [leftPaneWidth, setLeftPaneWidth] = useState(DEFAULT_LEFT_PANE);
   const [isDragging, setIsDragging] = useState(false);
-  const [readerTab, setReaderTab] = useState("material");
+  const [showPdf, setShowPdf] = useState(false);
+  const [mobilePane, setMobilePane] = useState("pdf-pane");
+  const paneKey = `study-mobile-pane:${userSid}:${caseItem.id}`;
+
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem(paneKey) === "study-pane") setMobilePane("study-pane");
+    } catch { /* 可继续切换 */ }
+  }, [paneKey]);
+
+  function choosePane(name) {
+    setMobilePane(name);
+    try { window.localStorage.setItem(paneKey, name); } catch { /* 可继续切换 */ }
+  }
+  const readingPositionKey = `study-pdf-page:${userSid}:${caseItem.id}:${source.file}`;
+  const pdfUrl = `/pdfs/${encodeURIComponent(source.file)}`;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const savedValue = Number(window.localStorage.getItem(STORAGE_KEY));
-    if (Number.isFinite(savedValue)) {
-      setLeftPaneWidth(clampPaneWidth(savedValue));
-    }
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      const savedValue = Number(stored);
+      if (stored && savedValue >= MIN_LEFT_PANE && savedValue <= MAX_LEFT_PANE) setLeftPaneWidth(savedValue);
+    } catch { /* 分栏仍可使用 */ }
   }, []);
 
   // 沉浸工作态：侧栏收窄为图标条
@@ -86,11 +59,6 @@ export default function StudySplitShell({
       delete document.documentElement.dataset.workspace;
     };
   }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(STORAGE_KEY, String(leftPaneWidth));
-  }, [leftPaneWidth]);
 
   useEffect(() => {
     if (!isDragging) return undefined;
@@ -106,7 +74,7 @@ export default function StudySplitShell({
       const rect = shellRef.current?.getBoundingClientRect();
       if (!rect || rect.width <= 0) return;
       const nextWidth = ((event.clientX - rect.left) / rect.width) * 100;
-      setLeftPaneWidth(clampPaneWidth(nextWidth));
+      changeWidth(nextWidth);
     }
 
     document.body.style.userSelect = "none";
@@ -130,58 +98,53 @@ export default function StudySplitShell({
     setIsDragging(true);
   }
 
+  function rememberWidth(width) {
+    try { window.localStorage.setItem(STORAGE_KEY, String(width)); } catch { /* 分栏仍可使用 */ }
+  }
+
+  function changeWidth(width) {
+    const next = clampPaneWidth(width);
+    setLeftPaneWidth(next);
+    rememberWidth(next);
+  }
+
   function resetWidth() {
-    setLeftPaneWidth(DEFAULT_LEFT_PANE);
+    changeWidth(DEFAULT_LEFT_PANE);
   }
 
   function nudgeWidth(delta) {
-    setLeftPaneWidth((current) => clampPaneWidth(current + delta));
+    changeWidth(leftPaneWidth + delta);
   }
 
   const shellStyle = useMemo(() => ({ "--study-left-pane": `${leftPaneWidth}%` }), [leftPaneWidth]);
 
   return (
-    <div ref={shellRef} className={`study-shell fade-in${isDragging ? " is-dragging" : ""}`} style={shellStyle}>
+    <div ref={shellRef} className={`study-shell fade-in pilot-study${isDragging ? " is-dragging" : ""}`} style={shellStyle} data-mobile-pane={mobilePane}>
+      <nav className="study-mobile-panes" aria-label="原文和笔记">
+        <button type="button" aria-controls="pdf-pane" aria-pressed={mobilePane === "pdf-pane"} onClick={() => choosePane("pdf-pane")}>读原文</button>
+        <button type="button" aria-controls="study-pane" aria-pressed={mobilePane === "study-pane"} onClick={() => choosePane("study-pane")}>写研习笔记</button>
+      </nav>
       <section className="split-pane" id="pdf-pane">
         <div className="glass-sm study-pane-card study-pane-card-pdf">
-          <div className="study-reader-tabs">
-            <button
-              type="button"
-              className={`study-reader-tab${readerTab === "material" ? " active" : ""}`}
-              onClick={() => setReaderTab("material")}
-            >
-              整理材料
-            </button>
-            <button
-              type="button"
-              className={`study-reader-tab${readerTab === "pdf" ? " active" : ""}`}
-              onClick={() => setReaderTab("pdf")}
-              disabled={!hasPdf}
-              title={hasPdf ? "" : "当前案例暂未提供 PDF 原文"}
-            >
-              原文 PDF
-            </button>
-            {readerTab === "pdf" && pdfFileName ? (
-              <span className="study-pane-meta" title={pdfFileName}>{pdfFileName}</span>
-            ) : null}
-          </div>
-
-          <div className={`study-pane-body${readerTab === "pdf" ? " study-pane-body-pdf" : " study-pane-body-material"}`}>
-            {readerTab === "material" ? (
-              <StudyMaterialReader caseItem={caseItem} />
-            ) : (
-              <PdfViewer
-                fileUrl={`/pdfs/${encodeURIComponent(pdfFileName)}`}
-                fileName={pdfFileName}
-                caseNumber={caseItem.caseNumber}
-                minHeight={0}
-                downloadHref={`/pdfs/${encodeURIComponent(pdfFileName)}`}
-                fillAvailableHeight
-                defaultViewMode="width"
-                hideFooter
-                fallbackContent={<StudyMaterialReader caseItem={caseItem} />}
-              />
-            )}
+            <div className="pilot-reader-tools">
+              <strong>{source.title}</strong>
+              <button className="btn btn-outline" type="button" onClick={() => setShowPdf(current => !current)}>{showPdf ? "返回文字全文" : "核对 PDF 原件"}</button>
+              <LearningContextLink carrySource className="btn btn-primary"
+                href={`/resources/laws/?fromCase=${caseItem.id}`}>查法条</LearningContextLink>
+              {caseItem.laws?.length > 0 && <details className="study-cited-laws">
+                <summary>本案引用</summary>
+                <ul>{[...new Set(caseItem.laws.map((law) => [law.displayLaw || law.law, law.article].filter(Boolean).join(" ")))].map((label) => {
+                  const query = new URLSearchParams({ fromCase: caseItem.id, q: label });
+                  return <li key={label}><LearningContextLink carrySource href={`/resources/laws/?${query}`}>{label} →</LearningContextLink></li>;
+                })}</ul>
+              </details>}
+            </div>
+          <div className={`study-pane-body study-pane-body-pdf${showPdf ? "" : " study-transcript-body"}`}>
+            {showPdf ? (
+            <PdfViewer fileUrl={pdfUrl} fileName={source.file} caseNumber={caseItem.caseNumber} minHeight={0}
+              downloadHref={pdfUrl} fillAvailableHeight defaultViewMode="width" hideFooter
+              readingPositionKey={readingPositionKey} />
+            ) : <CaseTranscript caseId={caseItem.id} source={source} pdfUrl={pdfUrl} readingPositionKey={readingPositionKey} />}
           </div>
         </div>
       </section>
@@ -203,11 +166,11 @@ export default function StudySplitShell({
             }
             if (event.key === "Home") {
               event.preventDefault();
-              setLeftPaneWidth(MIN_LEFT_PANE);
+              changeWidth(MIN_LEFT_PANE);
             }
             if (event.key === "End") {
               event.preventDefault();
-              setLeftPaneWidth(MAX_LEFT_PANE);
+              changeWidth(MAX_LEFT_PANE);
             }
           }}
           aria-label="调整左侧阅读区和右侧研习区宽度"
@@ -222,16 +185,14 @@ export default function StudySplitShell({
 
       <section className="split-pane" id="study-pane">
         <div className="study-pane-card study-pane-card-workspace">
-
-
           <div className="study-pane-scroll">
             <StudyWorkspace
               caseItem={caseItem}
+              fullText
               userSid={userSid}
-              hasPdf={hasPdf}
+              hasPdf
               mode="split"
               recommendedModules={recommendedModules}
-              loopCopy={loopCopy}
               allowedTopics={allowedTopics}
             />
           </div>

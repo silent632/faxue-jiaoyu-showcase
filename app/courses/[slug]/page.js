@@ -23,11 +23,7 @@ export default async function CourseDetailPage({ params }) {
   }
 
   const profile = period.courseContentProfile;
-  const { periodHome } = period;
-  const summary = periodHome.summary;
-  const entryPanels = period.periodHome.entryPanels?.slice(0, 3) ?? [];
-  const materialNotes = period.periodHome.materialNotes ?? [];
-  const highlights = periodHome.highlights ?? [];
+  const summary = period.archiveCard.lead;
   const firstMaterial = period.materialPages[0];
   const materialCount = period.materialPages.length;
   const allCases = await loadShowcaseCases();
@@ -46,57 +42,17 @@ export default async function CourseDetailPage({ params }) {
   return (
     <CoursePeriodShell period={period} title={period.title} summary={summary}>
       {task && <CourseTaskCard task={task} />}
-      {caseTopics.length > 0 && (
-        <section className="showcase-card" aria-label="本期法理知识">
-          <h2>本期法理知识</h2>
-          <div className="console-actions">
-            {caseTopics.map(topic => <Link key={topic.id} className="btn btn-outline" href={`/knowledge/#${topic.id}`}>{topic.title}</Link>)}
-          </div>
-        </section>
-      )}
-      {/* 本期简报：定位 + 线索 + 三个切入面板 + 阅读提示 */}
-      <section className="showcase-card course-period-briefing" aria-label="本期简报">
-        <div className="course-period-briefing-grid">
-          <article className="course-period-panel course-period-panel-wide">
-            <h3 className="course-period-panel-title">课程定位与承接</h3>
-            <p>{profile.periodSummary.position}</p>
-            <p>{profile.periodSummary.bridge}</p>
-          </article>
-
-          {highlights.length > 0 ? (
-            <article className="course-period-panel">
-              <h3 className="course-period-panel-title">本期进入线索</h3>
-              <ul className="course-period-panel-list">
-                {highlights.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          ) : null}
-
-          {entryPanels.map((panel) => (
-            <article className="course-period-panel" key={panel.title}>
-              <h3 className="course-period-panel-title">{panel.title}</h3>
-              {panel.summary ? <p className="course-period-panel-summary">{panel.summary}</p> : null}
-              <ul className="course-period-panel-list">
-                {panel.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-
-          {materialNotes.length > 0 ? (
-            <article className="course-period-panel">
-              <h3 className="course-period-panel-title">材料阅读提示</h3>
-              <ul className="course-period-panel-list">
-                {materialNotes.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          ) : null}
+      <section className="showcase-card course-learning-focus" aria-label="本期学习重点">
+        <div>
+          <h2>本期学习重点</h2>
+          <p>{task?.goal || summary}</p>
         </div>
+        {caseTopics.length > 0 && <div>
+          <h3>相关法理知识</h3>
+          <div className="console-actions">
+            {caseTopics.map(topic => <Link key={topic.id} className="btn btn-outline" href={`/knowledge/#${topic.id}`}>{topic.title} →</Link>)}
+          </div>
+        </div>}
       </section>
 
       {recommendedCases.length ? (
@@ -108,7 +64,7 @@ export default async function CourseDetailPage({ params }) {
           </div>
           <div className="course-recommended-grid">
             {recommendedCases.map(({ caseId, reason, caseItem }) => (
-              <Link key={caseId} className="course-recommended-card" href={`/cases/${caseId}`}>
+              <Link key={caseId} className="course-recommended-card" href={`/cases/${caseId}/?course=${slug}&origin=course`}>
                 <span>{caseItem.causeFocus}</span>
                 <strong>{caseItem.title}</strong>
                 <small>{caseItem.caseNumber}</small>
@@ -121,7 +77,7 @@ export default async function CourseDetailPage({ params }) {
       ) : null}
 
       {/* 本期材料档案 */}
-      <section className="showcase-card course-period-materials" aria-label="本期材料入口">
+      <section id="course-materials" className="showcase-card course-period-materials" aria-label="本期材料入口">
         <div className="course-period-materials-head">
           <div>
             <p className="section-eyebrow">{materialCount}份材料 · 四类分组</p>
@@ -139,7 +95,10 @@ export default async function CourseDetailPage({ params }) {
           </div>
         </div>
 
-        <CourseMaterialDirectory groups={period.materialDirectory} variant="inline" />
+        <details className="course-period-materials-disclosure">
+          <summary>展开本期材料</summary>
+          <CourseMaterialDirectory groups={period.materialDirectory} variant="inline" />
+        </details>
       </section>
     </CoursePeriodShell>
   );

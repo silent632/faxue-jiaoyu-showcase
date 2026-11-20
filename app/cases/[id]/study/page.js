@@ -9,6 +9,7 @@ import { recommendModulesForCase } from "@/lib/learning-loop.js";
 import { buildShowcaseContent } from "@/lib/showcase-content.js";
 import { getShowcaseCaseById, getShowcaseCaseStaticParams } from "@/lib/showcase-cases";
 import { getPublicJurisprudenceLearning } from "@/lib/content/jurisprudence-learning.js";
+import { getCaseReadingSource } from "@/lib/content/case-reading-source.js";
 import LearningContextLink from "@/components/learning-context-link";
 import LearningContextPanel from "@/components/learning-context-panel";
 
@@ -35,14 +36,13 @@ export default async function StudyPage({ params }) {
   const contextLinks = learning.caseLinks.filter(link => link.caseId === id).map(link => ({ ...link, topicTitle: learning.topics.find(topic => topic.id === link.topicId)?.title })).filter(link => link.topicTitle);
   const allowedTopics = contextLinks.map(link => link.topicId);
   const loopCopy = buildShowcaseContent().learningLoop;
+  const source = getCaseReadingSource(id, pdfFileName);
   const shell = hasPdf ? (
     <StudySplitShell
       caseItem={caseItem}
       userSid={userSid}
-      pdfFileName={pdfFileName}
-      hasPdf={hasPdf}
+      source={source}
       recommendedModules={recommendedModules}
-      loopCopy={loopCopy}
       allowedTopics={allowedTopics}
     />
   ) : (
@@ -59,9 +59,9 @@ export default async function StudyPage({ params }) {
     <main className="study-page-main">
       <ShowcaseNav />
 
-      <div className="exp-ws3-topbar study-topbar">
+      <div className={`exp-ws3-topbar study-topbar${hasPdf ? " pilot-topbar" : ""}`}>
         <div className="exp-ws3-topbar-left">
-          <LearningContextLink allowedTopics={allowedTopics} className="exp-ws3-back" href={`/cases/${id}`}>← 返回详情</LearningContextLink>
+          <LearningContextLink allowedTopics={allowedTopics} carrySource className="exp-ws3-back" href={`/cases/${id}`}>← 返回详情</LearningContextLink>
           <span className="exp-ws3-module-badge">研习工作台</span>
           <div className="exp-ws3-case">
             <strong>{caseItem.title}</strong>
@@ -70,7 +70,7 @@ export default async function StudyPage({ params }) {
         </div>
       </div>
 
-      <LearningContextPanel links={contextLinks}/>
+      {!hasPdf && <LearningContextPanel links={contextLinks}/>}
       {shell}
     </main>
   );

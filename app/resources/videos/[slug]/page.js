@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import ShowcaseNav from "@/components/showcase-nav";
+import CourseVideoPlayer from "@/components/course-video-player";
 import { buildShowcaseContent } from "@/lib/showcase-content";
 import { getShowcaseVideoBySlug, getShowcaseVideoPeriods, getShowcaseVideoStaticParams } from "@/lib/showcase-home-videos";
 
@@ -31,19 +32,14 @@ export default async function VideoPlayerPage({ params }) {
       <ShowcaseNav items={content.nav} />
 
       <div className="video-page-body">
-        <div className="exp-ws3-topbar video-topbar">
-          <div className="exp-ws3-topbar-left">
-            <Link className="exp-ws3-back" href="/courses">← 课程体系</Link>
-            <span className="exp-ws3-module-badge">{video.stageTag}</span>
-            <div className="exp-ws3-case">
-              <strong>{video.title}</strong>
-              <span>{video.theme} · {video.phaseLabel}</span>
-            </div>
+        <header className="editorial-heading video-heading">
+          <div>
+            <Link href={courseHref}>← 返回本期课程</Link>
+            <h1>{video.title}</h1>
+            <p>{video.summary}</p>
           </div>
-          <div className="exp-ws3-topbar-right">
-            <Link className="btn btn-outline" href={courseHref}>本期课程档案</Link>
-          </div>
-        </div>
+          <Link className="btn btn-outline" href="/courses/">全部课程</Link>
+        </header>
 
         <article className="video-player-stage">
           <div className="showcase-video-player-frame video-player-frame-main">
@@ -54,18 +50,13 @@ export default async function VideoPlayerPage({ params }) {
                 <p>当前内容按分段提供，可从下方继续进入。</p>
               </div>
             ) : (
-              <video className="showcase-video-player-element" controls preload="metadata" playsInline>
-                <source src={video.sourceHref} type="video/mp4" />
-                如播放器未正常显示，可改用下方备用入口打开视频。
-              </video>
+              <CourseVideoPlayer source={video.sourceHref} period={video.period} />
             )}
           </div>
 
           <div className="video-player-below">
             <div className="video-player-summary">
-              <h1 className="video-player-title">{video.title}</h1>
-              <p className="video-player-desc">{video.summary}</p>
-              {video.purpose ? <p className="video-player-purpose">{video.purpose}</p> : null}
+              <Link href={courseHref}>查看本期课程材料 →</Link>
             </div>
             {!isSegmentPage ? (
               <a href={video.sourceHref} target="_blank" rel="noreferrer" className="btn btn-outline video-player-source">
@@ -107,13 +98,13 @@ export default async function VideoPlayerPage({ params }) {
               <span className="video-period-nav-dir">← 上一期</span>
               <strong>{prevVideo.title}</strong>
             </Link>
-          ) : <span />}
+          ) : null}
           {nextVideo ? (
             <Link className="video-period-nav-card video-period-nav-next" href={`/resources/videos/${nextVideo.slug}`}>
               <span className="video-period-nav-dir">下一期 →</span>
               <strong>{nextVideo.title}</strong>
             </Link>
-          ) : <span />}
+          ) : null}
         </nav>
       </div>
     </main>

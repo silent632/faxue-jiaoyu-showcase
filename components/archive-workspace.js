@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { studyContextHref } from "@/lib/study-law-context.js";
+
+const fromArchive = (href) => studyContextHref(href, { origin: "archive" });
 import ArchiveImportPanel from "@/components/archive-import-panel";
 import { readImportAlternatives } from "@/lib/archive-import";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -192,9 +195,9 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
   return (
     <div className="archive-shell fade-in">
       <header className="archive-hero">
-        <span className="section-eyebrow">{copy.eyebrow}</span>
-        <h1>{copy.title}</h1>
-        <p>{copy.description}</p>
+        <h1>个人中心</h1>
+        <p>在这里查看这台浏览器保存的案例笔记和练习。换设备前，可以先导出一份备份。</p>
+        <Link href="/workspace/">打开账号中的课程任务 →</Link>
       </header>
 
       {!hasRecords ? (
@@ -205,7 +208,6 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
           <div className="archive-empty-actions">
             <Link className="btn btn-primary" href="/courses">{copy.empty.courseLabel}</Link>
             <Link className="btn btn-outline" href="/cases">{copy.empty.casesLabel}</Link>
-            <Link className="btn btn-ghost" href="/experiments">{copy.empty.experimentsLabel}</Link>
           </div>
         </section>
       ) : (
@@ -231,7 +233,7 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
               <h2>{copy.recommendation.title}</h2>
               <p>{recommendation.text}</p>
             </div>
-            <Link className="btn btn-accent" href={recommendation.href}>
+            <Link className="btn btn-accent" href={fromArchive(recommendation.href)}>
               {recommendation.label} →
             </Link>
           </section>
@@ -280,7 +282,7 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
                       <span>{item.causeFocus || item.caseNumber || item.id}</span>
                       {item.closed ? <strong>{copy.records.closedLabel}</strong> : null}
                     </div>
-                    {item.knownCase ? <Link href={`/cases/${item.id}/study`}>{item.title}</Link> : <strong>{item.title}（历史记录）</strong>}
+                    {item.knownCase ? <Link href={fromArchive(`/cases/${item.id}/study/`)}>{item.title}</Link> : <strong>{item.title}（历史记录）</strong>}
                     <small>{item.caseNumber}</small>
                   </div>
                   <div className="archive-record-progress">
@@ -289,14 +291,14 @@ export default function ArchiveWorkspace({ caseIndex, modules, copy, userSid }) 
                       {item.completedModuleIds.map((moduleId) => {
                         const mod = modules.find((entry) => entry.id === moduleId);
                         return (
-                          item.knownCase ? <Link key={moduleId} className="tag" href={`/experiments/${moduleId}?case=${item.id}`}>
+                          item.knownCase ? <Link key={moduleId} className="tag" href={fromArchive(`/experiments/${moduleId}/?case=${item.id}`)}>
                             {mod?.shortName || moduleId}
                           </Link> : <span key={moduleId} className="tag">{mod?.shortName || moduleId}</span>
                         );
                       })}
                     </div>
                   </div>
-                  {item.knownCase ? <Link className="btn btn-outline" href={item.pendingTasks[0]?.kind === "experiment" ? `/experiments/${item.pendingTasks[0].moduleId}?case=${item.id}` : `/cases/${item.id}/study`}>
+                  {item.knownCase ? <Link className="btn btn-outline" href={fromArchive(item.pendingTasks[0]?.kind === "experiment" ? `/experiments/${item.pendingTasks[0].moduleId}/?case=${item.id}` : `/cases/${item.id}/study/`)}>
                     {copy.records.continueLabel}
                   </Link> : null}
                 </article>

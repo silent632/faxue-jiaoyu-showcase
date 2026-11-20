@@ -6,6 +6,8 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { statSync } from "node:fs";
+import caseReadingSources from "../content/case-reading-sources.json" with { type: "json" };
+import lawLibrary from "../content/law-library.json" with { type: "json" };
 import { getLibraryData, validateLibrary } from "../lib/content/library.js";
 
 const result = validateContent();
@@ -19,8 +21,13 @@ if (!result.ok) {
 }
 
 const cases = await loadShowcaseCases();
-const learningErrors = validateJurisprudenceLearning(getJurisprudenceLearningData(), cases.map(item => item.id));
+const learning = getJurisprudenceLearningData();
+const learningErrors = validateJurisprudenceLearning(learning, cases.map(item => item.id));
+for (const topic of learning.topics.filter(item => ['published', 'reviewed'].includes(item.status))) {
+  if (!topic.revisionSections?.length) learningErrors.push(`公开节点缺少课件正文：${topic.id}`);
+}
 for (const link of getJurisprudenceLearningData().caseLinks.filter(item => ['published', 'reviewed'].includes(item.status))) {
+  if (link.pages.some(page => page > (caseReadingSources[link.caseId]?.pages ?? 0))) learningErrors.push(`案例证据超出 PDF 页数：${link.caseId}`);
   if (!link.sourceFile || basename(link.sourceFile) !== link.sourceFile) { learningErrors.push('案例原文文件名无效'); continue; }
   if (cases.find(item => item.id === link.caseId)?.pdfFile !== link.sourceFile) { learningErrors.push(`案例与原文不匹配：${link.caseId}`); continue; }
   try {
@@ -36,7 +43,13 @@ if (learningErrors.length) {
 const library = getLibraryData();
 const libraryErrors = validateLibrary(library, getJurisprudenceLearningData().topics.map(item => item.id));
 for (const item of library.items.filter(item => item.status === 'published' && item.href?.startsWith('/library/'))) {
-  try { if (!statSync(join('public', item.href.slice(1))).isFile()) libraryErrors.push(`${item.id}: 资料文件不存在`); }
+  try {
+    const path = join('public', item.href.slice(1));
+    if (!statSync(path).isFile()) libraryErrors.push(`${item.id}: 资料文件不存在`);
+    else if (item.reading && createHash('sha256').update(readFileSync(path)).digest('hex') !== item.reading.sha256) {
+      libraryErrors.push(`${item.id}: 经验全文文件指纹不一致`);
+    }
+  }
   catch { libraryErrors.push(`${item.id}: 资料文件不存在`); }
 }
 if (libraryErrors.length) {
@@ -44,4 +57,15 @@ if (libraryErrors.length) {
   process.exit(1);
 }
 
-console.log("Content validation passed.");
+const slugs = new Set();
+for (const law of lawLibrary) {
+  if (!law.slug || slugs.has(law.slug) || !law.title || !law.version || !/^\d{4}-\d{2}-\d{2}$/u.test(law.effective)
+    || (law.repealed && (!/^\d{4}-\d{2}-\d{2}$/u.test(law.repealed) || law.repealed <= law.effective))
+    || !/^https:\/\//u.test(law.source) || !law.articles.length ||
+    law.articles.some((article, index) => article.number !== index + 1 || !article.label || !article.paragraphs.length || article.paragraphs.some(text => !text.trim()))) {
+    console.error(`法规全文结构或来源无效：${law.title}`);
+    process.exitCode = 1;
+  }
+  slugs.add(law.slug);
+}
+if (!process.exitCode) console.log("Content validation passed.");

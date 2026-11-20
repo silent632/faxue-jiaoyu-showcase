@@ -11,7 +11,7 @@ import {
   resolveShowcaseCasesJsonPath,
   selectCanonicalDemoCaseId,
 } from "../../lib/showcase-cases.js";
-import { buildFilterOptions, buildStarterActions, normalizeCaseRows } from "../../lib/cases-workspace.js";
+import { buildFilterOptions, buildStarterActions, getFilteredRows, normalizeCaseRows, normalizeInitialCaseFilters } from "../../lib/cases-workspace.js";
 import {
   buildCaseReadingJudgment,
   buildMissingPdfNote,
@@ -186,4 +186,14 @@ test("presentation helpers keep no-pdf messaging intentional", () => {
   assert.match(note.title, /研习入口/u);
   assert.match(note.body, /导读判断线索|继续进入案例研习/u);
   assert.equal(/暂无|缺失|降级/u.test(`${note.title}${note.body}`), false);
+});
+
+
+test("法条检索要求同一条引用匹配规范名称与条号", () => {
+  const rows = normalizeCaseRows([
+    { id: "matching", title: "匹配", laws: [{ law: "甲法", article: "第一条" }] },
+    { id: "crossed", title: "交叉", laws: [{ law: "甲法", article: "第二条" }, { law: "乙法", article: "第一条" }] },
+  ]);
+  const filters = normalizeInitialCaseFilters({ lawName: "甲法", lawArticle: "第一条" });
+  assert.deepEqual(getFilteredRows(rows, filters, "date-desc").map(row => row.id), ["matching"]);
 });

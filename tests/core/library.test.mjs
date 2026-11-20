@@ -19,3 +19,14 @@ test('资料链接限制到安全的站内路径或无凭据的 HTTPS 地址', (
   for (const value of ['/library/sample.pdf', '/library/2026/sample-1.pdf', 'https://example.org/material']) assert.equal(validLibraryHref(value), true, value);
   for (const value of ['/library/../private.pdf', '/library/%2e%2e/private.pdf', '/library//file.pdf', '//evil.test', 'javascript:alert(1)', 'http://example.org/', 'https://u:p@example.org/']) assert.equal(validLibraryHref(value), false, value);
 });
+
+test("独立全文只接受可校验的 PDF，待发布原文地址不会出现在公开目录", () => {
+  const article = {
+    ...item,
+    reading: { school: "示例院校", track: "法学", year: 2025, pages: 2, sha256: "a".repeat(64) },
+  };
+  assert.deepEqual(validateLibrary({ items: [article] }, ["topic-1"]), []);
+  assert.deepEqual(getPublicLibrary({ items: [{ ...article, status: "pending" }] }), []);
+  assert.equal(getPublicLibrary({ items: [article] })[0].reading.pages, 2);
+  assert.ok(validateLibrary({ items: [{ ...article, href: "https://example.org/material" }] }, ["topic-1"]).length);
+});
